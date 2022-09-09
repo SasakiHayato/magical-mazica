@@ -1,0 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "NewScriptableObject")]
+public class NewBehaviourScript : ScriptableObject
+{
+    [SerializeField] List<NewClass> m_datas;
+}
+
+[System.Serializable]
+public class NewClass
+{
+
+}
