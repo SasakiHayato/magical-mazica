@@ -1,25 +1,48 @@
 using UnityEngine;
+using CustomPhysics.Data;
 
-/// <summary>
-/// 物理挙動の操作クラス
-/// </summary>
-
-public class PhysicsOperator : MonoBehaviour
+namespace CustomPhysics
 {
-    [SerializeField] GroundData _groundData;
+    /// <summary>
+    /// 物理挙動の操作クラス
+    /// </summary>
 
-    float _timer;
-
-    void Awake()
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class PhysicsOperator : MonoBehaviour
     {
-        if (_groundData == null)
+        [SerializeField] GroundData _groundData;
+        [SerializeField] GravityData _gravityData;
+
+        Rigidbody2D _rb;
+
+        public bool IsGround { get; private set; }
+
+        void Awake()
         {
-            Debug.LogError("GrounDataがありません。");
-        }
-    }
+            if (_groundData == null)
+            {
+                Debug.LogError("GrounDataがありません。");
+            }
 
-    void Update()
-    {
-        
+            _rb = GetComponent<Rigidbody2D>();
+            _rb.gravityScale = 0;
+
+            _groundData.SetUp(transform);
+        }
+
+        void Update()
+        {
+            IsGround = _groundData.IsGround;
+        }
+
+        public void Move(Vector2 velocity, bool attributeGravity = true)
+        {
+            if (attributeGravity)
+            {
+                velocity.y += _gravityData.Gravity;
+            }
+
+            _rb.velocity = velocity;
+        }
     }
 }

@@ -16,5 +16,6 @@ public class Enemy : CharaBase
     void Update()
     {
         
+        PhysicsOperator.Move(Vector2.zero);
     }
 }
