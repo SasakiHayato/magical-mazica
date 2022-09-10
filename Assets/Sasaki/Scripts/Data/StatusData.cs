@@ -20,7 +20,7 @@ public class StatusData
     /// <summary>
     /// Event‚¾‚¯‚ğŒöŠJ
     /// </summary>
-    public IObservable<int> ObservableHP => _reactiveHP; 
+    public IObservable<int> ObservableHP => _reactiveHP.SkipLatestValueOnSubscribe(); 
 
     /// <summary>
     /// ‰Šú‰»
