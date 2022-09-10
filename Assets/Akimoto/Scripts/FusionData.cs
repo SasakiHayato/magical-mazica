@@ -9,16 +9,30 @@ using UnityEngine;
 public class FusionData : ScriptableObject
 {
     [SerializeField] RawMaterialData _rawMaterialData;
-    [SerializeField] List<FisionDatabase> _datas;
+    [SerializeField] List<FusionDatabase> _datas;
+    public FusionDatabase GetFusionData(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2)
+    {
+        return null;
+    }
+
 }
 
 /// <summary>融合後のアイテムデータ</summary>
 [System.Serializable]
-public class FisionDatabase
+public class FusionDatabase
 {
     [SerializeField] string _name;
+    [SerializeField] Sprite _sprite;
     [SerializeField] FusionUseRawMaterial _fusionUseMaterials;
     [SerializeField] UseType _useType;
+    /// <summary>名前</summary>
+    public string Name => _name;
+    /// <summary>使用したときの振る舞い</summary>
+    public UseType UseType => _useType;
+    /// <summary>融合成功可否の判定をする</summary>
+    /// <returns>融合成功の可否</returns>
+    public bool IsFusionSuccess(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2) =>
+        _fusionUseMaterials.IsFusionSuccess(rawMaterialID1, rawMaterialID2);
 }
 
 /// <summary>融合に使用する素材を選択するクラス</summary>
@@ -27,10 +41,19 @@ public class FusionUseRawMaterial
 {
     [SerializeField] RawMaterialID _materialData1;
     [SerializeField] RawMaterialID _materialData2;
-    /// <summary>使用する素材１</summary>
-    public RawMaterialID MaterialData1 => _materialData1;
-    /// <summary>使用する素材２</summary>
-    public RawMaterialID MaterialData2 => _materialData2;
+    /// <summary>融合成功可否の判定をする</summary>
+    /// <returns>融合成功の可否</returns>
+    public bool IsFusionSuccess(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2)
+    {
+        if (_materialData1 == rawMaterialID1 || _materialData1 == rawMaterialID2)
+        {
+            if (_materialData2 == rawMaterialID1 || _materialData2 == rawMaterialID2)
+            {
+
+            }
+        }
+        return false;
+    }
 }
 
 /// <summary>
