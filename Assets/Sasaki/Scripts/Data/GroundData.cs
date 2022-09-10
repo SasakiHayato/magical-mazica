@@ -1,46 +1,67 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
-/// <summary>
-/// 地面を感知するためのデータ
-/// </summary>
-
-public class GroundData : MonoBehaviour
+namespace CustomPhysics.Data
 {
-    readonly string GroundTag = "";
-
     /// <summary>
-    /// 地面との接地判定
+    /// 地面を感知するためのデータ
     /// </summary>
-    public bool IsGround { get; private set; }
-
-    void Awake()
+    [System.Serializable]
+    public class GroundData
     {
-        IsGround = false;
-    }
+        [SerializeField] bool _isDebug;
+        [SerializeField] Transform _core;
 
-    void CheckGround(bool isGround, string tagName)
-    {
-        if (GroundTag == "")
+        [SerializeField] LayerMask _groundLayer;
+        [SerializeField] List<RayData> _rayDataList;
+
+        /// <summary>
+        /// 地面との接地判定
+        /// </summary>
+        public bool IsGround => _rayDataList.Any(d => Process(d));
+
+        bool Process(RayData rayData)
         {
-            Debug.LogWarning("GroundTagが設定せれていません");
-            IsGround = isGround;
+            Vector2 corePos = _core.position;
+            corePos += rayData.OffsetPos;
 
-            return;
+            if (_isDebug)
+            {
+                Debug.DrawLine(corePos, rayData.Direction * rayData.Distance + corePos, Color.red);
+            }
+
+            return Physics2D.Raycast(corePos, rayData.Direction, rayData.Distance, _groundLayer);
         }
 
-        if (tagName == GroundTag)
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        public void SetUp(Transform user)
         {
-            IsGround = isGround;
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append($"User:{user.name} InstanceID:{user.gameObject.GetInstanceID()}");
+
+            if (_core == null)
+            {
+                _core = user;
+                builder.Append("\n");
+                builder.Append($"CoreがNullです。{user.name}のTranceformを設定しました。");
+            }
+
+            if (_groundLayer.value == 0)
+            {
+                _groundLayer.value = 1;
+                builder.Append("\n");
+                builder.Append($"GroundlayerがNothingです。LayerをDefaultに設定しました。");
+            }
+
+            if (_isDebug)
+            {
+                Debug.Log(builder.ToString());
+            }
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        CheckGround(true, collision.tag);
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        CheckGround(false, collision.tag);
     }
 }
