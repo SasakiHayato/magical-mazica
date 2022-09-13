@@ -5,6 +5,9 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 
+/// <summary>
+/// 融合アイテムのインスタンス用クラス
+/// </summary>
 public class FusionItem : MonoBehaviour
 {
     private string _name;

@@ -25,12 +25,12 @@ public class RawMaterialDatabase
     [SerializeField]
         Sprite _sprite;
     /// <summary>融合後のアイテム使用時のエフェクト</summary>
-    [SerializeField]
-        GameObject _particlePrefab;
+    //[SerializeField]
+        // ParticleID 
     /// <summary>基礎ダメージ</summary>
     [SerializeField, Tooltip("基礎ダメージ\n融合時に足し合わされたものが融合後の攻撃力となる")]
         int _baseDamage;
-    //バフデバフ
+    //ここにバフデバフ
 }
 
 /// <summary>
@@ -38,5 +38,8 @@ public class RawMaterialDatabase
 /// </summary>
 public enum RawMaterialID
 {
-
+    /// <summary>爆裂豆</summary>
+    BombBean,
+    /// <summary>パワープラント</summary>
+    PowerPlant,
 }
