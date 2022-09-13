@@ -16,16 +16,21 @@ public class FusionData : ScriptableObject
     /// <param name="rawMaterialID1"></param>
     /// <param name="rawMaterialID2"></param>
     /// <returns>—Z‡ŒãƒAƒCƒeƒ€</returns>
-    public FusionDatabase GetFusionData(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2)
+    public FusionItem GetFusionData(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2)
     {
         foreach (var data in _datas)
         {
             if (data.IsFusionSuccess(rawMaterialID1, rawMaterialID2))
             {
-                return data;
+                //—Z‡Œ³‚Ég—p‚µ‚½‘fŞ‚©‚çUŒ‚—Í‚ğZo
+                int power = _rawMaterialData.GetMaterialData(rawMaterialID1).BaseDamage + _rawMaterialData.GetMaterialData(rawMaterialID2).BaseDamage;
+                
+                FusionItem ret = new FusionItem();
+                ret.Setup(data, power);
+                return ret;
             }
         }
-        return null;
+        throw new System.Exception($"—Z‡‘fŞ[{rawMaterialID1}]‚Æ[{rawMaterialID2}]‚Éˆê’v‚µ‚½ƒf[ƒ^‚ÍŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½");
     }
 
 }
@@ -61,13 +66,21 @@ public class FusionUseRawMaterial
 {
     [SerializeField] RawMaterialID _materialData1;
     [SerializeField] RawMaterialID _materialData2;
+
     /// <summary>—Z‡¬Œ÷‰Â”Û‚Ì”»’è‚ğ‚·‚é</summary>
     /// <returns>—Z‡¬Œ÷‚Ì‰Â”Û</returns>
     public bool IsFusionSuccess(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2)
     {
-        if (_materialData1 == rawMaterialID1 || _materialData1 == rawMaterialID2)
+        if (_materialData1 == rawMaterialID1)
         {
-            if (_materialData2 == rawMaterialID1 || _materialData2 == rawMaterialID2)
+            if (_materialData2 == rawMaterialID2)
+            {
+                return true;
+            }
+        }
+        if (_materialData1 == rawMaterialID2)
+        {
+            if (_materialData2 == rawMaterialID1)
             {
                 return true;
             }

@@ -14,17 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rawMaterialData: {fileID: 11400000, guid: e27215ae9dba20544903cd9b5cfede1b, type: 2}
   _datas:
-  - _name: 
+  - _name: "\u30A6\u30EB\u30C8\u30E9\u30DC\u30E0"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
     _fusionUseMaterials:
       _materialData1: 0
       _materialData2: 0
     _useType: 0
-  - _name: 
+  - _name: "\u30B9\u30C8\u30E9\u30A4\u30AF\u30DC\u30E0"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
     _fusionUseMaterials:
       _materialData1: 0
-      _materialData2: 0
-    _useType: 0
+      _materialData2: 1
+    _useType: 1
+  - _name: "\u30B9\u30CA\u30A4\u30D7\u30D7\u30E9\u30F3\u30C8"
+    _icon: {fileID: 0}
+    _sprite: {fileID: 0}
+    _fusionUseMaterials:
+      _materialData1: 1
+      _materialData2: 1
+    _useType: 1

@@ -11,11 +11,25 @@ using DG.Tweening;
 public class FusionItem : MonoBehaviour
 {
     private string _name;
+    private Sprite _icon;
+    private Sprite _sprite;
     private int _damage;
     private UseType _useType;
 
-    public void Setup(FusionDatabase fusionDatabase)
+    public void Setup(FusionDatabase fusionDatabase, int damage)
     {
+        _name = fusionDatabase.Name;
+        _icon = fusionDatabase.Icon;
+        _sprite = fusionDatabase.Sprite;
+        _useType = fusionDatabase.UseType;
+        _damage = damage;
+    }
 
+    /// <summary>
+    /// データが正しく入っているかを確かめるテスト用関数
+    /// </summary>
+    public void CheckData()
+    {
+        Debug.Log($"Name;{_name} UseType:{_useType} Damage:{_damage}");
     }
 }
