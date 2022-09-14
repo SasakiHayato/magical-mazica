@@ -9,6 +9,7 @@ using UnityEngine;
 public class RawMaterialData : ScriptableObject
 {
     [SerializeField] List<RawMaterialDatabase> _datas;
+    /// <summary>ID‚©‚ç‘fŞƒf[ƒ^‚ğæ“¾‚·‚é</summary>
     public RawMaterialDatabase GetMaterialData(RawMaterialID rawMaterialID)
     {
         foreach (var data in _datas)

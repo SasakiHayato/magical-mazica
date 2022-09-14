@@ -10,10 +10,15 @@ using DG.Tweening;
 /// </summary>
 public class FusionItem : MonoBehaviour
 {
+    /// <summary>アイテム名</summary>
     private string _name;
+    /// <summary>アイコン</summary>
     private Sprite _icon;
+    /// <summary>投げた時の画像</summary>
     private Sprite _sprite;
+    /// <summary>ダメージ</summary>
     private int _damage;
+    /// <summary>使用した際の挙動</summary>
     private UseType _useType;
 
     public void Setup(FusionDatabase fusionDatabase, int damage)
