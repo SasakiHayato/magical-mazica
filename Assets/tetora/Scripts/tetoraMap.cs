@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 enum MapState
 {
@@ -27,11 +28,48 @@ public class tetoraMap : MonoBehaviour
             }
         }
     }
+    /// <summary>ランダムなポジションを決める</summary>
     void RandomPos()
     {
+        int rndX = new System.Random().Next(_mapHorSide);
+        int rndY = new System.Random().Next(_mapVerSide);
+        int posX;
+        int posY;
+        if (rndX % 2 == 0)
+        {
+            posX = rndX;
+        }
+        else
+        {
+            if (rndX + 1 > _mapHorSide)
+            {
+                posX = rndX - 1;
+            }
+            else
+            {
+                posX = rndX + 1;
+            }
+        }
 
-        int _rndX;
-        int _rndY;
+        if (rndY % 2 == 0)
+        {
+            posY = rndY;
+        }
+        else
+        {
+            if (rndY + 1 > _mapVerSide)
+            {
+                posY = rndY - 1;
+            }
+            else
+            {
+                posY = rndY + 1;
+            }
+        }
+    }
+    bool CheckDir()
+    {
+        return true;
     }
 }
 class Map
