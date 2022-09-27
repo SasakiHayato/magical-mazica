@@ -15,7 +15,11 @@ public class Enemy : CharaBase
 
     void Update()
     {
-        
         PhysicsOperator.Move(Vector2.zero);
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            PhysicsOperator.Force(Vector2.up * 10, CustomPhysics.Data.ForceType.VerticalThrow);
+        }
     }
 }
