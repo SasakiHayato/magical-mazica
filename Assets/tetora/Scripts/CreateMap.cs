@@ -5,8 +5,7 @@ using System;
 
 public enum MapState
 {
-    None, Wall, Floar
-
+    Wall, Floar
 }
 public class CreateMap : MonoBehaviour
 {
@@ -41,7 +40,6 @@ public class CreateMap : MonoBehaviour
     {
         int rndX = new System.Random().Next(1, (_mapHorSide - 1) / 2) * 2 + 1;
         int rndY = new System.Random().Next(1, (_mapVerSide - 1) / 2) * 2 + 1;
-        Debug.Log($"x:{rndX},y:{rndY}");
         return _startDigPos = rndX + rndY * _mapHorSide;
     }
     /// <summary>4•ûŒü‚ğƒ‰ƒ“ƒ_ƒ€‚È‡”Ô‚Å•Ô‚·</summary>
@@ -107,6 +105,7 @@ public class CreateMap : MonoBehaviour
             Dig(posId.twoTarget);
         }
     }
+    /// <summary>Œ@‚èn‚ß‚é</summary>
     void StartDig()
     {
         _startDigPos = RandomPos();
@@ -124,7 +123,7 @@ public class CreateMap : MonoBehaviour
 }
 class Map
 {
-    MapState _state = MapState.None;
+    MapState _state = MapState.Wall;
     public MapState State { get => _state; set => _state = value; }
     public readonly int Id;
     public Map(int id)
