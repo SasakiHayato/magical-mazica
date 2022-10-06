@@ -16,18 +16,16 @@ public class FusionData : ScriptableObject
     /// <param name="rawMaterialID1"></param>
     /// <param name="rawMaterialID2"></param>
     /// <returns>—Z‡ŒãƒAƒCƒeƒ€</returns>
-    public FusionItem GetFusionData(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2)
+    public FusionDatabase GetFusionData(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2, ref int damage)
     {
         foreach (var data in _datas)
         {
             if (data.IsFusionSuccess(rawMaterialID1, rawMaterialID2))
             {
                 //—Z‡Œ³‚Ég—p‚µ‚½‘fŞ‚©‚çUŒ‚—Í‚ğZo
-                int power = _rawMaterialData.GetMaterialData(rawMaterialID1).BaseDamage + _rawMaterialData.GetMaterialData(rawMaterialID2).BaseDamage;
+                damage = _rawMaterialData.GetMaterialData(rawMaterialID1).BaseDamage + _rawMaterialData.GetMaterialData(rawMaterialID2).BaseDamage;
                 
-                FusionItem ret = new FusionItem();
-                ret.Setup(data, power);
-                return ret;
+                return data;
             }
         }
         throw new System.Exception($"—Z‡‘fŞ[{rawMaterialID1}]‚Æ[{rawMaterialID2}]‚Éˆê’v‚µ‚½ƒf[ƒ^‚ÍŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½");
