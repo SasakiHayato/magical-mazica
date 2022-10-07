@@ -13,12 +13,10 @@ public class ASample : MonoBehaviour
     [SerializeField] RawMaterialID _materialID1;
     [SerializeField] RawMaterialID _materialID2;
     [SerializeField] FusionData _fusionData;
-    private FusionItem _fusionItem;
 
     private void Start()
     {
-        _fusionItem = _fusionData.GetFusionData(_materialID1, _materialID2);
-
-        _fusionItem.CheckData();
+        //int d = 0;
+        //var data = _fusionData.GetFusionData(_materialID1, _materialID2, ref d);
     }
 }

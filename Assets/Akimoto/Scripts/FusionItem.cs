@@ -43,8 +43,12 @@ public class FusionItem : MonoBehaviour
         _useType = data.UseType;
     }
 
+    /// <summary>
+    /// —Z‡‚µ‚½‚à‚Ì‚ğg—p‚µ‚ÄUŒ‚‚·‚é
+    /// </summary>
     public void Attack()
     {
+        Bullet blt = Bullet.Init(_bulletPrefab, _sprite, _useType, _damage);
 
     }
 
