@@ -48,6 +48,6 @@ public class FusionItem : MonoBehaviour
     {
         Bullet blt = Bullet.Init(_bulletPrefab, _database, _damage);
         blt.transform.position = transform.position;
-        blt.Rigidbody.velocity = directions;
+        blt.Velocity = directions;
     }
 }

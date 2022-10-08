@@ -41,7 +41,7 @@ public class FusionDatabase
     [SerializeField] Sprite _icon;
     [SerializeField] Sprite _sprite;
     [SerializeField] FusionUseRawMaterial _fusionUseMaterials;
-    [SerializeField] UseType _useType;
+    [SerializeField] BulletType _useType;
     [SerializeField] float _bulletSpeed;
     /// <summary>名前</summary>
     public string Name => _name;
@@ -50,7 +50,7 @@ public class FusionDatabase
     /// <summary>このアイテムを使用時の画像</summary>
     public Sprite Sprite => _sprite;
     /// <summary>使用したときの振る舞い</summary>
-    public UseType UseType => _useType;
+    public BulletType UseType => _useType;
     /// <summary>弾の飛ぶ速度</summary>
     public float BulletSpeed => _bulletSpeed;
     /// <summary>融合成功可否の判定をする</summary>
@@ -93,7 +93,7 @@ public class FusionUseRawMaterial
 /// <summary>
 /// アイテム使用後の振る舞い
 /// </summary>
-public enum UseType
+public enum BulletType
 {
     /// <summary>放物線を描いて飛んでいく<br/>何かに当たると消滅</summary>
     Throw,
