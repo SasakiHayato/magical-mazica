@@ -27,7 +27,7 @@ public class ASample : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             Debug.Log("çUåÇ");
-            _fusionItem.Attack(Vector2.right * 5);
+            _fusionItem.Attack(Vector2.right);
         }
     }
 }

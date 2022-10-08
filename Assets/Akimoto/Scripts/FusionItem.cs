@@ -13,13 +13,14 @@ public class FusionItem : MonoBehaviour
     [SerializeField] FusionData _fusionData;
     [SerializeField] Bullet _bulletPrefab;
     /// <summary>アイテム名</summary>
-    private string _name;
+    private ReactiveProperty<string> _name = new ReactiveProperty<string>();
     /// <summary>アイコン</summary>
     private ReactiveProperty<Sprite> _icon = new ReactiveProperty<Sprite>();
     /// <summary>ダメージ</summary>
     private int _damage;
     /// <summary>現在保持している融合データベース</summary>
     private FusionDatabase _database;
+    public System.IObservable<string> ChangeNameObservable => _name;
     /// <summary>アイコン画像の更新を通知する</summary>
     public System.IObservable<Sprite> ChangeIconObservable => _icon;
 
@@ -35,7 +36,7 @@ public class FusionItem : MonoBehaviour
     {
         var data = _fusionData.GetFusionData(materialID1, materialID2, ref _damage);
 
-        _name = data.Name;
+        _name.Value = data.Name;
         _icon.Value = data.Icon;
         _database = data;
     }
@@ -46,8 +47,26 @@ public class FusionItem : MonoBehaviour
     /// </summary>
     public void Attack(Vector2 directions)
     {
+        //融合前は攻撃不可
+        if (_database == null)
+        {
+            Debug.Log("先に融合してください");
+            return;
+        }
+        //生成
         Bullet blt = Bullet.Init(_bulletPrefab, _database, _damage);
         blt.transform.position = transform.position;
-        blt.Velocity = directions;
+        blt.Velocity = directions * _database.BulletSpeed;
+        Dispose();
+    }
+
+    /// <summary>
+    /// データの破棄
+    /// </summary>
+    private void Dispose()
+    {
+        _database = null;
+        _name.Value = "";
+        _icon.Value = null;
     }
 }
