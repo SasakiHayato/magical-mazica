@@ -16,18 +16,16 @@ public class FusionData : ScriptableObject
     /// <param name="rawMaterialID1"></param>
     /// <param name="rawMaterialID2"></param>
     /// <returns>融合後アイテム</returns>
-    public FusionItem GetFusionData(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2)
+    public FusionDatabase GetFusionData(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2, ref int damage)
     {
         foreach (var data in _datas)
         {
             if (data.IsFusionSuccess(rawMaterialID1, rawMaterialID2))
             {
                 //融合元に使用した素材から攻撃力を算出
-                int power = _rawMaterialData.GetMaterialData(rawMaterialID1).BaseDamage + _rawMaterialData.GetMaterialData(rawMaterialID2).BaseDamage;
+                damage = _rawMaterialData.GetMaterialData(rawMaterialID1).BaseDamage + _rawMaterialData.GetMaterialData(rawMaterialID2).BaseDamage;
                 
-                FusionItem ret = new FusionItem();
-                ret.Setup(data, power);
-                return ret;
+                return data;
             }
         }
         throw new System.Exception($"融合素材[{rawMaterialID1}]と[{rawMaterialID2}]に一致したデータは見つかりませんでした");
@@ -43,7 +41,8 @@ public class FusionDatabase
     [SerializeField] Sprite _icon;
     [SerializeField] Sprite _sprite;
     [SerializeField] FusionUseRawMaterial _fusionUseMaterials;
-    [SerializeField] UseType _useType;
+    [SerializeField] BulletType _useType;
+    [SerializeField] float _bulletSpeed;
     /// <summary>名前</summary>
     public string Name => _name;
     /// <summary>このアイテムのアイコン画像</summary>
@@ -51,7 +50,9 @@ public class FusionDatabase
     /// <summary>このアイテムを使用時の画像</summary>
     public Sprite Sprite => _sprite;
     /// <summary>使用したときの振る舞い</summary>
-    public UseType UseType => _useType;
+    public BulletType UseType => _useType;
+    /// <summary>弾の飛ぶ速度</summary>
+    public float BulletSpeed => _bulletSpeed;
     /// <summary>融合成功可否の判定をする</summary>
     /// <returns>融合成功の可否</returns>
     public bool IsFusionSuccess(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2)
@@ -92,7 +93,7 @@ public class FusionUseRawMaterial
 /// <summary>
 /// アイテム使用後の振る舞い
 /// </summary>
-public enum UseType
+public enum BulletType
 {
     /// <summary>放物線を描いて飛んでいく<br/>何かに当たると消滅</summary>
     Throw,
