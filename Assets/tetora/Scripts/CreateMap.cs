@@ -15,6 +15,8 @@ public class CreateMap : MonoBehaviour
     int _mapHorSide = 31;//‰¡‚Ì’·‚³
     [SerializeField]
     GameObject _wallObj;
+    [SerializeField]
+    GameObject _parentObj;
     Map[,] _map;
     int _startDigPos;//Œ@‚èŽn‚ß‚éŽn“_
     private void Start()
@@ -117,7 +119,9 @@ public class CreateMap : MonoBehaviour
                 continue;
             }
             var wall = Instantiate(_wallObj);
+            wall.transform.SetParent(_parentObj.transform);
             wall.transform.position = new Vector2(pos.Id % _mapHorSide, pos.Id / _mapHorSide);
+            
         }
     }
 }
