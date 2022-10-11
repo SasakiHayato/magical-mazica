@@ -120,8 +120,8 @@ public class CreateMap : MonoBehaviour
             }
             var wall = Instantiate(_wallObj);
             wall.transform.SetParent(_parentObj.transform);
-            wall.transform.position = new Vector2(pos.Id % _mapHorSide, pos.Id / _mapHorSide);
-            
+            wall.transform.position = new Vector2(pos.Id % _mapHorSide - _mapHorSide / 2, pos.Id / _mapHorSide - _mapVerSide / 2);
+
         }
     }
 }
