@@ -7,18 +7,18 @@ public enum MapState
 {
     Wall, Floar
 }
+[System.Serializable]
 public class CreateMap : MonoBehaviour
 {
     [SerializeField]
-    int _mapVerSide = 15;//縦の長さ
-    [SerializeField]
-    int _mapHorSide = 31;//横の長さ
+    FieldScriptableObject _scriptableObject;
     [SerializeField]
     GameObject _wallObj;
     [SerializeField]
     GameObject _parentObj;
     Map[,] _map;
     int _startDigPos;//掘り始める始点
+    bool _isCreate = default;//生成
     private void Start()
     {
         SetWall();
@@ -27,12 +27,12 @@ public class CreateMap : MonoBehaviour
     /// <summary>全てのマスを壁にする</summary>
     void SetWall()
     {
-        _map = new Map[_mapHorSide, _mapVerSide];
-        for (int y = 0; y < _mapVerSide; y++)
+        _map = new Map[_scriptableObject.MapHorSide, _scriptableObject.MapVerSide];
+        for (int y = 0; y < _scriptableObject.MapVerSide; y++)
         {
-            for (int x = 0; x < _mapHorSide; x++)
+            for (int x = 0; x < _scriptableObject.MapHorSide; x++)
             {
-                _map[x, y] = new Map(x + y * _mapHorSide);
+                _map[x, y] = new Map(x + y * _scriptableObject.MapHorSide);
                 _map[x, y].State = MapState.Wall;
             }
         }
@@ -40,9 +40,9 @@ public class CreateMap : MonoBehaviour
     /// <summary>ランダムな開始地点を決める</summary>
     int RandomPos()
     {
-        int rndX = new System.Random().Next(1, (_mapHorSide - 1) / 2) * 2 + 1;
-        int rndY = new System.Random().Next(1, (_mapVerSide - 1) / 2) * 2 + 1;
-        return _startDigPos = rndX + rndY * _mapHorSide;
+        int rndX = new System.Random().Next(1, (_scriptableObject.MapHorSide - 1) / 2) * 2 + 1;
+        int rndY = new System.Random().Next(1, (_scriptableObject.MapVerSide - 1) / 2) * 2 + 1;
+        return _startDigPos = rndX + rndY * _scriptableObject.MapHorSide;
     }
     /// <summary>4方向をランダムな順番で返す</summary>
     /// <param name="id">開始地点のid</param>
@@ -50,8 +50,8 @@ public class CreateMap : MonoBehaviour
     IEnumerable<(int twoTarget, int oneTarget)> CheckDir(int id)
     {
         (int twoTarget, int oneTarget)[] twoTargetDirs = {
-            (id - (_mapHorSide * 2),id - _mapHorSide), //上
-            (id + _mapHorSide * 2,id + _mapHorSide), //下
+            (id - (_scriptableObject.MapHorSide * 2),id - _scriptableObject.MapHorSide), //上
+            (id + _scriptableObject.MapHorSide * 2,id + _scriptableObject.MapHorSide), //下
             (id + 2,id + 1), //右
             (id - 2,id - 1) //左
         };
@@ -71,25 +71,25 @@ public class CreateMap : MonoBehaviour
                 continue;
             }
             //横のサイズを超えないか
-            if (id % _mapHorSide < 1 || id % _mapHorSide >= _mapHorSide - 1)
+            if (id % _scriptableObject.MapHorSide < 1 || id % _scriptableObject.MapHorSide >= _scriptableObject.MapHorSide - 1)
             {
                 continue;
             }
             //2個先が壁か確認
-            if (_map[dir.two % _mapHorSide, dir.two / _mapHorSide].State != MapState.Wall)
+            if (_map[dir.two % _scriptableObject.MapHorSide, dir.two / _scriptableObject.MapHorSide].State != MapState.Wall)
             {
                 continue;
             }
             //1個先が壁か確認
-            if (_map[dir.one % _mapHorSide, dir.one / _mapHorSide].State != MapState.Wall)
+            if (_map[dir.one % _scriptableObject.MapHorSide, dir.one / _scriptableObject.MapHorSide].State != MapState.Wall)
             {
                 continue;
             }
-            if (dir.two / _mapHorSide == 0 || dir.two / _mapHorSide == _mapVerSide - 1)
+            if (dir.two / _scriptableObject.MapHorSide == 0 || dir.two / _scriptableObject.MapHorSide == _scriptableObject.MapVerSide - 1)
             {
                 continue;
             }
-            if (dir.two % _mapHorSide == 0 || dir.two % _mapHorSide == _mapHorSide - 1)
+            if (dir.two % _scriptableObject.MapHorSide == 0 || dir.two % _scriptableObject.MapHorSide == _scriptableObject.MapHorSide - 1)
             {
                 continue;
             }
@@ -100,10 +100,10 @@ public class CreateMap : MonoBehaviour
     /// <param name="id">開始地点</param>
     void Dig(int id)
     {
-        _map[id % _mapHorSide, id / _mapHorSide].State = MapState.Floar;
+        _map[id % _scriptableObject.MapHorSide, id / _scriptableObject.MapHorSide].State = MapState.Floar;
         foreach (var posId in CheckDir(id))
         {
-            _map[posId.oneTarget % _mapHorSide, posId.oneTarget / _mapHorSide].State = MapState.Floar;
+            _map[posId.oneTarget % _scriptableObject.MapHorSide, posId.oneTarget / _scriptableObject.MapHorSide].State = MapState.Floar;
             Dig(posId.twoTarget);
         }
     }
@@ -120,7 +120,23 @@ public class CreateMap : MonoBehaviour
             }
             var wall = Instantiate(_wallObj);
             wall.transform.SetParent(_parentObj.transform);
-            wall.transform.position = new Vector2(pos.Id % _mapHorSide - _mapHorSide / 2, pos.Id / _mapHorSide - _mapVerSide / 2);
+            wall.transform.position = new Vector2(pos.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
+                pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2);
+        }
+    }
+    void CreateEnemy()
+    {
+        List<Map> generatablePosList = new List<Map>();
+        foreach (var floar in _map)
+        {
+            if (floar.State == MapState.Floar)//Floarの場所を保存
+            {
+                generatablePosList.Add(floar);
+            }
+        }
+        int random = new System.Random().Next(0, generatablePosList.Count);
+        for (int i = random; i < generatablePosList.Count; i++)
+        {
 
         }
     }
