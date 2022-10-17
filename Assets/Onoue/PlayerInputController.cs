@@ -4,27 +4,26 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerInputController : MonoBehaviour
 {
-    [SerializeField] PlayerInput _playerInput;
-    InputAction jumpAction;
+    PlayerInput _playerInput;
+    //InputAction jumpAction;
 
     Player _player;
     private void Awake()
     {
         TryGetComponent(out _playerInput);
         TryGetComponent(out _player);
-        jumpAction = _playerInput.currentActionMap.FindAction("Jump");
+        //jumpAction = _playerInput.currentActionMap.FindAction("Jump");
     }
     void OnEnable()
     {
-        //_playerInput.actions["Jump"].started += OnJump;
-        jumpAction.started += OnJump;
-        //_playerInput.actions["Attack"].started += OnAttack;
+        _playerInput.actions["Jump"].started += OnJump;
+        _playerInput.actions["Attack"].started += OnAttack;
     }
 
     private void OnDisable()
     {
         _playerInput.actions["Jump"].started -= OnJump;
-        //_playerInput.actions["Attack"].started -= OnAttack;
+        _playerInput.actions["Attack"].started -= OnAttack;
     }
     private void FixedUpdate()
     {
