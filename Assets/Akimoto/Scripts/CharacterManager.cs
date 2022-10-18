@@ -7,9 +7,9 @@ using DG.Tweening;
 
 public class CharacterManager : MonoBehaviour
 {
-    [SerializeField] PlayerController _playerPrefab;
+    [SerializeField] Player _playerPrefab;
     [SerializeField] Transform _startPos;
-    public PlayerController CurrentPlayer { get; private set; }
+    public Player CurrentPlayer { get; private set; }
 
     public void Setup()
     {
