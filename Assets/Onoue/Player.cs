@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerController : MonoBehaviour
+using UniRx;
+public class Player : MonoBehaviour
 {
+    ReactiveProperty<int> _hp;
     [SerializeField] float _speed;
     [SerializeField] float _jumpPower;
     Rigidbody2D _rb;
@@ -14,26 +15,28 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
     }
-    private void Update()
+    public void Attack()
     {
-        PlayerMove();
         if (Input.GetButtonDown("Fire1"))
         {
             _anim.SetTrigger("Attack");
         }
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+    }
+    public void Jump()
+    {
+        if (_isGrounded)
         {
             _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
         }
     }
-    void PlayerMove()
+    public void PlayerMove(Vector2 dir)
     {
-        float h = Input.GetAxisRaw("Horizontal") * _speed;
-        Vector2 velocity = new Vector2(h, _rb.velocity.y);
+        //float h = Input.GetAxisRaw("Horizontal") * _speed;
+        Vector2 velocity = new Vector2(dir.x * _speed, _rb.velocity.y);
         _rb.velocity = velocity;
-        if (h != 0)
+        if (dir.x != 0)
         {
-            if (h < 0)
+            if (dir.x < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
             }
