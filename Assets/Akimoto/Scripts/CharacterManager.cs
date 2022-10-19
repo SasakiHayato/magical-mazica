@@ -8,8 +8,11 @@ using DG.Tweening;
 public class CharacterManager : MonoBehaviour
 {
     [SerializeField] Player _playerPrefab;
-    [SerializeField] Transform _startPos;
-    public Player CurrentPlayer { get; private set; }
+    /// <summary></summary>
+    [SerializeField] Transform _playerStartPos;
+    private Player _currentPlayer;
+    private Subject<Player> _playerSpawn = new Subject<Player>();
+    public System.IObservable<Player> PlayerSpawn => _playerSpawn;
 
     public void Setup()
     {
@@ -18,7 +21,7 @@ public class CharacterManager : MonoBehaviour
 
     public void Create()
     {
-        CurrentPlayer = Instantiate(_playerPrefab, _startPos);
-
+        _currentPlayer = Instantiate(_playerPrefab, _playerStartPos);
+        _playerSpawn.OnNext(_currentPlayer);
     }
 }

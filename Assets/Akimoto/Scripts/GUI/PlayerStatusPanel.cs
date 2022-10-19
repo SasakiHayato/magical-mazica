@@ -14,18 +14,24 @@ namespace UIManagement
     /// <summary>
     /// プレイヤーの情報を表示する
     /// </summary>
-    public class PlayerStatusPanel : MonoBehaviour
+    [System.Serializable]
+    public class PlayerStatusPanel
     {
         [SerializeField] Slider _slider;
-
-        public void UpdateLifeSlider(int life)
-        {
-            _slider.value = life;
-        }
+        [SerializeField] List<Image> _materialImages;
 
         public void Setup()
         {
 
+        }
+
+        /// <summary>
+        /// プレイヤーの体力スライダーを更新する
+        /// </summary>
+        /// <param name="life"></param>
+        public void UpdateLifeSlider(int life)
+        {
+            _slider.value = life;
         }
     }
 }
