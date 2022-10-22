@@ -14,6 +14,9 @@ public class GUIManager : MonoBehaviour
 
     public void Setup()
     {
-        //_characterManager.PlayerSpawn.Subscribe(p => _playerStatusPanel.UpdateLifeSlider(p)).AddTo(p);
+        //Playerが生成されたらPlayerの情報をPlayerのステータスを表示するクラスに渡す
+        _characterManager.PlayerSpawn
+            .Subscribe(p => _playerStatusPanel.SetSlider(p))
+            .AddTo(_characterManager);
     }
 }

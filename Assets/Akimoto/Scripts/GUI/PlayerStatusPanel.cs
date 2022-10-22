@@ -20,18 +20,16 @@ namespace UIManagement
         [SerializeField] Slider _slider;
         [SerializeField] List<Image> _materialImages;
 
-        public void Setup()
+        public void SetSlider(Player player)
         {
+            //Sliderの最大値設定
+            _slider.maxValue = player.MaxHP;
+            _slider.value = player.MaxHP;
 
-        }
-
-        /// <summary>
-        /// プレイヤーの体力スライダーを更新する
-        /// </summary>
-        /// <param name="life"></param>
-        public void UpdateLifeSlider(int life)
-        {
-            _slider.value = life;
+            //Playerの現在HPの監視
+            player.CurrentHP
+                .Subscribe(x => _slider.value = x)
+                .AddTo(player);
         }
     }
 }

@@ -8,17 +8,12 @@ using DG.Tweening;
 
 public class ASample2 : MonoBehaviour
 {
-    [SerializeField] Button _button;
-    [SerializeField] Toggle _toggle;
-    private ReactiveCommand _command = new ReactiveCommand();
+    [SerializeField] GUIManager _guiManager;
+    [SerializeField] CharacterManager _characterManager;
 
     private void Start()
     {
-        _command = _toggle.OnValueChangedAsObservable().ToReactiveCommand();
-        _command.BindTo(_button);
-
-        _button
-            .OnClickAsObservable()
-            .Subscribe(_ => Debug.Log("‰Ÿ‚³‚ê‚½"));
+        _guiManager.Setup();
+        _characterManager.CreatePlayer();
     }
 }
