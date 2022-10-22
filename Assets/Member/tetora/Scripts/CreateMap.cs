@@ -16,6 +16,8 @@ public class CreateMap : MonoBehaviour
     GameObject _wallObj;
     [SerializeField]
     GameObject _parentObj;
+    [SerializeField]
+    int _mapScale = 14;
     Map[,] _map;
     int _startDigPos;//å@ÇËénÇﬂÇÈénì_
     bool _isCreate = default;//ê∂ê¨
