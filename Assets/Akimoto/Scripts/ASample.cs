@@ -10,15 +10,24 @@ using DG.Tweening;
 /// </summary>
 public class ASample : MonoBehaviour
 {
-    [SerializeField] RawMaterialID _materialID1;
-    [SerializeField] RawMaterialID _materialID2;
-    [SerializeField] FusionData _fusionData;
-    private FusionItem _fusionItem;
+    [SerializeField] FusionItem _fusionItem;
 
     private void Start()
     {
-        _fusionItem = _fusionData.GetFusionData(_materialID1, _materialID2);
+        _fusionItem.Setup();
+    }
 
-        _fusionItem.CheckData();
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Debug.Log("óZçáäJén");
+            _fusionItem.Fusion(RawMaterialID.PowerPlant, RawMaterialID.BombBean);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Debug.Log("çUåÇ");
+            _fusionItem.Attack(Vector2.right);
+        }
     }
 }

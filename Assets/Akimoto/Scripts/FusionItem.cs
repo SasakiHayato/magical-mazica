@@ -6,35 +6,67 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 
 /// <summary>
-/// 融合アイテムのインスタンス用クラス
+/// 融合アイテムの管理クラス<br/>プレイヤースクリプトと一緒に付けて使う
 /// </summary>
 public class FusionItem : MonoBehaviour
 {
+    [SerializeField] FusionData _fusionData;
+    [SerializeField] Bullet _bulletPrefab;
     /// <summary>アイテム名</summary>
-    private string _name;
+    private ReactiveProperty<string> _name = new ReactiveProperty<string>();
     /// <summary>アイコン</summary>
-    private Sprite _icon;
-    /// <summary>投げた時の画像</summary>
-    private Sprite _sprite;
+    private ReactiveProperty<Sprite> _icon = new ReactiveProperty<Sprite>();
     /// <summary>ダメージ</summary>
     private int _damage;
-    /// <summary>使用した際の挙動</summary>
-    private UseType _useType;
+    /// <summary>現在保持している融合データベース</summary>
+    private FusionDatabase _database;
+    public System.IObservable<string> ChangeNameObservable => _name;
+    /// <summary>アイコン画像の更新を通知する</summary>
+    public System.IObservable<Sprite> ChangeIconObservable => _icon;
 
-    public void Setup(FusionDatabase fusionDatabase, int damage)
+    public void Setup()
     {
-        _name = fusionDatabase.Name;
-        _icon = fusionDatabase.Icon;
-        _sprite = fusionDatabase.Sprite;
-        _useType = fusionDatabase.UseType;
-        _damage = damage;
+        
     }
 
     /// <summary>
-    /// データが正しく入っているかを確かめるテスト用関数
+    /// 融合開始<br/>渡された素材から融合後のデータを抽出する
     /// </summary>
-    public void CheckData()
+    public void Fusion(RawMaterialID materialID1, RawMaterialID materialID2)
     {
-        Debug.Log($"Name;{_name} UseType:{_useType} Damage:{_damage}");
+        var data = _fusionData.GetFusionData(materialID1, materialID2, ref _damage);
+
+        _name.Value = data.Name;
+        _icon.Value = data.Icon;
+        _database = data;
+    }
+
+    /// <summary>
+    /// 融合したものを使用して攻撃する<br/>
+    /// 攻撃時にプレイヤークラスからこの関数を呼ぶこと
+    /// </summary>
+    public void Attack(Vector2 directions)
+    {
+        //融合前は攻撃不可
+        if (_database == null)
+        {
+            Debug.Log("先に融合してください");
+            return;
+        }
+        //生成
+        Bullet blt = Bullet.Init(_bulletPrefab, _database, _damage);
+        blt.transform.position = transform.position;
+        blt.Velocity = directions * _database.BulletSpeed;
+        Dispose();
+    }
+
+    /// <summary>
+    /// データの破棄
+    /// </summary>
+    private void Dispose()
+    {
+        _database = null;
+        _name.Value = "";
+        _icon.Value = null;
     }
 }
