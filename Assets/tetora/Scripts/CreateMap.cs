@@ -23,6 +23,7 @@ public class CreateMap : MonoBehaviour
     {
         SetWall();
         StartDig();
+        CreateEnemy();
     }
     /// <summary>全てのマスを壁にする</summary>
     void SetWall()
@@ -134,10 +135,16 @@ public class CreateMap : MonoBehaviour
                 generatablePosList.Add(floar);
             }
         }
-        int random = new System.Random().Next(0, generatablePosList.Count);
-        for (int i = random; i < generatablePosList.Count; i++)
+        
+        for (int i = 0; i < _scriptableObject.EnemyCount; i++)
         {
-
+            //Enemyの出現
+            
+            int enemyRnd = new System.Random().Next(0, _scriptableObject.EnemyObject.Length);
+            GameObject obj = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
+            int random = new System.Random().Next(0, generatablePosList.Count);//最初に湧かせる場所
+            obj.transform.position = new Vector2(generatablePosList[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
+                generatablePosList[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2);
         }
     }
 }
