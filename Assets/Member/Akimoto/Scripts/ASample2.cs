@@ -14,6 +14,6 @@ public class ASample2 : MonoBehaviour
     private void Start()
     {
         _guiManager.Setup();
-        _characterManager.CreatePlayer();
+        //_characterManager.CreatePlayer();
     }
 }
