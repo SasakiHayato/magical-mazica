@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     Animator _anim;
     /// <summary>ç≈ëÂHP</summary>
     public int MaxHP => _maxHP;
+    public Vector2 Direction { get; set; }
     /// <summary>åªç›HPÇÃçXêVÇÃí ím</summary>
     public System.IObservable<int> CurrentHP => _hp;
 
@@ -51,7 +52,7 @@ public class Player : MonoBehaviour
     /// à⁄ìÆ
     /// </summary>
     /// <param name="dir"></param>
-    public void PlayerMove(Vector2 dir)
+    private void PlayerMove(Vector2 dir)
     {
         //float h = Input.GetAxisRaw("Horizontal") * _speed;
         Vector2 velocity = new Vector2(dir.x * _speed, _rb.velocity.y);
@@ -67,6 +68,11 @@ public class Player : MonoBehaviour
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        PlayerMove(Direction);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

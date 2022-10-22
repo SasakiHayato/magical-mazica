@@ -5,21 +5,17 @@ using UnityEngine;
 
 public class FieldManager : MonoBehaviour
 {
+    [SerializeField] CharacterManager _characterManager;
+    [SerializeField] Transform _playerSpawnPosition;
     int _hierarchyNum;
-    public static FieldManager Instance { get; private set; }
     public int HierarchyNum { get => _hierarchyNum; set => _hierarchyNum = value; }
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            return;
-        }
-        Instance = this;
-    }
-    private void Start()
-    {
 
+    public void Setup()
+    {
+        _characterManager.Setup();
+        _characterManager.CreatePlayer(_playerSpawnPosition);
     }
+
     /// <summary>Ž€–S”»’è</summary>
     /// <param name="type">Ž€–S‚µ‚½ƒLƒƒƒ‰‚ÌType</param>
     void OnGameEndJudge(CharaType type)

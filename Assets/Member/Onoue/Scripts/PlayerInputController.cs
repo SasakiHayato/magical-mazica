@@ -28,7 +28,12 @@ public class PlayerInputController : MonoBehaviour
     private void FixedUpdate()
     {
         var direction = _playerInput.actions["Move"].ReadValue<Vector2>();
-        _player.PlayerMove(direction);
+        //_player.PlayerMove(direction);
+        _player.Direction = direction;
+    }
+    private void Setup()
+    {
+
     }
     private void OnJump(InputAction.CallbackContext obj)
     {
