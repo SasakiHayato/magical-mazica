@@ -14,3 +14,4 @@
   <a href = "https://docs.google.com/spreadsheets/d/1AJw1Y2Rxm0WKSrU8Ob9KjMmhE8qpiBs2OaE7C7AJ1AA/edit#gid=686337488">
     <p> ここです。 </p>
   </a>
+  <p>MasterViewは触らないでください</p>
