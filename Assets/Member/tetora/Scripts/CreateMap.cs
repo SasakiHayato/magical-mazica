@@ -126,13 +126,12 @@ public class CreateMap : MonoBehaviour
             var wall = Instantiate(_wallObj);//
             wall.transform.SetParent(_parentObj.transform);
             wall.transform.position = new Vector2(pos.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-                pos.Id / _scriptableObject.MapHorSide  - _scriptableObject.MapVerSide / 2 ) * _tileSize;
+                pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _tileSize;
         }
     }
     void CreateEnemy()
     {
-        List<Map> generatablePosList = new List<Map>();
-
+        List<Map> generatablePosList = new List<Map>();//è∞ÇÃêî
         foreach (var floar in _map)
         {
             if (floar.State == MapState.Floar)//FloarÇÃèÍèäÇï€ë∂
@@ -140,16 +139,15 @@ public class CreateMap : MonoBehaviour
                 generatablePosList.Add(floar);
             }
         }
-        
         for (int i = 0; i < _scriptableObject.EnemyCount; i++)
         {
             //EnemyÇÃèoåª
-            
-            int enemyRnd = new System.Random().Next(0, _scriptableObject.EnemyObject.Length);
-            GameObject obj = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
-            int random = new System.Random().Next(0, generatablePosList.Count);//ç≈èâÇ…óNÇ©ÇπÇÈèÍèä
-            obj.transform.position = new Vector2(generatablePosList[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
+            int enemyRnd = new System.Random().Next(0, _scriptableObject.EnemyObject.Length);//ìGÇÃéÌóﬁ
+            GameObject enemy = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
+            int random = new System.Random().Next(0, generatablePosList.Count);//è∞ÇÃÉâÉìÉ_ÉÄÇ»èÍèäÇåàÇﬂÇÈ
+            enemy.transform.position = new Vector2(generatablePosList[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
                 generatablePosList[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _tileSize;
+            generatablePosList.RemoveAt(random);
         }
     }
 }
