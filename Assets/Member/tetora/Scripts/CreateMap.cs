@@ -18,7 +18,7 @@ public class CreateMap : MonoBehaviour
     GameObject _parentObj;
     [SerializeField]
     int _mapScale = 14;
-    [SerializeField,Tooltip("生成させる壁ObjectのScale")]
+    [SerializeField,Header("生成させる壁Objectのスケールサイズ")]
     float _tileSize = 3;//マップ一つ一つのサイズ
     Map[,] _map;
     int _startDigPos;//掘り始める始点

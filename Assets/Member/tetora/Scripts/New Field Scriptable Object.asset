@@ -17,3 +17,5 @@ MonoBehaviour:
   _enemyCount: 31
   _enemyObject:
   - {fileID: 6423235623607631742, guid: 3bc718cabec1e5a4dbca9b36dba75ae5, type: 3}
+  - {fileID: 6423235623607631742, guid: 6eaeacc7bbe082c46a108f8196435c8c, type: 3}
+  - {fileID: 6423235623607631742, guid: 7147b58af6df69d40abd4f3ff2c54c03, type: 3}
