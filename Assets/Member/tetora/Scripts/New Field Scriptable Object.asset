@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mapVerSide: 15
   _mapHorSide: 31
-  _enemyCount: 10
+  _enemyCount: 31
   _enemyObject:
   - {fileID: 6423235623607631742, guid: 3bc718cabec1e5a4dbca9b36dba75ae5, type: 3}
