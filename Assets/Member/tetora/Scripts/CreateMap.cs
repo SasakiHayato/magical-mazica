@@ -13,11 +13,13 @@ public class CreateMap : MonoBehaviour
     [SerializeField]
     FieldScriptableObject _scriptableObject;
     [SerializeField]
-    GameObject _wallObj;
+    GameObject[] _mapChip;//0:ï«,1:â°ÇÃìπ,2:
     [SerializeField]
     GameObject _parentObj;
     [SerializeField]
     int _mapScale = 14;
+    [SerializeField]
+    float _tileSize = 3;
     Map[,] _map;
     int _startDigPos;//å@ÇËénÇﬂÇÈénì_
     bool _isCreate = default;//ê∂ê¨
@@ -121,10 +123,10 @@ public class CreateMap : MonoBehaviour
             {
                 continue;
             }
-            var wall = Instantiate(_wallObj);
+            var wall = Instantiate(_mapChip[0]);//
             wall.transform.SetParent(_parentObj.transform);
             wall.transform.position = new Vector2(pos.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-                pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2);
+                pos.Id / _scriptableObject.MapHorSide  - _scriptableObject.MapVerSide / 2 ) * _tileSize;
         }
     }
     void CreateEnemy()
@@ -146,7 +148,7 @@ public class CreateMap : MonoBehaviour
             GameObject obj = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
             int random = new System.Random().Next(0, generatablePosList.Count);//ç≈èâÇ…óNÇ©ÇπÇÈèÍèä
             obj.transform.position = new Vector2(generatablePosList[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-                generatablePosList[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2);
+                generatablePosList[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _tileSize;
         }
     }
 }
