@@ -13,13 +13,13 @@ public class CreateMap : MonoBehaviour
     [SerializeField]
     FieldScriptableObject _scriptableObject;
     [SerializeField]
-    GameObject[] _mapChip;//0:壁,1:横の道,2:
+    GameObject _wallObj;
     [SerializeField]
     GameObject _parentObj;
     [SerializeField]
     int _mapScale = 14;
     [SerializeField]
-    float _tileSize = 3;
+    float _tileSize = 3;//マップ一つ一つのサイズ
     Map[,] _map;
     int _startDigPos;//掘り始める始点
     bool _isCreate = default;//生成
@@ -123,15 +123,15 @@ public class CreateMap : MonoBehaviour
             {
                 continue;
             }
-            var wall = Instantiate(_mapChip[0]);//
+            var wall = Instantiate(_wallObj);//
             wall.transform.SetParent(_parentObj.transform);
             wall.transform.position = new Vector2(pos.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-                pos.Id / _scriptableObject.MapHorSide  - _scriptableObject.MapVerSide / 2 ) * _tileSize;
+                pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _tileSize;
         }
     }
     void CreateEnemy()
     {
-        List<Map> generatablePosList = new List<Map>();
+        List<Map> generatablePosList = new List<Map>();//床の数
         foreach (var floar in _map)
         {
             if (floar.State == MapState.Floar)//Floarの場所を保存
@@ -139,16 +139,15 @@ public class CreateMap : MonoBehaviour
                 generatablePosList.Add(floar);
             }
         }
-        
         for (int i = 0; i < _scriptableObject.EnemyCount; i++)
         {
             //Enemyの出現
-            
-            int enemyRnd = new System.Random().Next(0, _scriptableObject.EnemyObject.Length);
-            GameObject obj = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
-            int random = new System.Random().Next(0, generatablePosList.Count);//最初に湧かせる場所
-            obj.transform.position = new Vector2(generatablePosList[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
+            int enemyRnd = new System.Random().Next(0, _scriptableObject.EnemyObject.Length);//敵の種類
+            GameObject enemy = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
+            int random = new System.Random().Next(0, generatablePosList.Count);//床のランダムな場所を決める
+            enemy.transform.position = new Vector2(generatablePosList[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
                 generatablePosList[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _tileSize;
+            generatablePosList.RemoveAt(random);
         }
     }
 }
