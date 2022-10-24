@@ -18,13 +18,17 @@ public class CreateMap : MonoBehaviour
     GameObject _parentObj;
     [SerializeField]
     int _mapScale = 14;
-    [SerializeField,Header("生成させる壁Objectのスケールサイズ")]
-    float _tileSize = 3;//マップ一つ一つのサイズ
+    float _wallObjSize = 3;//マップ一つ一つのサイズ
     Map[,] _map;
     int _startDigPos;//掘り始める始点
-    bool _isCreate = default;//生成
     private void Start()
     {
+        InitialSet();
+    }
+    void InitialSet()
+    {
+        //壁オブジェクトのScaleSizeを入れる
+        _wallObjSize = _wallObj.transform.localScale.x;
         SetWall();
         StartDig();
         CreateEnemy();
@@ -126,7 +130,7 @@ public class CreateMap : MonoBehaviour
             var wall = Instantiate(_wallObj);//
             wall.transform.SetParent(_parentObj.transform);
             wall.transform.position = new Vector2(pos.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-                pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _tileSize;
+                pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
         }
     }
     void CreateEnemy()
@@ -146,7 +150,7 @@ public class CreateMap : MonoBehaviour
             GameObject enemy = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
             int random = new System.Random().Next(0, generatablePosList.Count);//床のランダムな場所を決める
             enemy.transform.position = new Vector2(generatablePosList[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-                generatablePosList[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _tileSize;
+                generatablePosList[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
             generatablePosList.RemoveAt(random);
         }
     }
