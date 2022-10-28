@@ -5,14 +5,11 @@ using UnityEngine.InputSystem;
 public class PlayerInputController : MonoBehaviour
 {
     PlayerInput _playerInput;
-    //InputAction jumpAction;
-
     Player _player;
     private void Awake()
     {
         TryGetComponent(out _playerInput);
         TryGetComponent(out _player);
-        //jumpAction = _playerInput.currentActionMap.FindAction("Jump");
     }
     void OnEnable()
     {
