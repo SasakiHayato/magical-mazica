@@ -6,14 +6,20 @@ using UnityEngine;
 public class FieldManager : MonoBehaviour
 {
     [SerializeField] CharacterManager _characterManager;
-    [SerializeField] Transform _playerSpawnPosition;
+    //[SerializeField] Transform _playerSpawnPosition;
+    [SerializeField] CreateMap _createMap;
     int _hierarchyNum;
     public int HierarchyNum { get => _hierarchyNum; set => _hierarchyNum = value; }
-
+    private void Start()
+    {
+        Setup();
+    }
     public void Setup()
     {
         _characterManager.Setup();
-        _characterManager.CreatePlayer(_playerSpawnPosition);
+        _createMap.InitialSet();
+        _characterManager.CreatePlayer(_createMap.DecisionPlayerPos());
+        //_characterManager.CreatePlayer(_playerSpawnPosition); HŒ³ì
     }
 
     /// <summary>€–S”»’è</summary>
