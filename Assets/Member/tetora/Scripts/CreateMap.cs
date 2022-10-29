@@ -5,7 +5,7 @@ using System;
 
 public enum MapState
 {
-    Wall, Floar
+    Wall, Floar, Player
 }
 [System.Serializable]
 public class CreateMap : MonoBehaviour
@@ -133,6 +133,7 @@ public class CreateMap : MonoBehaviour
                 pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
         }
     }
+    /// <summary>ìGÇÃê∂ê¨</summary>
     void CreateEnemy()
     {
         List<Map> generatablePosList = new List<Map>();//è∞ÇÃêî
