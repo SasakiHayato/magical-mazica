@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IDamagable
     Rigidbody2D _rb;
     bool _isGrounded;
     Animator _anim;
+    FusionItem _fusionItem;
     /// <summary>çUåÇóÕ</summary>
     public int Damage { get => _damage; set { } }
     /// <summary>ç≈ëÂHP</summary>
@@ -25,8 +26,9 @@ public class Player : MonoBehaviour, IDamagable
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _anim = GetComponent<Animator>();
+        TryGetComponent(out _rb);
+        TryGetComponent(out _anim);
+        _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
     }
 
@@ -36,6 +38,13 @@ public class Player : MonoBehaviour, IDamagable
     public void Attack()
     {
         _anim.SetTrigger("Attack");
+    }
+    /// <summary>
+    /// âìãóó£çUåÇ
+    /// </summary>
+    public void Fire()
+    {
+        _fusionItem.Attack(transform.position);
     }
 
     /// <summary>

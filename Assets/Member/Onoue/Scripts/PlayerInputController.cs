@@ -15,12 +15,14 @@ public class PlayerInputController : MonoBehaviour
     {
         _playerInput.actions["Jump"].started += OnJump;
         _playerInput.actions["Attack"].started += OnAttack;
+        _playerInput.actions["Fire"].started += OnFire;
     }
 
     private void OnDisable()
     {
         _playerInput.actions["Jump"].started -= OnJump;
         _playerInput.actions["Attack"].started -= OnAttack;
+        _playerInput.actions["Fire"].started -= OnFire;
     }
     private void FixedUpdate()
     {
@@ -40,5 +42,9 @@ public class PlayerInputController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext obj)
     {
         _player.Attack();
+    }
+    private void OnFire(InputAction.CallbackContext obj)
+    {
+        _player.Fire();
     }
 }

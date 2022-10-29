@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour,IDamagable
 {
     [SerializeField] int _speed;
     [SerializeField] EnemyAIOperator _operator;
-
+    [SerializeField] int _hp;
     Rigidbody2D _rb;
 
     void Start()
@@ -21,5 +21,11 @@ public class Enemy : MonoBehaviour
         move.y = Physics2D.gravity.y;
 
         _rb.velocity = move;
+    }
+
+    public void AddDamage(int damage)
+    {
+        _hp -= damage;
+        print(_hp);
     }
 }
