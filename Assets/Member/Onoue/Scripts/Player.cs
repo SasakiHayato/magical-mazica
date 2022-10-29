@@ -4,25 +4,31 @@ using UnityEngine;
 using UniRx;
 using Cysharp.Threading.Tasks;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamagable
 {
     [SerializeField] int _maxHP;
     ReactiveProperty<int> _hp = new ReactiveProperty<int>();
     [SerializeField] float _speed;
     [SerializeField] float _jumpPower;
+    [SerializeField] int _damage = 5;
     Rigidbody2D _rb;
     bool _isGrounded;
     Animator _anim;
+    FusionItem _fusionItem;
+    /// <summary>çUåÇóÕ</summary>
+    public int Damage { get => _damage; set { } }
     /// <summary>ç≈ëÂHP</summary>
     public int MaxHP => _maxHP;
     public Vector2 Direction { get; set; }
     /// <summary>åªç›HPÇÃçXêVÇÃí ím</summary>
     public System.IObservable<int> CurrentHP => _hp;
 
+
     private void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _anim = GetComponent<Animator>();
+        TryGetComponent(out _rb);
+        TryGetComponent(out _anim);
+        _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
     }
 
@@ -31,10 +37,14 @@ public class Player : MonoBehaviour
     /// </summary>
     public void Attack()
     {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            _anim.SetTrigger("Attack");
-        }
+        _anim.SetTrigger("Attack");
+    }
+    /// <summary>
+    /// âìãóó£çUåÇ
+    /// </summary>
+    public void Fire()
+    {
+        _fusionItem.Attack(transform.position);
     }
 
     /// <summary>
@@ -47,7 +57,7 @@ public class Player : MonoBehaviour
             _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
         }
     }
-    
+
     /// <summary>
     /// à⁄ìÆ
     /// </summary>
@@ -83,5 +93,10 @@ public class Player : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         _isGrounded = false;
+    }
+
+    public void AddDamage(int damage)
+    {
+        _hp.Value -= damage;
     }
 }

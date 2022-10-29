@@ -13,6 +13,8 @@ public class ExecuteProsseser
 
     public Vector2 MoveDir { get; private set; }
 
+    Transform _targetTrans;
+
     public ExecuteProsseser(ExecuteData data)
     {
         _dataBaseList = new List<DataBase>();
@@ -22,6 +24,13 @@ public class ExecuteProsseser
         _dataBaseList.Add(data.AttackData);
 
         _dataBaseList = _dataBaseList.OrderBy(d => d.Priority).ToList();
+
+        SetUp();
+    }
+
+    void SetUp()
+    {
+        _targetTrans = GameManager.Instance.GetPlayer().gameObject.transform;
     }
 
     public Action OnNext(Transform user)
@@ -36,8 +45,7 @@ public class ExecuteProsseser
 
     Action SetExecuteData(Transform user)
     {
-        Vector2 player = TestSetPlayer.Instance.Player.transform.position;
-
+        Vector2 player = _targetTrans.position;
         try
         {
             _dataBase = _dataBaseList
