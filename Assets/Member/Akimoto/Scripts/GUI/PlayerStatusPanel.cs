@@ -6,9 +6,6 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 
-/// <summary>
-/// UIŠÇ—ƒNƒ‰ƒX
-/// </summary>
 namespace UIManagement
 {
     /// <summary>
