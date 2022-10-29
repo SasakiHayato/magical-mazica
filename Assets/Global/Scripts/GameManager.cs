@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] FieldManager _fieldManager;
     [SerializeField] GUIManager _guiManager;
-    public GameManager Instance { get; private set; }
+    CharacterManager _characterManager;
+    public static GameManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -18,7 +19,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _guiManager.Setup();
-        _fieldManager.Setup();
+        //_guiManager.Setup();
+        //_fieldManager.Setup();
+        _characterManager = FindObjectOfType<CharacterManager>();
     }
+
+    public Player GetPlayer()
+    {
+        return _characterManager.GetPlayer();
+    } 
 }
