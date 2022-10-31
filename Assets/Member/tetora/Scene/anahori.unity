@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObject: {fileID: 11400000, guid: db5440c0110b0fa40b0352eea599a83a, type: 2}
-  _wallObj: {fileID: 1092766951226964885, guid: 5b2ebee3bffe7084b98947b8bd6348fc, type: 3}
+  _wallObj: {fileID: 3990626567200311567, guid: 82a63c52617dfab498cec8368cb6d6aa, type: 3}
   _parentObj: {fileID: 1222872494}
   _mapScale: 14
   _tileSize: 3

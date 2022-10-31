@@ -16,7 +16,7 @@ public class CharacterManager : MonoBehaviour
 
     public void Setup()
     {
-
+        GetPlayer();
     }
 
     /// <summary>
@@ -26,5 +26,13 @@ public class CharacterManager : MonoBehaviour
     {
         _currentPlayer = Instantiate(_playerPrefab, spawnPosition.position, Quaternion.identity);
         _playerSpawn.OnNext(_currentPlayer);
+    }
+    public Player GetPlayer()
+    {
+        if (!_currentPlayer)
+        {
+            return _currentPlayer = FindObjectOfType<Player>();
+        }
+        return _currentPlayer;
     }
 }

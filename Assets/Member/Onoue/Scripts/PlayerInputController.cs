@@ -5,25 +5,24 @@ using UnityEngine.InputSystem;
 public class PlayerInputController : MonoBehaviour
 {
     PlayerInput _playerInput;
-    //InputAction jumpAction;
-
     Player _player;
     private void Awake()
     {
         TryGetComponent(out _playerInput);
         TryGetComponent(out _player);
-        //jumpAction = _playerInput.currentActionMap.FindAction("Jump");
     }
     void OnEnable()
     {
         _playerInput.actions["Jump"].started += OnJump;
         _playerInput.actions["Attack"].started += OnAttack;
+        _playerInput.actions["Fire"].started += OnFire;
     }
 
     private void OnDisable()
     {
         _playerInput.actions["Jump"].started -= OnJump;
         _playerInput.actions["Attack"].started -= OnAttack;
+        _playerInput.actions["Fire"].started -= OnFire;
     }
     private void FixedUpdate()
     {
@@ -43,5 +42,9 @@ public class PlayerInputController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext obj)
     {
         _player.Attack();
+    }
+    private void OnFire(InputAction.CallbackContext obj)
+    {
+        _player.Fire();
     }
 }
