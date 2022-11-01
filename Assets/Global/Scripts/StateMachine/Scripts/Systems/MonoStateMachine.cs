@@ -15,7 +15,7 @@ namespace MonoState
 
         bool _isRun;
 
-        Dictionary<string, MonoState> _stateDic;
+        Dictionary<string, MonoStateAttribute> _stateDic;
         CurrentMonoStateData _currentMonoState;
 
         UserRetentionData _userRetentionData;
@@ -23,14 +23,14 @@ namespace MonoState
         class CurrentMonoStateData
         {
             public string Path { get; private set; }
-            public MonoState MonoState { get; private set; }
+            public MonoStateAttribute MonoState { get; private set; }
 
             public void SetPath(string path)
             {
                 Path = path;
             }
 
-            public void SetMonoState(MonoState state)
+            public void SetMonoState(MonoStateAttribute state)
             {
                 MonoState = state;
             }
@@ -39,7 +39,7 @@ namespace MonoState
         public void Initalize(User user)
         {
             _user = user;
-            _stateDic = new Dictionary<string, MonoState>();
+            _stateDic = new Dictionary<string, MonoStateAttribute>();
 
             StateOperator stateOperator = user.gameObject.AddComponent<StateOperator>();
             stateOperator.Setup(() => Run());
@@ -48,10 +48,11 @@ namespace MonoState
             _userRetentionData = new UserRetentionData();
         }
 
-        public MonoStateMachine<User> AddState(MonoState state, Enum path)
+        public MonoStateMachine<User> AddState(MonoStateAttribute state, Enum path)
         {
             _stateDic.Add(path.ToString(), state);
-            state.Setup(_user.gameObject);
+            state.User = _user.gameObject;
+            state.Setup();
 
             return this;
         }
@@ -65,12 +66,12 @@ namespace MonoState
 
         public void SetRunRequest(Enum path)
         {
-            MonoState monoState = _stateDic.First(d => d.Key == path.ToString()).Value;
+            MonoStateAttribute monoState = _stateDic.First(d => d.Key == path.ToString()).Value;
             
             _currentMonoState.SetMonoState(monoState);
             _currentMonoState.SetPath(path.ToString());
 
-            foreach (MonoState state in _stateDic.Values)
+            foreach (MonoStateAttribute state in _stateDic.Values)
             {
                 state.UserRetentionData = _userRetentionData;
             }
@@ -103,7 +104,7 @@ namespace MonoState
 
         public void ChangeState(string path)
         {
-            MonoState monoState = _stateDic.First(d => d.Key == path).Value;
+            MonoStateAttribute monoState = _stateDic.First(d => d.Key == path).Value;
 
             _currentMonoState.SetMonoState(monoState);
             _currentMonoState.SetPath(path);

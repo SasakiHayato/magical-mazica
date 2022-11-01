@@ -4,15 +4,17 @@ using MonoState.Data;
 
 namespace MonoState.State
 {
-    public abstract class MonoState
+    public abstract class MonoStateAttribute
     {
         public UserRetentionData UserRetentionData { get; set; }
+
+        public GameObject User { get; set; }
 
         /// <summary>
         /// 初期化
         /// </summary>
         /// <param name="user"></param>
-        public abstract void Setup(GameObject user);
+        public abstract void Setup();
 
         /// <summary>
         /// ステートに入るたびに呼ばれる
