@@ -653,7 +653,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &841817486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,8 +666,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1db46cd3eaa32748ac6ebc53a3efdf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: 335745156}
-  _toggle: {fileID: 217604753}
+  _guiManager: {fileID: 0}
+  _characterManager: {fileID: 0}
 --- !u!4 &841817487
 Transform:
   m_ObjectHideFlags: 0
@@ -882,7 +882,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1891661590
 MonoBehaviour:
   m_ObjectHideFlags: 0
