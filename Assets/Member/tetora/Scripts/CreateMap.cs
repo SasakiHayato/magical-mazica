@@ -172,24 +172,19 @@ public class CreateMap : MonoBehaviour
         {
             print(map.ObjTransform);
         }
-        int rndId = new System.Random().Next(0, GetFloar().Count);//床オブジェクトの入っているListからランダムな値を取得
-        Debug.Log($"rndId:{rndId},一個下のId{_map[(rndId + _scriptableObject.MapHorSide) % _scriptableObject.MapHorSide, (rndId + _scriptableObject.MapHorSide) / _scriptableObject.MapHorSide].Id}");
+        int rndId = new System.Random().Next(0, GetFloar().Count);//床オブジェクトの入っているListの要素数からランダムな値を取得
+        Map rndMap = GetFloar()[rndId];//床オブジェクトのランダムなオブジェクトを取得
         foreach (var item in _map)
         {
-            if (item.Id == rndId)
+            if (item.Id + _scriptableObject.MapHorSide == rndMap.Id)
             {
-                if (_map[(item.Id + _scriptableObject.MapHorSide) % _scriptableObject.MapHorSide, (item.Id + _scriptableObject.MapHorSide) / _scriptableObject.MapHorSide] == null)
+                if (item.State == MapState.Wall)
                 {
-                    Debug.Log("もう一度");
-                    return DecisionPlayerPos();
-                }
-
-                if (_map[(item.Id + _scriptableObject.MapHorSide) % _scriptableObject.MapHorSide, (item.Id + _scriptableObject.MapHorSide) / _scriptableObject.MapHorSide].State == MapState.Wall)//下のStateが壁かどうか
-                {
-                    return item.ObjTransform;
+                    return rndMap.ObjTransform;
                 }
             }
         }
+        Debug.Log($"rndId:{rndId},一個下のId{_map[(rndId + _scriptableObject.MapHorSide) % _scriptableObject.MapHorSide, (rndId + _scriptableObject.MapHorSide) / _scriptableObject.MapHorSide].Id}");
         return DecisionPlayerPos();
     }
 }
