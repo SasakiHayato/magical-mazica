@@ -121,7 +121,7 @@ public class CreateMap : MonoBehaviour
         {
             if (pos.State == MapState.Floar)
             {
-                var emptyObj = new GameObject();
+                var emptyObj = new GameObject();//空のオブジェクトを生成
                 emptyObj.transform.position = new Vector2(pos.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
                     pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
                 pos.ObjTransform = emptyObj.transform;
@@ -168,12 +168,23 @@ public class CreateMap : MonoBehaviour
     /// <summary>Player生成の場所を決める</summary>
     public Transform DecisionPlayerPos()
     {
-        int rnd = new System.Random().Next(0, GetFloar().Count);//床オブジェクトの入っているListからランダムな値を取得
+        foreach (Map map in _map)
+        {
+            print(map.ObjTransform);
+        }
+        int rndId = new System.Random().Next(0, GetFloar().Count);//床オブジェクトの入っているListからランダムな値を取得
+        Debug.Log($"rndId:{rndId},一個下のId{_map[(rndId + _scriptableObject.MapHorSide) % _scriptableObject.MapHorSide, (rndId + _scriptableObject.MapHorSide) / _scriptableObject.MapHorSide].Id}");
         foreach (var item in _map)
         {
-            if (item.Id == rnd)
+            if (item.Id == rndId)
             {
-                if (_map[(item.Id % _scriptableObject.MapHorSide) * 2, item.Id / _scriptableObject.MapVerSide].State == MapState.Wall)//ここの続きをやる
+                if (_map[(item.Id + _scriptableObject.MapHorSide) % _scriptableObject.MapHorSide, (item.Id + _scriptableObject.MapHorSide) / _scriptableObject.MapHorSide] == null)
+                {
+                    Debug.Log("もう一度");
+                    return DecisionPlayerPos();
+                }
+
+                if (_map[(item.Id + _scriptableObject.MapHorSide) % _scriptableObject.MapHorSide, (item.Id + _scriptableObject.MapHorSide) / _scriptableObject.MapHorSide].State == MapState.Wall)//下のStateが壁かどうか
                 {
                     return item.ObjTransform;
                 }
