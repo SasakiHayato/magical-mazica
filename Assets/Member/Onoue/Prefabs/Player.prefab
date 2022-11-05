@@ -139,6 +139,7 @@ Transform:
   m_Children:
   - {fileID: 1979952273060667453}
   - {fileID: 8469913399321231620}
+  - {fileID: 9123693665951186437}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -247,6 +248,7 @@ MonoBehaviour:
   _speed: 5
   _jumpPower: 5
   _damage: 5
+  _materialID: ffffffffffffffff
 --- !u!61 &1979952273589037229
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -271,7 +273,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.5}
+  m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
 --- !u!95 &1979952273589037228
 Animator:
@@ -386,6 +388,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f826b024-8479-424c-afe8-5d595aefba15
     m_ActionName: Player/Attack
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b052c93d-11a7-429a-b486-ed6ace592069
+    m_ActionName: Player/Fusion[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3a483545-7a3e-47a4-8029-9c70d5b09916
+    m_ActionName: Player/SetMaterial[/Keyboard/1,/Keyboard/3,/Keyboard/2,/Keyboard/4]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -435,3 +445,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7595a52a1449f7d478bc879f824cbd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8562538628875740612
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9123693665951186437}
+  - component: {fileID: 7637927183145572976}
+  m_Layer: 0
+  m_Name: FieldTouch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9123693665951186437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8562538628875740612}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1979952273589037225}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7637927183145572976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8562538628875740612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94edc1ffbcb415d4a96f7d2865211e4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerDataList:
+  - _touchType: 0
+    _offset: {x: 0, y: 0}
+    _touchLayer:
+      serializedVersion: 2
+      m_Bits: 64
+    _directionType: 1
+    _distance: 1.03
+    _onGizmo: 1

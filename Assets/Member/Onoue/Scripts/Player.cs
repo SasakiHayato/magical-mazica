@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, IDamagable
     Animator _anim;
     FusionItem _fusionItem;
     Storage _storage;
+    FieldTouchOperator _fieldTouchOperator;
 
     /// <summary>çUåÇóÕ</summary>
     public int Damage { get => _damage; set { } }
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour, IDamagable
         TryGetComponent(out _rb);
         TryGetComponent(out _anim);
         _storage = GetComponentInChildren<Storage>();
+        _fieldTouchOperator = GetComponentInChildren<FieldTouchOperator>();
         _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
     }
@@ -56,7 +58,7 @@ public class Player : MonoBehaviour, IDamagable
     /// </summary>
     public void Jump()
     {
-        if (_isGrounded)
+        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
         {
             _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
         }
@@ -139,16 +141,6 @@ public class Player : MonoBehaviour, IDamagable
     private void FixedUpdate()
     {
         PlayerMove(Direction);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        _isGrounded = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _isGrounded = false;
     }
 
     public void AddDamage(int damage)
