@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public enum MapState
 {
@@ -18,6 +17,10 @@ public class CreateMap : MonoBehaviour
     GameObject _parentObj;
     [SerializeField]
     int _mapScale = 14;
+
+    [SerializeField]
+    GameObject[] TESTTELEPORT;
+
     float _wallObjSize = 3;//マップ一つ一つのサイズ
     Map[,] _map;
     int _startDigPos;//掘り始める始点
@@ -28,6 +31,7 @@ public class CreateMap : MonoBehaviour
         _wallObjSize = _wallObj.transform.localScale.x;
         SetWall();
         StartDig();
+        SetTeleportPos(TESTTELEPORT);
     }
     /// <summary>全てのマスを壁にする</summary>
     void SetWall()
@@ -122,34 +126,43 @@ public class CreateMap : MonoBehaviour
             if (pos.State == MapState.Floar)
             {
                 var emptyObj = new GameObject();//空のオブジェクトを生成
-                emptyObj.transform.position = new Vector2(pos.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-                    pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
-                pos.ObjTransform = emptyObj.transform;
+                emptyObj.name = "Floar";
+                SetTransform(emptyObj, pos);
                 continue;
             }
             else
             {
                 var wall = Instantiate(_wallObj);
-                wall.transform.SetParent(_parentObj.transform);
-                wall.transform.position = new Vector2(pos.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-                    pos.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
-                pos.ObjTransform = wall.transform;
+                SetTransform(wall, pos);
             }
         }
+    }
+    /// <summary>オブジェクトを並べる</summary>
+    /// <param name="obj">並べたいオブジェクト</param>
+    /// <param name="map">並べたいMap</param>
+    void SetTransform(GameObject obj, Map map)
+    {
+        obj.transform.SetParent(_parentObj.transform);
+        obj.transform.position = new Vector2(map.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
+            map.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
+        map.ObjTransform = obj.transform;
     }
     /// <summary>敵の生成</summary>
     void CreateEnemy()
     {
-        for (int i = 0; i < _scriptableObject.EnemyCount; i++)
+        for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
             //Enemyの出現
-            int enemyRnd = new System.Random().Next(0, _scriptableObject.EnemyObject.Length);//敵の種類
-            GameObject enemy = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
+            int enemyRnd = new System.Random().Next(0, _scriptableObject.EnemyObject.Count);//敵の種類
+            _scriptableObject.EnemyObject.RemoveAt(enemyRnd);//出現した敵をListから削除
             int random = new System.Random().Next(0, GetFloar().Count);//床のランダムな場所を決める
+            GameObject enemy = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
             enemy.transform.position = new Vector2(GetFloar()[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
                 GetFloar()[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
             GetFloar().RemoveAt(random);
         }
+
+
     }
     /// <summary>床オブジェクトのListを返す</summary>
     /// <returns>床オブジェクトのList</returns>
@@ -168,10 +181,6 @@ public class CreateMap : MonoBehaviour
     /// <summary>Player生成の場所を決める</summary>
     public Transform DecisionPlayerPos()
     {
-        foreach (Map map in _map)
-        {
-            print(map.ObjTransform);
-        }
         int rndId = new System.Random().Next(0, GetFloar().Count);//床オブジェクトの入っているListの要素数からランダムな値を取得
         Map rndMap = GetFloar()[rndId];//床オブジェクトのランダムなオブジェクトを取得
         foreach (var item in _map)
@@ -180,6 +189,7 @@ public class CreateMap : MonoBehaviour
             {
                 if (item.State == MapState.Wall)
                 {
+                    rndMap.State = MapState.Player;
                     return rndMap.ObjTransform;
                 }
             }
@@ -187,16 +197,44 @@ public class CreateMap : MonoBehaviour
         Debug.Log($"rndId:{rndId},一個下のId{_map[(rndId + _scriptableObject.MapHorSide) % _scriptableObject.MapHorSide, (rndId + _scriptableObject.MapHorSide) / _scriptableObject.MapHorSide].Id}");
         return DecisionPlayerPos();
     }
-}
-class Map
-{
-    MapState _state = MapState.Wall;
-    public MapState State { get => _state; set => _state = value; }
-    Transform _objTransform;
-    public Transform ObjTransform { get => _objTransform; set => _objTransform = value; }
-    public readonly int Id;
-    public Map(int id)
+    void SetTeleportPos(GameObject[] teleporterObj)
     {
-        Id = id;
+        if (TESTTELEPORT != null)
+        {
+            return;
+        }
+        List<Map> leftMapsList = new List<Map>();
+        List<Map> rightMapsList = new List<Map>();
+        int leftLine = _scriptableObject.MapHorSide / 3; //3等分した時の左の線
+        int rightLine = _scriptableObject.MapHorSide / 3 * 2;//3等分下時の右の線
+        foreach (var item in GetFloar())
+        {
+            if (item.Id % _scriptableObject.MapHorSide <= leftLine)
+            {
+                leftMapsList.Add(item);
+            }
+            if (item.Id % _scriptableObject.MapHorSide >= rightLine)
+            {
+                rightMapsList.Add(item);
+            }
+        }
+        int leftRnd = new System.Random().Next(0, leftMapsList.Count);
+        int rightRnd = new System.Random().Next(0, rightMapsList.Count);
+        var leftTele = Instantiate(TESTTELEPORT[0]);
+        var rightTele = Instantiate(TESTTELEPORT[1]);
+        leftTele.transform.position = leftMapsList[leftRnd].ObjTransform.position;
+        rightTele.transform.position = rightMapsList[rightRnd].ObjTransform.position;
+    }
+    class Map
+    {
+        MapState _state = MapState.Wall;
+        public MapState State { get => _state; set => _state = value; }
+        Transform _objTransform;
+        public Transform ObjTransform { get => _objTransform; set => _objTransform = value; }
+        public readonly int Id;
+        public Map(int id)
+        {
+            Id = id;
+        }
     }
 }
