@@ -141,6 +141,7 @@ namespace EnemyAISystem
             if (_aiData.StateIntervalTime < _intervalData.StateIntervalTime)
             {
                 string nextStatePath = ExitState();
+                Debug.Log(nextStatePath);
                 if (nextStatePath != _currentState.StatePath)
                 {
                     ChangeState(nextStatePath);
