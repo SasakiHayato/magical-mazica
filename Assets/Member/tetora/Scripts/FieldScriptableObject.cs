@@ -11,14 +11,22 @@ public class FieldScriptableObject : ScriptableObject
     int _mapHorSide;//横の長さ
 
     [SerializeField]
-    int _enemyCount;//敵の数
+    List<GameObject> _enemyObject;//敵のオブジェクト
 
     [SerializeField]
-    GameObject[] _enemyObject;//敵のオブジェクト
-
+    List<TestTeleport> teleportObj;//テレポートする場所のオブジェクト配列
 
     public int MapVerSide { get => _mapVerSide; }
     public int MapHorSide { get => _mapHorSide; }
-    public int EnemyCount { get => _enemyCount; }
-    public GameObject[] EnemyObject { get => _enemyObject; }
+    public List<GameObject> EnemyObject { get => _enemyObject; }
+}
+[System.Serializable]
+public class TestTeleport
+{
+    [SerializeField]
+    List<GameObject> TeleportObjs = new List<GameObject>();
+    public TestTeleport(List<GameObject> teleportObj)
+    {
+        TeleportObjs = teleportObj;
+    }
 }
