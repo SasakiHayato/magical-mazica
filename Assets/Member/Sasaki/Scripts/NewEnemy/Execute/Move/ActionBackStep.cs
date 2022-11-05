@@ -1,17 +1,8 @@
 using UnityEngine;
 using EnemyAISystem;
 
-public class ConditionDistance : ICondition
+public class ActionBackStep : IMove
 {
-    enum AttributeType
-    {
-        In,
-        Out,
-    }
-
-    [SerializeField] AttributeType _type;
-    [SerializeField] float _distance;
-
     Transform _user;
     Transform _player;
 
@@ -30,11 +21,15 @@ public class ConditionDistance : ICondition
         }
     }
 
-    public bool Try()
+    public Vector2 Execute()
     {
-        float dist = Vector2.Distance(_user.position, _player.position);
-        return _type == AttributeType.In ? dist < _distance : dist > _distance;
+        float dirX = _user.position.x - _player.position.x;
+
+        return Vector2.right * Mathf.Sign(dirX);
     }
 
-    public void Initalize() { }
+    public void Initalize()
+    {
+        
+    }
 }
