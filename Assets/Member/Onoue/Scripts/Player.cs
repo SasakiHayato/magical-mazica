@@ -11,10 +11,13 @@ public class Player : MonoBehaviour, IDamagable
     [SerializeField] float _speed;
     [SerializeField] float _jumpPower;
     [SerializeField] int _damage = 5;
+    [SerializeField] RawMaterialID[] _materialID = { RawMaterialID.Empty, RawMaterialID.Empty };
     Rigidbody2D _rb;
     bool _isGrounded;
     Animator _anim;
     FusionItem _fusionItem;
+    Storage _storage;
+
     /// <summary>UŒ‚—Í</summary>
     public int Damage { get => _damage; set { } }
     /// <summary>Å‘åHP</summary>
@@ -28,10 +31,11 @@ public class Player : MonoBehaviour, IDamagable
     {
         TryGetComponent(out _rb);
         TryGetComponent(out _anim);
+        _storage = GetComponentInChildren<Storage>();
         _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
     }
-
+    
     /// <summary>
     /// UŒ‚
     /// </summary>
@@ -77,6 +81,58 @@ public class Player : MonoBehaviour, IDamagable
             {
                 transform.localScale = new Vector3(1, 1, 1);
             }
+        }
+    }
+
+    /// <summary>
+    /// ƒ}ƒeƒŠƒAƒ‹‚ÌID‚ğƒZƒbƒg
+    /// </summary>
+    /// <param name="id"></param>
+    public void SetMaterialID(RawMaterialID id)
+    {
+        //ŒÂ”‚ª‘«‚è‚È‚¢ê‡‘I‘ğo—ˆ‚È‚¢‚æ‚¤‚É‚·‚é
+        _materialID[1] = _materialID[0];
+        _materialID[0] = id;
+        print(_materialID[0]);
+        print(_materialID[1]);
+    }
+
+    /// <summary>
+    /// ‘I‘ğ‚³‚ê‚½‘fŞ‚ÌID‚ğó‚¯æ‚è˜B¬‚·‚é
+    /// </summary>
+    public void Fusion()
+    {
+        var count = _storage.MaterialCount;
+        if (_materialID[0] == _materialID[1])
+        {
+            if (count[_materialID[0]] >= 2)
+            {
+                _fusionItem.Fusion(_materialID[0], _materialID[1]);
+                count[_materialID[0]] -= 2;
+                print("‚Å‚«‚½");
+            }
+            else
+            {
+                print("‘fŞ‚ª‘«‚è‚Ü‚¹‚ñ");
+            }
+        }
+        else if (count[_materialID[0]] >= 1)
+        {
+            if (count[_materialID[1]] >= 1)
+            {
+                _fusionItem.Fusion(_materialID[0], _materialID[1]);
+                count[_materialID[0]]--;
+                count[_materialID[1]]--;
+                print("‚Å‚«‚½");
+            }
+            else
+            {
+                print("‘fŞ‚ª‘«‚è‚Ü‚¹‚ñ");
+            }
+        }
+        else
+        {
+            print("‘fŞ‚ª‘«‚è‚Ü‚¹‚ñ");
         }
     }
 

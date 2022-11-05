@@ -16,6 +16,9 @@ public class PlayerInputController : MonoBehaviour
         _playerInput.actions["Jump"].started += OnJump;
         _playerInput.actions["Attack"].started += OnAttack;
         _playerInput.actions["Fire"].started += OnFire;
+        _playerInput.actions["Fusion"].started += OnFusion;
+        _playerInput.actions["SetMaterial"].started += OnSet;
+
     }
 
     private void OnDisable()
@@ -23,6 +26,8 @@ public class PlayerInputController : MonoBehaviour
         _playerInput.actions["Jump"].started -= OnJump;
         _playerInput.actions["Attack"].started -= OnAttack;
         _playerInput.actions["Fire"].started -= OnFire;
+        _playerInput.actions["Fusion"].started -= OnFusion;
+        _playerInput.actions["SetMaterial"].started -= OnSet;
     }
     private void FixedUpdate()
     {
@@ -46,5 +51,33 @@ public class PlayerInputController : MonoBehaviour
     private void OnFire(InputAction.CallbackContext obj)
     {
         _player.Fire();
+    }
+    private void OnFusion(InputAction.CallbackContext obj)
+    {
+        _player.Fusion();
+    }
+    private void OnSet(InputAction.CallbackContext obj)
+    {
+        SetMaterial(obj);
+    }
+    private void SetMaterial(InputAction.CallbackContext obj)
+    {
+        var get = obj.action.actionMap["SetMaterial"].ReadValue<Vector2>();
+        if (get == Vector2.up)
+        {
+            _player.SetMaterialID(RawMaterialID.BombBean);
+        }
+        else if (get == Vector2.down)
+        {
+
+        }
+        else if (get == Vector2.left)
+        {
+            _player.SetMaterialID(RawMaterialID.PowerPlant);
+        }
+        else if (get == Vector2.right)
+        {
+
+        }
     }
 }

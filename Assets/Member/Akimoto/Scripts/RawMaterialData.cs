@@ -66,6 +66,8 @@ public class RawMaterialDatabase
 /// </summary>
 public enum RawMaterialID
 {
+    /// <summary>null</summary>
+    Empty = -1,   
     /// <summary>爆裂豆</summary>
     BombBean,
     /// <summary>パワープラント</summary>
