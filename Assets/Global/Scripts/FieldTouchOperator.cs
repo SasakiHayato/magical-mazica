@@ -80,6 +80,8 @@ public class FieldTouchOperator : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        if (_layerDataList == null) return;
+
         Gizmos.color = Color.red;
         var list = _layerDataList.Where(d => d.OnGizmo);
         foreach (LayerData d in list)
