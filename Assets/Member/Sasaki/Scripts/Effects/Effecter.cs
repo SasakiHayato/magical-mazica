@@ -21,6 +21,4 @@ public class Effecter : MonoBehaviour, IPool, IPoolOnEnableEvent
     {
         return !_particle.isPlaying;
     }
-
-    
 }
