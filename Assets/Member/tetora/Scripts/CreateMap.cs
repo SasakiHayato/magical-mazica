@@ -17,6 +17,8 @@ public class CreateMap : MonoBehaviour
     GameObject _parentObj;
     [SerializeField]
     int _mapScale = 14;
+    [SerializeField]
+    int _releDis = 3;//何マス離すか
 
     [SerializeField]
     GameObject[] TESTTELEPORT;
@@ -31,6 +33,7 @@ public class CreateMap : MonoBehaviour
         _wallObjSize = _wallObj.transform.localScale.x;
         SetWall();
         StartDig();
+        CreateEnemyPos();
         SetTeleportPos(TESTTELEPORT);
     }
     /// <summary>全てのマスを壁にする</summary>
@@ -147,24 +150,48 @@ public class CreateMap : MonoBehaviour
             map.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
         map.ObjTransform = obj.transform;
     }
-    /// <summary>敵の生成</summary>
-    void CreateEnemy()
+    void InstantiateEnemy()
     {
         for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
-            //Enemyの出現
-            int enemyRnd = new System.Random().Next(0, _scriptableObject.EnemyObject.Count);//敵の種類
-            _scriptableObject.EnemyObject.RemoveAt(enemyRnd);//出現した敵をListから削除
-            int random = new System.Random().Next(0, GetFloar().Count);//床のランダムな場所を決める
-            GameObject enemy = Instantiate(_scriptableObject.EnemyObject[enemyRnd]);
-            enemy.transform.position = new Vector2(GetFloar()[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-                GetFloar()[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
-            GetFloar().RemoveAt(random);
+            GameObject enemy = _scriptableObject.EnemyObject[i];
         }
-
-
     }
-    /// <summary>床オブジェクトのListを返す</summary>
+    /// <summary>敵の生成する場所を決める</summary>
+    void CreateEnemyPos()
+    {
+        int random = new System.Random().Next(0, GetFloar().Count);//床のランダムな場所を決める
+        Map rndMap = GetFloar()[random];//生成する場所
+        foreach (var item in _map)
+        {
+            if (rndMap.Id % _scriptableObject.MapHorSide - item.Id % _scriptableObject.MapHorSide < _releDis)//左側にプレイヤーがいるかどうか
+            {
+                CreateEnemy(rndMap);
+            }
+            if (item.Id % _scriptableObject.MapHorSide - rndMap.Id % _scriptableObject.MapHorSide < _releDis)//右側にプレイヤーがいるかどうか
+            {
+                CreateEnemy(rndMap);
+            }
+            if (rndMap.Id / _scriptableObject.MapHorSide - item.Id / _scriptableObject.MapHorSide < _releDis)//上側にプレイヤーがいるかどうか
+            {
+                CreateEnemy(rndMap);
+            }
+            if (item.Id / _scriptableObject.MapHorSide - rndMap.Id / _scriptableObject.MapHorSide < _releDis)//下側にプレイヤーがいるかどうか
+            {
+                CreateEnemy(rndMap);
+            }
+            else
+            {
+                CreateEnemyPos();
+            }
+        }
+    }
+    /// <summary>敵の生成</summary>
+    /// <param name="map">生成するマス</param>
+    void CreateEnemy(Map map)
+    {
+    }
+    /// <summary>床オブジェクトを検索する</summary>
     /// <returns>床オブジェクトのList</returns>
     List<Map> GetFloar()
     {
