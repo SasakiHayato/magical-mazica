@@ -12,11 +12,6 @@ namespace ObjectPool
         void Setup(UnityEngine.Transform parent);
 
         /// <summary>
-        /// OnEnable関数
-        /// </summary>
-        void OnEnableEvent();
-
-        /// <summary>
         /// 使用中のUpdate関数
         /// </summary>
         /// <returns>使用終了時にTureを返す</returns>

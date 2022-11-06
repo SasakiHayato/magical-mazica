@@ -1,7 +1,8 @@
 using UnityEngine;
 using ObjectPool;
+using ObjectPool.Event;
 
-public class Effecter : MonoBehaviour, IPool
+public class Effecter : MonoBehaviour, IPool, IPoolOnEnableEvent
 {
     ParticleSystem _particle;
 
@@ -11,7 +12,7 @@ public class Effecter : MonoBehaviour, IPool
         _particle.Stop();
     }
 
-    void IPool.OnEnableEvent()
+    void IPoolOnEnableEvent.OnEnableEvent()
     {
         _particle.Play();
     }
@@ -20,4 +21,6 @@ public class Effecter : MonoBehaviour, IPool
     {
         return !_particle.isPlaying;
     }
+
+    
 }

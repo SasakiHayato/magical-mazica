@@ -10,7 +10,7 @@ namespace SoundSystem
         AudioSource _audioSource;
         VolumeType _volumeType;
 
-        public void Setup(Transform parent)
+        void IPool.Setup(Transform parent)
         {
             _audioSource = gameObject.AddComponent<AudioSource>();
         }
@@ -44,9 +44,7 @@ namespace SoundSystem
             return volume;
         }
 
-        public void OnEnableEvent() { }
-
-        public bool Execute()
+        bool IPool.Execute()
         {
             _audioSource.volume = SetVolume(_volumeType, _dataVolume);
             return !_audioSource.isPlaying;
