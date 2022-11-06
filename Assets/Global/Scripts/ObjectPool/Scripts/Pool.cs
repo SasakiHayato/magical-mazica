@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ObjectPool.Event;
 
 namespace ObjectPool
 {
@@ -17,6 +18,7 @@ namespace ObjectPool
         class PoolData
         {
             public MonoPool Pool { get; set; }
+            public IPoolOnEnableEvent OnEnable { get; set; }
             public IPoolEvent Event { get; set; }
             public IPoolDispose Dispose { get; set; }
             public bool IsUse { get; set; }
@@ -98,19 +100,13 @@ namespace ObjectPool
         {
             for (int index = 0; index < createCount; index++)
             {
-                MonoPool pool = UnityEngine.Object.Instantiate(_monoPool);
+                MonoPool pool = Object.Instantiate(_monoPool);
                 pool.Setup(_parent);
 
                 PoolData data = CreateData(pool);
                 _poolList.Add(data);
 
-                data.Event = pool.GetComponent<IPoolEvent>();
-                data.Dispose = pool.GetComponent<IPoolDispose>();
-
-                if (_parent != null)
-                {
-                    data.Pool.transform.SetParent(_parent);
-                }
+                data.Pool.gameObject.SetActive(false);
             }
         }
 
@@ -124,7 +120,16 @@ namespace ObjectPool
             PoolData data = new PoolData();
             data.Pool = pool;
             data.IsUse = false;
-            
+
+            data.Event = pool.GetComponent<IPoolEvent>();
+            data.Dispose = pool.GetComponent<IPoolDispose>();
+            data.OnEnable = pool.GetComponent<IPoolOnEnableEvent>();
+
+            if (_parent != null)
+            {
+                data.Pool.transform.SetParent(_parent);
+            }
+
             return data;
         }
 
@@ -146,13 +151,18 @@ namespace ObjectPool
             try
             {
                 PoolData data = _poolList.First(p => !p.IsUse);
+                
+                data.Pool.gameObject.SetActive(true);
 
                 action += () => data.IsUse = true;
                 if (data.Event != null)
                 {
                     action += () => data.Event.IsDone = false;
                 }
-                action += () => data.Pool.OnEnableEvent();
+                if (data.OnEnable != null)
+                {
+                    action += () => data.OnEnable.OnEnableEvent();
+                }
                 action += () => data.Pool.StartCoroutine(Execution(data));
 
                 return data.Pool;
@@ -172,29 +182,35 @@ namespace ObjectPool
         /// Poolの使用リクエスト。
         /// 呼ばれたタイミングでPoolを使用
         /// </summary>
-        public void UseRequest()
+        public MonoPool UseRequest()
         {
             System.Action action = null;
 
             if (!ChackSuccess())
             {
                 Debug.LogWarning("Poolの使用権限がありません");
-                return;
+                return null;
             }
 
             try
             {
                 PoolData data = _poolList.First(p => !p.IsUse);
+                
+                data.Pool.gameObject.SetActive(true);
 
                 action += () => data.IsUse = true;
                 if (data.Event != null)
                 {
                     action += () => data.Event.IsDone = false;
                 }
-                action += () => data.Pool.OnEnableEvent();
+                if (data.OnEnable != null)
+                {
+                    action += () => data.OnEnable.OnEnableEvent();
+                }
                 action += () => data.Pool.StartCoroutine(Execution(data));
 
                 action.Invoke();
+                return data.Pool;
             }
             catch
             {
@@ -203,7 +219,7 @@ namespace ObjectPool
                 Debug.LogWarning($"Poolが上限に達したので上限を増やしました。" +
                     $"\n 対象Pool.{_monoPool.name} : 生成数.{_createCount} : 上限.{_poolList.Count}");
 
-                UseRequest();
+                return UseRequest();
             }
         }
 
@@ -233,7 +249,7 @@ namespace ObjectPool
         {
             while (!data.Pool.Execute() && !data.IsEvent())
             {
-                Debug.Log($"Execute {data.Pool.Execute()} Event {data.IsEvent()}");
+                // Debug.Log($"Execute {data.Pool.Execute()} Event {data.IsEvent()}");
                 yield return null;
             }
 
@@ -249,6 +265,7 @@ namespace ObjectPool
 
             data.IsUse = false;
             data.DisposeEvent();
+            data.Pool.gameObject.SetActive(false);
         }
     }
 }

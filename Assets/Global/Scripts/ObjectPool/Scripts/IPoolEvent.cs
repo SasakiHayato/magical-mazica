@@ -1,4 +1,4 @@
-namespace ObjectPool
+namespace ObjectPool.Event
 {
     /// <summary>
     /// PoolObjectが任意のタイミングで終了を判定したい場合に継承
@@ -17,5 +17,13 @@ namespace ObjectPool
     public interface IPoolDispose
     {
         void Dispose();
+    }
+
+    /// <summary>
+    /// PoolObject使用時にExecute関数前の前にEventを発行する場合に継承
+    /// </summary>
+    public interface IPoolOnEnableEvent
+    {
+        void OnEnableEvent();
     }
 }
