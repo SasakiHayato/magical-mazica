@@ -1,17 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SoundSystem;
-
-namespace SoundSystem
-{
-    public interface ISound
-    {
-        void Setup();
-        void SetData(SoundDataAsset.SoundData data, VolumeType volumeType);
-        bool OnExecute();
-    }
-}
-
+using ObjectPool;
 
 public class SoundManager : MonoBehaviour
 {
@@ -22,12 +12,14 @@ public class SoundManager : MonoBehaviour
     [SerializeField, Range(0, 1)] float _bgmVolume;
     [SerializeField, Range(0, 1)] float _seVolume;
 
-    SoundPool<Sounder> _pool;
+    Pool<Sounder> _pool = new Pool<Sounder>();
 
     void Awake()
     {
-        _pool = new SoundPool<Sounder>(_sounderPrefab, transform);
-        _pool.Create(_poolCount);
+        _pool
+            .SetMono(_sounderPrefab, _poolCount)
+            .IsSetParent(transform)
+            .CreateRequest();
     }
 
     void Update()
@@ -42,6 +34,9 @@ public class SoundManager : MonoBehaviour
         SoundDataAsset asset = _soundDataAssetList.Find(s => s.SoundType == type);
         SoundDataAsset.SoundData data = asset.GetSoundData(path);
 
-        _pool.Use(data, asset.VolumeType);
+        Sounder sounder = _pool.UseRequest(out System.Action action);
+        action += () => sounder.SetData(data, asset.VolumeType);
+
+        action.Invoke();
     }
 }
