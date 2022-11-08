@@ -1,21 +1,21 @@
+using ObjectPool;
 using UnityEngine;
 
 namespace SoundSystem
 {
-    public class Sounder : MonoBehaviour, ISound
+    public class Sounder : MonoBehaviour, IPool
     {
         float _dataVolume;
 
         AudioSource _audioSource;
         VolumeType _volumeType;
 
-        public void Setup()
+        void IPool.Setup(Transform parent)
         {
             _audioSource = gameObject.AddComponent<AudioSource>();
-            gameObject.SetActive(false);
         }
 
-        void ISound.SetData(SoundDataAsset.SoundData data, VolumeType volumeType)
+        public void SetData(SoundDataAsset.SoundData data, VolumeType volumeType)
         {
             _volumeType = volumeType;
             _dataVolume = data.Volume;
@@ -44,7 +44,7 @@ namespace SoundSystem
             return volume;
         }
 
-        bool ISound.OnExecute()
+        bool IPool.Execute()
         {
             _audioSource.volume = SetVolume(_volumeType, _dataVolume);
             return !_audioSource.isPlaying;
