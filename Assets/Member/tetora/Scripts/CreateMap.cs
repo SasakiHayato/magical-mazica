@@ -20,41 +20,26 @@ public class CreateMap : MonoBehaviour
     [SerializeField]
     int _releDis = 3;//何マス離すか
 
-    List<Map> _floarList = new List<Map>();
     float _wallObjSize = 3;//マップ一つ一つのサイズ
-    Map[,] _map;
+    StageMap _stageMap;
     int _startDigPos;//掘り始める始点
     public Transform PlayerTransform { get; private set; }
     /// <summary>初期設定</summary>
     public void InitialSet()
     {
+        _stageMap = new StageMap(_scriptableObject.MapHorSide, _scriptableObject.MapVerSide);
         //壁オブジェクトのScaleSizeを入れる
         _wallObjSize = _wallObj.transform.localScale.x;
-        SetWall();
         StartDig();
         DecisionPlayerPos();
         InstantiateEnemy();
     }
-    /// <summary>全てのマスを壁にする</summary>
-    void SetWall()
-    {
-        _map = new Map[_scriptableObject.MapHorSide, _scriptableObject.MapVerSide];
-        for (int y = 0; y < _scriptableObject.MapVerSide; y++)
-        {
-            for (int x = 0; x < _scriptableObject.MapHorSide; x++)
-            {
-                _map[x, y] = new Map(x + y * _scriptableObject.MapHorSide);
-                _map[x, y].State = MapState.Wall;
-                _map[x, y].IsGenerate = false;
-            }
-        }
-    }
     /// <summary>ランダムな開始地点を決める</summary>
     int RandomPos()
     {
-        int rndX = new System.Random().Next(1, (_scriptableObject.MapHorSide - 1) / 2) * 2 + 1;
-        int rndY = new System.Random().Next(1, (_scriptableObject.MapVerSide - 1) / 2) * 2 + 1;
-        return _startDigPos = rndX + rndY * _scriptableObject.MapHorSide;
+        int rndX = new System.Random().Next(1, (_stageMap.MaxX - 1) / 2) * 2 + 1;
+        int rndY = new System.Random().Next(1, (_stageMap.MaxY - 1) / 2) * 2 + 1;
+        return _startDigPos = rndX + rndY * _stageMap.MaxX;
     }
     /// <summary>4方向をランダムな順番で返す</summary>
     /// <param name="id">開始地点のid</param>
@@ -62,8 +47,8 @@ public class CreateMap : MonoBehaviour
     IEnumerable<(int twoTarget, int oneTarget)> CheckDir(int id)
     {
         (int twoTarget, int oneTarget)[] twoTargetDirs = {
-            (id - (_scriptableObject.MapHorSide * 2),id - _scriptableObject.MapHorSide), //上
-            (id + _scriptableObject.MapHorSide * 2,id + _scriptableObject.MapHorSide), //下
+            (id - (_stageMap.MaxX  * 2),id - _stageMap.MaxX ), //上
+            (id + _stageMap.MaxX  * 2,id + _stageMap.MaxX ), //下
             (id + 2,id + 1), //右
             (id - 2,id - 1) //左
         };
@@ -78,30 +63,30 @@ public class CreateMap : MonoBehaviour
         foreach ((int two, int one) dir in twoTargetDirs)
         {
             //two:2つ先のid ,one:1つ先のid
-            if (dir.two < 0 || dir.two > _map.Length - 1)//範囲内のidのみ値を返す
+            if (dir.two < 0 || dir.two > _stageMap.Length - 1)//範囲内のidのみ値を返す
             {
                 continue;
             }
             //横のサイズを超えないか
-            if (id % _scriptableObject.MapHorSide < 1 || id % _scriptableObject.MapHorSide >= _scriptableObject.MapHorSide - 1)
+            if (id % _stageMap.MaxX < 1 || id % _stageMap.MaxX >= _stageMap.MaxX - 1)
             {
                 continue;
             }
             //2個先が壁か確認
-            if (_map[dir.two % _scriptableObject.MapHorSide, dir.two / _scriptableObject.MapHorSide].State != MapState.Wall)
+            if (_stageMap[dir.two].State != MapState.Wall)
             {
                 continue;
             }
             //1個先が壁か確認
-            if (_map[dir.one % _scriptableObject.MapHorSide, dir.one / _scriptableObject.MapHorSide].State != MapState.Wall)
+            if (_stageMap[dir.one].State != MapState.Wall)
             {
                 continue;
             }
-            if (dir.two / _scriptableObject.MapHorSide == 0 || dir.two / _scriptableObject.MapHorSide == _scriptableObject.MapVerSide - 1)
+            if (dir.two / _stageMap.MaxX == 0 || dir.two / _stageMap.MaxX == _stageMap.MaxY - 1)
             {
                 continue;
             }
-            if (dir.two % _scriptableObject.MapHorSide == 0 || dir.two % _scriptableObject.MapHorSide == _scriptableObject.MapHorSide - 1)
+            if (dir.two % _stageMap.MaxX == 0 || dir.two % _stageMap.MaxX == _stageMap.MaxX - 1)
             {
                 continue;
             }
@@ -112,11 +97,12 @@ public class CreateMap : MonoBehaviour
     /// <param name="id">開始地点</param>
     void Dig(int id)
     {
-        _map[id % _scriptableObject.MapHorSide, id / _scriptableObject.MapHorSide].State = MapState.Floar;
-        _map[id % _scriptableObject.MapHorSide, id / _scriptableObject.MapHorSide].IsGenerate = true;
+        _stageMap[id].State = MapState.Floar;
+        _stageMap[id].IsGenerate = true;
         foreach (var posId in CheckDir(id))
         {
-            _map[posId.oneTarget % _scriptableObject.MapHorSide, posId.oneTarget / _scriptableObject.MapHorSide].State = MapState.Floar;
+            _stageMap[posId.oneTarget].State = MapState.Floar;
+            //Debug.Log($"stageMap:{_stageMap[posId.oneTarget].State}");
             Dig(posId.twoTarget);
         }
     }
@@ -125,7 +111,7 @@ public class CreateMap : MonoBehaviour
     {
         _startDigPos = RandomPos();
         Dig(_startDigPos);
-        foreach (var pos in _map)
+        foreach (var pos in _stageMap)
         {
             if (pos.State == MapState.Floar)
             {
@@ -144,11 +130,10 @@ public class CreateMap : MonoBehaviour
     /// <summary>オブジェクトを並べる</summary>
     /// <param name="obj">並べたいオブジェクト</param>
     /// <param name="map">並べたいMap</param>
-    void SetTransform(GameObject obj, Map map)
+    void SetTransform(GameObject obj, Point map)
     {
         obj.transform.SetParent(_parentObj.transform);
-        obj.transform.position = new Vector2(map.Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-            map.Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
+        obj.transform.position = _stageMap[map.Id, _wallObjSize];
         obj.name = $"ID:{map.Id}";
         map.ObjTransform = obj.transform;
     }
@@ -169,103 +154,36 @@ public class CreateMap : MonoBehaviour
     /// <param name="enemy">敵のGameObject</param>
     void SetEnemyPos(GameObject enemy)
     {
-        int random = new System.Random().Next(0, GetFloar().Count);//床の数からランダムに数字を取得
-
-        if (GetFloar()[random] == null)
-        {
-            SetEnemyPos(enemy);
-        }
-        if (GetFloar()[random].IsGenerate != true)
+        int random = _stageMap.RandomFloarId();//ランダムな床のIDを取得し変数に格納
+        if (_stageMap[random].IsGenerate != true)
         {
             SetEnemyPos(enemy);
         }
         else
         {
-            enemy.transform.position = new Vector2(GetFloar()[random].Id % _scriptableObject.MapHorSide - _scriptableObject.MapHorSide / 2,
-            GetFloar()[random].Id / _scriptableObject.MapHorSide - _scriptableObject.MapVerSide / 2) * _wallObjSize;
-            enemy.name = $"EnemyID:{GetFloar()[random].Id}";
-            GetFloar()[random].IsGenerate = false;
+            enemy.transform.position = _stageMap[random, _wallObjSize];
+            _stageMap[random].IsGenerate = false;
         }
-    }
-    /// <summary>床オブジェクトを検索する</summary>
-    /// <returns>床オブジェクトのList</returns>
-    List<Map> GetFloar()
-    {
-        foreach (var floar in _map)
-        {
-            if (floar.State == MapState.Floar)//Floarの場所を保存
-            {
-                if (_floarList.Contains(floar))
-                {
-                    continue;
-                }
-                else
-                {
-                    _floarList.Add(floar);
-                }
-            }
-        }
-        return _floarList;
     }
     /// <summary>Player生成の場所を決める</summary>
     public void DecisionPlayerPos()
     {
-        int rndId = new System.Random().Next(0, GetFloar().Count);//床オブジェクトの入っているListの要素数からランダムな値を取得
-                                                                  // Map rndMap = GetFloar()[rndId];//床オブジェクトのランダムなオブジェクトを取得
-        foreach (var item in _map)
+        int rndId = _stageMap.RandomFloarId();//床オブジェクトの入っているListの要素数からランダムな値を取得
+                                              // Map rndMap = GetFloar()[rndId];//床オブジェクトのランダムなオブジェクトを取得
+        if (rndId - _stageMap.MaxX >= 0 && _stageMap[rndId - _stageMap.MaxX].State == MapState.Wall)
         {
-            if (item.Id + _scriptableObject.MapHorSide == GetFloar()[rndId].Id)
+            _stageMap[rndId].State = MapState.Player;//Player生成する場所
+            for (int i = 0; i < _releDis; i++)
             {
-                if (item.State == MapState.Wall)
+                foreach (var point in _stageMap.CheckDir(_stageMap[rndId], i))
                 {
-                    GetFloar()[rndId].State = MapState.Player;//Player生成する場所
-                    for (int i = 0; i < _releDis; i++)
-                    {
-                        foreach (var point in CheckDir(GetFloar()[rndId], i))
-                        {
-                            _map[point % _scriptableObject.MapHorSide, point / _scriptableObject.MapHorSide].IsGenerate = false;
-                        }
-                    }
-                    Debug.Log($"PlayerID{GetFloar()[rndId].Id}");
-                    PlayerTransform = GetFloar()[rndId].ObjTransform;
-                    return;
+                    _stageMap[point].IsGenerate = false;
                 }
             }
+            PlayerTransform = _stageMap[rndId].ObjTransform;
+            return;
         }
         DecisionPlayerPos();
-    }
-
-    /// <summary>
-    /// 周囲のマスを調べる
-    /// </summary>
-    /// <param name="mapInfo">調べたい中心のマス</param>
-    /// <param name="releDis">何マス調べるか</param>
-    /// <returns>周りのマス</returns>
-    IEnumerable<int> CheckDir(Map mapInfo, int releDis)
-    {
-        //右側を調べる
-        if (mapInfo.Id % _scriptableObject.MapHorSide + releDis < _scriptableObject.MapHorSide)
-        {
-            yield return _map[mapInfo.Id % _scriptableObject.MapHorSide + releDis, mapInfo.Id / _scriptableObject.MapHorSide].Id;
-        }
-
-        //左側を調べる
-        if (mapInfo.Id % _scriptableObject.MapHorSide - releDis >= 0)
-        {
-            yield return _map[mapInfo.Id % _scriptableObject.MapHorSide - releDis, mapInfo.Id / _scriptableObject.MapHorSide].Id;
-        }
-
-        //下側を調べる
-        if (mapInfo.Id / _scriptableObject.MapHorSide - releDis >= 0)
-        {
-            yield return _map[mapInfo.Id % _scriptableObject.MapHorSide, mapInfo.Id / _scriptableObject.MapHorSide - releDis].Id;
-        }
-
-        //上側を調べる
-        if (mapInfo.Id / _scriptableObject.MapHorSide + releDis < _scriptableObject.MapVerSide)
-        {
-            yield return _map[mapInfo.Id % _scriptableObject.MapHorSide, mapInfo.Id / _scriptableObject.MapHorSide + releDis].Id;
-        }
     }
 
     //void SetTeleportPos(GameObject[] teleporterObj)
@@ -276,8 +194,8 @@ public class CreateMap : MonoBehaviour
     //    }
     //    List<Map> leftMapsList = new List<Map>();
     //    List<Map> rightMapsList = new List<Map>();
-    //    int leftLine = _scriptableObject.MapHorSide / 3; //3等分した時の左の線
-    //    int rightLine = _scriptableObject.MapHorSide / 3 * 2;//3等分下時の右の線
+    //    int leftLine = _stageMap.maxX  / 3; //3等分した時の左の線
+    //    int rightLine = _stageMap.maxX  / 3 * 2;//3等分下時の右の線
     //    foreach (var item in GetFloar())
     //    {
     //        if (item.Id % _scriptableObject.MapHorSide <= leftLine)
@@ -296,19 +214,5 @@ public class CreateMap : MonoBehaviour
     //    leftTele.transform.position = leftMapsList[leftRnd].ObjTransform.position;
     //    rightTele.transform.position = rightMapsList[rightRnd].ObjTransform.position;
     //}
-    class Map
-    {
-        MapState _state = MapState.Wall;
-        public MapState State { get => _state; set => _state = value; }
-        Transform _objTransform;
-        public Transform ObjTransform { get => _objTransform; set => _objTransform = value; }
-        bool _isGenerate;
-        public bool IsGenerate { get => _isGenerate; set => _isGenerate = value; }
-        public readonly int Id;
-        public Map(int id)
-        {
-            Id = id;
-        }
-    }
 }
 
