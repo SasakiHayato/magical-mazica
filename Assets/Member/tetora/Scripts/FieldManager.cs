@@ -18,7 +18,7 @@ public class FieldManager : MonoBehaviour
     {
         _characterManager.Setup();
         _createMap.InitialSet();
-        _characterManager.CreatePlayer(_createMap.DecisionPlayerPos());
+        _characterManager.CreatePlayer(_createMap.PlayerTransform);
         //_characterManager.CreatePlayer(_playerSpawnPosition); HŒ³ì
     }
 

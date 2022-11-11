@@ -12,11 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a898d864e086d48b228e86f4e578f4, type: 3}
   m_Name: New Field Scriptable Object
   m_EditorClassIdentifier: 
-  _mapVerSide: 15
-  _mapHorSide: 31
-  _enemyCount: 31
+  _mapVerSide: 13
+  _mapHorSide: 21
   _enemyObject:
-  - {fileID: 6423235623607631742, guid: 3bc718cabec1e5a4dbca9b36dba75ae5, type: 3}
+  - {fileID: 6423235623607631742, guid: 6eaeacc7bbe082c46a108f8196435c8c, type: 3}
+  - {fileID: 6423235623607631742, guid: 6eaeacc7bbe082c46a108f8196435c8c, type: 3}
   - {fileID: 6423235623607631742, guid: 6eaeacc7bbe082c46a108f8196435c8c, type: 3}
   - {fileID: 6423235623607631742, guid: 7147b58af6df69d40abd4f3ff2c54c03, type: 3}
-  teleportObj: []
+  - {fileID: 6423235623607631742, guid: 7147b58af6df69d40abd4f3ff2c54c03, type: 3}
+  - {fileID: 6423235623607631742, guid: 7147b58af6df69d40abd4f3ff2c54c03, type: 3}
+  - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
+  - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
+  - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
+  - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
+  - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
+  - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
+  - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
+  _teleportObj: []
