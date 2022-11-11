@@ -14,7 +14,7 @@ public class FieldScriptableObject : ScriptableObject
     List<GameObject> _enemyObject;//敵のオブジェクト
 
     [SerializeField]
-    List<TestTeleport> teleportObj;//テレポートする場所のオブジェクト配列
+    List<TestTeleport> _teleportObj;//テレポートする場所のオブジェクト配列
 
     public int MapVerSide { get => _mapVerSide; }
     public int MapHorSide { get => _mapHorSide; }
