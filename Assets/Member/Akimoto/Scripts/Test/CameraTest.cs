@@ -25,12 +25,12 @@ public class CameraTest : MonoBehaviour
     public async void SetLookAtObj()
     {
         await UniTask.Delay(3000);
-        _cam.SetPosition = new Vector2(5, 0);
+        _cam.CameraLocalPosition = new Vector2(5, 0);
         await UniTask.Delay(3000);
-        _cam.SetPosition = Vector2.zero;
+        _cam.CameraLocalPosition = Vector2.zero;
         await UniTask.Delay(3000);
-        _cam.SetPosition = new Vector2(-5, 0);
+        _cam.CameraLocalPosition = new Vector2(-5, 0);
         await UniTask.Delay(3000);
-        _cam.SetPosition = Vector2.zero;
+        _cam.CameraLocalPosition = Vector2.zero;
     }
 }
