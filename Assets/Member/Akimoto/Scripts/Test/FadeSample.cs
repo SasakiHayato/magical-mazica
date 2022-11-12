@@ -7,9 +7,11 @@ using DG.Tweening;
 
 public class FadeSample : MonoBehaviour
 {
-    [SerializeField] Animator _animator;
+    [SerializeField] FadeManager _manager;
 
-    private void Start()
+    private async void Start()
     {
+        await UniTask.Delay(System.TimeSpan.FromSeconds(2));
+        await _manager.PlayAnimation(FadeAnimationType.Wave, FadeType.In);
     }
 }
