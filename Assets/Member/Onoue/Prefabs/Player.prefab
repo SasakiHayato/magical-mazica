@@ -248,6 +248,7 @@ MonoBehaviour:
   _jumpPower: 5
   _damage: 5
   _materialID: ffffffffffffffff
+  _jumpDir: {x: 0, y: 0}
 --- !u!95 &1979952273589037228
 Animator:
   serializedVersion: 4
@@ -464,10 +465,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layerDataList:
   - _touchType: 0
-    _offset: {x: 0, y: 0}
+    _offset: {x: -0.45, y: 0}
     _touchLayer:
       serializedVersion: 2
       m_Bits: 64
     _directionType: 1
-    _distance: 1.03
+    _distance: 1.15
+    _onGizmo: 1
+  - _touchType: 0
+    _offset: {x: 0.45, y: 0}
+    _touchLayer:
+      serializedVersion: 2
+      m_Bits: 64
+    _directionType: 1
+    _distance: 1.15
+    _onGizmo: 1
+  - _touchType: 1
+    _offset: {x: 1, y: 1}
+    _touchLayer:
+      serializedVersion: 2
+      m_Bits: 128
+    _directionType: 1
+    _distance: 0.55
+    _onGizmo: 1
+  - _touchType: 1
+    _offset: {x: -1, y: 1}
+    _touchLayer:
+      serializedVersion: 2
+      m_Bits: 128
+    _directionType: 1
+    _distance: 0.55
     _onGizmo: 1

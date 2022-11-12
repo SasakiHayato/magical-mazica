@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using Cysharp.Threading.Tasks;
-
-public class Player : MonoBehaviour, IDamagable
+using MonoState;
+using MonoState.Data;
+public class Player : MonoBehaviour, IDamagable,IRetentionData
 {
+    public enum PlayerState
+    {
+        Idle,
+        Move,
+        Run,
+        Jump,
+        Attack
+    }
     [SerializeField] int _maxHP;
     ReactiveProperty<int> _hp = new ReactiveProperty<int>();
     [SerializeField] float _speed;
@@ -27,9 +36,21 @@ public class Player : MonoBehaviour, IDamagable
     /// <summary>åªç›HPÇÃçXêVÇÃí ím</summary>
     public System.IObservable<int> CurrentHP => _hp;
 
+    string IRetentionData.Path => nameof(Player);
+
+    MonoStateAttribute<Player> _stateMachine = new MonoStateAttribute<Player>();
 
     private void Start()
     {
+        _stateMachine.Initalize(this);
+        _stateMachine.SetData(this);
+        _stateMachine
+            .AddState(new PlayerIdle(), PlayerState.Idle)
+            .AddState(new PlayerRun(), PlayerState.Run)
+            .AddState(new PlayerJump(), PlayerState.Jump)
+            .AddState(new PlayerAttack(),PlayerState.Attack);
+        _stateMachine.SetRunRequest(PlayerState.Idle);
+
         TryGetComponent(out _rb);
         TryGetComponent(out _anim);
         _storage = GetComponentInChildren<Storage>();
@@ -146,5 +167,10 @@ public class Player : MonoBehaviour, IDamagable
     public void AddDamage(int damage)
     {
         _hp.Value -= damage;
+    }
+
+    Object IRetentionData.RetentionData()
+    {
+        return this;
     }
 }
