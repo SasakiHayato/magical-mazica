@@ -7,7 +7,9 @@ namespace MonoState.Sample
     {
         public string Data { get; set; }
 
-        public Object RetentionData()
+        string IRetentionData.Path => nameof(SampleData);
+
+        Object IRetentionData.RetentionData()
         {
             return this;
         }

@@ -19,7 +19,6 @@ namespace MonoState.Sample
             Debug.Log("OnEnable. Idle");
             
             SampleData sample = UserRetentionData.GetData<SampleData>(nameof(SampleData));
-            Debug.Log(sample.Data);
         }
 
         public override void Execute()

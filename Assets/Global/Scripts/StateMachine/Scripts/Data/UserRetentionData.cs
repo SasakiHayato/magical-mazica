@@ -6,6 +6,7 @@ namespace MonoState.Data
 {
     public interface IRetentionData
     {
+        string Path { get; }
         Object RetentionData();
     }
 
@@ -16,14 +17,13 @@ namespace MonoState.Data
         public void SetData(IRetentionData data)
         {
             Object retentionData = data.RetentionData();
-            string key = retentionData.name;
-
+            string key = data.Path;
+            Debug.Log(key);
             _dataDic.Add(key, data);
         }
 
         public Data GetData<Data>(string key) where Data : Object
         {
-
             IRetentionData retentionData = _dataDic.First(d => d.Key == key).Value;
             Object data = retentionData.RetentionData();
 
