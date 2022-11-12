@@ -186,7 +186,7 @@ MonoBehaviour:
   _wallObj: {fileID: 3990626567200311567, guid: 82a63c52617dfab498cec8368cb6d6aa, type: 3}
   _parentObj: {fileID: 415059979}
   _mapScale: 14
-  TESTTELEPORT: []
+  _releDis: 3
 --- !u!1001 &456728217
 PrefabInstance:
   m_ObjectHideFlags: 0
