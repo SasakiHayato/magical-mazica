@@ -7,6 +7,7 @@ using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] bool _isDebug;
     [SerializeField] FieldManager _fieldManager;
     [SerializeField] GUIManager _guiManager;
     CharacterManager _characterManager;
@@ -19,8 +20,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //_guiManager.Setup();
-        //_fieldManager.Setup();
+        if (!_isDebug)
+        {
+            _guiManager.Setup();
+            _fieldManager.Setup();
+        }
         _characterManager = FindObjectOfType<CharacterManager>();
     }
 
