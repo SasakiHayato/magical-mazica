@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aad2c3e9157ea4a42a8d87c30d50480e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObject: {fileID: 11400000, guid: db5440c0110b0fa40b0352eea599a83a, type: 2}
+  _scriptableObject: {fileID: 11400000, guid: 39e623d7a017f8b4e8bfecd920c3b959, type: 2}
   _wallObj: {fileID: 3990626567200311567, guid: 82a63c52617dfab498cec8368cb6d6aa, type: 3}
   _parentObj: {fileID: 415059979}
   _mapScale: 14
@@ -208,7 +208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2000814788341577888, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2000814788341577888, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: m_AnchorMax.x
@@ -569,7 +569,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2083731394
 MonoBehaviour:
