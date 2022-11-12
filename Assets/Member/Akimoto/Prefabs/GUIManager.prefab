@@ -258,6 +258,7 @@ GameObject:
   - component: {fileID: 887420618538065815}
   - component: {fileID: 887420618538065812}
   - component: {fileID: 887420618538065813}
+  - component: {fileID: 2834049787349273774}
   m_Layer: 5
   m_Name: GUIManager
   m_TagString: Untagged
@@ -322,7 +323,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1280, y: 720}
+  m_ReferenceResolution: {x: 1600, y: 900}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -347,6 +348,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2834049787349273774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887420618538065810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb8c18fc903419449fba8799fb7025f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterManager: {fileID: 0}
+  _playerStatusPanel:
+    _slider: {fileID: 0}
+    _text: {fileID: 0}
+    _materialImages: []
 --- !u!1 &887420618987247413
 GameObject:
   m_ObjectHideFlags: 0

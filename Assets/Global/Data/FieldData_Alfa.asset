@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a898d864e086d48b228e86f4e578f4, type: 3}
+  m_Name: FieldData_Alfa
+  m_EditorClassIdentifier: 
+  _mapVerSide: 13
+  _mapHorSide: 21
+  _enemyObject:
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
+  _teleportObj: []
