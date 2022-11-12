@@ -21,6 +21,7 @@ public class Player : MonoBehaviour, IDamagable,IRetentionData
     [SerializeField] float _jumpPower;
     [SerializeField] int _damage = 5;
     [SerializeField] RawMaterialID[] _materialID = { RawMaterialID.Empty, RawMaterialID.Empty };
+    [SerializeField] Vector2 _jumpDir;
     Rigidbody2D _rb;
     bool _isGrounded;
     Animator _anim;
@@ -58,7 +59,7 @@ public class Player : MonoBehaviour, IDamagable,IRetentionData
         _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
     }
-    
+
     /// <summary>
     /// çUåÇ
     /// </summary>
@@ -82,6 +83,29 @@ public class Player : MonoBehaviour, IDamagable,IRetentionData
         if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
         {
             _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+        }
+    }
+
+    //void WallJump()
+    //{
+    //    if (transform.localScale.x == 1)
+    //    {
+    //        print("aaa");
+    //        _jumpDir = new Vector2(Vector2.left.x, Vector2.up.y);
+    //        _rb.AddForce(_jumpDir * _jumpPower, ForceMode2D.Impulse);
+    //    }
+    //    else
+    //    {
+    //        print("bbb");
+    //        _jumpDir = new Vector2(Vector2.right.x, Vector2.up.y);
+    //        _rb.AddForce(_jumpDir * _jumpPower,ForceMode2D.Impulse);
+    //    }
+    //}
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 7)
+        {
+            //WallJump();
         }
     }
 

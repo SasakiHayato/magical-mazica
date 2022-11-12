@@ -1,0 +1,124 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface IGameSetupable
+{
+    void GameSetup();
+}
+
+public interface IGameDisposable
+{
+    void GameDispose();
+}
+
+public interface IFieldObjectDatable
+{
+    GameObject Target { get; }
+}
+
+/// <summary>
+/// ÉQÅ[ÉÄç\ë¢ÇÃóßÇøè„Ç∞, îjä¸ÇíSÇ§ÉNÉâÉX
+/// </summary>
+
+public class GameController
+{
+    class FieldObjectData
+    {
+        List<IFieldObjectDatable> _dataList = new List<IFieldObjectDatable>();
+
+        public void Add(IFieldObjectDatable field)
+        {
+            _dataList.Add(field);
+        }
+
+        public void Remove(IFieldObjectDatable field)
+        {
+            _dataList.Remove(field);
+        }
+
+        /// <summary>
+        /// GameControllerÇ©ÇÁÇÃÇ›ÇÃåƒÇ—èoÇµÇëzíË
+        /// </summary>
+        public void Dipose()
+        {
+            foreach (IFieldObjectDatable datable in _dataList)
+            {
+                Remove(datable);
+                Object.Destroy(datable.Target);
+            }
+        }
+    }
+
+    // Note. Singleton
+    static GameController s_instance = null;
+    public static GameController Instance
+    {
+        get
+        {
+            if (s_instance == null)
+            {
+                s_instance = new GameController();
+
+                GameObject obj = new GameObject("GameControllerDisposer");
+                obj.hideFlags = HideFlags.HideInHierarchy;
+
+                GameControllerDisposer disposer = obj.AddComponent<GameControllerDisposer>();
+                disposer.Action = DisposeInstance;
+            }
+
+            return s_instance;
+        }
+    }
+
+    List<IGameSetupable> _setupList = new List<IGameSetupable>();
+    List<IGameDisposable> _disposeList = new List<IGameDisposable>();
+
+    FieldObjectData _fieldObjectData = new FieldObjectData();
+
+    public void AddGameSetupable(IGameSetupable setup)
+    {
+        _setupList.Add(setup);
+    }
+
+    public void AddGameDisposable(IGameDisposable dispose)
+    {
+        _disposeList.Add(dispose);
+    }
+
+    public void AddFieldObjectDatable(IFieldObjectDatable field)
+    {
+        _fieldObjectData.Add(field);
+    }
+
+    public void RemoveFieldObjectDatable(IFieldObjectDatable field)
+    {
+        _fieldObjectData.Remove(field);
+    }
+
+    /// <summary>
+    /// ÉQÅ[ÉÄç\ë¢ÇÃóßÇøè„Ç∞
+    /// </summary>
+    public void Setup()
+    {
+        _setupList.ForEach(s => s.GameSetup());
+    }
+
+    /// <summary>
+    /// ÉQÅ[ÉÄç\ë¢ÇÃîjä¸
+    /// </summary>
+    public void Dispose()
+    {
+        _disposeList.ForEach(d => d.GameDispose());
+    }
+
+    /// <summary>
+    /// é©êgÇÃInstanceÇÃîjä¸
+    /// </summary>
+    static void DisposeInstance()
+    {
+        Instance._fieldObjectData.Dipose();
+        Instance.Dispose();
+
+        s_instance = null;
+    }
+}
