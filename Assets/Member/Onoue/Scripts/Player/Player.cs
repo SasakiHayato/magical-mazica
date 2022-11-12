@@ -38,8 +38,8 @@ public class Player : MonoBehaviour, IDamagable,IRetentionData
 
     string IRetentionData.Path => nameof(Player);
 
-    MonoStateAttribute<Player> _stateMachine = new MonoStateAttribute<Player>();
-
+    MonoStateMachine<Player> _stateMachine = new MonoStateMachine<Player>();
+    
     private void Start()
     {
         _stateMachine.Initalize(this);
