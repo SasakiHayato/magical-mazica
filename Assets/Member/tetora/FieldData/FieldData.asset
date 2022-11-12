@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74a898d864e086d48b228e86f4e578f4, type: 3}
-  m_Name: New Field Scriptable Object
+  m_Name: FieldData
   m_EditorClassIdentifier: 
   _mapVerSide: 13
   _mapHorSide: 21
