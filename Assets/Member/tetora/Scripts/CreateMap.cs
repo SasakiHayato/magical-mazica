@@ -14,6 +14,8 @@ public class CreateMap : MonoBehaviour
     [SerializeField]
     GameObject _wallObj;
     [SerializeField]
+    GameObject _goalObj;
+    [SerializeField]
     GameObject _parentObj;
     [SerializeField]
     int _mapScale = 14;
@@ -186,19 +188,23 @@ public class CreateMap : MonoBehaviour
         DecisionPlayerPos();
     }
 
-    //void SetTeleportPos(GameObject[] teleporterObj)
+    void SetGoalPos()
+    {
+        
+    }
+    //void SetTeleportPos()
     //{
-    //    if (TESTTELEPORT != null)
+    //    if (_scriptableObject.TeleporterList != null)
     //    {
     //        return;
     //    }
-    //    List<Map> leftMapsList = new List<Map>();
-    //    List<Map> rightMapsList = new List<Map>();
-    //    int leftLine = _stageMap.maxX  / 3; //3“™•ª‚µ‚½‚Ì¶‚Ìü
-    //    int rightLine = _stageMap.maxX  / 3 * 2;//3“™•ª‰º‚Ì‰E‚Ìü
-    //    foreach (var item in GetFloar())
+    //    List<Point> leftMapsList = new List<Point>();
+    //    List<Point> rightMapsList = new List<Point>();
+    //    int leftLine = _stageMap.MaxX / 3; //3“™•ª‚µ‚½‚Ì¶‚Ìü
+    //    int rightLine = _stageMap.MaxX / 3 * 2;//3“™•ª‰º‚Ì‰E‚Ìü
+    //    foreach (var item in _stageMap.GetFloar())
     //    {
-    //        if (item.Id % _scriptableObject.MapHorSide <= leftLine)
+    //        if (item.Id % _stageMap.MaxX <= leftLine)
     //        {
     //            leftMapsList.Add(item);
     //        }
