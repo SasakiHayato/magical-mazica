@@ -7,7 +7,7 @@ public enum MapState
     Wall, Floar, Player, Teleport
 }
 [System.Serializable]
-public class CreateMap : MonoBehaviour
+public class CreateMap : MonoBehaviour, IGameDisposable
 {
     [SerializeField]
     FieldScriptableObject _scriptableObject;
@@ -26,6 +26,10 @@ public class CreateMap : MonoBehaviour
     StageMap _stageMap;
     int _startDigPos;//Œ@‚èn‚ß‚én“_
     public Transform PlayerTransform { get; private set; }
+    private void Awake()
+    {
+        GameController.Instance.AddGameDisposable(this);
+    }
     /// <summary>‰Šúİ’è</summary>
     public void InitialSet()
     {
@@ -190,7 +194,7 @@ public class CreateMap : MonoBehaviour
 
     void SetGoalPos()
     {
-        
+
     }
     //void SetTeleportPos()
     //{
