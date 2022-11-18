@@ -5,59 +5,86 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using MonoState;
 using MonoState.Data;
-public class Player : MonoBehaviour, IDamagable,IRetentionData
+public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatableUni<Player>
 {
     public enum PlayerState
     {
         Idle,
-        Move,
         Run,
         Jump,
-        Attack
+        Attack,
+        WallJump,
+        Float
     }
     [SerializeField] int _maxHP;
     ReactiveProperty<int> _hp = new ReactiveProperty<int>();
+    [SerializeField] float _durationTime;
     [SerializeField] float _speed;
     [SerializeField] float _jumpPower;
     [SerializeField] int _damage = 5;
     [SerializeField] RawMaterialID[] _materialID = { RawMaterialID.Empty, RawMaterialID.Empty };
     [SerializeField] Vector2 _jumpDir;
+    bool _isJumped;
+    bool _isWallJumped;
+    bool _isAttacked;
     Rigidbody2D _rb;
-    bool _isGrounded;
     Animator _anim;
     FusionItem _fusionItem;
     Storage _storage;
     FieldTouchOperator _fieldTouchOperator;
 
     /// <summary>攻撃力</summary>
-    public int Damage { get => _damage; set { } }
+    public int Damage { get => _damage; private set => _damage = value; }
     /// <summary>最大HP</summary>
     public int MaxHP => _maxHP;
+    /// <summary>移動速度</summary>
+    public float Speed { get => _speed; private set => _speed = value; }
+    /// <summary>ジャンプ力</summary>
+    public float JumpPower { get => _jumpPower; private set => _jumpPower = value; }
+    public bool IsJumped { get => _isJumped; set => _isJumped = value; }
+    public bool IsWallJumped { get => _isWallJumped; set => _isWallJumped = value; }
+    public bool IsAttacked { get => _isAttacked; set => _isAttacked = value; }
+    public Rigidbody2D Rigidbody { get => _rb; private set => _rb = value; }
     public Vector2 Direction { get; set; }
     /// <summary>現在HPの更新の通知</summary>
     public System.IObservable<int> CurrentHP => _hp;
 
-    string IRetentionData.Path => nameof(Player);
+    public FieldTouchOperator FieldTouchOperator { get => _fieldTouchOperator; private set => _fieldTouchOperator = value; }
+    public GameObject Target => gameObject;
+    public Player GetData => this;
+    string IMonoDatable.Path => nameof(Player);
 
-    MonoStateMachine<Player> _stateMachine = new MonoStateMachine<Player>();
-    
+    MonoStateMachine<Player> _stateMachine;
+
+    private void Awake()
+    {
+        GameController.Instance.AddFieldObjectDatable(this);
+    }
     private void Start()
     {
-        _stateMachine.Initalize(this);
-        _stateMachine.SetData(this);
-        _stateMachine
-            .AddState(new PlayerIdle(), PlayerState.Idle)
-            .AddState(new PlayerRun(), PlayerState.Run)
-            .AddState(new PlayerJump(), PlayerState.Jump)
-            .AddState(new PlayerAttack(),PlayerState.Attack);
-        _stateMachine.SetRunRequest(PlayerState.Idle);
-
         TryGetComponent(out _rb);
         TryGetComponent(out _anim);
         _storage = GetComponentInChildren<Storage>();
         _fieldTouchOperator = GetComponentInChildren<FieldTouchOperator>();
         _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
+
+        _stateMachine = new MonoStateMachine<Player>(this, _durationTime);
+        _stateMachine
+            .AddState(PlayerState.Idle, new PlayerIdle())
+            .AddState(PlayerState.Run, new PlayerRun())
+            .AddState(PlayerState.Jump, new PlayerJump())
+            .AddState(PlayerState.Attack, new PlayerAttack())
+            .AddState(PlayerState.WallJump,new PlayerWallJump())
+            .AddState(PlayerState.Float,new PlayerFloat());
+
+        _stateMachine.AddMonoData(this);
+        _stateMachine.IsRun = true;
+    }
+
+    void OnDestroy()
+    {
+        GameController.Instance.RemoveFieldObjectDatable(this);
     }
 
     /// <summary>
@@ -82,30 +109,12 @@ public class Player : MonoBehaviour, IDamagable,IRetentionData
     {
         if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
         {
-            _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+            _isJumped = true;
         }
-    }
-
-    //void WallJump()
-    //{
-    //    if (transform.localScale.x == 1)
-    //    {
-    //        print("aaa");
-    //        _jumpDir = new Vector2(Vector2.left.x, Vector2.up.y);
-    //        _rb.AddForce(_jumpDir * _jumpPower, ForceMode2D.Impulse);
-    //    }
-    //    else
-    //    {
-    //        print("bbb");
-    //        _jumpDir = new Vector2(Vector2.right.x, Vector2.up.y);
-    //        _rb.AddForce(_jumpDir * _jumpPower,ForceMode2D.Impulse);
-    //    }
-    //}
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == 7)
+        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall,true))
         {
-            //WallJump();
+            Debug.Log("押された");
+            _isWallJumped = true;
         }
     }
 
@@ -115,20 +124,21 @@ public class Player : MonoBehaviour, IDamagable,IRetentionData
     /// <param name="dir"></param>
     private void PlayerMove(Vector2 dir)
     {
+        //_isRun = true;
         //float h = Input.GetAxisRaw("Horizontal") * _speed;
-        Vector2 velocity = new Vector2(dir.x * _speed, _rb.velocity.y);
-        _rb.velocity = velocity;
-        if (dir.x != 0)
-        {
-            if (dir.x < 0)
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-            }
-            else
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
+        //Vector2 velocity = new Vector2(dir.x * _speed, _rb.velocity.y);
+        //_rb.velocity = velocity;
+        //if (dir.x != 0)
+        //{
+        //    if (dir.x < 0)
+        //    {
+        //        transform.localScale = new Vector3(-1, 1, 1);
+        //    }
+        //    else
+        //    {
+        //        transform.localScale = new Vector3(1, 1, 1);
+        //    }
+        //}
     }
 
     /// <summary>
@@ -185,16 +195,26 @@ public class Player : MonoBehaviour, IDamagable,IRetentionData
 
     private void FixedUpdate()
     {
-        PlayerMove(Direction);
+        //PlayerMove(Direction);
+        if (Direction.x != 0)
+        {
+            if (Direction.x < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+        Debug.Log(_stateMachine.CurrentKey);
     }
-
+    private void Update()
+    {
+        
+    }
     public void AddDamage(int damage)
     {
         _hp.Value -= damage;
-    }
-
-    Object IRetentionData.RetentionData()
-    {
-        return this;
     }
 }
