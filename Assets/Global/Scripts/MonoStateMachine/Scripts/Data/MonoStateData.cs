@@ -10,6 +10,8 @@ namespace MonoState.Data
     {
         List<IMonoDatable> _monoDataList = new List<IMonoDatable>();
 
+        public Transform StateUser { get; set; }
+
         /// <summary>
         /// ƒf[ƒ^‚Ì’Ç‰Á
         /// </summary>

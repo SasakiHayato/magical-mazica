@@ -12,7 +12,7 @@ namespace MonoState
     /// ステートマシンの管理クラス
     /// </summary>
     /// <typeparam name="User">使用者</typeparam>
-    public class MonoStateMachine<User> where User : Object
+    public class MonoStateMachine<User> where User : MonoBehaviour
     {
         float _timer = 0;
         float _intervalTime = 0;
@@ -50,6 +50,7 @@ namespace MonoState
         public MonoStateMachine(User user, float intervalTime = 0)
         {
             _user = user;
+            _data.StateUser = user.transform;
             _intervalTime = intervalTime;
         }
 
