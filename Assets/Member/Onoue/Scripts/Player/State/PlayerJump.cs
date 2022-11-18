@@ -3,26 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using MonoState.State;
-
-public class PlayerJump : MonoStateAttribute
+using MonoState.Data;
+public class PlayerJump : MonoStateBase
 {
-    public override void Execute()
+    Player _player;
+    //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
+    public override void OnEntry()
     {
-        Debug.Log("Execute PlayerJump");
+        _player.Rigidbody.AddForce(Vector2.up * _player.JumpPower, ForceMode2D.Impulse);
     }
-
-    public override Enum Exit()
+    //Update
+    public override void OnExecute()
     {
+
+    }
+    //ğŒ•ªŠò
+    public override Enum OnExit()
+    {
+        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        {
+            return ReturneDefault();
+        }
+        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        {
+            if (_player.Rigidbody.velocity.y < 0)
+            {
+                return Player.PlayerState.Float;
+            }
+        }
+        if (_player.IsWallJumped)
+        {
+            return Player.PlayerState.WallJump;
+        }
         return Player.PlayerState.Jump;
     }
 
-    public override void OnEnable()
+    //Awake
+    public override void Setup(MonoStateData data)
     {
-        Debug.Log("Enable PlayerJump");
-    }
-
-    public override void Setup()
-    {
-        Debug.Log("Setup PlayerJump");
+        _player = data.GetMonoDataUni<Player>(nameof(Player));
     }
 }

@@ -3,26 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using MonoState.State;
-public class PlayerIdle : MonoStateAttribute
+using MonoState.Data;
+public class PlayerIdle : MonoStateBase
 {
-    public override void Execute()
+    Player _player;
+    //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
+    public override void OnEntry()
     {
-        Debug.Log("Execute PlayerIdle");
+        
     }
-
-    public override Enum Exit()
+    //Update
+    public override void OnExecute()
     {
+
+    }
+    //ğŒ•ªŠò
+    public override Enum OnExit()
+    {
+        if (_player.IsJumped)
+        {
+            return Player.PlayerState.Jump;
+        }
+        if (_player.Direction != Vector2.zero)
+        {
+            return Player.PlayerState.Run;
+        }
+        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        {
+            if (_player.Rigidbody.velocity.y < 0)
+            {
+                return Player.PlayerState.Float;
+            }
+        }
         return Player.PlayerState.Idle;
     }
 
-    public override void OnEnable()
+    //Awake
+    public override void Setup(MonoStateData data)
     {
-        Player player = UserRetentionData.GetData<Player>(nameof(Player));
-    }
-
-    public override void Setup()
-    {
-        Debug.Log("PlayerIdle");
+        _player = data.GetMonoDataUni<Player>(nameof(Player));
     }
 }
 
