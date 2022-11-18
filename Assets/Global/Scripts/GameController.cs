@@ -33,6 +33,8 @@ public class GameController
 
         public void Remove(IFieldObjectDatable field)
         {
+            if (_dataList.Count <= 0) return;
+
             _dataList.Remove(field);
         }
 
@@ -41,6 +43,8 @@ public class GameController
         /// </summary>
         public void Dipose()
         {
+            if (_dataList.Count <= 0) return;
+
             foreach (IFieldObjectDatable datable in _dataList)
             {
                 Remove(datable);
@@ -60,7 +64,7 @@ public class GameController
                 s_instance = new GameController();
 
                 GameObject obj = new GameObject("GameControllerDisposer");
-                obj.hideFlags = HideFlags.HideInHierarchy;
+                //obj.hideFlags = HideFlags.HideInHierarchy;
 
                 GameControllerDisposer disposer = obj.AddComponent<GameControllerDisposer>();
                 disposer.Action = DisposeInstance;
@@ -74,6 +78,8 @@ public class GameController
     List<IGameDisposable> _disposeList = new List<IGameDisposable>();
 
     FieldObjectData _fieldObjectData = new FieldObjectData();
+
+    public Transform Player { get; set; }
 
     public void AddGameSetupable(IGameSetupable setup)
     {
