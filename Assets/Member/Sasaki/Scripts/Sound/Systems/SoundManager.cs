@@ -12,11 +12,16 @@ public class SoundManager : MonoBehaviour
     [SerializeField, Range(0, 1)] float _bgmVolume;
     [SerializeField, Range(0, 1)] float _seVolume;
 
-    Pool<Sounder> _pool = new Pool<Sounder>();
+    protected Pool<Sounder> Pool { get; private set; } = new Pool<Sounder>();
+
+    protected List<SoundDataAsset> SoundDataAssetList => _soundDataAssetList;
+    protected static SoundManager Instance { get; private set; }
 
     void Awake()
     {
-        _pool
+        Instance = this;
+
+        Pool
             .SetMono(_sounderPrefab, _poolCount)
             .IsSetParent(transform)
             .CreateRequest();
@@ -29,12 +34,12 @@ public class SoundManager : MonoBehaviour
         SoundMasterData.SEVoume = _seVolume;
     }
 
-    public void PlaySound(SoundType type, string path)
+    public static void PlayRequest(SoundType type, string path)
     {
-        SoundDataAsset asset = _soundDataAssetList.Find(s => s.SoundType == type);
+        SoundDataAsset asset = Instance.SoundDataAssetList.Find(s => s.SoundType == type);
         SoundDataAsset.SoundData data = asset.GetSoundData(path);
 
-        Sounder sounder = _pool.UseRequest(out System.Action action);
+        Sounder sounder = Instance.Pool.UseRequest(out System.Action action);
         action += () => sounder.SetData(data, asset.VolumeType);
 
         action.Invoke();
