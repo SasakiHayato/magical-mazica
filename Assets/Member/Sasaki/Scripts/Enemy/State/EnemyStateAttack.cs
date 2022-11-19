@@ -10,6 +10,8 @@ public class EnemyStateAttack : MonoStateBase
     EnemyStateData _enemyData;
     EnemyAIData _aiData;
 
+    float _testTimer = 0;
+
     public override void Setup(MonoStateData data)
     {
         _enemyData = data.GetMonoData<EnemyStateData>(nameof(EnemyStateData));
@@ -20,16 +22,26 @@ public class EnemyStateAttack : MonoStateBase
 
     public override void OnEntry()
     {
+        _testTimer = 0;
         _aiData.AttackData.Attack.Initalize();
+        _aiData.AttackData.Attack.AttackCollider.SetColliderActive(true);
     }
 
     public override void OnExecute()
     {
+        _testTimer += Time.deltaTime;
+
         _enemyData.MoveDir = _aiData.AttackData.Attack.OnMove();
     }
 
     public override Enum OnExit()
     {
-        return EnemyBase.State.Idle;
+        if (_testTimer > 1)
+        {
+            _aiData.AttackData.Attack.AttackCollider.SetColliderActive(false);
+            return ReturneDefault();
+        }
+
+        return EnemyBase.State.Attack;
     }
 }

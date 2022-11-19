@@ -1,12 +1,17 @@
+using EnemyAISystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAttackDefault : IEnemyAttack
 {
+    EnemyAttackCollider _enemyAttackCollider;
+
+    EnemyAttackCollider IEnemyAttack.AttackCollider => _enemyAttackCollider;
+
     public void Setup(Transform user)
     {
-        //throw new System.NotImplementedException();
+        _enemyAttackCollider = user.GetComponentInChildren<EnemyAttackCollider>();
     }
 
     public Vector2 OnMove()
@@ -16,6 +21,6 @@ public class EnemyAttackDefault : IEnemyAttack
 
     public void Initalize()
     {
-        //throw new System.NotImplementedException();
+        
     }
 }

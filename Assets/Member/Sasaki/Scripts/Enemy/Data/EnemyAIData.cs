@@ -1,5 +1,6 @@
 using UnityEngine;
 using MonoState.Data;
+using EnemyAISystem;
 
 public interface IEnemyAIExecutable
 {
@@ -19,6 +20,7 @@ public interface IEnemyMove : IEnemyAIExecutable
 
 public interface IEnemyAttack : IEnemyAIExecutable
 {
+    EnemyAttackCollider AttackCollider { get; }
 }
 
 [System.Serializable]
