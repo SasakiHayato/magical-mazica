@@ -40,6 +40,9 @@ public class RawMaterialDatabase
     [SerializeField]
     Sprite _sprite;
 
+    [SerializeField, Tooltip("表示するSpriteの色")]
+    Color _spriteColor;
+
     /// <summary>融合後のアイテム使用時のエフェクト</summary>
     //[SerializeField]
     // ParticleID 
@@ -57,6 +60,8 @@ public class RawMaterialDatabase
     public string Description => _description;
     /// <summary>画像</summary>
     public Sprite Sprite => _sprite;
+    /// <summary>画像の色</summary>
+    public Color SpriteColor => _spriteColor;
     /// <summary>基礎ダメージ</summary>
     public int BaseDamage => _baseDamage;
 }

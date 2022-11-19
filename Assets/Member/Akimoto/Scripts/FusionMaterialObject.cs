@@ -37,6 +37,8 @@ public class FusionMaterialObject : MonoBehaviour
     private void Setup(RawMaterialDatabase data, Player player)
     {
         _spriteRenderer.sprite = data.Sprite;
+        _spriteRenderer.color = data.SpriteColor;
+
         //ƒf[ƒ^‚ª“ü‚Á‚Ä‚©‚çUpdate
         this.UpdateAsObservable()
             .Subscribe(_ =>
