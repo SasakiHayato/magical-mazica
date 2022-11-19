@@ -76,13 +76,13 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     void Rotate()
     {
         Vector2 forward = (transform.position.Collect() - _beforePosition).normalized;
-        forward.y = 1;
         _beforePosition = transform.position;
 
         if (Mathf.Abs(forward.x) > 0.01f)
         {
-            forward.x = Mathf.Sign(forward.x) * 1;
-            transform.localScale = forward;
+            Vector2 scale = transform.localScale;
+            scale.x = Mathf.Sign(forward.x);
+            transform.localScale = scale;
         }
     }
 

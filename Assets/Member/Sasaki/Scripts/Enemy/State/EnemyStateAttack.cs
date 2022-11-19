@@ -17,27 +17,27 @@ public class EnemyStateAttack : MonoStateBase
 
         _aiData = data.GetMonoData<EnemyAIData>(nameof(EnemyAIData));
         _aiData.AttackData.Attack.Setup(data.StateUser);
-        _aiData.AttackData.AttackEvent.Setup(data.StateUser);
+        _aiData.AttackData.AttackEvent?.Setup(data.StateUser);
     }
 
     public override void OnEntry()
     {
         _isAttack = false;
         _aiData.AttackData.Attack.Initalize();
-        _aiData.AttackData?.AttackEvent.EnableEvent();
+        _aiData.AttackData.AttackEvent?.EnableEvent();
         WaitAttck().Forget();
     }
 
     public override void OnExecute()
     {
-        _aiData.AttackData?.AttackEvent.ExecuteEvent();
+        _aiData.AttackData.AttackEvent?.ExecuteEvent();
         _enemyData.MoveDir = _aiData.AttackData.Attack.OnMove() * _aiData.AttackData.Attack.AttributeSpeed;
     }
 
     async UniTask WaitAttck()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(_aiData.AttackData.Attack.IsAttackTime));
-        _aiData.AttackData.Attack.AttackCollider.SetColliderActive(true);
+        _aiData.AttackData.Attack.AttackCollider?.SetColliderActive(true);
 
         _isAttack = true;
     }
@@ -46,8 +46,8 @@ public class EnemyStateAttack : MonoStateBase
     {
         if (_isAttack)
         {
-            _aiData.AttackData?.AttackEvent.EndEvent();
-            _aiData.AttackData.Attack.AttackCollider.SetColliderActive(false);
+            _aiData.AttackData.AttackEvent?.EndEvent();
+            _aiData.AttackData.Attack.AttackCollider?.SetColliderActive(false);
             return ReturneDefault();
         }
 

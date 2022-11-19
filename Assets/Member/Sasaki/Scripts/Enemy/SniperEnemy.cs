@@ -1,7 +1,7 @@
 using UnityEngine;
 using EnemyAISystem;
 
-public class ApproachEnemy : EnemyBase
+public class SniperEnemy : EnemyBase
 {
     [SerializeField] EnemyAIData _enemyAIData;
 
