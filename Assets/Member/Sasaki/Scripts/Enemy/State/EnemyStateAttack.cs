@@ -16,7 +16,7 @@ public class EnemyStateAttack : MonoStateBase
         _enemyData = data.GetMonoData<EnemyStateData>(nameof(EnemyStateData));
 
         _aiData = data.GetMonoData<EnemyAIData>(nameof(EnemyAIData));
-        _aiData.AttackData.Attack.Setup(data.StateUser);
+        _aiData.AttackData.Attack?.Setup(data.StateUser);
         _aiData.AttackData.AttackEvent?.Setup(data.StateUser);
     }
 

@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94edc1ffbcb415d4a96f7d2865211e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _user: {fileID: 0}
+  _user: {fileID: 8676972492661217924}
   _layerDataList:
   - _touchType: 0
     _offset: {x: 0.5, y: 0}
