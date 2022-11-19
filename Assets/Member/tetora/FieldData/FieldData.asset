@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FieldData
   m_EditorClassIdentifier: 
   _mapVerSide: 13
-  _mapHorSide: 21
+  _mapHorSide: 33
   _enemyObject:
   - {fileID: 6423235623607631742, guid: 6eaeacc7bbe082c46a108f8196435c8c, type: 3}
   - {fileID: 6423235623607631742, guid: 6eaeacc7bbe082c46a108f8196435c8c, type: 3}
@@ -28,4 +28,3 @@ MonoBehaviour:
   - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
   - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
   - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
-  _teleportObj: []

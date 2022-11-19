@@ -4,10 +4,10 @@ using UnityEngine;
 
 public enum MapState
 {
-    Wall, Floar, Player, Teleport
+    Wall, Floar, Player, Teleport, Goal
 }
 [System.Serializable]
-public class CreateMap : MonoBehaviour, IGameDisposable
+public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
 {
     [SerializeField]
     FieldScriptableObject _scriptableObject;
@@ -18,27 +18,51 @@ public class CreateMap : MonoBehaviour, IGameDisposable
     [SerializeField]
     GameObject _parentObj;
     [SerializeField]
+    GameObject[] _teleportObj;
+    [SerializeField]
     int _mapScale = 14;
     [SerializeField]
     int _releDis = 3;//何マス離すか
+    TeleporterController _teleporterController;
+    [SerializeField]//teleporterを何セット置くか
+    int _teleporterCount = 1;
 
     float _wallObjSize = 3;//マップ一つ一つのサイズ
+    List<GameObject> _stageObjList = new List<GameObject>();
     StageMap _stageMap;
     int _startDigPos;//掘り始める始点
     public Transform PlayerTransform { get; private set; }
+    public StageMap StageMap { get => _stageMap; }
     private void Awake()
     {
+        GameController.Instance.AddGameSetupable(this);
         GameController.Instance.AddGameDisposable(this);
+    }
+    public void GameSetup()
+    {
+        InitialSet();
+    }
+    public void GameDispose()
+    {
+        if (_parentObj != null)
+        {
+            foreach (Transform item in _parentObj.transform)//transformをforeachで回すと子オブジェクトが取ってこれる
+            {
+                Destroy(item.gameObject);
+            }
+        }
     }
     /// <summary>初期設定</summary>
     public void InitialSet()
     {
         _stageMap = new StageMap(_scriptableObject.MapHorSide, _scriptableObject.MapVerSide);
+        _teleporterController = new TeleporterController();
         //壁オブジェクトのScaleSizeを入れる
         _wallObjSize = _wallObj.transform.localScale.x;
         StartDig();
         DecisionPlayerPos();
         InstantiateEnemy();
+        InstantiateTeleObj();
     }
     /// <summary>ランダムな開始地点を決める</summary>
     int RandomPos()
@@ -108,7 +132,6 @@ public class CreateMap : MonoBehaviour, IGameDisposable
         foreach (var posId in CheckDir(id))
         {
             _stageMap[posId.oneTarget].State = MapState.Floar;
-            //Debug.Log($"stageMap:{_stageMap[posId.oneTarget].State}");
             Dig(posId.twoTarget);
         }
     }
@@ -123,12 +146,14 @@ public class CreateMap : MonoBehaviour, IGameDisposable
             {
                 var emptyObj = new GameObject();//空のオブジェクトを生成
                 emptyObj.name = "Floar";
+                _stageObjList.Add(emptyObj);
                 SetTransform(emptyObj, pos);
                 continue;
             }
             else
             {
                 var wall = Instantiate(_wallObj);
+                _stageObjList.Add(_wallObj);
                 SetTransform(wall, pos);
             }
         }
@@ -175,7 +200,6 @@ public class CreateMap : MonoBehaviour, IGameDisposable
     public void DecisionPlayerPos()
     {
         int rndId = _stageMap.RandomFloarId();//床オブジェクトの入っているListの要素数からランダムな値を取得
-                                              // Map rndMap = GetFloar()[rndId];//床オブジェクトのランダムなオブジェクトを取得
         if (rndId - _stageMap.MaxX >= 0 && _stageMap[rndId - _stageMap.MaxX].State == MapState.Wall)
         {
             _stageMap[rndId].State = MapState.Player;//Player生成する場所
@@ -194,35 +218,82 @@ public class CreateMap : MonoBehaviour, IGameDisposable
 
     void SetGoalPos()
     {
-
+        //経路探索アルゴリズムを使ってプレイヤーから一番遠い所に生成
     }
-    //void SetTeleportPos()
-    //{
-    //    if (_scriptableObject.TeleporterList != null)
-    //    {
-    //        return;
-    //    }
-    //    List<Point> leftMapsList = new List<Point>();
-    //    List<Point> rightMapsList = new List<Point>();
-    //    int leftLine = _stageMap.MaxX / 3; //3等分した時の左の線
-    //    int rightLine = _stageMap.MaxX / 3 * 2;//3等分下時の右の線
-    //    foreach (var item in _stageMap.GetFloar())
-    //    {
-    //        if (item.Id % _stageMap.MaxX <= leftLine)
-    //        {
-    //            leftMapsList.Add(item);
-    //        }
-    //        if (item.Id % _scriptableObject.MapHorSide >= rightLine)
-    //        {
-    //            rightMapsList.Add(item);
-    //        }
-    //    }
-    //    int leftRnd = new System.Random().Next(0, leftMapsList.Count);
-    //    int rightRnd = new System.Random().Next(0, rightMapsList.Count);
-    //    var leftTele = Instantiate(TESTTELEPORT[0]);
-    //    var rightTele = Instantiate(TESTTELEPORT[1]);
-    //    leftTele.transform.position = leftMapsList[leftRnd].ObjTransform.position;
-    //    rightTele.transform.position = rightMapsList[rightRnd].ObjTransform.position;
-    //}
+    void InstantiateTeleObj()
+    {
+        int leftX = _stageMap.MaxX / 3;//3等分した時の左の線
+        int rightX = _stageMap.MaxX / 3 * 2;//3等分した時の右の線
+        int underY = _stageMap.MaxY / 3;//3等分した時の下の線
+        int overY = _stageMap.MaxY / 3 * 2;//3等分した時の上の線
+        List<Point> leftUpList = new List<Point>();//左上の床List
+        List<Point> leftDownList = new List<Point>();//左下の床List
+        List<Point> rightUpList = new List<Point>();//右上の床List
+        List<Point> rightDownList = new List<Point>();//右下の床List
+        foreach (var item in _stageMap.GetFloar())
+        {
+            int itemX = item.Id % _stageMap.MaxX;
+            int itemY = item.Id / _stageMap.MaxX;
+            if (_stageMap.CheckUnderDir(item, MapState.Wall))//下が壁の床を探してる
+            {
+                if (0 < itemX && itemX <= leftX)//左
+                {
+                    if (0 < itemY && itemY <= underY)//下
+                    {
+                        leftDownList.Add(item);
+                    }
+                    else if (overY < itemY && itemY < _stageMap.MaxY)//上
+                    {
+                        leftUpList.Add(item);
+                    }
+                }
+                else if (rightX < itemX && itemX < _stageMap.MaxX)//右
+                {
+                    if (0 < itemY && itemY <= underY)//下
+                    {
+                        rightDownList.Add(item);
+                    }
+                    else if (overY < itemY && itemY < _stageMap.MaxY)//上
+                    {
+                        rightUpList.Add(item);
+                    }
+                }
+            }
+        }
+        //オブジェクト生成
+        for (int i = 0; i < _teleportObj.Length; i++)
+        {
+            var teleObj = Instantiate(_teleportObj[i]);
+            switch (i)
+            {
+                case 0:
+                    teleObj.transform.position = CanSetRandomPos(leftUpList).position;
+                    break;
+                case 1:
+                    teleObj.transform.position = CanSetRandomPos(leftDownList).position;
+                    break;
+                case 2:
+                    teleObj.transform.position = CanSetRandomPos(rightUpList).position;
+                    break;
+                case 3:
+                    teleObj.transform.position = CanSetRandomPos(rightDownList).position;
+                    break;
+            }
+        }
+    }
+    /// <summary>
+    /// ランダムな場所の下が床ならTransformを返す
+    /// </summary>
+    /// <returns>オブジェクトのTransform</returns>
+    Transform CanSetRandomPos(List<Point> points)
+    {
+        int rnd = new System.Random().Next(0, points.Count);
+        points[rnd].State = MapState.Teleport;
+        return points[rnd].ObjTransform;
+    }
+    public void GetTeleportData(int id)
+    {
+        _teleporterController.GetData(id);
+    }
 }
 
