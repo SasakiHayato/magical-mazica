@@ -195,9 +195,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObject: {fileID: 11400000, guid: 39e623d7a017f8b4e8bfecd920c3b959, type: 2}
   _wallObj: {fileID: 3990626567200311567, guid: 82a63c52617dfab498cec8368cb6d6aa, type: 3}
+  _goalObj: {fileID: 0}
   _parentObj: {fileID: 415059979}
+  _teleportObj: []
   _mapScale: 14
-  _releDis: 3
+  _releDis: 10
+  _teleporterCount: 1
 --- !u!1 &759070007
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa6acafa9c202124e9a663a3e48f0492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 8114889754976768308, guid: 99ff679954c8855499de6ba9c31078bb, type: 3}
+  _playerPrefab: {fileID: 4497415827230251095, guid: 99ff679954c8855499de6ba9c31078bb, type: 3}
 --- !u!4 &759070009
 Transform:
   m_ObjectHideFlags: 0
