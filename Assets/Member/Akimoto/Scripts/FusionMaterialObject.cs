@@ -16,7 +16,7 @@ public class FusionMaterialObject : MonoBehaviour
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] float _speed;
     private RawMaterialDatabase _materialData;
-    /// <summary>ëfçﬁID</summary>
+    /// <summary>ëfçﬁ</summary>
     public RawMaterialDatabase MaterialID => _materialData;
 
     /// <summary>
@@ -37,10 +37,13 @@ public class FusionMaterialObject : MonoBehaviour
     private void Setup(RawMaterialDatabase data, Player player)
     {
         _spriteRenderer.sprite = data.Sprite;
-
         //ÉfÅ[É^Ç™ì¸Ç¡ÇƒÇ©ÇÁUpdate
         this.UpdateAsObservable()
-            .Subscribe(_ => MoveToPlayer(player.transform.position))
+            .Subscribe(_ =>
+            {
+                Debug.Log(player.transform.position);
+                MoveToPlayer(player.transform.position);
+            })
             .AddTo(this);
     }
 
