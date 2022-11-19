@@ -197,7 +197,11 @@ MonoBehaviour:
   _wallObj: {fileID: 3990626567200311567, guid: 82a63c52617dfab498cec8368cb6d6aa, type: 3}
   _goalObj: {fileID: 0}
   _parentObj: {fileID: 415059979}
-  _teleportObj: []
+  _teleportObj:
+  - {fileID: 1435870526830398936, guid: 34589e80ceb6e40458715836a4267b9f, type: 3}
+  - {fileID: 1435870526830398936, guid: 34589e80ceb6e40458715836a4267b9f, type: 3}
+  - {fileID: 1435870526830398936, guid: 34589e80ceb6e40458715836a4267b9f, type: 3}
+  - {fileID: 1435870526830398936, guid: 34589e80ceb6e40458715836a4267b9f, type: 3}
   _mapScale: 14
   _releDis: 10
   _teleporterCount: 1

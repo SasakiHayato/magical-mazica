@@ -16,9 +16,12 @@ public class TeleporterController
             ObjTransform = objTransform;
         }
     }
-    public void CreateData(Transform transform)
+    public void CreateData(Transform transform, System.Action<int> action)
     {
         TeleportPoint teleportPoint = new TeleportPoint(_id, transform);
+        Teleporter teleporter = transform.gameObject.AddComponent<Teleporter>();
+        teleporter.SetData(_id, action);
+
         _id++;
         _teleportList.Add(teleportPoint);
     }

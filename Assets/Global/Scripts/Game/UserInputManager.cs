@@ -1,8 +1,10 @@
 public interface IUIOperateEventable
 {
-    void Select(int horizontal, int vertical);
-    void SubmitEvent();
+    void OnEnableEvent();
+    void Select(ref int horizontal, ref int vertical);
+    bool SubmitEvent();
     void CancelEvent();
+    void DisposeEvent();
 }
 
 public class UserInputManager
@@ -15,6 +17,8 @@ public class UserInputManager
 
     PlayerInputController _playerInput;
 
+    public bool IsOperateRequest { get; set; }
+
     public IUIOperateEventable Operate { get; private set; }
 
     public void ChangeInput(InputType inputType)
@@ -24,6 +28,7 @@ public class UserInputManager
 
     public void OperateRequest(IUIOperateEventable operate)
     {
+        operate?.OnEnableEvent();
         Operate = operate;
     }
 
