@@ -79,6 +79,8 @@ public class GameController
 
     FieldObjectData _fieldObjectData = new FieldObjectData();
 
+    public UserInputManager UserInput { get; private set; } = new UserInputManager();
+
     public Transform Player { get; set; }
 
     public void AddGameSetupable(IGameSetupable setup)

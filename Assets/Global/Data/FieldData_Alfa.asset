@@ -15,17 +15,5 @@ MonoBehaviour:
   _mapVerSide: 13
   _mapHorSide: 21
   _enemyObject:
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  - {fileID: 6246086564618935743, guid: d60ad1a3e0ea7aa4292fc3831fe033f7, type: 3}
-  _teleportObj: []
+  - {fileID: 2851782531204866047, guid: f342002c6ae479448868f598ce696171, type: 3}
+  - {fileID: 2851782531204866047, guid: f342002c6ae479448868f598ce696171, type: 3}
