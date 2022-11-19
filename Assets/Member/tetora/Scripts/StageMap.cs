@@ -86,6 +86,20 @@ public class StageMap : IEnumerable<Point>
             yield return this[mapInfo.Id % MaxX, mapInfo.Id / MaxX + releDis].Id;
         }
     }
+    /// <summary>
+    /// ‰º‚ğ’²‚×‚½‚¢
+    /// </summary>
+    /// <param name="checkMap">’²‚×‚½‚¢ƒ}ƒX</param>
+    /// <param name="State">State‚ÌğŒ</param>
+    /// <returns></returns>
+    public bool CheckUnderDir(Point checkMap, MapState State)
+    {
+        if (_map[checkMap.Id - MaxX].State == State)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public IEnumerator<Point> GetEnumerator()
     {
