@@ -8,7 +8,10 @@
 
 <h2> クラス図 </h2>
   <a href = "https://app.diagrams.net/#G18pOXtV8RWd0TmD4f5Bl6iUBRy8iVKDh1">
-    <p> ここにあります。</p>
+    <p> ver_0.1</p>
+  </a>
+  <a href = "https://drive.google.com/file/d/1WP4T8LNL95NkCjtaYZ5fXflhwA9hjA7K/view?usp=sharing">
+    <p> ver_0.2 </p>
   </a>
 <h2> 作業日程 </h2>
   <a href = "https://docs.google.com/spreadsheets/d/1AJw1Y2Rxm0WKSrU8Ob9KjMmhE8qpiBs2OaE7C7AJ1AA/edit#gid=686337488">
