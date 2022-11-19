@@ -25,6 +25,7 @@ public class EnemyStateAttack : MonoStateBase
         _isAttack = false;
         _aiData.AttackData.Attack.Initalize();
         _aiData.AttackData.AttackEvent?.EnableEvent();
+        OnColliderActive().Forget();
         WaitAttck().Forget();
     }
 
@@ -34,11 +35,17 @@ public class EnemyStateAttack : MonoStateBase
         _enemyData.MoveDir = _aiData.AttackData.Attack.OnMove() * _aiData.AttackData.Attack.AttributeSpeed;
     }
 
+    async UniTask OnColliderActive()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(_aiData.AttackData.Attack.ColliderIsActiveTime));
+        _aiData.AttackData.Attack.AttackCollider?.SetColliderActive(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(_aiData.AttackData.Attack.ColliderActiveTime));
+        _aiData.AttackData.Attack.AttackCollider?.SetColliderActive(false);
+    }
+
     async UniTask WaitAttck()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(_aiData.AttackData.Attack.IsAttackTime));
-        _aiData.AttackData.Attack.AttackCollider?.SetColliderActive(true);
-
         _isAttack = true;
     }
 
@@ -46,6 +53,7 @@ public class EnemyStateAttack : MonoStateBase
     {
         if (_isAttack)
         {
+
             _aiData.AttackData.AttackEvent?.EndEvent();
             _aiData.AttackData.Attack.AttackCollider?.SetColliderActive(false);
             return ReturneDefault();

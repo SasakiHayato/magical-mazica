@@ -24,6 +24,8 @@ namespace EnemyAISystem
     {
         float AttributeSpeed { get; }
         float IsAttackTime { get; }
+        float ColliderIsActiveTime { get; }
+        float ColliderActiveTime { get; }
         EnemyAttackCollider AttackCollider { get; }
     }
 
