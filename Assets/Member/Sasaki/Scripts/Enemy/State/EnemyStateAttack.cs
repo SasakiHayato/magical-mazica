@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using MonoState.State;
 using System;
 using MonoState.Data;
+using MonoState.State;
+using EnemyAISystem;
+using Cysharp.Threading.Tasks;
 
 public class EnemyStateAttack : MonoStateBase
 {
     EnemyStateData _enemyData;
     EnemyAIData _aiData;
 
-    float _testTimer = 0;
+    bool _isAttack;
 
     public override void Setup(MonoStateData data)
     {
@@ -18,26 +17,36 @@ public class EnemyStateAttack : MonoStateBase
 
         _aiData = data.GetMonoData<EnemyAIData>(nameof(EnemyAIData));
         _aiData.AttackData.Attack.Setup(data.StateUser);
+        _aiData.AttackData.AttackEvent.Setup(data.StateUser);
     }
 
     public override void OnEntry()
     {
-        _testTimer = 0;
+        _isAttack = false;
         _aiData.AttackData.Attack.Initalize();
-        _aiData.AttackData.Attack.AttackCollider.SetColliderActive(true);
+        _aiData.AttackData?.AttackEvent.EnableEvent();
+        WaitAttck().Forget();
     }
 
     public override void OnExecute()
     {
-        _testTimer += Time.deltaTime;
+        _aiData.AttackData?.AttackEvent.ExecuteEvent();
+        _enemyData.MoveDir = _aiData.AttackData.Attack.OnMove() * _aiData.AttackData.Attack.AttributeSpeed;
+    }
 
-        _enemyData.MoveDir = _aiData.AttackData.Attack.OnMove();
+    async UniTask WaitAttck()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(_aiData.AttackData.Attack.IsAttackTime));
+        _aiData.AttackData.Attack.AttackCollider.SetColliderActive(true);
+
+        _isAttack = true;
     }
 
     public override Enum OnExit()
     {
-        if (_testTimer > 1)
+        if (_isAttack)
         {
+            _aiData.AttackData?.AttackEvent.EndEvent();
             _aiData.AttackData.Attack.AttackCollider.SetColliderActive(false);
             return ReturneDefault();
         }

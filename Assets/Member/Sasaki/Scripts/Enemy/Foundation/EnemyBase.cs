@@ -13,6 +13,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
     [SerializeField] int _speed;
     [SerializeField] int _hp;
+    [SerializeField] bool _isInstantiateFloat;
     
     Vector2 _beforePosition = Vector2.zero;
 
@@ -23,6 +24,11 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     protected Rigidbody2D RB { get; private set; }
     protected MonoStateMachine<EnemyBase> MonoState { get; private set; }
     protected EnemyStateData EnemyStateData { get; private set; } = new EnemyStateData();
+
+    /// <summary>
+    /// ¶¬‚É‹ó’†‚É¶¬‚·‚é‚±‚Æ‚ğ‹–—e‚·‚é‚©‚Ç‚¤‚©
+    /// </summary>
+    public bool IsInstantiateFloat => _isInstantiateFloat;
 
     GameObject IFieldObjectDatable.Target => gameObject;
     
