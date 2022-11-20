@@ -17,12 +17,12 @@ public class PlayerWallJump : MonoStateBase
             if (_player.Direction.x < 0)
             {
                 //¶“ü—Í
-                _player.Rigidbody.AddForce(Vector2.one * _player.JumpPower, ForceMode2D.Impulse);
+                _player.Rigidbody.AddForce(Vector2.one * _player.WallJumpPower, ForceMode2D.Impulse);
             }
             else
             {
                 //‰E“ü—Í
-                _player.Rigidbody.AddForce(new Vector2(-1, 1) * _player.JumpPower, ForceMode2D.Impulse);
+                _player.Rigidbody.AddForce(new Vector2(-1, 1) * _player.WallJumpPower, ForceMode2D.Impulse);
             }
         }
         _player.IsWallJumped = false;

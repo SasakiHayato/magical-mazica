@@ -21,9 +21,9 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     [SerializeField] float _durationTime;
     [SerializeField] float _speed;
     [SerializeField] float _jumpPower;
+    [SerializeField] float _wallJumpPower;
     [SerializeField] int _damage = 5;
-    [SerializeField] RawMaterialID[] _materialID = { RawMaterialID.Empty, RawMaterialID.Empty };
-    [SerializeField] Vector2 _jumpDir;
+    RawMaterialID[] _materialID = { RawMaterialID.Empty, RawMaterialID.Empty };
     bool _isJumped;
     bool _isWallJumped;
     bool _isAttacked;
@@ -41,6 +41,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public float Speed { get => _speed; private set => _speed = value; }
     /// <summary>ƒWƒƒƒ“ƒv—Í</summary>
     public float JumpPower { get => _jumpPower; private set => _jumpPower = value; }
+    public float WallJumpPower { get => _wallJumpPower; private set => _wallJumpPower = value; }
     public bool IsJumped { get => _isJumped; set => _isJumped = value; }
     public bool IsWallJumped { get => _isWallJumped; set => _isWallJumped = value; }
     public bool IsAttacked { get => _isAttacked; set => _isAttacked = value; }
