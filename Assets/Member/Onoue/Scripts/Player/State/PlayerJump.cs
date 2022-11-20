@@ -10,6 +10,8 @@ public class PlayerJump : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
+        Debug.Log("Entry");
+        _player.Rigidbody.velocity = new Vector2(_player.Rigidbody.velocity.x, 0.0f);
         _player.Rigidbody.AddForce(Vector2.up * _player.JumpPower, ForceMode2D.Impulse);
     }
     //Update
@@ -20,13 +22,15 @@ public class PlayerJump : MonoStateBase
     //ğŒ•ªŠò
     public override Enum OnExit()
     {
-        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        //if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground) && _player.IsJumped)
+        //{
+        //    Debug.Log("Jump www");
+        //    _player.IsJumped = false;
+        //    return ReturneDefault();
+        //}
+        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
-            return ReturneDefault();
-        }
-        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
-        {
-            if (_player.Rigidbody.velocity.y < 0)
+            if (_player.Rigidbody.velocity.y <= 0)
             {
                 return Player.PlayerState.Float;
             }

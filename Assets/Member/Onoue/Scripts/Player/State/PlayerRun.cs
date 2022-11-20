@@ -24,6 +24,7 @@ public class PlayerRun : MonoStateBase
     {
         if (_player.IsJumped)
         {
+            Debug.Log("Run Jump");
             return Player.PlayerState.Jump;
         }
         if (_player.IsWallJumped)
@@ -34,9 +35,9 @@ public class PlayerRun : MonoStateBase
         {
             return Player.PlayerState.Idle;
         }
-        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
-            if (_player.Rigidbody.velocity.y < 0)
+            if (_player.Rigidbody.velocity.y <= 0)
             {
                 return Player.PlayerState.Float;
             }

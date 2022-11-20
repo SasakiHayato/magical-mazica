@@ -10,7 +10,7 @@ public class PlayerIdle : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
-        
+        _player.Rigidbody.velocity = Vector3.zero;
     }
     //Update
     public override void OnExecute()
@@ -28,9 +28,9 @@ public class PlayerIdle : MonoStateBase
         {
             return Player.PlayerState.Run;
         }
-        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
-            if (_player.Rigidbody.velocity.y < 0)
+            if (_player.Rigidbody.velocity.y <= 0)
             {
                 return Player.PlayerState.Float;
             }
