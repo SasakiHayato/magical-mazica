@@ -34,7 +34,7 @@ public class GameController
         public void Remove(IFieldObjectDatable field)
         {
             if (_dataList.Count <= 0) return;
-
+            
             _dataList.Remove(field);
         }
 
@@ -43,13 +43,20 @@ public class GameController
         /// </summary>
         public void Dipose()
         {
-            if (_dataList.Count <= 0) return;
-
-            foreach (IFieldObjectDatable datable in _dataList)
+            try
             {
-                Remove(datable);
-                Object.Destroy(datable.Target);
+                foreach (IFieldObjectDatable datable in _dataList)
+                {
+                    Remove(datable);
+                    Object.Destroy(datable.Target);
+                }
             }
+            catch
+            {
+                Debug.Log("アクセス拒否. GameController.FieldObjectData.Dispose()");
+                _dataList = new List<IFieldObjectDatable>();
+            }
+            
         }
     }
 
@@ -64,7 +71,6 @@ public class GameController
                 s_instance = new GameController();
 
                 GameObject obj = new GameObject("GameControllerDisposer");
-                //obj.hideFlags = HideFlags.HideInHierarchy;
 
                 GameControllerDisposer disposer = obj.AddComponent<GameControllerDisposer>();
                 disposer.Action = DisposeInstance;
@@ -127,6 +133,15 @@ public class GameController
         Instance._fieldObjectData.Dipose();
         Instance.Dispose();
 
-        s_instance = null;
+        Instance.Initalize();
+    }
+
+    void Initalize()
+    {
+        _setupList = new List<IGameSetupable>();
+        _disposeList = new List<IGameDisposable>();
+        _fieldObjectData = new FieldObjectData();
+        UserInput = new UserInputManager();
+        Player = null;
     }
 }
