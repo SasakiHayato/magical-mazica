@@ -14,6 +14,11 @@ public class GUIManager : MonoBehaviour, IGameSetupable
 
     int IGameSetupable.Priority => 2;
 
+    void Awake()
+    {
+        GameController.Instance.AddGameSetupable(this);
+    }
+
     void IGameSetupable.GameSetup()
     {
         //Playerが生成されたらPlayerの情報をPlayerのステータスを表示するクラスに渡す

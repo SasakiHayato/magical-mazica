@@ -41,7 +41,7 @@ public class SoundManager : MonoBehaviour
 
         if (data == null)
         {
-            Debug.Log("データが存在しません");
+            Debug.Log("サウンドデータが存在しません");
             return;
         }
 
