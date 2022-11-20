@@ -13,8 +13,8 @@ public class FadeSample : MonoBehaviour
     {
         _manager.Setup();
         await UniTask.Delay(System.TimeSpan.FromSeconds(2));
-        await _manager.PlayAnimation(FadeAnimationType.Sinple, FadeType.In);
+        await _manager.PlayAnimation(FadeAnimationType.Simple, FadeType.In);
         await UniTask.Delay(System.TimeSpan.FromSeconds(2));
-        await _manager.PlayAnimation(FadeAnimationType.Sinple, FadeType.Out);
+        await _manager.PlayAnimation(FadeAnimationType.Simple, FadeType.Out);
     }
 }

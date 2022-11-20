@@ -105,8 +105,8 @@ public class FadeManager : MonoBehaviour
 /// </summary>
 public enum FadeAnimationType
 {
-    Sinple,
-    Wave,
+    Simple,
+    //Wave,
 }
 
 /// <summary>
