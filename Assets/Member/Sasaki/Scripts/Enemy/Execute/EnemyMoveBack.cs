@@ -1,11 +1,14 @@
 using UnityEngine;
+using EnemyAISystem;
 
-public class EnemyMoveChase : IEnemyMove
+public class EnemyMoveBack : IEnemyMove
 {
+    [SerializeField] float _updateSpeed;
+
     Transform _player;
     Transform _user;
 
-    float IEnemyMove.AttributeSpeed => 1.5f;
+    float IEnemyMove.AttributeSpeed => _updateSpeed;
 
     public void Setup(Transform user)
     {
@@ -15,7 +18,7 @@ public class EnemyMoveChase : IEnemyMove
 
     public Vector2 OnMove()
     {
-        return (_player.position - _user.position).normalized;
+        return (_user.position - _player.position).normalized;
     }
 
     public void Initalize()

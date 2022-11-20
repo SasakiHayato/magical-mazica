@@ -4,12 +4,19 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerInputController : MonoBehaviour
 {
+    int _selectX = 0;
+    int _selectY = 0;
+    bool _onSelectX = false;
+    bool _onSelectY = false;
+
     PlayerInput _playerInput;
     Player _player;
     private void Awake()
     {
         TryGetComponent(out _playerInput);
         TryGetComponent(out _player);
+
+        GameController.Instance.UserInput.SetController(this);
     }
     void OnEnable()
     {
@@ -18,7 +25,14 @@ public class PlayerInputController : MonoBehaviour
         _playerInput.actions["Fire"].started += OnFire;
         _playerInput.actions["Fusion"].started += OnFusion;
         _playerInput.actions["SetMaterial"].started += OnSet;
+        
+        _playerInput.actions["PlayerSubmit"].started +=
+            context => GameController.Instance.UserInput.IsOperateRequest = true;
+        _playerInput.actions["PlayerSubmit"].canceled +=
+            context => GameController.Instance.UserInput.IsOperateRequest = false;
 
+        _playerInput.actions["UISubmit"].started += context => Submit();
+        _playerInput.actions["UICancel"].started += context => Cancel();
     }
 
     private void OnDisable()
@@ -28,12 +42,25 @@ public class PlayerInputController : MonoBehaviour
         _playerInput.actions["Fire"].started -= OnFire;
         _playerInput.actions["Fusion"].started -= OnFusion;
         _playerInput.actions["SetMaterial"].started -= OnSet;
+
+        _playerInput.actions["PlayerSubmit"].started -=
+            context => GameController.Instance.UserInput.IsOperateRequest = true;
+        _playerInput.actions["PlayerSubmit"].canceled -=
+            context => GameController.Instance.UserInput.IsOperateRequest = false;
+
+        _playerInput.actions["UISubmit"].started -= context => Submit();
+        _playerInput.actions["UICancel"].started -= context => Cancel();
     }
     private void FixedUpdate()
     {
         var direction = _playerInput.actions["Move"].ReadValue<Vector2>();
         //_player.PlayerMove(direction);
         _player.Direction = direction;
+
+        if (_playerInput.currentActionMap.name == UserInputManager.InputType.UserInterface.ToString())
+        {
+            Select(_playerInput.actions["UISelect"].ReadValue<Vector2>());
+        }
     }
     private void Setup()
     {
@@ -79,5 +106,52 @@ public class PlayerInputController : MonoBehaviour
         {
 
         }
+    }
+
+    void Select(Vector2 value)
+    {
+        if (0 == (int)value.x)
+        {
+            _onSelectX = false;
+        }
+
+        if (0 == (int)value.y)
+        {
+            _onSelectY = false;
+        }
+
+        if (0 != (int)value.x && !_onSelectX)
+        {
+            _onSelectX = true;
+            _selectX += (int)value.x;
+        }
+
+        if (0 != (int)value.y && !_onSelectY)
+        {
+            _onSelectY = true;
+            _selectY += (int)value.y;
+        }
+
+        GameController.Instance.UserInput.Operate.Select(ref _selectX, ref _selectY);
+    }
+
+    void Submit()
+    {
+        if (GameController.Instance.UserInput.Operate.SubmitEvent())
+        {
+            GameController.Instance.UserInput.Operate.DisposeEvent();
+        } 
+    }
+
+    void Cancel()
+    {
+        GameController.Instance.UserInput.Operate.CancelEvent();
+        _selectX = 0;
+        _selectY = 0;
+    }
+
+    public void ChangeInput(UserInputManager.InputType inputType)
+    {
+        _playerInput.SwitchCurrentActionMap(inputType.ToString());
     }
 }

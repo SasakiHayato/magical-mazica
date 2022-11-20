@@ -140,6 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _hp: 5
+  _isInstantiateFloat: 0
   _enemyAIData:
     _idleData:
       _attributeDistance: 0
@@ -148,20 +149,28 @@ MonoBehaviour:
     _moveData:
       _attributeDistance: 10
       _move:
-        rid: 4439156482954756100
+        rid: 4439156588626313222
     _attackData:
       _attributeDistance: 2
       _attack:
-        rid: 4439156482954756099
+        rid: 4439156600207573005
+      _attackEvent:
+        rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 4439156482954756099
-      type: {class: EnemyAttackDefault, ns: , asm: Assembly-CSharp}
-    - rid: 4439156482954756100
-      type: {class: EnemyMoveChase, ns: , asm: Assembly-CSharp}
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 4439156588626313217
       type: {class: EnemyIdlePatrol, ns: , asm: Assembly-CSharp}
+    - rid: 4439156588626313222
+      type: {class: EnemyMoveChase, ns: , asm: Assembly-CSharp}
+      data:
+        _updateSpeed: 1.5
+    - rid: 4439156600207573005
+      type: {class: EnemyAttackDefault, ns: , asm: Assembly-CSharp}
+      data:
+        _isAttackTime: 0
 --- !u!1 &2851782531272172201
 GameObject:
   m_ObjectHideFlags: 0

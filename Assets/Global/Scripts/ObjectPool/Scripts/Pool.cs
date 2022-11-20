@@ -247,6 +247,8 @@ namespace ObjectPool
         /// <returns>Null</returns>
         IEnumerator Execution(PoolData data)
         {
+            yield return null;
+
             while (!data.Pool.Execute() && !data.IsEvent())
             {
                 // Debug.Log($"Execute {data.Pool.Execute()} Event {data.IsEvent()}");

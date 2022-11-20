@@ -1,4 +1,5 @@
 using UnityEngine;
+using EnemyAISystem;
 
 public class EnemyIdleDefault : IEnemyIdle
 {

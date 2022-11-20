@@ -33,8 +33,15 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
     int _startDigPos;//Œ@‚èŽn‚ß‚éŽn“_
     public Transform PlayerTransform { get; private set; }
     public StageMap StageMap { get => _stageMap; }
+
+    public static int TepoatObjLength => Instance._teleportObj.Length;
+
+    protected static CreateMap Instance { get; private set; }
+
     private void Awake()
     {
+        Instance = this;
+
         GameController.Instance.AddGameSetupable(this);
         GameController.Instance.AddGameDisposable(this);
     }
@@ -264,6 +271,8 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         for (int i = 0; i < _teleportObj.Length; i++)
         {
             var teleObj = Instantiate(_teleportObj[i]);
+            _teleporterController.CreateData(teleObj.transform, GetTeleportData);
+
             switch (i)
             {
                 case 0:
@@ -291,9 +300,10 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         points[rnd].State = MapState.Teleport;
         return points[rnd].ObjTransform;
     }
-    public void GetTeleportData(int id)
+    void GetTeleportData(int id)
     {
-        _teleporterController.GetData(id);
+        Transform transform = _teleporterController.GetData(id);
+        GameController.Instance.Player.position = transform.position;
     }
 }
 

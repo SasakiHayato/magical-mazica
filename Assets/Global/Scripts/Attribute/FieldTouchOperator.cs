@@ -37,6 +37,13 @@ public class FieldTouchOperator : MonoBehaviour
     [SerializeField] Transform _user;
     [SerializeField] List<LayerData> _layerDataList;
 
+    int _dirCollect = 1;
+
+    void Start()
+    {
+        _dirCollect = (int)Mathf.Sign(_user.localScale.x);
+    }
+
     public bool IsTouch(TouchType type, bool any = false)
     {
         var list = _layerDataList.Where(d => d.TouchType == type);
@@ -47,6 +54,11 @@ public class FieldTouchOperator : MonoBehaviour
     public bool IsTouchAll()
     {
         return _layerDataList.All(d => OnProcess(d));
+    }
+
+    public void OnChangeLayDir()
+    {
+        _dirCollect *= -1;
     }
 
     bool OnProcess(LayerData d)
@@ -67,12 +79,11 @@ public class FieldTouchOperator : MonoBehaviour
         }
 
         Vector2 dir = set + d.Offset;
-
-        if (_user != null)
-        {
-            dir.x *= Mathf.Sign(_user.localScale.x);
-        }
-
+        dir.x *= _dirCollect;
+        //if (_user != null)
+        //{
+            
+        //}
 
         return dir;
     }
