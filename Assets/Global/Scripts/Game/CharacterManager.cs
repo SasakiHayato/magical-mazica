@@ -5,7 +5,7 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterManager : MonoBehaviour, IGameSetupable
 {
     /// <summary>Playerのプレハブ</summary>
     [SerializeField] Player _playerPrefab;
@@ -14,7 +14,19 @@ public class CharacterManager : MonoBehaviour
     /// <summary>Playerの生成を通知する</summary>
     public System.IObservable<Player> PlayerSpawn => _playerSpawn;
 
+    int IGameSetupable.Priority => 1;
+
+    void Awake()
+    {
+        GameController.Instance.AddGameSetupable(this);
+    }
+
     public void Setup()
+    {
+        GetPlayer();
+    }
+
+    void IGameSetupable.GameSetup()
     {
         GetPlayer();
     }

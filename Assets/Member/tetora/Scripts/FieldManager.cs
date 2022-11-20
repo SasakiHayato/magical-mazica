@@ -3,21 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldManager : MonoBehaviour
+public class FieldManager : MonoBehaviour, IGameSetupable
 {
     [SerializeField] CharacterManager _characterManager;
     
     [SerializeField] CreateMap _createMap;
     int _hierarchyNum;
     public int HierarchyNum { get => _hierarchyNum; set => _hierarchyNum = value; }
-    private void Start()
+
+    int IGameSetupable.Priority => 3;
+
+    void Awake()
     {
-        SoundManager.PlayRequest(SoundSystem.SoundType.BGM, "Game");
+        GameController.Instance.AddGameSetupable(this);
     }
+
     public void Setup()
     {
-        _characterManager.Setup();
-        _createMap.InitialSet();
+        // _characterManager.Setup();
+        // _createMap.InitialSet();
+        // _characterManager.CreatePlayer(_createMap.PlayerTransform);
+    }
+
+    void IGameSetupable.GameSetup()
+    {
         _characterManager.CreatePlayer(_createMap.PlayerTransform);
     }
 
@@ -48,6 +57,7 @@ public class FieldManager : MonoBehaviour
     {
 
     }
+
     /// <summary>Mob‚ª€‚ñ‚¾‚Æ‚«‚Ìˆ—</summary> //Note. ‚à‚µ‚©‚µ‚½‚ç‚¢‚ç‚È‚¢
     //void DeadMob()
     //{

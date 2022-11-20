@@ -39,6 +39,12 @@ public class SoundManager : MonoBehaviour
         SoundDataAsset asset = Instance.SoundDataAssetList.Find(s => s.SoundType == type);
         SoundDataAsset.SoundData data = asset.GetSoundData(path);
 
+        if (data == null)
+        {
+            Debug.Log("ƒf[ƒ^‚ª‘¶İ‚µ‚Ü‚¹‚ñ");
+            return;
+        }
+
         Sounder sounder = Instance.Pool.UseRequest(out System.Action action);
         action += () => sounder.SetData(data, asset.VolumeType);
 
