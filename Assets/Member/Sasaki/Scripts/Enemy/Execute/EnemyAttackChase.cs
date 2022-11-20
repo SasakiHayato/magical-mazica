@@ -3,6 +3,7 @@ using EnemyAISystem;
 
 public class EnemyAttackChase : IEnemyAttack
 {
+    [SerializeField] float _isAttackTime = 1;
     [SerializeField] float _updateSpeed = 1;
     [SerializeField] float _colliderActiveTime = 1;
 
@@ -12,7 +13,7 @@ public class EnemyAttackChase : IEnemyAttack
     Transform _player;
 
     float IEnemyAttack.AttributeSpeed => _updateSpeed;
-    float IEnemyAttack.IsAttackTime => 1;
+    float IEnemyAttack.IsAttackTime => _isAttackTime;
     float IEnemyAttack.ColliderIsActiveTime => 0;
     float IEnemyAttack.ColliderActiveTime => _colliderActiveTime;
     EnemyAttackCollider IEnemyAttack.AttackCollider => _enemyAttackCollider;

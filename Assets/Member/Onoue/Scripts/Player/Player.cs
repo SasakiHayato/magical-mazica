@@ -58,6 +58,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     private void Awake()
     {
+        GameController.Instance.Player = transform;
         GameController.Instance.AddFieldObjectDatable(this);
     }
     private void Start()
@@ -206,7 +207,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
-        Debug.Log(_stateMachine.CurrentKey);
+        // Debug.Log(_stateMachine.CurrentKey);
     }
     private void Update()
     {

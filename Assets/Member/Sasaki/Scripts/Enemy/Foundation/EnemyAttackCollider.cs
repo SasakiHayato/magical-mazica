@@ -22,7 +22,7 @@ namespace EnemyAISystem
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out IDamagable damageble))
+            if (collision.CompareTag("Player") && collision.TryGetComponent(out IDamagable damageble))
             {
                 damageble.AddDamage(_power);
             }
