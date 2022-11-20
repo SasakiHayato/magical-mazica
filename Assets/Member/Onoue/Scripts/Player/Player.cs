@@ -75,8 +75,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             .AddState(PlayerState.Run, new PlayerRun())
             .AddState(PlayerState.Jump, new PlayerJump())
             .AddState(PlayerState.Attack, new PlayerAttack())
-            .AddState(PlayerState.WallJump,new PlayerWallJump())
-            .AddState(PlayerState.Float,new PlayerFloat());
+            .AddState(PlayerState.WallJump, new PlayerWallJump())
+            .AddState(PlayerState.Float, new PlayerFloat());
 
         _stateMachine.AddMonoData(this);
         _stateMachine.IsRun = true;
@@ -107,13 +107,12 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Jump()
     {
-        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
             _isJumped = true;
         }
-        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall,true))
+        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true))
         {
-            Debug.Log("‰Ÿ‚³‚ê‚½");
             _isWallJumped = true;
         }
     }
@@ -211,7 +210,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     }
     private void Update()
     {
-        
+
     }
     public void AddDamage(int damage)
     {

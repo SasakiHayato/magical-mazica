@@ -16,8 +16,8 @@ public class PlayerFloat : MonoStateBase
     }
     //Update
     public override void OnExecute()
-    {   
-        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall))
+    {
+        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true))
         {
             if (_player.Direction == Vector2.zero)
             {
@@ -26,6 +26,15 @@ public class PlayerFloat : MonoStateBase
             else
             {
                 _player.Rigidbody.velocity = Vector2.zero;
+                //if (_player.Direction.x < 0)
+                //{
+                //    //G‚ê‚Ä‚¢‚é•Ç‚Ì•ûŒü‚ÉŒü‚©‚Á‚Ä“ü—Í‚·‚é‚Æ•Ç‚É’£‚è•t‚­‚æ‚¤‚É‚·‚é
+                    
+                //}
+                //else
+                //{
+                    
+                //}
             }
         }
         else
@@ -42,7 +51,7 @@ public class PlayerFloat : MonoStateBase
         {
             return Player.PlayerState.WallJump;
         }
-        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
             return ReturneDefault();
         }
