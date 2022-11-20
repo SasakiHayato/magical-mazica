@@ -46,6 +46,7 @@ public class EnemyStateAttack : MonoStateBase
     async UniTask WaitAttck()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(_aiData.AttackData.Attack.IsAttackTime));
+        
         _isAttack = true;
     }
 
@@ -53,9 +54,8 @@ public class EnemyStateAttack : MonoStateBase
     {
         if (_isAttack)
         {
-
-            _aiData.AttackData.AttackEvent?.EndEvent();
             _aiData.AttackData.Attack.AttackCollider?.SetColliderActive(false);
+            _aiData.AttackData.AttackEvent?.EndEvent();
             return ReturneDefault();
         }
 
