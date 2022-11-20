@@ -142,5 +142,6 @@ public class GameController
         _disposeList = new List<IGameDisposable>();
         _fieldObjectData = new FieldObjectData();
         UserInput = new UserInputManager();
+        Player = null;
     }
 }
