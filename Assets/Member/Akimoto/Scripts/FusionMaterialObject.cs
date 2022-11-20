@@ -43,7 +43,6 @@ public class FusionMaterialObject : MonoBehaviour
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
-                Debug.Log(player.transform.position);
                 MoveToPlayer(player.transform.position);
             })
             .AddTo(this);
