@@ -11,6 +11,7 @@ public class SceneViewer : MonoBehaviour
     }
 
     [SerializeField] string _bgmPath;
+    [SerializeField] UserInputManager.InputType _defaultInputType;
     [SerializeField] FadeManager _fadeManager;
     [SerializeField] FadeAnimationType _fadeAnimationType;
 
@@ -34,6 +35,8 @@ public class SceneViewer : MonoBehaviour
             _fadeManager.Setup();
             OnWaitLoad().Forget();
         }
+
+        GameController.Instance.UserInput.ChangeInput(_defaultInputType);
     }
 
     async UniTask OnWaitLoad()
@@ -55,7 +58,7 @@ public class SceneViewer : MonoBehaviour
         GameController.Instance.Dispose();
         await UniTask.Delay(System.TimeSpan.FromSeconds(WaitTime));
 
-        SceneManager.LoadScene(sceneType.ToString());
+        SceneManager.LoadScene((int)sceneType);
     }
 
     public static void SceneLoad(SceneType sceneType)
