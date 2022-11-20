@@ -26,7 +26,6 @@ public class ApproachEnemy : EnemyBase
 
     protected override bool IsDamage(int damage)
     {
-        Debug.Log("aa");
         return true;
     }
 }

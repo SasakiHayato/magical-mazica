@@ -94,6 +94,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
         if (_hp <= 0)
         {
+            EffectStocker.LoadEffect("Dead", transform.position);
             Destroy(gameObject);
         }
     }
