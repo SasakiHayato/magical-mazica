@@ -11,7 +11,10 @@ public class FadeSample : MonoBehaviour
 
     private async void Start()
     {
+        _manager.Setup();
         await UniTask.Delay(System.TimeSpan.FromSeconds(2));
-        await _manager.PlayAnimation(FadeAnimationType.Wave, FadeType.In);
+        await _manager.PlayAnimation(FadeAnimationType.Sinple, FadeType.In);
+        await UniTask.Delay(System.TimeSpan.FromSeconds(2));
+        await _manager.PlayAnimation(FadeAnimationType.Sinple, FadeType.Out);
     }
 }
