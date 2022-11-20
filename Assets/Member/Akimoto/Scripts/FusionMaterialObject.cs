@@ -16,7 +16,7 @@ public class FusionMaterialObject : MonoBehaviour
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] float _speed;
     private RawMaterialDatabase _materialData;
-    /// <summary>素材</summary>
+    /// <summary>素材データ</summary>
     public RawMaterialDatabase MaterialID => _materialData;
 
     /// <summary>
@@ -25,7 +25,7 @@ public class FusionMaterialObject : MonoBehaviour
     /// <param name="original">生成元(Prefab)</param>
     /// <param name="createPosition">生成座標</param>
     /// <param name="data">生成する素材データ</param>
-    /// <param name="player"></param>
+    /// <param name="player">現在のプレイヤー</param>
     /// <returns></returns>
     public static FusionMaterialObject Init(FusionMaterialObject original, Vector2 createPosition, RawMaterialDatabase data, Player player)
     {
