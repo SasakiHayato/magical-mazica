@@ -199,6 +199,10 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         }
         else
         {
+            if (_stageMap.CheckUnderDir(_stageMap[random], MapState.Floar))
+            {
+
+            }
             enemy.transform.position = _stageMap[random, _wallObjSize];
             _stageMap[random].IsGenerate = false;
         }
@@ -305,5 +309,6 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         Transform transform = _teleporterController.GetData(id);
         GameController.Instance.Player.position = transform.position;
     }
+
 }
 
