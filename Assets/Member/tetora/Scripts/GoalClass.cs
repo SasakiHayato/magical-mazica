@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GoalClass : MonoBehaviour, IUIOperateEventable
 {
-    [SerializeField]
-    float _goalDis = 1.0f;
 
     int _currentSelectID;
 

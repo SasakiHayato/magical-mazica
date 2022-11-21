@@ -20,12 +20,8 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
     [SerializeField]
     GameObject[] _teleportObj;
     [SerializeField]
-    int _mapScale = 14;
-    [SerializeField]
     int _releDis = 3;//何マス離すか
     TeleporterController _teleporterController;
-    [SerializeField]//teleporterを何セット置くか
-    int _teleporterCount = 1;
 
     float _wallObjSize = 3;//マップ一つ一つのサイズ
     List<GameObject> _stageObjList = new List<GameObject>();
@@ -201,8 +197,23 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         }
         else
         {
-            enemy.transform.position = _stageMap[random, _wallObjSize];
-            _stageMap[random].IsGenerate = false;
+            if (_stageMap.CheckUnderDir(_stageMap[random], MapState.Floar))//下が床なら＝空中
+            {
+                if (enemy.GetComponent<EnemyBase>().IsInstantiateFloat)
+                {
+                    enemy.transform.position = _stageMap[random, _wallObjSize];
+                    _stageMap[random].IsGenerate = false;
+                }
+                else
+                {
+                    SetEnemyPos(enemy);
+                }
+            }
+            else
+            {
+                enemy.transform.position = _stageMap[random, _wallObjSize];
+                _stageMap[random].IsGenerate = false;
+            }
         }
     }
     /// <summary>Player生成の場所を決める</summary>
@@ -307,5 +318,6 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         Transform transform = _teleporterController.GetData(id);
         GameController.Instance.Player.position = transform.position;
     }
+
 }
 
