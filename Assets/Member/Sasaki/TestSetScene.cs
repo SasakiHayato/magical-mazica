@@ -34,6 +34,7 @@ public class TestSetScene : MonoBehaviour, IUIOperateEventable
 
     bool IUIOperateEventable.SubmitEvent()
     {
+        SoundManager.PlayRequest(SoundSystem.SoundType.SEInput, "Click");
         SceneViewer.SceneLoad(_sceneType);
         return true;
     }

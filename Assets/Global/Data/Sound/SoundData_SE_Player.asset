@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89a338200dda974cb557cc36a9ecaaf, type: 3}
+  m_Name: SoundData_SE_Player
+  m_EditorClassIdentifier: 
+  _volumeType: 1
+  _soundType: 2
+  _soundDataList:
+  - _path: Greeting
+    _clip: {fileID: 8300000, guid: 67dda2caa439acc418b5adb4de94fa77, type: 3}
+    _volume: 0.388
+    _isLoop: 0
+  - _path: Attack1
+    _clip: {fileID: 8300000, guid: 9594135afa46ab4489454842a14dc76d, type: 3}
+    _volume: 0.388
+    _isLoop: 0
+  - _path: Attack2
+    _clip: {fileID: 8300000, guid: 8c2bc7e7e5781314db8352f3371530fe, type: 3}
+    _volume: 0.388
+    _isLoop: 0

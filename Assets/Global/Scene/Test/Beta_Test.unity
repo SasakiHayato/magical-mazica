@@ -453,9 +453,7 @@ MonoBehaviour:
   - {fileID: 5093053654628721447, guid: 4f9691d0e88a67447bff17d5afa39e8e, type: 3}
   - {fileID: 5093053654628721447, guid: 4f9691d0e88a67447bff17d5afa39e8e, type: 3}
   - {fileID: 5093053654628721447, guid: 4f9691d0e88a67447bff17d5afa39e8e, type: 3}
-  _mapScale: 14
   _releDis: 10
-  _teleporterCount: 1
 --- !u!1 &416102592
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,7 +576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1978570322219048631, guid: 0ec23b25960803b4e93a532e0e6b0aae, type: 3}
       propertyPath: _soundDataAssetList.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1978570322219048631, guid: 0ec23b25960803b4e93a532e0e6b0aae, type: 3}
       propertyPath: _soundDataAssetList.Array.data[0]
@@ -588,6 +586,14 @@ PrefabInstance:
       propertyPath: _soundDataAssetList.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: c26ddcf3ca6aeda47b5ba72ac99f36dc, type: 2}
+    - target: {fileID: 1978570322219048631, guid: 0ec23b25960803b4e93a532e0e6b0aae, type: 3}
+      propertyPath: _soundDataAssetList.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 274bfff7631f0d24c8ae6d181ac433ec, type: 2}
+    - target: {fileID: 1978570322219048631, guid: 0ec23b25960803b4e93a532e0e6b0aae, type: 3}
+      propertyPath: _soundDataAssetList.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 619a5bcd671fac64aa66584fbac2592c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ec23b25960803b4e93a532e0e6b0aae, type: 3}
 --- !u!4 &496438582 stripped
