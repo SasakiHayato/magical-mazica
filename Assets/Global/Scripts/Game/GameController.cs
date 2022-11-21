@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public interface IGameSetupable
 {
+    int Priority { get; }
     void GameSetup();
 }
 
@@ -114,7 +116,7 @@ public class GameController
     /// </summary>
     public void Setup()
     {
-        _setupList.ForEach(s => s.GameSetup());
+        _setupList.OrderBy(s => s.Priority).ToList().ForEach(s => s.GameSetup());
     }
 
     /// <summary>

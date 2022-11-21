@@ -53,11 +53,16 @@ public class PlayerInputController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        var direction = _playerInput.actions["Move"].ReadValue<Vector2>();
         //_player.PlayerMove(direction);
-        _player.Direction = direction;
 
-        if (_playerInput.currentActionMap.name == UserInputManager.InputType.UserInterface.ToString())
+        if (_player != null)
+        {
+            var direction = _playerInput.actions["Move"].ReadValue<Vector2>();
+            _player.Direction = direction;
+        }
+
+        if (_playerInput.currentActionMap.name == UserInputManager.InputType.UserInterface.ToString()
+            && GameController.Instance.UserInput.Operate != null)
         {
             Select(_playerInput.actions["UISelect"].ReadValue<Vector2>());
         }
@@ -137,6 +142,8 @@ public class PlayerInputController : MonoBehaviour
 
     void Submit()
     {
+        if (GameController.Instance.UserInput.Operate == null) return;
+
         if (GameController.Instance.UserInput.Operate.SubmitEvent())
         {
             GameController.Instance.UserInput.Operate.DisposeEvent();
@@ -145,7 +152,9 @@ public class PlayerInputController : MonoBehaviour
 
     void Cancel()
     {
-        GameController.Instance.UserInput.Operate.CancelEvent();
+        if (GameController.Instance.UserInput.Operate == null) return;
+
+        GameController.Instance.UserInput?.Operate.CancelEvent();
         _selectX = 0;
         _selectY = 0;
     }
