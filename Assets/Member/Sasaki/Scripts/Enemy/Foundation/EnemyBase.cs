@@ -18,7 +18,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     Vector2 _beforePosition = Vector2.zero;
 
     Transform _player;
-
+    
     protected int Speed => _speed;
     
     protected Rigidbody2D RB { get; private set; }
@@ -32,7 +32,6 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
     GameObject IFieldObjectDatable.Target => gameObject;
     
-
     void Awake()
     {
         GameController.Instance.AddFieldObjectDatable(this);
@@ -95,7 +94,13 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
         if (_hp <= 0)
         {
-            Debug.Log("Ž€‚ñ‚¾");
+            SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Dead");
+            EffectStocker.LoadEffect("Dead", transform.position);
+            Destroy(gameObject);
+        }
+        else
+        {
+            SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Hit");
         }
     }
 }

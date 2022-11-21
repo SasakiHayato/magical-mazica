@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4037594a9e93bb842a8e804e0300de40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _power: 0
+  _power: 1
 --- !u!1 &8676972492661217935
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 8676972492661217920}
   m_Layer: 0
   m_Name: TackleEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -357,5 +357,6 @@ MonoBehaviour:
     - rid: 4439156600207573004
       type: {class: EnemyAttackChase, ns: , asm: Assembly-CSharp}
       data:
+        _isAttackTime: 1
         _updateSpeed: 5
         _colliderActiveTime: 1

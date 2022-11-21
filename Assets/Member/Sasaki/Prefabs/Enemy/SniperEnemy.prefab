@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 6396111945559498728}
   m_Layer: 0
   m_Name: SniperEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -241,7 +241,7 @@ MonoBehaviour:
       data:
         _bulletPrefab: {fileID: 7411682192359307736, guid: b39a5ea4704f0c1459882250ff0bffd3, type: 3}
         _speed: 5
-        _damage: 0
+        _damage: 1
         _shotIntervalTime: 0.5
     - rid: 4439156600207573001
       type: {class: EnemyAttackDefault, ns: , asm: Assembly-CSharp}

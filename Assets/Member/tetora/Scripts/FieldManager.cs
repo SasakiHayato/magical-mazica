@@ -6,20 +6,19 @@ using UnityEngine;
 public class FieldManager : MonoBehaviour
 {
     [SerializeField] CharacterManager _characterManager;
-    //[SerializeField] Transform _playerSpawnPosition;
+    
     [SerializeField] CreateMap _createMap;
     int _hierarchyNum;
     public int HierarchyNum { get => _hierarchyNum; set => _hierarchyNum = value; }
     private void Start()
     {
-        Setup();
+        SoundManager.PlayRequest(SoundSystem.SoundType.BGM, "Game");
     }
     public void Setup()
     {
         _characterManager.Setup();
         _createMap.InitialSet();
         _characterManager.CreatePlayer(_createMap.PlayerTransform);
-        //_characterManager.CreatePlayer(_playerSpawnPosition); HŒ³ì
     }
 
     /// <summary>€–S”»’è</summary>
@@ -35,7 +34,7 @@ public class FieldManager : MonoBehaviour
                 GameClear();
                 break;
             case CharaType.Mob:
-                DeadMob();
+                //DeadMob();
                 break;
         }
     }
@@ -49,11 +48,11 @@ public class FieldManager : MonoBehaviour
     {
 
     }
-    /// <summary>Mob‚ª€‚ñ‚¾‚Æ‚«‚Ìˆ—</summary>
-    void DeadMob()
-    {
+    /// <summary>Mob‚ª€‚ñ‚¾‚Æ‚«‚Ìˆ—</summary> //Note. ‚à‚µ‚©‚µ‚½‚ç‚¢‚ç‚È‚¢
+    //void DeadMob()
+    //{
 
-    }
+    //}
 }
 public enum CharaType
 {

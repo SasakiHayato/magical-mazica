@@ -11,21 +11,18 @@ public class PlayerWallJump : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
-        Debug.Log("Entry WallJump");
         _player.Rigidbody.velocity = Vector2.zero;
         if (_player.Direction.x != 0)
         {
             if (_player.Direction.x < 0)
             {
                 //¶“ü—Í
-                //_player.transform.localScale = new Vector3(-1, 1, 1);
-                _player.Rigidbody.AddForce(Vector2.one * _player.JumpPower, ForceMode2D.Impulse);
+                _player.Rigidbody.AddForce(Vector2.one * _player.WallJumpPower, ForceMode2D.Impulse);
             }
             else
             {
                 //‰E“ü—Í
-                //_player.transform.localScale = new Vector3(1, 1, 1);
-                _player.Rigidbody.AddForce(new Vector2(-1, 1) * _player.JumpPower, ForceMode2D.Impulse);
+                _player.Rigidbody.AddForce(new Vector2(-1, 1) * _player.WallJumpPower, ForceMode2D.Impulse);
             }
         }
         _player.IsWallJumped = false;
@@ -33,19 +30,14 @@ public class PlayerWallJump : MonoStateBase
     //Update
     public override void OnExecute()
     {
-        //Debug.Log("Execute PlayerWallJump");
+
     }
     //ðŒ•ªŠò
     public override Enum OnExit()
     {
-        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall))
+        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
-            //_player.IsWallJumped = false;
-            return ReturneDefault();
-        }
-        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
-        {
-            if (_player.Rigidbody.velocity.y < 0)
+            if (_player.Rigidbody.velocity.y <= 0)
             {
                 return Player.PlayerState.Float;
             }

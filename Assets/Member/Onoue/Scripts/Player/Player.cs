@@ -21,9 +21,9 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     [SerializeField] float _durationTime;
     [SerializeField] float _speed;
     [SerializeField] float _jumpPower;
+    [SerializeField] float _wallJumpPower;
     [SerializeField] int _damage = 5;
-    [SerializeField] RawMaterialID[] _materialID = { RawMaterialID.Empty, RawMaterialID.Empty };
-    [SerializeField] Vector2 _jumpDir;
+    RawMaterialID[] _materialID = { RawMaterialID.Empty, RawMaterialID.Empty };
     bool _isJumped;
     bool _isWallJumped;
     bool _isAttacked;
@@ -41,6 +41,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public float Speed { get => _speed; private set => _speed = value; }
     /// <summary>ƒWƒƒƒ“ƒv—Í</summary>
     public float JumpPower { get => _jumpPower; private set => _jumpPower = value; }
+    public float WallJumpPower { get => _wallJumpPower; private set => _wallJumpPower = value; }
     public bool IsJumped { get => _isJumped; set => _isJumped = value; }
     public bool IsWallJumped { get => _isWallJumped; set => _isWallJumped = value; }
     public bool IsAttacked { get => _isAttacked; set => _isAttacked = value; }
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     private void Awake()
     {
+        GameController.Instance.Player = transform;
         GameController.Instance.AddFieldObjectDatable(this);
     }
     private void Start()
@@ -75,8 +77,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             .AddState(PlayerState.Run, new PlayerRun())
             .AddState(PlayerState.Jump, new PlayerJump())
             .AddState(PlayerState.Attack, new PlayerAttack())
-            .AddState(PlayerState.WallJump,new PlayerWallJump())
-            .AddState(PlayerState.Float,new PlayerFloat());
+            .AddState(PlayerState.WallJump, new PlayerWallJump())
+            .AddState(PlayerState.Float, new PlayerFloat());
 
         _stateMachine.AddMonoData(this);
         _stateMachine.IsRun = true;
@@ -107,13 +109,12 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Jump()
     {
-        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
             _isJumped = true;
         }
-        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall,true))
+        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true))
         {
-            Debug.Log("‰Ÿ‚³‚ê‚½");
             _isWallJumped = true;
         }
     }
@@ -207,11 +208,11 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
-        Debug.Log(_stateMachine.CurrentKey);
+        // Debug.Log(_stateMachine.CurrentKey);
     }
     private void Update()
     {
-        
+
     }
     public void AddDamage(int damage)
     {

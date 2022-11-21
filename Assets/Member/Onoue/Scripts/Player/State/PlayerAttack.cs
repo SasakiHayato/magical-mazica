@@ -26,7 +26,7 @@ public class PlayerAttack : MonoStateBase
     //Awake
     public override void Setup(MonoStateData data)
     {
-        Debug.Log("Setup PlayerAttack");
+        
     }
 }
 
