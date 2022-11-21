@@ -19,6 +19,7 @@ public class FieldTouchOperator : MonoBehaviour
     [System.Serializable]
     class LayerData
     {
+        [SerializeField] string _path;
         [SerializeField] TouchType _touchType;
         [SerializeField] Vector2 _offset;
         [SerializeField] LayerMask _touchLayer;
@@ -26,6 +27,8 @@ public class FieldTouchOperator : MonoBehaviour
         [SerializeField] float _distance;
         [SerializeField] bool _onGizmo;
 
+        public int ID { get; set; }
+        public string Path => _path;
         public TouchType TouchType => _touchType;
         public Vector2 Offset => _offset;
         public LayerMask TouchLayer => _touchLayer;
@@ -34,13 +37,30 @@ public class FieldTouchOperator : MonoBehaviour
         public bool OnGizmo => _onGizmo;
     }
 
+    public struct LayerInfo
+    {
+        public int ID { get; set; }
+        public string Path { get; set; }
+        public TouchType TouchType { get; set; }
+        public LayerMask TouchLayer { get; set; }
+    }
+
     [SerializeField] Transform _user;
     [SerializeField] List<LayerData> _layerDataList;
 
     int _dirCollect = 1;
 
+    
+
     void Start()
     {
+        int id = 0;
+        _layerDataList.ForEach(l => 
+        {
+            l.ID = id;
+            id++;
+        });
+
         _dirCollect = (int)Mathf.Sign(_user.localScale.x);
     }
 
@@ -59,6 +79,54 @@ public class FieldTouchOperator : MonoBehaviour
     public void OnChangeLayDir()
     {
         _dirCollect *= -1;
+    }
+
+    public void IsTouchLayerID(out int[] idArray)
+    {
+        var list = _layerDataList.Where(l => OnProcess(l)).ToArray();
+        idArray = new int[list.Count()];
+        for (int index = 0; index < idArray.Length; index++)
+        {
+            idArray[index] = list[index].ID;
+        }
+    }
+
+    public void IsTouchLayerPath(out string[] pathArray)
+    {
+        var list = _layerDataList.Where(l => OnProcess(l)).ToArray();
+        pathArray = new string[list.Count()];
+        for (int index = 0; index < pathArray.Length; index++)
+        {
+            pathArray[index] = list[index].Path;
+        }
+    }
+
+    public LayerInfo GetLayerInfo(int id)
+    {
+        LayerData data = _layerDataList.FirstOrDefault(l => l.ID == id);
+        LayerInfo info = new LayerInfo
+        {
+            ID = data.ID,
+            Path = data.Path,
+            TouchLayer = data.TouchLayer,
+            TouchType = data.TouchType
+        };
+
+        return info;
+    }
+
+    public LayerInfo GetLayerInfo(string path)
+    {
+        LayerData data = _layerDataList.FirstOrDefault(l => l.Path == path);
+        LayerInfo info = new LayerInfo
+        {
+            ID = data.ID,
+            Path = data.Path,
+            TouchLayer = data.TouchLayer,
+            TouchType = data.TouchType
+        };
+
+        return info;
     }
 
     bool OnProcess(LayerData d)
@@ -80,11 +148,7 @@ public class FieldTouchOperator : MonoBehaviour
 
         Vector2 dir = set + d.Offset;
         dir.x *= _dirCollect;
-        //if (_user != null)
-        //{
-            
-        //}
-
+       
         return dir;
     }
 
