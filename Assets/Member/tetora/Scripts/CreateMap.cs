@@ -34,6 +34,8 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
 
     protected static CreateMap Instance { get; private set; }
 
+    int IGameSetupable.Priority => 1;
+
     private void Awake()
     {
         Instance = this;

@@ -46,7 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sounderPrefab: {fileID: 191971824368404787, guid: f7ad9477d534394498facef0d218bf6f, type: 3}
   _poolCount: 5
-  _soundDataAssetList: []
+  _soundDataAssetList:
+  - {fileID: 11400000, guid: 74db19c28203da347aaf68dd6f85c8ee, type: 2}
+  - {fileID: 11400000, guid: c26ddcf3ca6aeda47b5ba72ac99f36dc, type: 2}
   _masterVolume: 0.5
   _bgmVolume: 0.5
   _seVolume: 0.5

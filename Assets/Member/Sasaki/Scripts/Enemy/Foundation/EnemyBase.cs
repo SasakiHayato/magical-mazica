@@ -89,6 +89,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     {
         if (IsDamage(damage))
         {
+            SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Hit");
             _hp -= damage;
         }
 
@@ -97,10 +98,6 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
             SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Dead");
             EffectStocker.LoadEffect("Dead", transform.position);
             Destroy(gameObject);
-        }
-        else
-        {
-            SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Hit");
         }
     }
 }
