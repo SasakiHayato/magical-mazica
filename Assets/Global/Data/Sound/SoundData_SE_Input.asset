@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4caada4c5460cd44ab7cb917daef028, type: 3}
-  m_Name: EffectDataAsset
+  m_Script: {fileID: 11500000, guid: a89a338200dda974cb557cc36a9ecaaf, type: 3}
+  m_Name: SoundData_SE_Input
   m_EditorClassIdentifier: 
-  _effectDataList:
-  - _path: Test
-    _effecter: {fileID: 1481859162801650067, guid: ae704ae0a7972e5428fc8b6ca3a7768e, type: 3}
+  _volumeType: 1
+  _soundType: 3
+  _soundDataList:
+  - _path: Click
+    _clip: {fileID: 8300000, guid: e7d32a885e907cf48a06a19ab427abe9, type: 3}
+    _volume: 0.398
+    _isLoop: 0
