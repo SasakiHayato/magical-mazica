@@ -35,6 +35,8 @@ public class SoundManager : MonoBehaviour
 
     public static void PlayRequest(SoundType type, string path)
     {
+        if (Instance == null) return;
+      
         SoundDataAsset asset = Instance._soundDataAssetList.Find(s => s.SoundType == type);
         SoundDataAsset.SoundData data = asset.GetSoundData(path);
 
