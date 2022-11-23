@@ -115,26 +115,26 @@ public class PlayerInputController : MonoBehaviour
 
     void Select(Vector2 value)
     {
-        if (0 == (int)value.x)
+        if (0 == value.x)
         {
             _onSelectX = false;
         }
 
-        if (0 == (int)value.y)
+        if (0 == value.y)
         {
             _onSelectY = false;
         }
 
-        if (0 != (int)value.x && !_onSelectX)
+        if (0 != value.x && !_onSelectX)
         {
             _onSelectX = true;
-            _selectX += (int)value.x;
+            _selectX += (int)Mathf.Sign(value.x);
         }
 
-        if (0 != (int)value.y && !_onSelectY)
+        if (0 != value.y && !_onSelectY)
         {
             _onSelectY = true;
-            _selectY += (int)value.y;
+            _selectY += (int)Mathf.Sign(value.y);
         }
 
         GameController.Instance.UserInput.Operate.Select(ref _selectX, ref _selectY);

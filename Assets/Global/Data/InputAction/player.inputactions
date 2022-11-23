@@ -443,6 +443,17 @@
                     "action": "PlayerSubmit",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4c1b0de-1469-4a74-813f-839546968590",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerSubmit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
