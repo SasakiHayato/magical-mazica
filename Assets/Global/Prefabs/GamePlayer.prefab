@@ -174,7 +174,6 @@ GameObject:
   - component: {fileID: 4497415827230251091}
   - component: {fileID: 4497415827230251089}
   - component: {fileID: 4497415827230251118}
-  - component: {fileID: -1801733807423691285}
   m_Layer: 0
   m_Name: GamePlayer
   m_TagString: Player
@@ -450,19 +449,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &-1801733807423691285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4497415827230251096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b207323766abd44ba40b0b4f60ff534, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _target: {fileID: 4497415827230251094}
 --- !u!1 &6035962886033364283
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +495,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _user: {fileID: 4497415827230251094}
   _layerDataList:
-  - _touchType: 0
+  - _path: 
+    _touchType: 0
     _offset: {x: -0.45, y: 0}
     _touchLayer:
       serializedVersion: 2
@@ -517,7 +504,8 @@ MonoBehaviour:
     _directionType: 1
     _distance: 1.15
     _onGizmo: 1
-  - _touchType: 0
+  - _path: 
+    _touchType: 0
     _offset: {x: 0.45, y: 0}
     _touchLayer:
       serializedVersion: 2
@@ -525,7 +513,8 @@ MonoBehaviour:
     _directionType: 1
     _distance: 1.15
     _onGizmo: 1
-  - _touchType: 1
+  - _path: 
+    _touchType: 1
     _offset: {x: 1, y: 1}
     _touchLayer:
       serializedVersion: 2
@@ -533,7 +522,8 @@ MonoBehaviour:
     _directionType: 1
     _distance: 0.55
     _onGizmo: 1
-  - _touchType: 1
+  - _path: 
+    _touchType: 1
     _offset: {x: -1, y: 1}
     _touchLayer:
       serializedVersion: 2

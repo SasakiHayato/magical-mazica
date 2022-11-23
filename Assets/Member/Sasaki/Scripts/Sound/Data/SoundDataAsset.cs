@@ -14,7 +14,7 @@ namespace SoundSystem
         BGM,
         SEEnemy,
         SEPlayer,
-        SEOther,
+        SEInput,
     }
 
     [CreateAssetMenu(fileName = "SoundDataAsset_[Name]")]

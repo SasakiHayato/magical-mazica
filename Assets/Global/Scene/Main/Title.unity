@@ -786,13 +786,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6083b7731ff86c4f93f5bf811bfb519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uIOperateEventable:
-    rid: -2
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
 --- !u!1 &1165820217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,6 +1501,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1978570322219048631, guid: 0ec23b25960803b4e93a532e0e6b0aae, type: 3}
+      propertyPath: _soundDataAssetList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978570322219048631, guid: 0ec23b25960803b4e93a532e0e6b0aae, type: 3}
+      propertyPath: _soundDataAssetList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 74db19c28203da347aaf68dd6f85c8ee, type: 2}
+    - target: {fileID: 1978570322219048631, guid: 0ec23b25960803b4e93a532e0e6b0aae, type: 3}
+      propertyPath: _soundDataAssetList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 619a5bcd671fac64aa66584fbac2592c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ec23b25960803b4e93a532e0e6b0aae, type: 3}
 --- !u!1 &2118188251
