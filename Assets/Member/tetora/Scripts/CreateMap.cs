@@ -67,7 +67,7 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         StartDig();
         DecisionPlayerPos();
         SetGoalPos();
-        InstantiateEnemy();        
+        InstantiateEnemy();
         InstantiateTeleObj();
     }
     /// <summary>ランダムな開始地点を決める</summary>
@@ -241,8 +241,8 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
     {
         var goal = Instantiate(_goalObj);
         Point goalPoint = Dijkstra.GetGoalPoint(_stageMap);
+        goalPoint.State = MapState.Goal;
         goal.transform.position = goalPoint.ObjTransform.position;
-        Debug.Log($"Cost{goalPoint.Cost},Id{goalPoint.Id},State{goalPoint.State}");
     }
     void InstantiateTeleObj()
     {
