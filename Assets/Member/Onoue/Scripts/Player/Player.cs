@@ -14,7 +14,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         Jump,
         Attack,
         WallJump,
-        Float
+        Float,
+        IsStick
     }
     [SerializeField] int _maxHP;
     ReactiveProperty<int> _hp = new ReactiveProperty<int>();
@@ -78,12 +79,12 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             .AddState(PlayerState.Jump, new PlayerJump())
             .AddState(PlayerState.Attack, new PlayerAttack())
             .AddState(PlayerState.WallJump, new PlayerWallJump())
-            .AddState(PlayerState.Float, new PlayerFloat());
+            .AddState(PlayerState.Float, new PlayerFloat())
+            .AddState(PlayerState.IsStick, new PlayerIsStick());
 
         _stateMachine.AddMonoData(this);
         _stateMachine.IsRun = true;
     }
-
     void OnDestroy()
     {
         GameController.Instance.RemoveFieldObjectDatable(this);
@@ -196,7 +197,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     private void FixedUpdate()
     {
-        //PlayerMove(Direction);
+        //Debug.Log(_stateMachine.CurrentKey);
         if (Direction.x != 0)
         {
             if (Direction.x < 0)
@@ -208,11 +209,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
-        // Debug.Log(_stateMachine.CurrentKey);
-    }
-    private void Update()
-    {
-
     }
     public void AddDamage(int damage)
     {

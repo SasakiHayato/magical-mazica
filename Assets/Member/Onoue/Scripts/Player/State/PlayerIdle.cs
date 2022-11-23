@@ -10,7 +10,9 @@ public class PlayerIdle : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
-        _player.Rigidbody.velocity = Vector3.zero;
+        //_player.Rigidbody.velocity = Vector3.zero;
+        _player.IsJumped = false;
+        _player.IsWallJumped = false;
     }
     //Update
     public override void OnExecute()
@@ -24,7 +26,7 @@ public class PlayerIdle : MonoStateBase
         {
             return Player.PlayerState.Jump;
         }
-        if (_player.Direction != Vector2.zero)
+        if (_player.Direction.x != 0)
         {
             return Player.PlayerState.Run;
         }

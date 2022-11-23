@@ -11,21 +11,16 @@ public class PlayerWallJump : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
-        _player.Rigidbody.velocity = Vector2.zero;
-        if (_player.Direction.x != 0)
+        //_player.Rigidbody.velocity = Vector2.zero;
+        _player.FieldTouchOperator.IsTouchLayerID(out int[] id);
+        if (id[0] == 2)
         {
-            if (_player.Direction.x < 0)
-            {
-                //¶“ü—Í
-                _player.Rigidbody.AddForce(Vector2.one * _player.WallJumpPower, ForceMode2D.Impulse);
-            }
-            else
-            {
-                //‰E“ü—Í
-                _player.Rigidbody.AddForce(new Vector2(-1, 1) * _player.WallJumpPower, ForceMode2D.Impulse);
-            }
+            _player.Rigidbody.AddForce(new Vector2(-1, 1) * _player.WallJumpPower, ForceMode2D.Impulse);
         }
-        _player.IsWallJumped = false;
+        else if (id[0] == 3)
+        {
+            _player.Rigidbody.AddForce(Vector2.one * _player.WallJumpPower, ForceMode2D.Impulse);
+        }
     }
     //Update
     public override void OnExecute()
@@ -35,16 +30,25 @@ public class PlayerWallJump : MonoStateBase
     //ðŒ•ªŠò
     public override Enum OnExit()
     {
-        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
+        if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true)
+            && !_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true))
         {
             if (_player.Rigidbody.velocity.y <= 0)
             {
+                _player.IsWallJumped = false;
                 return Player.PlayerState.Float;
             }
         }
-        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground))
+        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
             return ReturneDefault();
+        }
+        //‚±‚±‚ªŒ´ˆö
+        if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true) 
+            && MathF.Abs(_player.Rigidbody.velocity.x) <= 0)
+        {
+            _player.IsWallJumped = false;
+            return Player.PlayerState.IsStick;
         }
         return Player.PlayerState.WallJump;
     }

@@ -25,7 +25,7 @@ public class PlayerInputController : MonoBehaviour
         _playerInput.actions["Fire"].started += OnFire;
         _playerInput.actions["Fusion"].started += OnFusion;
         _playerInput.actions["SetMaterial"].started += OnSet;
-        
+
         _playerInput.actions["PlayerSubmit"].started +=
             context => GameController.Instance.UserInput.IsOperateRequest = true;
         _playerInput.actions["PlayerSubmit"].canceled +=
@@ -57,8 +57,8 @@ public class PlayerInputController : MonoBehaviour
 
         if (_player != null)
         {
-            var direction = _playerInput.actions["Move"].ReadValue<Vector2>();
-            _player.Direction = direction;
+            var direction = _playerInput.actions["Move"].ReadValue<Vector2>().x;
+            _player.Direction = new Vector2(direction, 0);
         }
 
         if (_playerInput.currentActionMap.name == UserInputManager.InputType.UserInterface.ToString()
@@ -147,7 +147,7 @@ public class PlayerInputController : MonoBehaviour
         if (GameController.Instance.UserInput.Operate.SubmitEvent())
         {
             GameController.Instance.UserInput.Operate.DisposeEvent();
-        } 
+        }
     }
 
     void Cancel()
