@@ -13,7 +13,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     {
         if (collision.gameObject.CompareTag("Player") && GameController.Instance.UserInput.IsOperateRequest)
         {
-            GameController.Instance.UserInput.ChangeInput(UserInputManager.InputType.UserInterface);
+            GameController.Instance.UserInput.SetInput(UserInputManager.InputType.UserInterface);
             GameController.Instance.UserInput.OperateRequest(this);
         }
     }
@@ -54,13 +54,13 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     void IUIOperateEventable.CancelEvent()
     {
-        GameController.Instance.UserInput.ChangeInput(UserInputManager.InputType.Player);
+        GameController.Instance.UserInput.SetInput(UserInputManager.InputType.Player);
         GameController.Instance.UserInput.OperateRequest(this);
     }
 
     void IUIOperateEventable.DisposeEvent()
     {
-        GameController.Instance.UserInput.ChangeInput(UserInputManager.InputType.Player);
+        GameController.Instance.UserInput.SetInput(UserInputManager.InputType.Player);
         GameController.Instance.UserInput.OperateRequest(null);
     }
 }

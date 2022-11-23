@@ -15,14 +15,16 @@ public class UserInputManager
         UserInterface,
     }
 
+    
     PlayerInputController _playerInput;
 
     public bool IsOperateRequest { get; set; }
-
+    public InputType CurrentInputType { get; private set; }
     public IUIOperateEventable Operate { get; private set; }
 
-    public void ChangeInput(InputType inputType)
+    public void SetInput(InputType inputType)
     {
+        //CurrentInputType = inputType;
         _playerInput.ChangeInput(inputType);
     }
 
