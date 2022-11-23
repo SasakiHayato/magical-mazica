@@ -66,7 +66,8 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         _wallObjSize = _wallObj.transform.localScale.x;
         StartDig();
         DecisionPlayerPos();
-        InstantiateEnemy();
+        SetGoalPos();
+        InstantiateEnemy();        
         InstantiateTeleObj();
     }
     /// <summary>ランダムな開始地点を決める</summary>
@@ -238,7 +239,10 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
 
     void SetGoalPos()
     {
-        //経路探索アルゴリズムを使ってプレイヤーから一番遠い所に生成
+        var goal = Instantiate(_goalObj);
+        Point goalPoint = Dijkstra.GetGoalPoint(_stageMap);
+        goal.transform.position = goalPoint.ObjTransform.position;
+        Debug.Log($"Cost{goalPoint.Cost},Id{goalPoint.Id},State{goalPoint.State}");
     }
     void InstantiateTeleObj()
     {
