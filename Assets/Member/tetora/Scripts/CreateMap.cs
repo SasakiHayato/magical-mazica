@@ -66,6 +66,7 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         _wallObjSize = _wallObj.transform.localScale.x;
         StartDig();
         DecisionPlayerPos();
+        SetGoalPos();
         InstantiateEnemy();
         InstantiateTeleObj();
     }
@@ -238,7 +239,10 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
 
     void SetGoalPos()
     {
-        //経路探索アルゴリズムを使ってプレイヤーから一番遠い所に生成
+        var goal = Instantiate(_goalObj);
+        Point goalPoint = Dijkstra.GetGoalPoint(_stageMap);
+        goalPoint.State = MapState.Goal;
+        goal.transform.position = goalPoint.ObjTransform.position;
     }
     void InstantiateTeleObj()
     {

@@ -123,11 +123,14 @@ public class Point
     Transform _objTransform;
     public Transform ObjTransform { get => _objTransform; set => _objTransform = value; }
     bool _isGenerate;
+    bool _isOpen;
+    int _cost;
     public bool IsGenerate { get => _isGenerate; set => _isGenerate = value; }
+    public bool IsOpen { get => _isOpen; set => _isOpen = value; }
+    public int Cost { get => _cost; set => _cost = value; }
     public readonly int Id;
     public Point(int id)
     {
         Id = id;
     }
-
 }
