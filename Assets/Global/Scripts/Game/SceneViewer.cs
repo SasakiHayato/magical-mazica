@@ -26,6 +26,11 @@ public class SceneViewer : MonoBehaviour
 
     void Start()
     {
+        Setup();
+    }
+
+    void Setup()
+    {
         if (_fadeManager == null)
         {
             Load();
@@ -64,5 +69,11 @@ public class SceneViewer : MonoBehaviour
     public static void SceneLoad(SceneType sceneType)
     {
         Instance.OnWaitUnLoad(sceneType).Forget();
+    }
+
+    public static void Initalize()
+    {
+        GameController.Instance.Dispose();
+        Instance.Setup();
     }
 }

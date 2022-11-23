@@ -13,8 +13,6 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     {
         if (collision.gameObject.CompareTag("Player") && GameController.Instance.UserInput.IsOperateRequest)
         {
-            Debug.Log("ゴールした");
-            //マップを移動する関数をここで呼ぶ
             GameController.Instance.UserInput.ChangeInput(UserInputManager.InputType.UserInterface);
             GameController.Instance.UserInput.OperateRequest(this);
         }
@@ -29,7 +27,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     {
         _currentSelectID = horizontal;
 
-        if(0 < _currentSelectID)
+        if(0 > _currentSelectID)
         {
             _currentSelectID = 0;
         }
@@ -39,6 +37,8 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
             _currentSelectID = MaxSelectID - 1;
         }
 
+        Debug.Log($"OnNext => {_currentSelectID == 1} ID {_currentSelectID}");
+
         horizontal = _currentSelectID;
     }
 
@@ -46,8 +46,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     {
         if (_currentSelectID == 1)
         {
-            GameController.Instance.Dispose();
-            GameController.Instance.Setup();
+            SceneViewer.Initalize();
         }
 
         return true;
@@ -62,6 +61,6 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     void IUIOperateEventable.DisposeEvent()
     {
         GameController.Instance.UserInput.ChangeInput(UserInputManager.InputType.Player);
-        GameController.Instance.UserInput.OperateRequest(this);
+        GameController.Instance.UserInput.OperateRequest(null);
     }
 }

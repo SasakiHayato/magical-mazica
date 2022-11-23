@@ -8,7 +8,7 @@ namespace ObjectPool.Event
         /// <summary>
         /// Eventの終了タイミングでTrueを返すようにする
         /// </summary>
-        bool IsDone { get; set; }
+        bool IsDone { get; }
     }
 
     /// <summary>

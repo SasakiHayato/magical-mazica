@@ -84,11 +84,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         _stateMachine.IsRun = true;
     }
 
-    void OnDestroy()
-    {
-        GameController.Instance.RemoveFieldObjectDatable(this);
-    }
-
     /// <summary>
     /// çUåÇ
     /// </summary>
