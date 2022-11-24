@@ -304,7 +304,7 @@ MonoBehaviour:
   _maxHP: 10
   _durationTime: 0
   _speed: 8.5
-  _jumpPower: 5
+  _jumpPower: 7
   _wallJumpPower: 10
   _damage: 5
 --- !u!95 &4497415827230251091
