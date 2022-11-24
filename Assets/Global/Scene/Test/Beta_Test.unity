@@ -446,7 +446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObject: {fileID: 11400000, guid: c367dee142adb4c43b14a120a7b9ff80, type: 2}
   _wallObj: {fileID: 3990626567200311567, guid: 82a63c52617dfab498cec8368cb6d6aa, type: 3}
-  _goalObj: {fileID: 0}
+  _goalObj: {fileID: 9151029219824797125, guid: 17e71aa930cb99c44a7132d314c7bc8c, type: 3}
   _parentObj: {fileID: 415059979}
   _teleportObj:
   - {fileID: 5093053654628721447, guid: 4f9691d0e88a67447bff17d5afa39e8e, type: 3}

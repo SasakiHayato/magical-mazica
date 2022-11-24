@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class PlayerInputController : MonoBehaviour
 {
     int _selectX = 0;
@@ -20,7 +19,11 @@ public class PlayerInputController : MonoBehaviour
     }
     void OnEnable()
     {
-        _playerInput.actions["Jump"].started += OnJump;
+        _playerInput.actions["Jump"].started += ContextMenu => 
+        {
+            Debug.Log("aaa");
+            OnJump(ContextMenu);
+        };
         _playerInput.actions["Attack"].started += OnAttack;
         _playerInput.actions["Fire"].started += OnFire;
         _playerInput.actions["Fusion"].started += OnFusion;
@@ -53,8 +56,6 @@ public class PlayerInputController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //_player.PlayerMove(direction);
-
         if (_player != null)
         {
             var direction = _playerInput.actions["Move"].ReadValue<Vector2>().x;
@@ -67,10 +68,7 @@ public class PlayerInputController : MonoBehaviour
             Select(_playerInput.actions["UISelect"].ReadValue<Vector2>());
         }
     }
-    private void Setup()
-    {
-
-    }
+    
     private void OnJump(InputAction.CallbackContext obj)
     {
         _player.Jump();
@@ -115,26 +113,26 @@ public class PlayerInputController : MonoBehaviour
 
     void Select(Vector2 value)
     {
-        if (0 == (int)value.x)
+        if (0 == value.x)
         {
             _onSelectX = false;
         }
 
-        if (0 == (int)value.y)
+        if (0 == value.y)
         {
             _onSelectY = false;
         }
 
-        if (0 != (int)value.x && !_onSelectX)
+        if (0 != value.x && !_onSelectX)
         {
             _onSelectX = true;
-            _selectX += (int)value.x;
+            _selectX += (int)Mathf.Sign(value.x);
         }
 
-        if (0 != (int)value.y && !_onSelectY)
+        if (0 != value.y && !_onSelectY)
         {
             _onSelectY = true;
-            _selectY += (int)value.y;
+            _selectY += (int)Mathf.Sign(value.y);
         }
 
         GameController.Instance.UserInput.Operate.Select(ref _selectX, ref _selectY);

@@ -26,6 +26,11 @@ public class SceneViewer : MonoBehaviour
 
     void Start()
     {
+        Setup();
+    }
+
+    void Setup()
+    {
         if (_fadeManager == null)
         {
             Load();
@@ -35,8 +40,6 @@ public class SceneViewer : MonoBehaviour
             _fadeManager.Setup();
             OnWaitLoad().Forget();
         }
-
-        GameController.Instance.UserInput.ChangeInput(_defaultInputType);
     }
 
     async UniTask OnWaitLoad()
@@ -50,6 +53,7 @@ public class SceneViewer : MonoBehaviour
     {
         GameController.Instance.Setup();
         SoundManager.PlayRequest(SoundSystem.SoundType.BGM, _bgmPath);
+        GameController.Instance.UserInput.SetInput(_defaultInputType);
     }
 
     async UniTask OnWaitUnLoad(SceneType sceneType)
@@ -64,5 +68,11 @@ public class SceneViewer : MonoBehaviour
     public static void SceneLoad(SceneType sceneType)
     {
         Instance.OnWaitUnLoad(sceneType).Forget();
+    }
+
+    public static void Initalize()
+    {
+        GameController.Instance.Dispose();
+        Instance.Setup();
     }
 }

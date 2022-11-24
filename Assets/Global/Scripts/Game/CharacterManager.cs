@@ -36,8 +36,15 @@ public class CharacterManager : MonoBehaviour, IGameSetupable
     /// </summary>
     public void CreatePlayer(Transform spawnPosition)
     {
-        _currentPlayer = Instantiate(_playerPrefab, spawnPosition.position, Quaternion.identity);
-        _playerSpawn.OnNext(_currentPlayer);
+        if (GameController.Instance.Player == null)
+        {
+            _currentPlayer = Instantiate(_playerPrefab, spawnPosition.position, Quaternion.identity);
+            _playerSpawn.OnNext(_currentPlayer);
+        }
+        else
+        {
+            GameController.Instance.Player.position = spawnPosition.position;
+        }
     }
     public Player GetPlayer()
     {

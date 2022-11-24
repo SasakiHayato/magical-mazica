@@ -13,6 +13,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField, Range(0, 1)] float _seVolume;
 
     Pool<Sounder> _pool = new Pool<Sounder>();
+    Sounder _bgmSounder;
 
     static SoundManager Instance = null;
 
@@ -50,5 +51,20 @@ public class SoundManager : MonoBehaviour
         action += () => sounder.SetData(data, asset.VolumeType);
 
         action.Invoke();
+
+        if (type == SoundType.BGM)
+        {
+            if (Instance._bgmSounder != null)
+            {
+                StopBGM();
+            }
+
+            Instance._bgmSounder = sounder;
+        }
+    }
+
+    public static void StopBGM()
+    {
+        Instance._bgmSounder.OnStop();
     }
 }

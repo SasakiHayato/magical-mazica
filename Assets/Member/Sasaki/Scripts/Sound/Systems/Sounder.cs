@@ -1,18 +1,23 @@
 using ObjectPool;
+using ObjectPool.Event;
 using UnityEngine;
 
 namespace SoundSystem
 {
-    public class Sounder : MonoBehaviour, IPool
+    public class Sounder : MonoBehaviour, IPool, IPoolEvent
     {
         float _dataVolume;
+        bool _isStop;
 
         AudioSource _audioSource;
         VolumeType _volumeType;
 
+        bool IPoolEvent.IsDone => _isStop;
+
         void IPool.Setup(Transform parent)
         {
             _audioSource = gameObject.AddComponent<AudioSource>();
+            _isStop = false;
         }
 
         public void SetData(SoundDataAsset.SoundData data, VolumeType volumeType)
@@ -47,7 +52,12 @@ namespace SoundSystem
         bool IPool.Execute()
         {
             _audioSource.volume = SetVolume(_volumeType, _dataVolume);
-            return !_audioSource.isPlaying;
+            return !_audioSource.isPlaying || _isStop;
+        }
+
+        public void OnStop()
+        {
+            _isStop = true;
         }
     }
 }

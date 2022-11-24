@@ -155,10 +155,7 @@ namespace ObjectPool
                 data.Pool.gameObject.SetActive(true);
 
                 action += () => data.IsUse = true;
-                if (data.Event != null)
-                {
-                    action += () => data.Event.IsDone = false;
-                }
+                
                 if (data.OnEnable != null)
                 {
                     action += () => data.OnEnable.OnEnableEvent();
@@ -199,10 +196,7 @@ namespace ObjectPool
                 data.Pool.gameObject.SetActive(true);
 
                 action += () => data.IsUse = true;
-                if (data.Event != null)
-                {
-                    action += () => data.Event.IsDone = false;
-                }
+                
                 if (data.OnEnable != null)
                 {
                     action += () => data.OnEnable.OnEnableEvent();

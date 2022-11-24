@@ -2,7 +2,7 @@ using MonoState;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
+public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable, IGameDisposable
 {
     public enum State
     {
@@ -35,6 +35,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     void Awake()
     {
         GameController.Instance.AddFieldObjectDatable(this);
+        GameController.Instance.AddGameDisposable(this);
     }
 
     void Start()
@@ -58,11 +59,6 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
         Rotate();
         Execute();
-    }
-
-    void OnDestroy()
-    {
-        GameController.Instance.RemoveFieldObjectDatable(this);
     }
 
     protected abstract void Setup();
@@ -99,5 +95,12 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
             EffectStocker.LoadEffect("Dead", transform.position);
             Destroy(gameObject);
         }
+    }
+
+    void IGameDisposable.GameDispose()
+    {
+        if (this == null) return;
+
+        Destroy(gameObject);
     }
 }
