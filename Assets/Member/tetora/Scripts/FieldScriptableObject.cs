@@ -13,8 +13,12 @@ public class FieldScriptableObject : ScriptableObject
     [SerializeField]
     List<GameObject> _enemyObject;//敵のオブジェクト
 
+    [SerializeField]
+    GameObject _bossObj;
+
     public int MapVerSide { get => _mapVerSide; }
     public int MapHorSide { get => _mapHorSide; }
     public List<GameObject> EnemyObject { get => _enemyObject; }
+    public GameObject BossObj { get => _bossObj; }
 }
 
