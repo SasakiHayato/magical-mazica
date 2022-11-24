@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class MapCreaterBase : MonoBehaviour, IGameSetupable, IGameDisposable
 {
-    int IGameSetupable.Priority => 3;
+    int IGameSetupable.Priority => 1;
     public abstract Transform PlayerTransform { get; protected set; }
 
     void Awake()

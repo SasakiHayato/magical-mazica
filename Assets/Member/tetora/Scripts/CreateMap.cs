@@ -7,7 +7,7 @@ public enum MapState
     Wall, Floar, Player, Teleport, Goal
 }
 [System.Serializable]
-public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
+public class CreateMap : MapCreaterBase
 {
     [SerializeField]
     FieldScriptableObject _scriptableObject;
@@ -27,27 +27,22 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
     List<GameObject> _stageObjList = new List<GameObject>();
     StageMap _stageMap;
     int _startDigPos;//Œ@‚èŽn‚ß‚éŽn“_
-    public Transform PlayerTransform { get; private set; }
+    //public Transform PlayerTransform { get; private set; }
     public StageMap StageMap { get => _stageMap; }
 
     public static int TepoatObjLength => Instance._teleportObj.Length;
 
-    protected static CreateMap Instance { get; private set; }
+    static CreateMap Instance = null;
 
-    int IGameSetupable.Priority => 1;
+    public override Transform PlayerTransform { get; protected set; }
 
-    private void Awake()
+    protected override void Create()
     {
         Instance = this;
-
-        GameController.Instance.AddGameSetupable(this);
-        GameController.Instance.AddGameDisposable(this);
-    }
-    public void GameSetup()
-    {
         InitialSet();
     }
-    public void GameDispose()
+
+    protected override void Initalize()
     {
         if (_parentObj != null)
         {
@@ -240,6 +235,7 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
     void SetGoalPos()
     {
         var goal = Instantiate(_goalObj);
+        goal.transform.SetParent(_parentObj.transform);
         Point goalPoint = Dijkstra.GetGoalPoint(_stageMap);
         goalPoint.State = MapState.Goal;
         goal.transform.position = goalPoint.ObjTransform.position;
@@ -322,6 +318,5 @@ public class CreateMap : MonoBehaviour, IGameDisposable, IGameSetupable
         Transform transform = _teleporterController.GetData(id);
         GameController.Instance.Player.position = transform.position;
     }
-
 }
 
