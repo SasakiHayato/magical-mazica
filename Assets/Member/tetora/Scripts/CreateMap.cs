@@ -177,6 +177,7 @@ public class CreateMap : MapCreaterBase
         for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
             GameObject enemy = Instantiate(_scriptableObject.EnemyObject[i]);
+            DebugSetEnemyObject.SetEnemy(enemy.transform);
             SetEnemyPos(enemy);
         }
     }
@@ -284,6 +285,7 @@ public class CreateMap : MapCreaterBase
         for (int i = 0; i < _teleportObj.Length; i++)
         {
             var teleObj = Instantiate(_teleportObj[i]);
+            teleObj.transform.SetParent(_parentObj.transform);
             _teleporterController.CreateData(teleObj.transform, GetTeleportData);
 
             switch (i)
