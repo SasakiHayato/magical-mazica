@@ -4,8 +4,19 @@ using ObjectPool.Event;
 
 public interface IEffectExecutable
 {
+    /// <summary>
+    /// Setup
+    /// </summary>
+    /// <param name="particle">‘ÎÛEffect</param>
     void SetEffect(ParticleSystem particle);
+    /// <summary>
+    /// Update
+    /// </summary>
+    /// <returns>I—¹True‚ğ•Ô‚·</returns>
     bool Execute();
+    /// <summary>
+    /// ŒÄ‚Î‚ê‚é‚½‚Ñ‚É‰Šú‰»
+    /// </summary>
     void Initalize();
 }
 

@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &366368344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 366368346}
+  - component: {fileID: 366368345}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &366368345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366368344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc94955755a227428b65deef65bf67c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectDataAsset: {fileID: 11400000, guid: c11b83f289194ab4789c79d730247bdd, type: 2}
+--- !u!4 &366368346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366368344}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &449817334
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,6 +411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 849923711}
   - component: {fileID: 849923710}
+  - component: {fileID: 849923712}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -440,6 +486,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &849923712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849923709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354477ee9724e904bbf6ff429a6fc281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1006072058
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b207323766abd44ba40b0b4f60ff534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 849923711}
 --- !u!4 &1624224646
 Transform:
   m_ObjectHideFlags: 0
@@ -798,6 +855,22 @@ PrefabInstance:
       propertyPath: _user
       value: 
       objectReference: {fileID: 516121007}
+    - target: {fileID: 8676972492661217920, guid: e0b04945c3ed40d4a94c82f1eb46a5a3, type: 3}
+      propertyPath: _enemyAIData._attackWaitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676972492661217920, guid: e0b04945c3ed40d4a94c82f1eb46a5a3, type: 3}
+      propertyPath: _enemyAIData._attackData._attackEvent
+      value: 4439156736446693377
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676972492661217920, guid: e0b04945c3ed40d4a94c82f1eb46a5a3, type: 3}
+      propertyPath: managedReferences[4439156736446693377]
+      value: Assembly-CSharp EnemyAttackEventSetEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8676972492661217920, guid: e0b04945c3ed40d4a94c82f1eb46a5a3, type: 3}
+      propertyPath: managedReferences[4439156736446693377]._effectPath
+      value: EnemyAttack
+      objectReference: {fileID: 0}
     - target: {fileID: 8676972492661217924, guid: e0b04945c3ed40d4a94c82f1eb46a5a3, type: 3}
       propertyPath: m_RootOrder
       value: 7

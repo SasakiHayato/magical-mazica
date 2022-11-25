@@ -15,3 +15,5 @@ MonoBehaviour:
   _effectDataList:
   - _path: Dead
     _effect: {fileID: 3523595739340774738, guid: ae704ae0a7972e5428fc8b6ca3a7768e, type: 3}
+  - _path: EnemyAttack
+    _effect: {fileID: -7217949928853897825, guid: 991bc8b62bf099b4280f50f386f0ebb4, type: 3}

@@ -1,6 +1,5 @@
 using UnityEngine;
 using MonoState.Data;
-using EnemyAISystem;
 
 namespace EnemyAISystem
 {
@@ -43,6 +42,7 @@ namespace EnemyAISystem
         EnemyAIData IMonoDatableSystem<EnemyAIData>.GetData => this;
         string IMonoDatable.Path => nameof(EnemyAIData);
 
+        
         [SerializeField] EnemyIdleData _idleData;
         [SerializeField] EnemyMoveData _moveData;
         [SerializeField] EnemyAttackData _attackData;
@@ -76,8 +76,10 @@ namespace EnemyAISystem
     [System.Serializable]
     public class EnemyAttackData : EnemyDataBase
     {
+        [SerializeField] float _attackWaitTime = 1;
         [SerializeReference, SubclassSelector] IEnemyAttack _attack;
         [SerializeReference, SubclassSelector] IEnemyAttackEvent _attackEvent;
+        public float AttackWaitTime => _attackWaitTime;
         public IEnemyAttack Attack => _attack;
         public IEnemyAttackEvent AttackEvent => _attackEvent;
     }
