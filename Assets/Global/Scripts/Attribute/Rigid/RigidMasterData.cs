@@ -11,8 +11,16 @@ public static class RigidMasterData
         Horizontal,
     }
 
+    /// <summary>
+    /// d—Í‚Ì‹­‚³
+    /// </summary>
     public static float GravityScale { get; private set; } = 10;
-
+    /// <summary>
+    /// d—Í’è”
+    /// </summary>
     public readonly static float Gravity = Physics2D.gravity.y;
+    /// <summary>
+    /// Šµ«’è”
+    /// </summary>
     public readonly static float InertiaRate = 0.8f;
 }
