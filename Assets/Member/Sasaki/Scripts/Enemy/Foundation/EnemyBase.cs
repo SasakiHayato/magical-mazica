@@ -1,5 +1,7 @@
 using MonoState;
 using UnityEngine;
+using UnityEngine.UI;
+using UniRx;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable, IGameDisposable
@@ -12,15 +14,17 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     }
 
     [SerializeField] int _speed;
-    [SerializeField] int _hp;
+    /// <summary>ç≈ëÂHP</summary>
+    [SerializeField] int _maxHp;
     [SerializeField] bool _isInstantiateFloat;
+    [SerializeField] Slider _slider;
     
     Vector2 _beforePosition = Vector2.zero;
-
+    /// <summary>åªç›HP</summary>
+    ReactiveProperty<int> _currentHp = new ReactiveProperty<int>();
     Transform _player;
     
     protected int Speed => _speed;
-    
     protected Rigidbody2D RB { get; private set; }
     protected MonoStateMachine<EnemyBase> MonoState { get; private set; }
     protected EnemyStateData EnemyStateData { get; private set; } = new EnemyStateData();
@@ -47,6 +51,11 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         
         MonoState = new MonoStateMachine<EnemyBase>(this);
         MonoState.AddMonoData(EnemyStateData);
+
+        //SliderÇÃèâä˙âª
+        _slider.maxValue = _maxHp;
+        _slider.value = _maxHp;
+        _currentHp.Subscribe(i => _slider.value = i).AddTo(this);
 
         _beforePosition = transform.position;
         Setup();
@@ -86,10 +95,10 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         if (IsDamage(damage))
         {
             SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Hit");
-            _hp -= damage;
+            _currentHp.Value -= damage;
         }
 
-        if (_hp <= 0)
+        if (_currentHp.Value <= 0)
         {
             SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Dead");
             EffectStocker.LoadEffect("Dead", transform.position);
