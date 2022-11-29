@@ -128,7 +128,7 @@ MonoBehaviour:
   _text: {fileID: 8134728152381664803}
   _moveDistance: {x: 1, y: 1}
   _fadeinDuration: 0.5
-  _fadeoutDuraion: 0.2
+  _fadeoutDuration: 0.5
   _duration: 2
 --- !u!1 &8134728153340137973
 GameObject:
