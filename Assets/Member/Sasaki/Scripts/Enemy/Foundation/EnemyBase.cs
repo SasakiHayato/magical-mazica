@@ -18,6 +18,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     [SerializeField] int _maxHp;
     [SerializeField] bool _isInstantiateFloat;
     [SerializeField] Slider _slider;
+    [SerializeField] DamageText _damageText;
     
     Vector2 _beforePosition = Vector2.zero;
     /// <summary>åªç›HP</summary>
@@ -95,6 +96,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         if (IsDamage(damage))
         {
             SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Hit");
+            DamageText.Init(_damageText, damage.ToString(), transform.position, Color.red);
             _currentHp.Value -= damage;
         }
 
