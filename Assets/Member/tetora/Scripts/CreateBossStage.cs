@@ -1,11 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class CreateBossStage : MapCreaterBase
 {
     [SerializeField]
-    List<GameObject> _stageTipList;
+    Grid _parentGrid;
+    [SerializeField]
+    List<Tilemap> _stageTipList;
+    [SerializeField]
+    Transform _createMapPos;//生成する場所
+    [SerializeField]
+    int _startCreateNum = 5;
+    [SerializeField]
+    int _moveSize = 18;
+
     public static CreateBossStage Instance;
     public override Transform PlayerTransform { get; protected set; }
 
@@ -15,16 +25,12 @@ public class CreateBossStage : MapCreaterBase
     }
     protected override void Initalize()
     {
-
+        
     }
     public void InitialSet()
     {
-
     }
-    /// <summary>
-    /// スタート時にマップを生成する
-    /// </summary>
-    void CreateStartMap()
+    void CreateMap()
     {
 
     }
