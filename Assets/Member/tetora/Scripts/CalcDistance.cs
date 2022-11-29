@@ -9,19 +9,26 @@ public class CalcDistance : MonoBehaviour
 
     GameObject _player;
 
+    private void Start()
+    {
+        GetPlayer();
+        SetMeasureTool();
+    }
+    private void Update()
+    {
+        if (_player.transform.position.x - transform.position.x < _distance)
+        {
+            //ステージを一つ作る関数を呼ぶ
+            CreateBossStage.Instance.CreateMap();
+            SetMeasureTool();
+        }
+    }
     void GetPlayer()
     {
-        _player = GetComponent<Player>().gameObject;
+        _player = FindObjectOfType<Player>().gameObject;
     }
     void SetMeasureTool()
     {
-        transform.position = new Vector2(_player.transform.position.x - _distance * 2, _player.transform.position.y);
-    }
-    void CalcDis()
-    {
-        if (_player.transform.position.x - transform.position.x >= _distance)
-        {
-            //ステージを一つ作る関数を呼ぶ
-        }
+        gameObject.transform.position = new Vector2(_player.transform.position.x - _distance * 2, _player.transform.position.y);
     }
 }
