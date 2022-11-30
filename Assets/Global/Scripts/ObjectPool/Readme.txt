@@ -1,10 +1,10 @@
 ObjectPool使用方法
 
 Poolの作成
-参考 => SampleのBulletを参照。
+参考 => SampleのObjectPoolSampleBulletを参照。
 
 使用者
-参考 => SampleのUserを参照。
+参考 => SampleのObjectPoolSampleUserを参照。
 
 
 Pool<Mono>について
