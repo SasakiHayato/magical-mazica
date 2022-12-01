@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using ObjectPool;
 
 public class CreateBossStage : MapCreaterBase
 {
@@ -31,7 +32,13 @@ public class CreateBossStage : MapCreaterBase
     }
     protected override void Initalize()
     {
-
+        if (_parentGrid != null)
+        {
+            foreach (Transform item in _parentGrid.transform)
+            {
+                Destroy(item.gameObject);
+            }
+        }
     }
     public void InitialSet()
     {
