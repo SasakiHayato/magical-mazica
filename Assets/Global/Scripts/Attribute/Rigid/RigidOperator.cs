@@ -10,9 +10,11 @@ public partial class RigidOperator : MonoBehaviour
     [SerializeField] bool _freezeRotation = true;
     [SerializeField] bool _useInertia = false;
     [SerializeField] float _mass = 1;
+    [SerializeField] float _maxAcceleration = 5;
     [SerializeField] FieldTouchOperator _fieldTouch;
 
     float _timer = 0;
+    float _gravityScaleRate = 1;
     Vector2 _moveDirection = Vector2.zero;
     
     List<ImpulseData> _impulseDataList = new List<ImpulseData>();
@@ -37,6 +39,10 @@ public partial class RigidOperator : MonoBehaviour
     /// </summary>
     public float Mass { get => _rb.mass; set { _rb.mass = value; } }
     /// <summary>
+    /// 最大重力加速度
+    /// </summary>
+    public float MaxAcceleration { get => _maxAcceleration; set { _maxAcceleration = value; } }
+    /// <summary>
     /// Velocityに対する方向の設定
     /// </summary>
     public Vector2 SetMoveDirection { set { _moveDirection = value; } }
@@ -48,7 +54,6 @@ public partial class RigidOperator : MonoBehaviour
     void Awake()
     {
         // Note. 下記、使用コンポーネントの保証
-
         _rb = gameObject.GetComponent<Rigidbody2D>() ? _rb : gameObject.AddComponent<Rigidbody2D>();
         
         if (_fieldTouch == null)
@@ -70,8 +75,7 @@ public partial class RigidOperator : MonoBehaviour
 
     void FixedUpdate()
     {
-        bool isGround = _fieldTouch.IsTouch(FieldTouchOperator.TouchType.Ground);
-        _timer = isGround ? 0.05f : Time.fixedDeltaTime + _timer;
+        Acceleration();
         
         float horizontal = Horizontal(_moveDirection.x, _impulseDataList[0]);
         float vertical = Vertical(_moveDirection.y, _impulseDataList[1]);
@@ -105,10 +109,21 @@ public partial class RigidOperator : MonoBehaviour
         }
         else
         {
-            float gravity = Gravity * RigidMasterData.GravityScale;
+            float gravity = Gravity * RigidMasterData.GravityScale * _gravityScaleRate;
             moveValue = _useGravity ? gravity : moveValue;
 
             return moveValue + data.GetValue();
+        }
+    }
+
+    void Acceleration()
+    {
+        bool isGround = _fieldTouch.IsTouch(FieldTouchOperator.TouchType.Ground);
+        _timer = isGround ? 0.05f : Time.fixedDeltaTime + _timer;
+
+        if (_timer > _maxAcceleration)
+        {
+            _timer = _maxAcceleration;
         }
     }
 
@@ -122,5 +137,22 @@ public partial class RigidOperator : MonoBehaviour
     {
         ImpulseData data = _impulseDataList.Find(d => d.DirectionType == directionType);
         data.Setup(value, isMoveLock);
+    }
+
+    /// <summary>
+    /// 重力加速度の増え具合を調整
+    /// </summary>
+    /// <param name="rate">割合</param>
+    public void SetGravityRate(float rate)
+    {
+        _gravityScaleRate = rate;
+    }
+
+    /// <summary>
+    /// 重力加速度の初期化
+    /// </summary>
+    public void InitalizeGravity()
+    {
+        _timer = 0;
     }
 }

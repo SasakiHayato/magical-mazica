@@ -257,6 +257,7 @@ namespace ObjectPool
             if (_parent != null)
             {
                 data.Pool.transform.SetParent(_parent);
+                data.Pool.transform.position = _parent.position;
             }
 
             data.IsUse = false;

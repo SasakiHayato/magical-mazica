@@ -14,8 +14,10 @@ public class FusionMaterialObject : MonoBehaviour
 {
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] Rigidbody2D _rb;
+    [SerializeField] ApproachingTag _approachingTag;
     [SerializeField] float _speed;
     private RawMaterialDatabase _materialData;
+    private bool _isMove = false;
     /// <summary>素材データ</summary>
     public RawMaterialDatabase MaterialID => _materialData;
 
@@ -30,6 +32,8 @@ public class FusionMaterialObject : MonoBehaviour
     public static FusionMaterialObject Init(FusionMaterialObject original, Vector2 createPosition, RawMaterialDatabase data, Player player)
     {
         FusionMaterialObject ret = Instantiate(original, createPosition, Quaternion.identity);
+        Debug.Log(data);
+        Debug.Log(player);
         ret.Setup(data, player);
         return ret;
     }
@@ -39,17 +43,24 @@ public class FusionMaterialObject : MonoBehaviour
         _spriteRenderer.sprite = data.Sprite;
         _spriteRenderer.color = data.SpriteColor;
 
-        //データが入ってからUpdate
-        this.UpdateAsObservable()
+        //プレイヤーが接近してから動かす
+        _approachingTag.ApproachEvent
+            .Where(_ => !_isMove)
             .Subscribe(_ =>
             {
-                MoveToPlayer(player.transform.position);
+                _isMove = true;
+                this.UpdateAsObservable()
+                    .Subscribe(_ =>
+                    {
+                        MoveToPlayer(player.transform.position);
+                    })
+                    .AddTo(this);
             })
             .AddTo(this);
     }
 
     /// <summary>
-    /// プレイヤーの方に動かす
+    /// プレイヤーの方に移動
     /// </summary>
     /// <param name="playerPosition"></param>
     private void MoveToPlayer(Vector2 playerPosition)

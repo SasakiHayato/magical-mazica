@@ -13,7 +13,7 @@ public class DropMaterialTest : MonoBehaviour
 
     private void Start()
     {
-        Player p = Instantiate(_player, new Vector2(20, 20), Quaternion.identity);
-        FusionMaterialObject obj = FusionMaterialObject.Init(_prefab, Vector2.zero, _rawMaterialData.GetMaterialData(RawMaterialID.BombBean), p);
+        Player p = Instantiate(_player, new Vector2(4, 5), Quaternion.identity);
+        FusionMaterialObject.Init(_prefab, Vector2.zero, _rawMaterialData.GetMaterialData(RawMaterialID.BombBean), p);
     }
 }

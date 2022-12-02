@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class PlayerHitController : MonoBehaviour
 {
-    Player _player;
-    private void Start()
-    {
-        _player = GetComponentInParent<Player>();
-    }
+    [SerializeField] Player _player;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))
