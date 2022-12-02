@@ -10,7 +10,7 @@ public class PlayerIdle : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
-        //_player.Rigidbody.velocity = Vector3.zero;
+        _player.RigidOperate.SetMoveDirection = Vector2.zero;
         _player.IsJumped = false;
         _player.IsWallJumped = false;
     }
@@ -32,7 +32,7 @@ public class PlayerIdle : MonoStateBase
         }
         if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
-            if (_player.Rigidbody.velocity.y <= 0)
+            if (_player.RigidOperate.ReadVelocity.y <= 0)
             {
                 return Player.PlayerState.Float;
             }

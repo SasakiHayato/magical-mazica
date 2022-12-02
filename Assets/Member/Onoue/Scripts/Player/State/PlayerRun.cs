@@ -11,14 +11,13 @@ public class PlayerRun : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
-
     }
     //Update
     public override void OnExecute()
     {
         Vector2 dir = _player.Direction;
         Vector2 velo = dir.normalized;
-        _player.Rigidbody.velocity = new Vector2(velo.x * _player.Speed, 0);
+        _player.RigidOperate.SetMoveDirection = new Vector2(velo.x * _player.Speed, 0);
     }
     //ğŒ•ªŠò
     public override Enum OnExit()
@@ -37,7 +36,7 @@ public class PlayerRun : MonoStateBase
         }
         if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
-            if (_player.Rigidbody.velocity.y <= 0)
+            if (_player.RigidOperate.ReadVelocity.y <= 0)
             {
                 return Player.PlayerState.Float;
             }

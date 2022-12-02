@@ -18,17 +18,18 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         IsStick
     }
     [SerializeField] int _maxHP;
-    ReactiveProperty<int> _hp = new ReactiveProperty<int>();
     [SerializeField] float _durationTime;
     [SerializeField] float _speed;
-    [SerializeField] float _jumpPower;
-    [SerializeField] float _wallJumpPower;
+    [SerializeField] float _firstJumpPower , _secondJumpPower ,_wallJumpPower;
+    [SerializeField] float[] _wallJumpX;
     [SerializeField] int _damage = 5;
+    //選択したMaterialのIDをセットする変数
     RawMaterialID[] _materialID = { RawMaterialID.Empty, RawMaterialID.Empty };
+    ReactiveProperty<int> _hp = new ReactiveProperty<int>();
     bool _isJumped;
     bool _isWallJumped;
     bool _isAttacked;
-    Rigidbody2D _rb;
+    RigidOperator _ro;
     Animator _anim;
     FusionItem _fusionItem;
     Storage _storage;
@@ -40,13 +41,17 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public int MaxHP => _maxHP;
     /// <summary>移動速度</summary>
     public float Speed { get => _speed; private set => _speed = value; }
-    /// <summary>ジャンプ力</summary>
-    public float JumpPower { get => _jumpPower; private set => _jumpPower = value; }
+    /// <summary>一段目のジャンプ力</summary>
+    public float FirstJumpPower { get => _firstJumpPower; private set => _firstJumpPower = value; }
+    /// <summary>二段目のジャンプ力</summary>
+    public float SecondJumpPower { get => _secondJumpPower; private set => _secondJumpPower = value; }
+    /// <summary>壁ジャンプ力</summary>
     public float WallJumpPower { get => _wallJumpPower; private set => _wallJumpPower = value; }
+    public float[] WallJumpX { get => _wallJumpX; private set => _wallJumpX = value; }
     public bool IsJumped { get => _isJumped; set => _isJumped = value; }
     public bool IsWallJumped { get => _isWallJumped; set => _isWallJumped = value; }
     public bool IsAttacked { get => _isAttacked; set => _isAttacked = value; }
-    public Rigidbody2D Rigidbody { get => _rb; private set => _rb = value; }
+    public RigidOperator RigidOperate { get => _ro; private set => _ro = value; }
     public Vector2 Direction { get; set; }
     /// <summary>現在HPの更新の通知</summary>
     public System.IObservable<int> CurrentHP => _hp;
@@ -65,7 +70,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     }
     private void Start()
     {
-        TryGetComponent(out _rb);
+        TryGetComponent(out _ro);
         TryGetComponent(out _anim);
         _storage = GetComponentInChildren<Storage>();
         _fieldTouchOperator = GetComponentInChildren<FieldTouchOperator>();
@@ -121,29 +126,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     }
 
     /// <summary>
-    /// 移動
-    /// </summary>
-    /// <param name="dir"></param>
-    private void PlayerMove(Vector2 dir)
-    {
-        //_isRun = true;
-        //float h = Input.GetAxisRaw("Horizontal") * _speed;
-        //Vector2 velocity = new Vector2(dir.x * _speed, _rb.velocity.y);
-        //_rb.velocity = velocity;
-        //if (dir.x != 0)
-        //{
-        //    if (dir.x < 0)
-        //    {
-        //        transform.localScale = new Vector3(-1, 1, 1);
-        //    }
-        //    else
-        //    {
-        //        transform.localScale = new Vector3(1, 1, 1);
-        //    }
-        //}
-    }
-
-    /// <summary>
     /// マテリアルのIDをセット
     /// </summary>
     /// <param name="id"></param>
@@ -195,9 +177,13 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         }
     }
 
+    private void Update()
+    {
+        Debug.Log(_stateMachine.CurrentKey);
+    }
+
     private void FixedUpdate()
     {
-        //Debug.Log(_stateMachine.CurrentKey);
         if (Direction.x != 0)
         {
             if (Direction.x < 0)

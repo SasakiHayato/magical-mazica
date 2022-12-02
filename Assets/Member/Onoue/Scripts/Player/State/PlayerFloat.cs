@@ -11,20 +11,21 @@ public class PlayerFloat : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
-        
+        _player.IsJumped = false;
+        _player.IsWallJumped = false;
+        _player.RigidOperate.SetMoveDirection = Vector2.zero;
     }
     //Update
     public override void OnExecute()
     {
-        Vector2 dir = _player.Direction;
-        Vector2 velo = dir.normalized;
-        _player.Rigidbody.velocity = new Vector2(velo.x * _player.Speed, _player.Rigidbody.velocity.y);
+        Vector2 dir = _player.Direction.normalized;
+        _player.RigidOperate.SetMoveDirection = new Vector2(dir.x * _player.Speed, _player.RigidOperate.ReadVelocity.y);
     }
     //ğŒ•ªŠò
     public override Enum OnExit()
     {
         if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true)
-            && MathF.Abs(_player.Rigidbody.velocity.x) <= 0)
+            && MathF.Abs(_player.RigidOperate.ReadVelocity.x) <= 0)
         {
             return Player.PlayerState.IsStick;
         }
