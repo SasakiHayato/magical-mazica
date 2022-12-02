@@ -14,14 +14,12 @@ public class PlayerInputController : MonoBehaviour
     {
         TryGetComponent(out _playerInput);
         TryGetComponent(out _player);
-
         GameController.Instance.UserInput.SetController(this);
     }
     void OnEnable()
     {
         _playerInput.actions["Jump"].started += ContextMenu => 
         {
-            Debug.Log("aaa");
             OnJump(ContextMenu);
         };
         _playerInput.actions["Attack"].started += OnAttack;

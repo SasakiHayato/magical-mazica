@@ -7,10 +7,12 @@ using MonoState.Data;
 public class PlayerJump : MonoStateBase
 {
     Player _player;
+    RigidOperator _ro;
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
-        _player.Rigidbody.AddForce(Vector2.up * _player.JumpPower, ForceMode2D.Impulse);
+        _player.RigidOperate.SetImpulse(_player.FirstJumpPower, RigidMasterData.ImpulseDirectionType.Vertical, true);
+        //_player.RigidOperate.AddForce(Vector2.up * _player.JumpPower, ForceMode2D.Impulse);
     }
     //Update
     public override void OnExecute()
@@ -23,7 +25,7 @@ public class PlayerJump : MonoStateBase
         if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true)
             && !_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true))
         {
-            if (_player.Rigidbody.velocity.y <= 0)
+            if (_player.RigidOperate.ReadVelocity.y <= 0)
             {
                 _player.IsJumped = false;
                 return Player.PlayerState.Float;
