@@ -15,6 +15,8 @@ public class PlayerRun : MonoStateBase
     //Update
     public override void OnExecute()
     {
+        _player.FieldTouchOperator.IsTouchLayerPath(out string[] aa);
+        
         Vector2 dir = _player.Direction;
         Vector2 velo = dir.normalized;
         _player.RigidOperate.SetMoveDirection = new Vector2(velo.x * _player.Speed, 0);

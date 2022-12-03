@@ -68,7 +68,7 @@ public class FieldTouchOperator : MonoBehaviour
     {
         var list = _layerDataList.Where(d => d.TouchType == type);
 
-        return !any ? list.All(d => OnProcess(d)) : list.Any(d => OnProcess(d)); ;
+        return !any ? list.All(d => OnProcess(d)) : list.Any(d => OnProcess(d));
     }
 
     public bool IsTouchAll()

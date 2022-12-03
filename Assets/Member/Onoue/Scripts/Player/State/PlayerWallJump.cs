@@ -42,6 +42,12 @@ public class PlayerWallJump : MonoStateBase
                 _player.IsWallJumped = false;
                 return Player.PlayerState.Float;
             }
+
+            return Player.PlayerState.WallJump;
+        }
+        else
+        {
+            return Player.PlayerState.Idle;
         }
         //‚±‚±‚ªŒ´ˆö
         //if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true))//&& MathF.Abs(_player.RigidOperate.ReadVelocity.x) <= 0
@@ -52,7 +58,6 @@ public class PlayerWallJump : MonoStateBase
         //        return Player.PlayerState.IsStick;
         //    }
         //}
-        return Player.PlayerState.WallJump;
     }
 
     //Awake
