@@ -17,7 +17,7 @@ public class PlayerIdle : MonoStateBase
     //Update
     public override void OnExecute()
     {
-
+        _player.FieldTouchOperator.IsTouchLayerPath(out string[] aa);
     }
     //ğŒ•ªŠò
     public override Enum OnExit()
