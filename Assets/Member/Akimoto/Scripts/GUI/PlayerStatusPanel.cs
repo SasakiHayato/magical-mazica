@@ -16,7 +16,7 @@ namespace UIManagement
     {
         [SerializeField] Slider _slider;
         [SerializeField] Text _text;
-        [SerializeField] List<Image> _materialImages;
+        [SerializeField] List<MaterialViewPanel> _materialViewPanels;
 
         public void SetSlider(Player player)
         {
@@ -34,6 +34,13 @@ namespace UIManagement
                     _text.text = $"{x} / {player.MaxHP}";
                 })
                 .AddTo(player);
+        }
+
+        //memo
+        //素材配列の各要素がどのボタンに対応しているか聞いておく
+
+        public void SetMaterialSprite()
+        {
         }
     }
 }

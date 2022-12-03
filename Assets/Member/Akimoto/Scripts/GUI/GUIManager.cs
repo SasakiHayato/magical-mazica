@@ -9,6 +9,7 @@ using UIManagement;
 
 public class GUIManager : MonoBehaviour, IGameSetupable
 {
+    [SerializeField] FieldManager _fieldManager;
     [SerializeField] CharacterManager _characterManager;
     [SerializeField] PlayerStatusPanel _playerStatusPanel;
 
