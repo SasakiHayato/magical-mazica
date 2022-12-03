@@ -62,10 +62,13 @@ public partial class RigidOperator : MonoBehaviour
             return value;
         }
 
-        void Initalize()
+        public void Initalize()
         {
             OnImpulse = false;
             IsMoveLock = false;
+            _timer = 0;
+            _inetiaTimer = 0;
+            Value = 0;
         }
     }
 }

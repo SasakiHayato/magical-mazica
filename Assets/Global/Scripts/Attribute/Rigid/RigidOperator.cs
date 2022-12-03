@@ -118,7 +118,7 @@ public partial class RigidOperator : MonoBehaviour
 
     void Acceleration()
     {
-        bool isGround = _fieldTouch.IsTouch(FieldTouchOperator.TouchType.Ground);
+        bool isGround = _fieldTouch.IsTouch(FieldTouchOperator.TouchType.Ground, true);
         _timer = isGround ? 0.05f : Time.fixedDeltaTime + _timer;
 
         if (_timer > _maxAcceleration)
@@ -154,5 +154,10 @@ public partial class RigidOperator : MonoBehaviour
     public void InitalizeGravity()
     {
         _timer = 0;
+    }
+
+    public void ResetImpalse()
+    {
+        _impulseDataList.ForEach(i => i.Initalize());
     }
 }

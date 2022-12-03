@@ -17,6 +17,8 @@ public class PlayerIsStick : MonoStateBase
         _acceleration = _player.RigidOperate.MaxAcceleration;
         _player.RigidOperate.MaxAcceleration = 0;
         _player.FieldTouchOperator.IsTouchLayerID(out _id);
+
+        _player.RigidOperate.ResetImpalse();
     }
     //Update
     public override void OnExecute()
