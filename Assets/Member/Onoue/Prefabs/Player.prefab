@@ -282,7 +282,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHP: 10
-  _durationTime: 0
   _speed: 10
   _firstJumpPower: 15
   _secondJumpPower: 0
@@ -291,6 +290,11 @@ MonoBehaviour:
   - 20
   - -20
   _damage: 5
+  _playerStateData:
+    _jumpData:
+      _defaultJumpCount: 2
+      _power: 15
+    _rigidOperator: {fileID: 2918460987798947337}
 --- !u!95 &1979952273589037228
 Animator:
   serializedVersion: 4

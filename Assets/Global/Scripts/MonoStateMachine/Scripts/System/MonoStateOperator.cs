@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace MonoState.Opration
 {
+    public interface IStateExitEventable
+    {
+        void ExitEvent();
+    }
+
     /// <summary>
     /// ステートを走らせるためのクラス
     /// </summary>

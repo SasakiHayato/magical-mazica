@@ -57,7 +57,7 @@ public class PlayerInputController : MonoBehaviour
         if (_player != null)
         {
             var direction = _playerInput.actions["Move"].ReadValue<Vector2>().x;
-            _player.Direction = new Vector2(direction, 0);
+            _player.SetMoveDirection(new Vector2(direction, 0));
         }
 
         if (_playerInput.currentActionMap.name == UserInputManager.InputType.UserInterface.ToString()
