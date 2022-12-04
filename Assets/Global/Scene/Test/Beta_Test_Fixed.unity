@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feaa0b4e778972b439b3ce7220fffff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitStopTime: 0.2
   _characterManager: {fileID: 1286523542}
   _createMap: {fileID: 572681084}
 --- !u!4 &572681086
