@@ -20,12 +20,13 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     [SerializeField] int _maxHP;
     [SerializeField] float _durationTime;
     [SerializeField] float _speed;
-    [SerializeField] float _firstJumpPower , _secondJumpPower ,_wallJumpPower;
+    [SerializeField] float _firstJumpPower, _secondJumpPower, _wallJumpPower;
     [SerializeField] float[] _wallJumpX;
     [SerializeField] int _damage = 5;
-    //選択したMaterialのIDをセットする変数
-    RawMaterialID[] _materialID = { RawMaterialID.Empty, RawMaterialID.Empty };
+    
     ReactiveProperty<int> _hp = new ReactiveProperty<int>();
+    //選択したMaterialのIDをセットする変数
+    ReactiveCollection<RawMaterialID> _setMaterial = new ReactiveCollection<RawMaterialID> { RawMaterialID.Empty, RawMaterialID.Empty };
     bool _isJumped;
     bool _isWallJumped;
     bool _isAttacked;
@@ -52,10 +53,11 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public bool IsWallJumped { get => _isWallJumped; set => _isWallJumped = value; }
     public bool IsAttacked { get => _isAttacked; set => _isAttacked = value; }
     public RigidOperator RigidOperate { get => _ro; private set => _ro = value; }
+    public Storage Storage { get => _storage; private set => _storage = value; }
     public Vector2 Direction { get; set; }
     /// <summary>現在HPの更新の通知</summary>
     public System.IObservable<int> CurrentHP => _hp;
-
+    public System.IObservable<CollectionReplaceEvent<RawMaterialID>> SelectMaterial => _setMaterial.ObserveReplace();
     public FieldTouchOperator FieldTouchOperator { get => _fieldTouchOperator; private set => _fieldTouchOperator = value; }
     public GameObject Target => gameObject;
     public Player GetData => this;
@@ -76,7 +78,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         _fieldTouchOperator = GetComponentInChildren<FieldTouchOperator>();
         _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
-
+        
         _stateMachine = new MonoStateMachine<Player>(this, _durationTime);
         _stateMachine
             .AddState(PlayerState.Idle, new PlayerIdle())
@@ -132,10 +134,10 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public void SetMaterialID(RawMaterialID id)
     {
         //個数が足りない場合選択出来ないようにする
-        _materialID[1] = _materialID[0];
-        _materialID[0] = id;
-        print(_materialID[0]);
-        print(_materialID[1]);
+        _setMaterial[1] = _setMaterial[0];
+        _setMaterial[0] = id;
+        print(_setMaterial[0]);
+        print(_setMaterial[1]);
     }
 
     /// <summary>
@@ -143,13 +145,12 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Fusion()
     {
-        var count = _storage.MaterialCount;
-        if (_materialID[0] == _materialID[1])
+        if (_setMaterial[0] == _setMaterial[1])
         {
-            if (count[_materialID[0]] >= 2)
+            if (_storage.GetCount(_setMaterial[0]) >= 2)
             {
-                _fusionItem.Fusion(_materialID[0], _materialID[1]);
-                count[_materialID[0]] -= 2;
+                _fusionItem.Fusion(_setMaterial[0], _setMaterial[1]);
+                _storage.AddMaterial(_setMaterial[0], -2);
                 print("できた");
             }
             else
@@ -157,13 +158,13 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 print("素材が足りません");
             }
         }
-        else if (count[_materialID[0]] >= 1)
+        else if (_storage.GetCount(_setMaterial[0]) >= 1)
         {
-            if (count[_materialID[1]] >= 1)
+            if (_storage.GetCount(_setMaterial[1]) >= 1)
             {
-                _fusionItem.Fusion(_materialID[0], _materialID[1]);
-                count[_materialID[0]]--;
-                count[_materialID[1]]--;
+                _fusionItem.Fusion(_setMaterial[0], _setMaterial[1]);
+                _storage.AddMaterial(_setMaterial[0], -1);
+                _storage.AddMaterial(_setMaterial[1], -1);
                 print("できた");
             }
             else

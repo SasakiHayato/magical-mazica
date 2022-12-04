@@ -97,7 +97,8 @@ public class PlayerInputController : MonoBehaviour
         }
         else if (get == Vector2.down)
         {
-
+            //‘fŞ‚ğ’Ç‰Á‚·‚é‚Ü‚Å‹ó‚ğ“ü‚ê‚é
+            _player.SetMaterialID(RawMaterialID.Empty);
         }
         else if (get == Vector2.left)
         {
@@ -105,7 +106,8 @@ public class PlayerInputController : MonoBehaviour
         }
         else if (get == Vector2.right)
         {
-
+            //‘fŞ‚ğ’Ç‰Á‚·‚é‚Ü‚Å‹ó‚ğ“ü‚ê‚é
+            _player.SetMaterialID(RawMaterialID.Empty);
         }
     }
 
