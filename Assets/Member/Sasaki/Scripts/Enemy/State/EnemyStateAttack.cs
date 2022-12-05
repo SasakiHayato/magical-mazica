@@ -22,7 +22,8 @@ public class EnemyStateAttack : MonoStateBase
 
         _aiData = data.GetMonoData<EnemyAIData>(nameof(EnemyAIData));
         _aiData.AttackData.Attack?.Setup(data.StateUser);
-        _aiData.AttackData.AttackEvent?.Setup(data.StateUser);
+
+        _aiData.AttackData.AttackEvent?.ForEach(e => e.Setup(data.StateUser));
     }
 
     public override void OnEntry()
@@ -30,7 +31,7 @@ public class EnemyStateAttack : MonoStateBase
         _isAttack = false;
         _onMove = false;
         _aiData.AttackData.Attack.Initalize();
-        _aiData.AttackData.AttackEvent?.EnableEvent();
+        _aiData.AttackData.AttackEvent?.ForEach(e => e.EnableEvent());
         
         AwaitAttack().Forget();
     }
@@ -46,8 +47,8 @@ public class EnemyStateAttack : MonoStateBase
     public override void OnExecute()
     {
         if (!_onMove) return;
-        
-        _aiData.AttackData.AttackEvent?.ExecuteEvent();
+
+        _aiData.AttackData.AttackEvent?.ForEach(e => e.ExecuteEvent());
         _enemyData.MoveDir = _aiData.AttackData.Attack.OnMove() * _aiData.AttackData.Attack.AttributeSpeed;
     }
 
@@ -71,7 +72,7 @@ public class EnemyStateAttack : MonoStateBase
         if (_isAttack)
         {
             _aiData.AttackData.Attack.AttackCollider?.SetColliderActive(false);
-            _aiData.AttackData.AttackEvent?.EndEvent();
+            _aiData.AttackData.AttackEvent?.ForEach(e => e.EndEvent());
             return ReturneState();
         }
 

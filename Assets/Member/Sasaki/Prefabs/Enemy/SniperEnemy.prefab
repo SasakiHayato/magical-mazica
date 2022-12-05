@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _maxHp: 0
+  _maxHp: 5
   _isInstantiateFloat: 0
   _slider: {fileID: 8449774491094155768}
   _damageText: {fileID: 8134728152921943851, guid: a8167e7857c103f4c9165cc6e5f3e9e9, type: 3}
@@ -445,8 +445,9 @@ MonoBehaviour:
       _attackWaitTime: 1
       _attack:
         rid: 4439156600207573001
-      _attackEvent:
-        rid: 4439156600207572999
+      _attackEventList:
+      - rid: 7198353222165856261
+      - rid: 7198353222165856262
   references:
     version: 2
     RefIds:
@@ -456,17 +457,21 @@ MonoBehaviour:
       type: {class: EnemyMoveBack, ns: , asm: Assembly-CSharp}
       data:
         _updateSpeed: 1
-    - rid: 4439156600207572999
+    - rid: 4439156600207573001
+      type: {class: EnemyAttackDefault, ns: , asm: Assembly-CSharp}
+      data:
+        _isAttackTime: 2
+    - rid: 7198353222165856261
+      type: {class: EnemyAttackEventSetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: EnemyAttack
+    - rid: 7198353222165856262
       type: {class: EnemyAttackEventBullet, ns: , asm: Assembly-CSharp}
       data:
         _bulletPrefab: {fileID: 7411682192359307736, guid: b39a5ea4704f0c1459882250ff0bffd3, type: 3}
         _speed: 5
         _damage: 1
-        _shotIntervalTime: 0.5
-    - rid: 4439156600207573001
-      type: {class: EnemyAttackDefault, ns: , asm: Assembly-CSharp}
-      data:
-        _isAttackTime: 2
+        _shotIntervalTime: 0.2
 --- !u!1 &6645493867226877475
 GameObject:
   m_ObjectHideFlags: 0
