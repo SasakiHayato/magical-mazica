@@ -1,17 +1,22 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraOperator : MonoBehaviour, IFieldEffectable
 {
-    [SerializeField] Vector3 _offsetPosition;
     [SerializeField] CameraData _cameraData;
+    [SerializeField] List<EventCamera> _eventCameraList;
 
     bool _onEvent = false;
 
-    Vector3 Position => GameController.Instance.Player.position + _offsetPosition;
+    Vector3 Position => GameController.Instance.Player.position + _cameraData.View.Offset;
+
+    static Vector3 s_position = Vector3.zero;
+    static List<EventCamera> s_eventCameraList = null;
 
     void Awake()
     {
+        s_eventCameraList = _eventCameraList;
         EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.CmShake, this);
     }
 
@@ -24,6 +29,7 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
 
     void Move()
     {
+        s_position = Position;
         transform.position = Position;
     }
 
@@ -49,5 +55,13 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
         }
 
         _onEvent = false;
+    }
+
+    public static void CallEvent(string path)
+    {
+        if (s_eventCameraList == null || s_eventCameraList.Count <= 0) return;
+
+        EventCamera camera = s_eventCameraList.Find(e => e.Path == path);
+        camera.SetTransition(s_position);
     }
 }

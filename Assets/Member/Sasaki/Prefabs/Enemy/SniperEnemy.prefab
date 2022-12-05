@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4515798622370155527}
   - component: {fileID: 8318848526597306715}
   - component: {fileID: 893180289799332162}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 110947931027033932}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 2866970745486071649}
   - component: {fileID: 8534661416514985638}
   - component: {fileID: 1300514480215920504}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,6 +442,7 @@ MonoBehaviour:
         rid: 4439156600207572997
     _attackData:
       _attributeDistance: 8
+      _attackWaitTime: 1
       _attack:
         rid: 4439156600207573001
       _attackEvent:
@@ -477,7 +478,7 @@ GameObject:
   - component: {fileID: 5879126970108869509}
   - component: {fileID: 190174360475635123}
   - component: {fileID: 2787357823895238063}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -552,7 +553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2940483586188252688}
   - component: {fileID: 8449774491094155768}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

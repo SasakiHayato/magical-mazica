@@ -9,7 +9,7 @@ public class PlayerHitController : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            GameObject go = collision.transform.root.gameObject;
+            GameObject go = collision.transform.gameObject;
             go.GetComponent<IDamagable>().AddDamage(_player.Damage);
         }
     }

@@ -283,17 +283,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHP: 10
   _speed: 10
-  _firstJumpPower: 15
-  _secondJumpPower: 0
-  _wallJumpPower: 25
-  _wallJumpX:
-  - 20
-  - -20
   _damage: 5
   _playerStateData:
     _jumpData:
       _defaultJumpCount: 2
       _power: 15
+      _wallPower: {x: 20, y: 25}
     _rigidOperator: {fileID: 2918460987798947337}
 --- !u!95 &1979952273589037228
 Animator:
@@ -516,7 +511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2802188011471228766
 Transform:
   m_ObjectHideFlags: 0
