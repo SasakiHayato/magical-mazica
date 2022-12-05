@@ -204,5 +204,11 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     void IDamagable.AddDamage(int damage)
     {
         _hp.Value -= damage;
+
+        if (_hp.Value <= 0)
+        {
+            // ‰¼
+            //SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
+        }
     }
 }
