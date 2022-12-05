@@ -23,15 +23,15 @@ public class CreateBossStage : MapCreaterBase
     public int CreatedNum { get => _createdNum; set => _createdNum = value; }
     public bool IsCreated { get => _isCreated; set => _isCreated = value; }
 
-    //private void Awake()
-    //{
-    //    Instance = this;
-    //    InitialSet();
-    //}
-    protected override void Create()
+    private void Awake()
     {
         Instance = this;
         InitialSet();
+    }
+    protected override void Create()
+    {
+        //Instance = this;
+        //InitialSet();
     }
     protected override void Initalize()
     {
