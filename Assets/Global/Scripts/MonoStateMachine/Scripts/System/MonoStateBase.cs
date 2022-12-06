@@ -2,6 +2,12 @@ using MonoState.Data;
 
 namespace MonoState.State
 {
+    public enum MonoStateType
+    {
+        ReturneDefault,
+        ReEntry,
+    }
+
     /// <summary>
     /// 各ステートの基底クラス
     /// </summary>
@@ -29,9 +35,9 @@ namespace MonoState.State
         /// 初期ステートを返す
         /// </summary>
         /// <returns></returns>
-        protected System.Enum ReturneDefault()
+        protected System.Enum ReturneState(MonoStateType stateType = MonoStateType.ReturneDefault)
         {
-            return default;
+            return stateType;
         }
     }
 }

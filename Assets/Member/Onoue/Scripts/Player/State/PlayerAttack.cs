@@ -7,6 +7,8 @@ using MonoState.Data;
 
 public class PlayerAttack : MonoStateBase
 {
+    AnimOperator _anim;
+
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
@@ -20,13 +22,18 @@ public class PlayerAttack : MonoStateBase
     //ğŒ•ªŠò
     public override Enum OnExit()
     {
+        if (_anim.EndCurrentAnim)
+        {
+            return ReturneState();
+        }
+
         return Player.PlayerState.Attack;
     }
 
     //Awake
     public override void Setup(MonoStateData data)
     {
-        
+        _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
     }
 }
 

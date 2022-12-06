@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MonoState.Data;
+using System.Security.Cryptography.X509Certificates;
 
 public enum AnimStateType
 {
@@ -14,174 +16,95 @@ public enum AnimStateType
 /// <summary>
 /// アニメーションの再生管理クラス
 /// </summary>
-
 [RequireComponent(typeof(Animator))]
-public class AnimOperator : MonoBehaviour
+public class AnimOperator : MonoBehaviour, IMonoDatableUni<AnimOperator>
 {
-    [Serializable]
-    class AnimStateData
-    {
-        [SerializeField] string _stateName;
-        [SerializeField] AnimStateType _stateType;
-
-        public string StateName => _stateName;
-        public AnimStateType StateType => _stateType;
-    }
-
     public struct AnimEvent
     {
         public Action Event { get; set; }
-        public int AttributeFrame { get; set; }
+        public int Frame { get; set; }
     }
 
-    public struct AnimTriggerEvent
-    {
-        public Action Event { get; set; }
-        public Func<bool> Trigger { get; set; }
-    }
-
-    [SerializeField] List<AnimStateData> _animDataList;
-
-    Animator _anim;
+    Animator _anim = null;
     Coroutine _waitAnimCoroutine = null;
-    public bool IsEndCurrentAnim { get; private set; } = false;
+    List<Coroutine> _animEnvetCoroutineList = new List<Coroutine>();
 
-    void Start()
+    public bool EndCurrentAnim { get; private set; }
+
+    AnimOperator IMonoDatableUni<AnimOperator>.GetData => this;
+    string IMonoDatable.Path => nameof(AnimOperator);
+
+    void Awake()
     {
         _anim = GetComponent<Animator>();
     }
 
-    /// <summary>
-    /// アニメーションの再生
-    /// </summary>
-    /// <param name="state">再生するステート</param>
-    /// <param name="animEvent">イベントデータ</param>
-    public void PlayAnim(AnimStateType state, AnimEvent animEvent = default)
+    public void OnPlay(string stateName, AnimEvent animEvent = default)
     {
-        string name = FindAnim(state);
+        Initalize();
 
-        if (name != null)
-        {
-            StartCoroutine(OnCallbackEvent(animEvent.Event, animEvent.AttributeFrame));
-            OnPlay(name);
-        }
-        else
-        {
-            Debug.LogWarning($"一致するデータがありません.{state}");
-        }
+        _animEnvetCoroutineList.Add(StartCoroutine(OnExecuteEvent(animEvent)));
+        OnExecute(stateName);
     }
 
-    /// <summary>
-    /// アニメーションの再生
-    /// </summary>
-    /// <param name="state">再生するステート</param>
-    /// <param name="animEventList">イベントデータのリスト</param>
-    public void PlayAnim(AnimStateType state, List<AnimEvent> animEventList)
+    public void OnPlay(string stateName, List<AnimEvent> animEventList)
     {
-        string name = FindAnim(state);
+        Initalize();
 
-        if (name != null)
+        foreach (AnimEvent animEvent in animEventList)
         {
-            foreach (AnimEvent animEvent in animEventList)
-            {
-                StartCoroutine(OnCallbackEvent(animEvent.Event, animEvent.AttributeFrame));
-            }
+            _animEnvetCoroutineList.Add(StartCoroutine(OnExecuteEvent(animEvent)));
+        }
 
-            OnPlay(name);
-        }
-        else
-        {
-            Debug.LogWarning($"一致するデータがありません.{state}");
-        }
+        OnExecute(stateName);
     }
 
-    /// <summary>
-    /// アニメーションの再生
-    /// </summary>
-    /// <param name="state">再生するステート</param>
-    /// <param name="triggerEvent">イベントデータのデータ</param>
-    public void PlayAnim(AnimStateType state, AnimTriggerEvent triggerEvent)
+    void Initalize()
     {
-        string name = FindAnim(state);
 
-        if (name != null)
-        {
-            StartCoroutine(OnCallbackTriggerEvent(triggerEvent.Event, triggerEvent.Trigger));
-            OnPlay(name);
-        }
-        else
-        {
-            Debug.LogWarning($"一致するデータがありません.{state}");
-        }
-    }
+        EndCurrentAnim = false;
 
-    /// <summary>
-    /// アニメーションの再生
-    /// </summary>
-    /// <param name="state">再生するステート</param>
-    /// <param name="triggerEventList">イベントデータのデータリスト</param>
-    public void PlayAnim(AnimStateType state, List<AnimTriggerEvent> triggerEventList)
-    {
-        string name = FindAnim(state);
-
-        if (name != null)
-        {
-            foreach (AnimTriggerEvent animEvent in triggerEventList)
-            {
-                StartCoroutine(OnCallbackTriggerEvent(animEvent.Event, animEvent.Trigger));
-            }
-
-            OnPlay(name);
-        }
-        else
-        {
-            Debug.LogWarning($"一致するデータがありません.{state}");
-        }
-    }
-
-    void OnPlay(string stateName)
-    {
         if (_waitAnimCoroutine != null)
         {
             StopCoroutine(_waitAnimCoroutine);
         }
 
-        IsEndCurrentAnim = false;
+        if (_animEnvetCoroutineList.Count <= 0)
+        {
+            _animEnvetCoroutineList.ForEach(coroutine => StopCoroutine(coroutine));
+            _animEnvetCoroutineList = new List<Coroutine>();
+        }
+    }
 
+    void OnExecute(string stateName)
+    {
         _anim.Play(stateName);
-        _waitAnimCoroutine = StartCoroutine(OnWaitAnim());
+        _waitAnimCoroutine = StartCoroutine(OnWait());
     }
 
-    IEnumerator OnCallbackEvent(Action action, int eventFrame)
-    {
-        int frame = 0;
-
-        while (eventFrame > frame)
-        {
-            frame++;
-            yield return null;
-        }
-
-        action?.Invoke();
-    }
-
-    IEnumerator OnCallbackTriggerEvent(Action action, Func<bool> func)
-    {
-        while (!func.Invoke())
-        {
-            yield return null;
-        }
-
-        action.Invoke();
-    }
-
-    IEnumerator OnWaitAnim()
+    IEnumerator OnWait()
     {
         yield return null;
         yield return new WaitForCurrentAnim(_anim);
 
-        IsEndCurrentAnim = true;
+        if (!_anim.GetCurrentAnimatorClipInfo(0)[0].clip.isLooping)
+        {
+            EndCurrentAnim = true;
+        }
+
+        _waitAnimCoroutine = null;
     }
 
-    string FindAnim(AnimStateType state) => _animDataList.FirstOrDefault(a => a.StateType == state).StateName;
+    IEnumerator OnExecuteEvent(AnimEvent animEvent)
+    {
+        int frame = 0;
+        
+        while (frame < animEvent.Frame * 20)
+        {
+            frame ++;
+            yield return null;
+        }
+
+        animEvent.Event?.Invoke();
+    }
 }

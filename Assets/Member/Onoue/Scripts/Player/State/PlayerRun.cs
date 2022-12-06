@@ -7,38 +7,33 @@ using MonoState.Data;
 public class PlayerRun : MonoStateBase
 {
     Player _player;
+    AnimOperator _anim;
+    PlayerStateData _playerStateData;
 
     //StateÇ™ïœÇÌÇÈìxÇ…åƒÇŒÇÍÇÈ
     public override void OnEntry()
     {
+        _anim.OnPlay("Run");
     }
     //Update
     public override void OnExecute()
     {
         _player.FieldTouchOperator.IsTouchLayerPath(out string[] aa);
         
-        Vector2 dir = _player.Direction;
+        Vector2 dir = _playerStateData.ReadMoveDirection;
         Vector2 velo = dir.normalized;
-        _player.RigidOperate.SetMoveDirection = new Vector2(velo.x * _player.Speed, 0);
+        _playerStateData.Rigid.SetMoveDirection = new Vector2(velo.x * _playerStateData.Status.Speed, 0);
     }
     //èåèï™äÚ
     public override Enum OnExit()
     {
-        if (_player.IsJumped)
-        {
-            return Player.PlayerState.Jump;
-        }
-        if (_player.IsWallJumped)
-        {
-            return Player.PlayerState.WallJump;
-        }
-        if (_player.Direction == Vector2.zero)
+        if (_playerStateData.ReadMoveDirection == Vector2.zero)
         {
             return Player.PlayerState.Idle;
         }
         if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
         {
-            if (_player.RigidOperate.ReadVelocity.y <= 0)
+            if (_playerStateData.Rigid.ReadVelocity.y <= 0)
             {
                 return Player.PlayerState.Float;
             }
@@ -50,6 +45,8 @@ public class PlayerRun : MonoStateBase
     public override void Setup(MonoStateData data)
     {
         _player = data.GetMonoDataUni<Player>(nameof(Player));
+        _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
+        _playerStateData = data.GetMonoData<PlayerStateData>(nameof(PlayerStateData));
     }
 }
 

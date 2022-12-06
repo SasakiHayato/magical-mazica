@@ -18,20 +18,16 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         IsStick
     }
     [SerializeField] int _maxHP;
-    [SerializeField] float _durationTime;
     [SerializeField] float _speed;
-    [SerializeField] float _firstJumpPower, _secondJumpPower, _wallJumpPower;
-    [SerializeField] float[] _wallJumpX;
     [SerializeField] int _damage = 5;
+    [SerializeField] AnimOperator _animOperator;
+    [SerializeField] GameObject _attackCollider;
+    [SerializeField] PlayerStateData _playerStateData;
     
     ReactiveProperty<int> _hp = new ReactiveProperty<int>();
     //選択したMaterialのIDをセットする変数
     ReactiveCollection<RawMaterialID> _setMaterial = new ReactiveCollection<RawMaterialID> { RawMaterialID.Empty, RawMaterialID.Empty };
-    bool _isJumped;
-    bool _isWallJumped;
-    bool _isAttacked;
-    RigidOperator _ro;
-    Animator _anim;
+    
     FusionItem _fusionItem;
     Storage _storage;
     FieldTouchOperator _fieldTouchOperator;
@@ -40,28 +36,17 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public int Damage { get => _damage; private set => _damage = value; }
     /// <summary>最大HP</summary>
     public int MaxHP => _maxHP;
-    /// <summary>移動速度</summary>
-    public float Speed { get => _speed; private set => _speed = value; }
-    /// <summary>一段目のジャンプ力</summary>
-    public float FirstJumpPower { get => _firstJumpPower; private set => _firstJumpPower = value; }
-    /// <summary>二段目のジャンプ力</summary>
-    public float SecondJumpPower { get => _secondJumpPower; private set => _secondJumpPower = value; }
-    /// <summary>壁ジャンプ力</summary>
-    public float WallJumpPower { get => _wallJumpPower; private set => _wallJumpPower = value; }
-    public float[] WallJumpX { get => _wallJumpX; private set => _wallJumpX = value; }
-    public bool IsJumped { get => _isJumped; set => _isJumped = value; }
-    public bool IsWallJumped { get => _isWallJumped; set => _isWallJumped = value; }
-    public bool IsAttacked { get => _isAttacked; set => _isAttacked = value; }
-    public RigidOperator RigidOperate { get => _ro; private set => _ro = value; }
+    
     public Storage Storage { get => _storage; private set => _storage = value; }
-    public Vector2 Direction { get; set; }
+    
     /// <summary>現在HPの更新の通知</summary>
     public System.IObservable<int> CurrentHP => _hp;
     public System.IObservable<CollectionReplaceEvent<RawMaterialID>> SelectMaterial => _setMaterial.ObserveReplace();
     public FieldTouchOperator FieldTouchOperator { get => _fieldTouchOperator; private set => _fieldTouchOperator = value; }
-    public GameObject Target => gameObject;
-    public Player GetData => this;
+    
+    Player IMonoDatableUni<Player>.GetData => this;
     string IMonoDatable.Path => nameof(Player);
+    GameObject IFieldObjectDatable.Target => gameObject;
 
     MonoStateMachine<Player> _stateMachine;
 
@@ -72,14 +57,22 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     }
     private void Start()
     {
-        TryGetComponent(out _ro);
-        TryGetComponent(out _anim);
         _storage = GetComponentInChildren<Storage>();
         _fieldTouchOperator = GetComponentInChildren<FieldTouchOperator>();
         _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
-        
-        _stateMachine = new MonoStateMachine<Player>(this, _durationTime);
+
+        _playerStateData.Jump.InitalizeJumpCount();
+        _playerStateData.Status.Set(_maxHP, _speed);
+
+        _attackCollider.SetActive(false);
+
+        SetupState();
+    }
+
+    void SetupState()
+    {
+        _stateMachine = new MonoStateMachine<Player>(this);
         _stateMachine
             .AddState(PlayerState.Idle, new PlayerIdle())
             .AddState(PlayerState.Run, new PlayerRun())
@@ -89,9 +82,14 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             .AddState(PlayerState.Float, new PlayerFloat())
             .AddState(PlayerState.IsStick, new PlayerIsStick());
 
-        _stateMachine.AddMonoData(this);
+        _stateMachine
+            .AddMonoData(this)
+            .AddMonoData(_animOperator)
+            .AddMonoData(_playerStateData);
+
         _stateMachine.IsRun = true;
     }
+
     void OnDestroy()
     {
         GameController.Instance.RemoveFieldObjectDatable(this);
@@ -102,14 +100,39 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Attack()
     {
-        _anim.SetTrigger("Attack");
+        _attackCollider.SetActive(false);
+
+        AnimOperator.AnimEvent anim = new AnimOperator.AnimEvent
+        {
+            Frame = 4,
+            Event = () => _attackCollider.SetActive(true),
+        };
+
+        AnimOperator.AnimEvent anim2 = new AnimOperator.AnimEvent
+        {
+            Frame = 6,
+            Event = () => _attackCollider.SetActive(false),
+        };
+
+        List<AnimOperator.AnimEvent> list = new List<AnimOperator.AnimEvent>();
+        list.Add(anim);
+        list.Add(anim2);
+
+        _animOperator.OnPlay("Attack", list);
+        _stateMachine.ChangeState(PlayerState.Attack);
     }
     /// <summary>
     /// 遠距離攻撃
     /// </summary>
     public void Fire()
     {
+        _animOperator.OnPlay("Mazic");
         _fusionItem.Attack(transform.position);
+    }
+
+    public void SetMoveDirection(Vector2 direction)
+    {
+        _playerStateData.SetMoveDirection = direction;
     }
 
     /// <summary>
@@ -117,13 +140,16 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Jump()
     {
-        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))
+        _animOperator.OnPlay("Jump");
+
+        if (_playerStateData.Jump.CurrentJumpCount >= 0)
         {
-            _isJumped = true;
+            _stateMachine.ChangeState(PlayerState.Jump);
         }
         if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true))
         {
-            _isWallJumped = true;
+            _stateMachine.ChangeState(PlayerState.WallJump);
+            //_playerStateData.Jump.SetWallJumpedFrag = true;
         }
     }
 
@@ -185,9 +211,9 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     private void FixedUpdate()
     {
-        if (Direction.x != 0)
+        if (_playerStateData.ReadMoveDirection.x != 0)
         {
-            if (Direction.x < 0)
+            if (_playerStateData.ReadMoveDirection.x < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
             }
@@ -197,8 +223,14 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             }
         }
     }
-    public void AddDamage(int damage)
+    void IDamagable.AddDamage(int damage)
     {
         _hp.Value -= damage;
+
+        if (_hp.Value <= 0)
+        {
+            // 仮
+            //SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
+        }
     }
 }

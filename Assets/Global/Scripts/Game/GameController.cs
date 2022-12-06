@@ -87,6 +87,8 @@ public class GameController
 
     FieldObjectData _fieldObjectData = new FieldObjectData();
 
+    public int CurrentMapHierarchy { get; private set; } = 1;
+
     public UserInputManager UserInput { get; private set; } = new UserInputManager();
 
     public Transform Player { get; set; }
@@ -109,6 +111,11 @@ public class GameController
     public void RemoveFieldObjectDatable(IFieldObjectDatable field)
     {
         _fieldObjectData.Remove(field);
+    }
+
+    public void AddMapHierarchy()
+    {
+        CurrentMapHierarchy++;
     }
 
     /// <summary>

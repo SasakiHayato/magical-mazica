@@ -14,6 +14,7 @@ namespace MonoState
     /// <typeparam name="User">égópé“</typeparam>
     public class MonoStateMachine<User> where User : MonoBehaviour
     {
+        string _currentStatePath = "";
         float _timer = 0;
         float _intervalTime = 0;
         bool _isRun = false;
@@ -105,9 +106,14 @@ namespace MonoState
             
             string nextState = _currentState.OnExit()?.ToString();
 
-            if (nextState == default)
+            if (nextState == MonoStateType.ReturneDefault.ToString())
             {
                 OnNext(_stateDic.Keys.First());
+                return;
+            }
+            else if (nextState == MonoStateType.ReEntry.ToString())
+            {
+                OnNext(_currentStatePath);
                 return;
             }
             
@@ -119,13 +125,34 @@ namespace MonoState
 
         void OnNext(string nextState)
         {
+            IStateExitEventable stateExit = _currentState as IStateExitEventable;
+            stateExit?.ExitEvent();
+
             MonoStateBase stateBase = _stateDic.First(s => s.Key == nextState).Value;
             stateBase.OnEntry();
 
+            _currentStatePath = nextState;
             _currentState = stateBase;
             CurrentKey = nextState;
 
             _timer = 0;
+        }
+
+        public void ChangeState(System.Enum state, bool reEntry = false)
+        {
+            if (!_stateDic.Keys.Any(s => s == state.ToString())) return;
+            string nextState = state.ToString();
+
+            if (reEntry)
+            {
+                OnNext(nextState);
+                return;
+            }
+
+            if (_currentStatePath != nextState)
+            {
+                OnNext(nextState);
+            }
         }
     }
 }

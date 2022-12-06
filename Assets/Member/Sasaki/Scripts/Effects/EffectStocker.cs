@@ -24,10 +24,11 @@ public class EffectStocker : MonoBehaviour
     [SerializeField] EffectDataAsset _effectDataAsset;
 
     List<StockData> _stockDataList = new List<StockData>();
+    FieldEffect _fieldEffect = new FieldEffect();
 
-    protected static EffectStocker Instance { get; private set; }
+    public static EffectStocker Instance { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
         Instance = this;
     }
@@ -46,16 +47,24 @@ public class EffectStocker : MonoBehaviour
         }
     }
 
-    public static void LoadEffect(string path, Vector2 position)
+    public void LoadEffect(string path, Vector2 position)
     {
-        if (Instance == null) return;
-
-        StockData data = Instance._stockDataList.FirstOrDefault(e => e.Path == path);
+        StockData data = _stockDataList.FirstOrDefault(e => e.Path == path);
 
         if (data != null)
         {
             Effect effect = data.Pool.UseRequest();
             effect.transform.position = position;
         }
+    }
+
+    public void AddFieldEffect(FieldEffect.EffectType effectType, IFieldEffectable effectable)
+    {
+        _fieldEffect.AddEffect(effectType, effectable);
+    }
+
+    public void LoadFieldEffect(FieldEffect.EffectType effectType)
+    {
+        _fieldEffect.LoadEffect(effectType);
     }
 }
