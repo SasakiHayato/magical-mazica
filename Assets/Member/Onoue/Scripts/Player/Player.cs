@@ -126,6 +126,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Fire()
     {
+        _animOperator.OnPlay("Mazic");
         _fusionItem.Attack(transform.position);
     }
 
