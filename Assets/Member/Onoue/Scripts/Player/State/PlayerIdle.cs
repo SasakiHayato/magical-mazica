@@ -7,6 +7,7 @@ using MonoState.Data;
 public class PlayerIdle : MonoStateBase
 {
     Player _player;
+    AnimOperator _anim;
     PlayerStateData _playerStateData;
 
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
@@ -14,6 +15,7 @@ public class PlayerIdle : MonoStateBase
     {
         _playerStateData.Rigid.SetMoveDirection = Vector2.zero;
         _playerStateData.Jump.InitalizeJumpCount();
+        _anim.OnPlay("Idle");
     }
     //Update
     public override void OnExecute()
@@ -41,6 +43,7 @@ public class PlayerIdle : MonoStateBase
     public override void Setup(MonoStateData data)
     {
         _player = data.GetMonoDataUni<Player>(nameof(Player));
+        _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
         _playerStateData = data.GetMonoData<PlayerStateData>(nameof(PlayerStateData));
     }
 }

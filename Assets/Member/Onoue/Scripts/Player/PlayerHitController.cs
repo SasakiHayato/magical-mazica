@@ -9,6 +9,7 @@ public class PlayerHitController : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
+            EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.CmShake);
             GameObject go = collision.transform.gameObject;
             go.GetComponent<IDamagable>().AddDamage(_player.Damage);
         }

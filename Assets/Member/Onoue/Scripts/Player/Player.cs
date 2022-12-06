@@ -20,15 +20,14 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     [SerializeField] int _maxHP;
     [SerializeField] float _speed;
     [SerializeField] int _damage = 5;
+    [SerializeField] AnimOperator _animOperator;
+    [SerializeField] GameObject _attackCollider;
     [SerializeField] PlayerStateData _playerStateData;
     
     ReactiveProperty<int> _hp = new ReactiveProperty<int>();
     //選択したMaterialのIDをセットする変数
     ReactiveCollection<RawMaterialID> _setMaterial = new ReactiveCollection<RawMaterialID> { RawMaterialID.Empty, RawMaterialID.Empty };
     
-    bool _isAttacked;
-    
-    Animator _anim;
     FusionItem _fusionItem;
     Storage _storage;
     FieldTouchOperator _fieldTouchOperator;
@@ -37,8 +36,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public int Damage { get => _damage; private set => _damage = value; }
     /// <summary>最大HP</summary>
     public int MaxHP => _maxHP;
-    
-    public bool IsAttacked { get => _isAttacked; set => _isAttacked = value; }
     
     public Storage Storage { get => _storage; private set => _storage = value; }
     
@@ -60,7 +57,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     }
     private void Start()
     {
-        TryGetComponent(out _anim);
         _storage = GetComponentInChildren<Storage>();
         _fieldTouchOperator = GetComponentInChildren<FieldTouchOperator>();
         _fusionItem = FindObjectOfType<FusionItem>();
@@ -68,6 +64,9 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
         _playerStateData.Jump.InitalizeJumpCount();
         _playerStateData.Status.Set(_maxHP, _speed);
+
+        _attackCollider.SetActive(false);
+
         SetupState();
     }
 
@@ -85,6 +84,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
         _stateMachine
             .AddMonoData(this)
+            .AddMonoData(_animOperator)
             .AddMonoData(_playerStateData);
 
         _stateMachine.IsRun = true;
@@ -100,7 +100,26 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Attack()
     {
-        _anim.SetTrigger("Attack");
+        _attackCollider.SetActive(false);
+
+        AnimOperator.AnimEvent anim = new AnimOperator.AnimEvent
+        {
+            Frame = 4,
+            Event = () => _attackCollider.SetActive(true),
+        };
+
+        AnimOperator.AnimEvent anim2 = new AnimOperator.AnimEvent
+        {
+            Frame = 6,
+            Event = () => _attackCollider.SetActive(false),
+        };
+
+        List<AnimOperator.AnimEvent> list = new List<AnimOperator.AnimEvent>();
+        list.Add(anim);
+        list.Add(anim2);
+
+        _animOperator.OnPlay("Attack", list);
+        _stateMachine.ChangeState(PlayerState.Attack);
     }
     /// <summary>
     /// 遠距離攻撃
@@ -120,6 +139,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Jump()
     {
+        _animOperator.OnPlay("Jump");
+
         if (_playerStateData.Jump.CurrentJumpCount >= 0)
         {
             _stateMachine.ChangeState(PlayerState.Jump);

@@ -9,6 +9,7 @@ using MonoState.Opration;
 public class PlayerIsStick : MonoStateBase, IStateExitEventable
 {
     Player _player;
+    AnimOperator _anim;
     PlayerStateData _playerStateData;
     float _acceleration;
     int[] _id;
@@ -29,6 +30,7 @@ public class PlayerIsStick : MonoStateBase, IStateExitEventable
         _player.FieldTouchOperator.IsTouchLayerID(out _id);
 
         _playerStateData.Rigid.ResetImpalse();
+        _anim.OnPlay("Idle");
     }
     //Update
     public override void OnExecute()
@@ -85,6 +87,7 @@ public class PlayerIsStick : MonoStateBase, IStateExitEventable
     public override void Setup(MonoStateData data)
     {
         _player = data.GetMonoDataUni<Player>(nameof(Player));
+        _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
         _playerStateData = data.GetMonoData<PlayerStateData>(nameof(PlayerStateData));
     }
 }

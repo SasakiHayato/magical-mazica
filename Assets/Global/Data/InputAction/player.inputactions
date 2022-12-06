@@ -303,6 +303,17 @@
                 },
                 {
                     "name": "",
+                    "id": "2fb22967-d6ad-4f53-a4d2-19ec88c42d8c",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "03f5034b-a908-41e3-ab5c-bf6809d54a4b",
                     "path": "<Keyboard>/#(F)",
                     "interactions": "",
