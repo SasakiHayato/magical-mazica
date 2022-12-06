@@ -18,6 +18,7 @@ public class EventCamera : MonoBehaviour
     }
 
     [SerializeField] string _path;
+    [SerializeField] float _transitionSpeed;
     [SerializeField] TransitionType _transitionType;
     [SerializeReference, SubclassSelector] ICamearaEventable _eventable;
 
@@ -59,6 +60,8 @@ public class EventCamera : MonoBehaviour
 
     public void SetTransition(Vector3 matserPosition)
     {
+        _camera.enabled = true;
+        
         switch (_transitionType)
         {
             case TransitionType.Awake:
@@ -78,7 +81,7 @@ public class EventCamera : MonoBehaviour
 
         while (frag)
         {
-            time += Time.deltaTime;
+            time += Time.deltaTime * _transitionSpeed;
 
             transform.position = Vector3.Lerp(masterposition, _savePosition, time);
 
@@ -95,9 +98,8 @@ public class EventCamera : MonoBehaviour
 
     void OnEvent()
     {
-        _onEvent = true;
-        _camera.enabled = true;
         _eventable?.OnEvent();
+        _onEvent = true;
     }
 
     void DisposeEvent()
