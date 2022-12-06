@@ -2,22 +2,34 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class FieldManager : MonoBehaviour, IGameSetupable
+using UniRx;
+public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 {
+    [SerializeField] float _hitStopTime;
     [SerializeField] CharacterManager _characterManager;
     
     [SerializeField] CreateMap _createMap;
     int _hierarchyNum;
+    Subject<List<RawMaterialID>> _materialIDSubject = new Subject<List<RawMaterialID>>();
     public int HierarchyNum { get => _hierarchyNum; set => _hierarchyNum = value; }
+    public IObservable<List<RawMaterialID>> MaterialList => _materialIDSubject;
 
     int IGameSetupable.Priority => 3;
 
     void Awake()
     {
+        EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.HitStop, this);
         GameController.Instance.AddGameSetupable(this);
     }
-
+    private void Start()
+    {
+        _materialIDSubject.OnNext(new List<RawMaterialID>() 
+        { RawMaterialID.BombBean
+        ,RawMaterialID.PowerPlant
+        ,RawMaterialID.Penetration
+        ,RawMaterialID.Poison
+        });
+    }
     public void Setup()
     {
         // _characterManager.Setup();
@@ -56,6 +68,18 @@ public class FieldManager : MonoBehaviour, IGameSetupable
     void GameClear()
     {
 
+    }
+
+    void IFieldEffectable.Execute()
+    {
+        StartCoroutine(OnHitStop());
+    }
+
+    IEnumerator OnHitStop()
+    {
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(_hitStopTime);
+        Time.timeScale = 1;
     }
 
     /// <summary>MobÇ™éÄÇÒÇæÇ∆Ç´ÇÃèàóù</summary> //Note. Ç‡ÇµÇ©ÇµÇΩÇÁÇ¢ÇÁÇ»Ç¢

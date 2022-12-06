@@ -77,4 +77,8 @@ public enum RawMaterialID
     BombBean,
     /// <summary>パワープラント</summary>
     PowerPlant,
+    /// <summary>貫通</summary>
+    Penetration,
+    /// <summary>毒</summary>
+    Poison
 }

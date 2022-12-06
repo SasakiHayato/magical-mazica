@@ -1,20 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UniRx;
 public class Storage : MonoBehaviour
 {
     /// <summary>ëfçﬁÇÃIDÅAëfçﬁÇéùÇ¡ÇƒÇ¢ÇÈêî/// </summary>
-    Dictionary<RawMaterialID, int> _materialCount = new Dictionary<RawMaterialID, int>();
-    public Dictionary<RawMaterialID, int> MaterialCount { get => _materialCount; private set { } }
+    ReactiveDictionary<RawMaterialID, int> _materialCount = new ReactiveDictionary<RawMaterialID,int>();
+    public System.IObservable<DictionaryReplaceEvent<RawMaterialID, int>> Observable => _materialCount.ObserveReplace();
     private void Start()
     {
-        SetUp();
+        _materialCount[RawMaterialID.Empty] = 1;
     }
-    void SetUp()
+    void Test()
     {
         _materialCount[RawMaterialID.BombBean] = 2;
         _materialCount[RawMaterialID.PowerPlant] = 0;
     }
-
+    public int GetCount(RawMaterialID id)
+    {
+        return _materialCount[id];
+    }
+    public void AddMaterial(RawMaterialID id, int value)
+    {
+        _materialCount[id] += value;
+    }
 }

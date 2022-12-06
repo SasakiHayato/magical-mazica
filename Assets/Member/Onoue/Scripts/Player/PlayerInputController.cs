@@ -57,7 +57,7 @@ public class PlayerInputController : MonoBehaviour
         if (_player != null)
         {
             var direction = _playerInput.actions["Move"].ReadValue<Vector2>().x;
-            _player.Direction = new Vector2(direction, 0);
+            _player.SetMoveDirection(new Vector2(direction, 0));
         }
 
         if (_playerInput.currentActionMap.name == UserInputManager.InputType.UserInterface.ToString()
@@ -97,7 +97,8 @@ public class PlayerInputController : MonoBehaviour
         }
         else if (get == Vector2.down)
         {
-
+            //‘fŞ‚ğ’Ç‰Á‚·‚é‚Ü‚Å‹ó‚ğ“ü‚ê‚é
+            _player.SetMaterialID(RawMaterialID.Empty);
         }
         else if (get == Vector2.left)
         {
@@ -105,7 +106,8 @@ public class PlayerInputController : MonoBehaviour
         }
         else if (get == Vector2.right)
         {
-
+            //‘fŞ‚ğ’Ç‰Á‚·‚é‚Ü‚Å‹ó‚ğ“ü‚ê‚é
+            _player.SetMaterialID(RawMaterialID.Empty);
         }
     }
 

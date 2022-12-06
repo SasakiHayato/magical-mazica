@@ -103,7 +103,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         if (_currentHp.Value <= 0)
         {
             SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Dead");
-            EffectStocker.LoadEffect("Dead", transform.position);
+            EffectStocker.Instance.LoadEffect("Dead", transform.position);
             Destroy(gameObject);
         }
     }

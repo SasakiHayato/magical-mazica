@@ -8,22 +8,23 @@ using MonoState.Data;
 public class PlayerWallJump : MonoStateBase
 {
     Player _player;
+    PlayerStateData _playerStateData;
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
         //_player.Rigidbody.velocity = Vector2.zero;
-        _player.RigidOperate.InitalizeGravity();
+        _playerStateData.Rigid.InitalizeGravity();
         _player.FieldTouchOperator.IsTouchLayerID(out int[] id);
         if (id[0] == 2)
         {
-            _player.RigidOperate.SetImpulse(_player.WallJumpPower, RigidMasterData.ImpulseDirectionType.Vertical);
-            _player.RigidOperate.SetImpulse(_player.WallJumpX[1], RigidMasterData.ImpulseDirectionType.Horizontal);
+            _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.WallPower.y, RigidMasterData.ImpulseDirectionType.Vertical);
+            _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.WallPower.x * -1, RigidMasterData.ImpulseDirectionType.Horizontal);
             //_player.RigidOperate.AddForce(new Vector2(-1, 1) * _player.WallJumpPower, ForceMode2D.Impulse);
         }
         else if (id[0] == 3)
         {
-            _player.RigidOperate.SetImpulse(_player.WallJumpPower, RigidMasterData.ImpulseDirectionType.Vertical);
-            _player.RigidOperate.SetImpulse(_player.WallJumpX[0], RigidMasterData.ImpulseDirectionType.Horizontal);
+            _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.WallPower.y, RigidMasterData.ImpulseDirectionType.Vertical);
+            _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.WallPower.x, RigidMasterData.ImpulseDirectionType.Horizontal);
             //_player.RigidOperate.AddForce(Vector2.one * _player.WallJumpPower, ForceMode2D.Impulse);
         }
     }
@@ -37,9 +38,8 @@ public class PlayerWallJump : MonoStateBase
     {
         if (!_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))//&& !_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true)
         {
-            if (_player.RigidOperate.ReadVelocity.y < 0)
+            if (_playerStateData.Rigid.ReadVelocity.y < 0)
             {
-                _player.IsWallJumped = false;
                 return Player.PlayerState.Float;
             }
 
@@ -64,6 +64,7 @@ public class PlayerWallJump : MonoStateBase
     public override void Setup(MonoStateData data)
     {
         _player = data.GetMonoDataUni<Player>(nameof(Player));
+        _playerStateData = data.GetMonoData<PlayerStateData>(nameof(PlayerStateData));
     }
 }
 

@@ -72,7 +72,7 @@ public class EnemyStateAttack : MonoStateBase
         {
             _aiData.AttackData.Attack.AttackCollider?.SetColliderActive(false);
             _aiData.AttackData.AttackEvent?.EndEvent();
-            return ReturneDefault();
+            return ReturneState();
         }
 
         return EnemyBase.State.Attack;

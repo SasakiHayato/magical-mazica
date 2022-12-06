@@ -13,7 +13,7 @@ public class EnemyAttackEventSetEffect : IEnemyAttackEvent
 
     void IEnemyAttackEvent.EnableEvent()
     {
-        EffectStocker.LoadEffect(_effectPath, _user.position);
+        EffectStocker.Instance.LoadEffect(_effectPath, _user.position);
     }
 
     void IEnemyAttackEvent.EndEvent()
