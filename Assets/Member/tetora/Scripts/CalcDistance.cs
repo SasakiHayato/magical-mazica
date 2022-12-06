@@ -5,7 +5,7 @@ using UnityEngine;
 public class CalcDistance : MonoBehaviour
 {
     [SerializeField]
-    float _distance;
+    float _checkDis = 18;
 
     int _createCount;
     Transform _preTransform;
@@ -21,33 +21,45 @@ public class CalcDistance : MonoBehaviour
         CheckCreate();
         CheckDestroy();
     }
+    /// <summary>
+    /// 距離測ってステージを作る
+    /// </summary>
     void CheckCreate()
     {
-        if (_player.transform.position.x - transform.position.x < _distance)
+        if (_player.transform.position.x - transform.position.x < _checkDis)
         {
-            //ステージを一つ作る関数を呼ぶ
-            CreateBossStage.Instance.CreateMap();
             _createCount++;
+            //ステージを一つ作る関数を呼ぶ
+            CreateBossStage.Instance.CreateMap();            
             SetMeasureTool();
         }
     }
+    /// <summary>
+    /// ステージを消す
+    /// </summary>
     void CheckDestroy()
     {
-        if (_createCount >= 2)
+        if (_createCount > 1)
         {
             _createCount = 0;
             CreateBossStage.Instance.DestroyMap();
         }
     }
+    /// <summary>
+    /// Playerの情報を取得してくる
+    /// </summary>
     void GetPlayer()
     {
         _player = FindObjectOfType<Player>().gameObject;
         _preTransform = _player.transform;
     }
+    /// <summary>
+    /// measureを配置する
+    /// </summary>
     void SetMeasureTool()
     {
         gameObject.transform.position
-            = new Vector2(_preTransform.position.x - _distance * CreateBossStage.Instance.CreateCount()
+            = new Vector2(_preTransform.position.x - _checkDis * CreateBossStage.Instance.CreateCount()
             , _player.transform.position.y);
         _preTransform = gameObject.transform;
         CreateBossStage.Instance.CreatedNum = 0;
