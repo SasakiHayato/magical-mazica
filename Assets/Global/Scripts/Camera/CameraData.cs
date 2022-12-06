@@ -1,10 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class CameraData
 {
+    [System.Serializable]
+    public class ViewData
+    {
+        [SerializeField] Vector3 _offset;
+        
+        public Vector3 Offset => _offset;
+    }
+
     [System.Serializable]
     public class ShakeData
     {
@@ -17,7 +23,9 @@ public class CameraData
         public float GetMagnitude => Random.Range(-1, 1);
     }
 
+    [SerializeField] ViewData _viewData;
     [SerializeField] ShakeData _shakeData;
 
+    public ViewData View => _viewData;
     public ShakeData Shake => _shakeData;
 }

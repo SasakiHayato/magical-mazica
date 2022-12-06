@@ -8,11 +8,13 @@ using MonoState.Data;
 public class PlayerFloat : MonoStateBase
 {
     Player _player;
+    AnimOperator _anim;
     PlayerStateData _playerStateData;
 
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
+        _anim.OnPlay("Fall");
         _playerStateData.Rigid.SetMoveDirection = Vector2.zero;
     }
     //Update
@@ -40,6 +42,7 @@ public class PlayerFloat : MonoStateBase
     public override void Setup(MonoStateData data)
     {
         _player = data.GetMonoDataUni<Player>(nameof(Player));
+        _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
         _playerStateData = data.GetMonoData<PlayerStateData>(nameof(PlayerStateData));
     }
 }
