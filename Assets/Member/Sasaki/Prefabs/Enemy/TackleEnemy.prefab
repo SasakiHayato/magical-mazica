@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4138661003623758592}
   - component: {fileID: 837471997102006230}
   - component: {fileID: 7090307342450932417}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7792987029841135996}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8266285685371233325}
   - component: {fileID: 6960439215199208254}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 3282695353539420340}
   - component: {fileID: 7482104683710624262}
   - component: {fileID: 4205195126405202448}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 6175487898141769189}
   - component: {fileID: 8560440614448521375}
   - component: {fileID: 8183099572148447222}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _maxHp: 0
+  _maxHp: 5
   _isInstantiateFloat: 0
   _slider: {fileID: 6960439215199208254}
   _damageText: {fileID: 8134728152921943851, guid: a8167e7857c103f4c9165cc6e5f3e9e9, type: 3}
@@ -724,15 +724,14 @@ MonoBehaviour:
         rid: 4439156600207573003
     _attackData:
       _attributeDistance: 7
+      _attackWaitTime: 1
       _attack:
         rid: 4439156600207573004
-      _attackEvent:
-        rid: -2
+      _attackEventList:
+      - rid: 7198353222165856263
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 4439156600207573002
       type: {class: EnemyIdleDefault, ns: , asm: Assembly-CSharp}
     - rid: 4439156600207573003
@@ -745,3 +744,7 @@ MonoBehaviour:
         _isAttackTime: 1
         _updateSpeed: 5
         _colliderActiveTime: 1
+    - rid: 7198353222165856263
+      type: {class: EnemyAttackEventSetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: EnemyAttack

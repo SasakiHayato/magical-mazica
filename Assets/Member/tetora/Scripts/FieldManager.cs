@@ -8,7 +8,7 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
     [SerializeField] float _hitStopTime;
     [SerializeField] CharacterManager _characterManager;
     
-    [SerializeField] CreateMap _createMap;
+    [SerializeField] MapCreaterBase _createMap;
     int _hierarchyNum;
     Subject<List<RawMaterialID>> _materialIDSubject = new Subject<List<RawMaterialID>>();
     public int HierarchyNum { get => _hierarchyNum; set => _hierarchyNum = value; }

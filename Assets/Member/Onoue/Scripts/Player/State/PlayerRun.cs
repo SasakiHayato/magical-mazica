@@ -7,11 +7,13 @@ using MonoState.Data;
 public class PlayerRun : MonoStateBase
 {
     Player _player;
+    AnimOperator _anim;
     PlayerStateData _playerStateData;
 
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
+        _anim.OnPlay("Run");
     }
     //Update
     public override void OnExecute()
@@ -43,6 +45,7 @@ public class PlayerRun : MonoStateBase
     public override void Setup(MonoStateData data)
     {
         _player = data.GetMonoDataUni<Player>(nameof(Player));
+        _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
         _playerStateData = data.GetMonoData<PlayerStateData>(nameof(PlayerStateData));
     }
 }

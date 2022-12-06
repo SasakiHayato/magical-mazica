@@ -13,6 +13,7 @@ public abstract class MapCreaterBase : MonoBehaviour, IGameSetupable, IGameDispo
 
     void IGameSetupable.GameSetup()
     {
+
         Create();
     }
 

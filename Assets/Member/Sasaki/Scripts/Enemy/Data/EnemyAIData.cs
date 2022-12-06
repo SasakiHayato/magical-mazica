@@ -1,5 +1,6 @@
 using UnityEngine;
 using MonoState.Data;
+using System.Collections.Generic;
 
 namespace EnemyAISystem
 {
@@ -78,9 +79,9 @@ namespace EnemyAISystem
     {
         [SerializeField] float _attackWaitTime = 1;
         [SerializeReference, SubclassSelector] IEnemyAttack _attack;
-        [SerializeReference, SubclassSelector] IEnemyAttackEvent _attackEvent;
+        [SerializeReference, SubclassSelector] List<IEnemyAttackEvent> _attackEventList;
         public float AttackWaitTime => _attackWaitTime;
         public IEnemyAttack Attack => _attack;
-        public IEnemyAttackEvent AttackEvent => _attackEvent;
+        public List<IEnemyAttackEvent> AttackEvent => _attackEventList;
     }
 }

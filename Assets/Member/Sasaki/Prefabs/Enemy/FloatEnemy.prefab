@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 843127387419871731}
   - component: {fileID: 5327317984365989850}
   - component: {fileID: 3392239150655827080}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 216010434835200164}
   - component: {fileID: 8860589590345599130}
   - component: {fileID: 69513653192166126}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _maxHp: 0
+  _maxHp: 5
   _isInstantiateFloat: 1
   _slider: {fileID: 3593465596473299065}
   _damageText: {fileID: 8134728152921943851, guid: a8167e7857c103f4c9165cc6e5f3e9e9, type: 3}
@@ -429,10 +429,11 @@ MonoBehaviour:
         rid: 4439156588626313219
     _attackData:
       _attributeDistance: 2
+      _attackWaitTime: 1
       _attack:
         rid: 4439156588626313220
-      _attackEvent:
-        rid: 4439156588626313221
+      _attackEventList:
+      - rid: 7198353222165856260
   references:
     version: 2
     RefIds:
@@ -448,8 +449,10 @@ MonoBehaviour:
         _isAttackTime: 1
         _updateSpeed: 0.5
         _colliderActiveTime: 0.5
-    - rid: 4439156588626313221
-      type: {class: EnemyAttackEventDead, ns: , asm: Assembly-CSharp}
+    - rid: 7198353222165856260
+      type: {class: EnemyAttackEventSetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: EnemyAttack
 --- !u!1 &6497658814932195140
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +462,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3253249144750965468}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -497,7 +500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 498526074869038235}
   - component: {fileID: 3593465596473299065}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,7 +591,7 @@ GameObject:
   - component: {fileID: 3648642843256774335}
   - component: {fileID: 4331892455356615682}
   - component: {fileID: 4077986087944272310}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}

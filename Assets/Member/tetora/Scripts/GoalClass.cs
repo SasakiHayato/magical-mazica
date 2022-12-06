@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GoalClass : MonoBehaviour, IUIOperateEventable
 {
-
     int _currentSelectID;
 
     readonly int MaxSelectID = 2;
@@ -46,7 +45,16 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     {
         if (_currentSelectID == 1)
         {
-            SceneViewer.Initalize();
+            // ‰¼‚ÌŠK‘w
+            if (GameController.Instance.CurrentMapHierarchy > 2)
+            {
+                SceneViewer.SceneLoad(SceneViewer.SceneType.Boss);
+            }
+            else
+            {
+                GameController.Instance.AddMapHierarchy();
+                SceneViewer.Initalize();
+            }
         }
 
         return true;
