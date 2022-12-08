@@ -7,7 +7,7 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 {
     [SerializeField] float _hitStopTime;
     [SerializeField] CharacterManager _characterManager;
-    
+
     [SerializeField] MapCreaterBase _createMap;
     int _hierarchyNum;
     Subject<List<RawMaterialID>> _materialIDSubject = new Subject<List<RawMaterialID>>();
@@ -21,15 +21,7 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
         EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.HitStop, this);
         GameController.Instance.AddGameSetupable(this);
     }
-    private void Start()
-    {
-        _materialIDSubject.OnNext(new List<RawMaterialID>() 
-        { RawMaterialID.BombBean
-        ,RawMaterialID.PowerPlant
-        ,RawMaterialID.Penetration
-        ,RawMaterialID.Poison
-        });
-    }
+
     public void Setup()
     {
         // _characterManager.Setup();
@@ -39,6 +31,26 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 
     void IGameSetupable.GameSetup()
     {
+        //今ステージで登場する素材たち
+        //ステージデータを作る際はここも変更すること
+        List<RawMaterialID> defMaterials = new List<RawMaterialID>()
+        {
+            RawMaterialID.BombBean,
+            RawMaterialID.PowerPlant,
+            RawMaterialID.Penetration,
+            RawMaterialID.Poison
+        };
+        _materialIDSubject.OnNext(defMaterials);
+        _characterManager.PlayerSpawn.Subscribe(p =>
+        {
+            //とりあえず100個くらい
+            defMaterials.ForEach(m =>
+            {
+                p.Storage.AddMaterial(m, 100);
+            });
+        })
+        .AddTo(_characterManager);
+
         _characterManager.CreatePlayer(_createMap.PlayerTransform);
     }
 

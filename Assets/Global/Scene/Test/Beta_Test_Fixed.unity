@@ -1474,6 +1474,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2834049787349273774, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: _fieldManager
+      value: 
+      objectReference: {fileID: 572681085}
+    - target: {fileID: 2834049787349273774, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: _characterManager
       value: 
       objectReference: {fileID: 1286523542}

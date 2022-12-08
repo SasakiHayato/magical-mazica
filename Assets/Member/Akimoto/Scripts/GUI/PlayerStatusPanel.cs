@@ -16,8 +16,12 @@ namespace UIManagement
     {
         [SerializeField] Slider _slider;
         [SerializeField] Text _text;
-        [SerializeField] List<Image> _materialImages;
+        [SerializeField] List<MaterialViewPanel> _materialViewPanels;
 
+        /// <summary>
+        /// スライダーの設定
+        /// </summary>
+        /// <param name="player">現在生成中のプレイヤー</param>
         public void SetSlider(Player player)
         {
             //Sliderの初期設定
@@ -34,6 +38,56 @@ namespace UIManagement
                     _text.text = $"{x} / {player.MaxHP}";
                 })
                 .AddTo(player);
+        }
+
+        /// <summary>
+        /// 素材表示画面の設定
+        /// </summary>
+        /// <param name="player"></param>
+        public void SetMaterialViewPanel(Player player)
+        {
+            player.SelectMaterial.Subscribe(collection =>
+            {
+                //選択中イベントの受け取り
+                _materialViewPanels.ForEach(p =>
+                {
+                    if (collection.OldValue == p.CurrentMaterialID)
+                    {
+                        p.State = MaterialPanelState.Neutral;
+                    }
+                    if (collection.NewValue == p.CurrentMaterialID)
+                    {
+                        p.State = MaterialPanelState.Active;
+                    }
+                });
+            })
+            .AddTo(player);
+
+            //素材数の更新
+            player.Storage.MaterialDictionary.Subscribe(dic =>
+            {
+                _materialViewPanels.ForEach(p =>
+                {
+                    if (dic.Key == p.CurrentMaterialID)
+                    {
+                        Debug.Log($"{dic.Key}が{dic.NewValue}になった");
+                        p.SetNumText = dic.NewValue;
+                    }
+                });
+            })
+            .AddTo(player);
+        }
+
+        /// <summary>
+        /// 素材画像の設定
+        /// </summary>
+        /// <param name="materialSprites">表示する素材のList</param>
+        public void SetMaterialSprite(List<RawMaterialDatabase> materialDatas)
+        {
+            for (int i = 0; i < _materialViewPanels.Count; i++)
+            {
+                _materialViewPanels[i].SetData(materialDatas[i]);
+            }
         }
     }
 }
