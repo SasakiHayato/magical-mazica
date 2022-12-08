@@ -3,8 +3,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable, IGameDisposable
+public interface IBehaviourDatable
+{
+    bool OnAttack { get; set; }
+    Vector2 SetMoveDirection { set; }
+    RigidOperator Rigid { get; }
+}
+
+
+[RequireComponent(typeof(RigidOperator))]
+public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable, IGameDisposable, IBehaviourDatable
 {
     public enum State
     {
@@ -19,14 +27,16 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     [SerializeField] bool _isInstantiateFloat;
     [SerializeField] Slider _slider;
     [SerializeField] DamageText _damageText;
+    [SerializeField] EnemyAISystem.EnemyAttackCollider _attackCollider;
     
     Vector2 _beforePosition = Vector2.zero;
+   
     /// <summary>åªç›HP</summary>
     ReactiveProperty<int> _currentHp = new ReactiveProperty<int>();
-    Transform _player;
     
     protected int Speed => _speed;
-    protected Rigidbody2D RB { get; private set; }
+    protected Vector2 MoveDirection { get; private set; }
+    protected RigidOperator Rigid { get; private set; }
     protected MonoStateMachine<EnemyBase> MonoState { get; private set; }
     protected EnemyStateData EnemyStateData { get; private set; } = new EnemyStateData();
 
@@ -36,7 +46,13 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     public bool IsInstantiateFloat => _isInstantiateFloat;
 
     GameObject IFieldObjectDatable.Target => gameObject;
-    
+
+    bool IBehaviourDatable.OnAttack { get; set; } = false;
+    Vector2 IBehaviourDatable.SetMoveDirection { set { MoveDirection = value; } }
+    RigidOperator IBehaviourDatable.Rigid => Rigid;
+
+    ObjectType IDamagable.ObjectType => ObjectType.Enemy;
+
     void Awake()
     {
         GameController.Instance.AddFieldObjectDatable(this);
@@ -45,13 +61,12 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
     void Start()
     {
-        _player = GameController.Instance.Player;
-
-        RB = GetComponent<Rigidbody2D>();
-        RB.freezeRotation = true;
+        Rigid = GetComponent<RigidOperator>();
+        Rigid.FreezeRotation = true;
         
         MonoState = new MonoStateMachine<EnemyBase>(this);
-        MonoState.AddMonoData(EnemyStateData);
+        MonoState
+            .AddMonoData(EnemyStateData);
 
         //SliderÇÃèâä˙âª
         _slider.maxValue = _maxHp;
@@ -59,13 +74,15 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         _currentHp.Subscribe(i => _slider.value = i).AddTo(this);
 
         _beforePosition = transform.position;
+        
+        EnemyStateData.AttackCollider = _attackCollider;
+        EnemyStateData.IBehaviourDatable = this;
         Setup();
     }
 
     void Update()
     {
-        float dist = Vector2.Distance(transform.position, _player.position);
-        EnemyStateData.PlayerDistance = dist;
+        EnemyStateData.MoveDirection = MoveDirection;
 
         Rotate();
         Execute();

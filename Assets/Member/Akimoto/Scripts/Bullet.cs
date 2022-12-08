@@ -19,6 +19,7 @@ public class Bullet : MonoBehaviour
     /// <summary>ダメージ</summary>
     private int _damage;
     public Vector2 Velocity { set => _rb.velocity = value; }
+    public ObjectType ObjectType { get; set; } = ObjectType.Obstacle;
 
     /// <summary>
     /// 画像やパラメーターの設定
@@ -63,13 +64,13 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //とりあえず
-        //if (!collision.CompareTag("Player"))
-        //    Destroy(gameObject);
-
         if (collision.TryGetComponent(out IDamagable damagable))
         {
-            damagable.AddDamage(_damage);
+            if (damagable.ObjectType != ObjectType)
+            {
+                damagable.AddDamage(_damage);
+                Destroy(gameObject);
+            }
         }
     }
 }
