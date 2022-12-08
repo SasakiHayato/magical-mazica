@@ -54,7 +54,7 @@ public partial class RigidOperator : MonoBehaviour
     void Awake()
     {
         // Note. 下記、使用コンポーネントの保証
-        _rb = gameObject.GetComponent<Rigidbody2D>() ? _rb : gameObject.AddComponent<Rigidbody2D>();
+        _rb = TryGetComponent(out _rb) ? _rb : gameObject.AddComponent<Rigidbody2D>();
         
         if (_fieldTouch == null)
         {
