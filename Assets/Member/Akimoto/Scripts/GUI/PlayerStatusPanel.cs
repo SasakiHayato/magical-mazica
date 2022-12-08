@@ -70,6 +70,7 @@ namespace UIManagement
                 {
                     if (dic.Key == p.CurrentMaterialID)
                     {
+                        Debug.Log($"{dic.Key}‚ª{dic.NewValue}‚É‚È‚Á‚½");
                         p.SetNumText = dic.NewValue;
                     }
                 });

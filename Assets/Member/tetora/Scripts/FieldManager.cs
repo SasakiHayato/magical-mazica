@@ -31,8 +31,8 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 
     void IGameSetupable.GameSetup()
     {
-        _characterManager.CreatePlayer(_createMap.PlayerTransform);
-
+        //今ステージで登場する素材たち
+        //ステージデータを作る際はここも変更すること
         List<RawMaterialID> defMaterials = new List<RawMaterialID>()
         {
             RawMaterialID.BombBean,
@@ -41,6 +41,17 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
             RawMaterialID.Poison
         };
         _materialIDSubject.OnNext(defMaterials);
+        _characterManager.PlayerSpawn.Subscribe(p =>
+        {
+            //とりあえず100個くらい
+            defMaterials.ForEach(m =>
+            {
+                p.Storage.AddMaterial(m, 100);
+            });
+        })
+        .AddTo(_characterManager);
+
+        _characterManager.CreatePlayer(_createMap.PlayerTransform);
     }
 
     /// <summary>死亡判定</summary>

@@ -23,13 +23,14 @@ public class GUIManager : MonoBehaviour, IGameSetupable
     void IGameSetupable.GameSetup()
     {
         //画面に表示する素材画像を設定
-        _fieldManager.MaterialList.Subscribe(items =>
-        {
-            List<RawMaterialDatabase> materialDatas = new List<RawMaterialDatabase>();
-            items.ForEach(item => materialDatas.Add(_materialData.GetMaterialData(item)));
-            _playerStatusPanel.SetMaterialSprite(materialDatas);
-        })
-        .AddTo(_fieldManager);
+        _fieldManager.MaterialList
+            .Subscribe(items =>
+            {
+                List<RawMaterialDatabase> materialDatas = new List<RawMaterialDatabase>();
+                items.ForEach(item => materialDatas.Add(_materialData.GetMaterialData(item)));
+                _playerStatusPanel.SetMaterialSprite(materialDatas);
+            })
+            .AddTo(_fieldManager);
 
         //Playerが生成されたらPlayerの情報をPlayerのステータスを表示するクラスに渡す
         _characterManager.PlayerSpawn
