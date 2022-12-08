@@ -18,6 +18,10 @@ namespace UIManagement
         [SerializeField] Text _text;
         [SerializeField] List<MaterialViewPanel> _materialViewPanels;
 
+        /// <summary>
+        /// スライダーの設定
+        /// </summary>
+        /// <param name="player">現在生成中のプレイヤー</param>
         public void SetSlider(Player player)
         {
             //Sliderの初期設定
@@ -36,11 +40,53 @@ namespace UIManagement
                 .AddTo(player);
         }
 
-        //memo
-        //素材配列の各要素がどのボタンに対応しているか聞いておく
-
-        public void SetMaterialSprite()
+        /// <summary>
+        /// 素材表示画面の設定
+        /// </summary>
+        /// <param name="player"></param>
+        public void SetMaterialViewPanel(Player player)
         {
+            player.SelectMaterial.Subscribe(collection =>
+            {
+                //選択中イベントの受け取り
+                _materialViewPanels.ForEach(p =>
+                {
+                    if (collection.OldValue == p.CurrentMaterialID)
+                    {
+                        p.State = MaterialPanelState.Neutral;
+                    }
+                    if (collection.NewValue == p.CurrentMaterialID)
+                    {
+                        p.State = MaterialPanelState.Active;
+                    }
+                });
+            })
+            .AddTo(player);
+
+            //素材数の更新
+            player.Storage.MaterialDictionary.Subscribe(dic =>
+            {
+                _materialViewPanels.ForEach(p =>
+                {
+                    if (dic.Key == p.CurrentMaterialID)
+                    {
+                        p.SetNumText = dic.NewValue;
+                    }
+                });
+            })
+            .AddTo(player);
+        }
+
+        /// <summary>
+        /// 素材画像の設定
+        /// </summary>
+        /// <param name="materialSprites">表示する素材のList</param>
+        public void SetMaterialSprite(List<RawMaterialDatabase> materialDatas)
+        {
+            for (int i = 0; i < _materialViewPanels.Count; i++)
+            {
+                _materialViewPanels[i].SetData(materialDatas[i]);
+            }
         }
     }
 }

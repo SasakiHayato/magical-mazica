@@ -7,7 +7,7 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 {
     [SerializeField] float _hitStopTime;
     [SerializeField] CharacterManager _characterManager;
-    
+
     [SerializeField] MapCreaterBase _createMap;
     int _hierarchyNum;
     Subject<List<RawMaterialID>> _materialIDSubject = new Subject<List<RawMaterialID>>();
@@ -21,15 +21,7 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
         EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.HitStop, this);
         GameController.Instance.AddGameSetupable(this);
     }
-    private void Start()
-    {
-        _materialIDSubject.OnNext(new List<RawMaterialID>() 
-        { RawMaterialID.BombBean
-        ,RawMaterialID.PowerPlant
-        ,RawMaterialID.Penetration
-        ,RawMaterialID.Poison
-        });
-    }
+
     public void Setup()
     {
         // _characterManager.Setup();
@@ -40,6 +32,15 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
     void IGameSetupable.GameSetup()
     {
         _characterManager.CreatePlayer(_createMap.PlayerTransform);
+
+        List<RawMaterialID> defMaterials = new List<RawMaterialID>()
+        {
+            RawMaterialID.BombBean,
+            RawMaterialID.PowerPlant,
+            RawMaterialID.Penetration,
+            RawMaterialID.Poison
+        };
+        _materialIDSubject.OnNext(defMaterials);
     }
 
     /// <summary>Ž€–S”»’è</summary>
