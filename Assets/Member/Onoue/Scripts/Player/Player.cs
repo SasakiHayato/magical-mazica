@@ -29,8 +29,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     ReactiveCollection<RawMaterialID> _setMaterial = new ReactiveCollection<RawMaterialID> { RawMaterialID.Empty, RawMaterialID.Empty };
     
     FusionItem _fusionItem;
-    Storage _storage;
-    FieldTouchOperator _fieldTouchOperator;
+    [SerializeField] Storage _storage;
+    [SerializeField] FieldTouchOperator _fieldTouchOperator;
 
     /// <summary>çUåÇóÕ</summary>
     public int Damage { get => _damage; private set => _damage = value; }
@@ -48,6 +48,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     string IMonoDatable.Path => nameof(Player);
     GameObject IFieldObjectDatable.Target => gameObject;
 
+    ObjectType IDamagable.ObjectType => ObjectType.Player;
+
     MonoStateMachine<Player> _stateMachine;
 
     private void Awake()
@@ -57,8 +59,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     }
     private void Start()
     {
-        _storage = GetComponentInChildren<Storage>();
-        _fieldTouchOperator = GetComponentInChildren<FieldTouchOperator>();
+        //_storage = GetComponentInChildren<Storage>();
+        //_fieldTouchOperator = GetComponentInChildren<FieldTouchOperator>();
         _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
 

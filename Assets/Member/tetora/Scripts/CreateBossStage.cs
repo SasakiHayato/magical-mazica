@@ -11,6 +11,10 @@ public class CreateBossStage : MapCreaterBase
     [SerializeField]
     Transform _createMapPos;//生成する場所
     [SerializeField]
+    Transform _playerPos;
+    [SerializeField]
+    Transform _bossPos;
+    [SerializeField]
     int _moveSize = 18;
 
     int _dataNum;//何個データ作ったか
@@ -23,15 +27,15 @@ public class CreateBossStage : MapCreaterBase
     public int CreatedNum { get => _createdNum; set => _createdNum = value; }
     public bool IsCreated { get => _isCreated; set => _isCreated = value; }
 
-    //private void Awake()
-    //{
-    //    Instance = this;
-    //    InitialSet();
-    //}
-    protected override void Create()
+    private void Awake()
     {
         Instance = this;
         InitialSet();
+    }
+    protected override void Create()
+    {
+        //Instance = this;
+        //InitialSet();
     }
     protected override void Initalize()
     {
@@ -67,6 +71,27 @@ public class CreateBossStage : MapCreaterBase
             _createdNum++;
             SetMapTip(stage);
         }
+    }
+    /// <summary>
+    /// Tagのついたオブジェクトの場所をセットする
+    /// </summary>
+    /// <param name="objTag">オブジェクトのタグ</param>
+    /// <returns>Transform</returns>
+    public Transform SetCharaPos(string objTag)
+    {
+        if (string.IsNullOrEmpty(objTag))
+        {
+            return null;
+        }
+        if (objTag == "Player")
+        {
+            return _playerPos;
+        }
+        if (objTag == "Boss")
+        {
+            return _bossPos;
+        }
+        return null;
     }
     /// <summary>
     /// ステージの場所変更
