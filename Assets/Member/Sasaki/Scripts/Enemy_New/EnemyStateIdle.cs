@@ -18,7 +18,7 @@ public class EnemyStateIdle : MonoStateBase
 
     public override void OnEntry()
     {
-        _anim.OnPlay("Idle");
+        _anim?.OnPlay("Idle");
     }
 
     public override void OnExecute()

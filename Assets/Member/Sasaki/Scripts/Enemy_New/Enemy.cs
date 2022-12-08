@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : EnemyBase
 {
+    [SerializeField] int _attackIsActiveFrame;
+    [SerializeField] int _attackEndActiveFrame;
     [SerializeField] AnimOperator _animOperator;
 
     protected override void Setup()
@@ -13,6 +15,7 @@ public class Enemy : EnemyBase
             .AddState(State.Move, new EnemyStateRun())
             .AddState(State.Attack, new EnemyStateAttack());
 
+        EnemyStateData.AttackAciveFrame = (_attackIsActiveFrame, _attackEndActiveFrame);
         MonoState.AddMonoData(_animOperator);
 
         MonoState.IsRun = true;

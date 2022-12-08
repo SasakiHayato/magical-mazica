@@ -23,20 +23,25 @@ public class EnemyStateAttack : MonoStateBase
         AnimOperator.AnimEvent anim = new AnimOperator.AnimEvent
         {
             Frame = _stateData.AttackAciveFrame.Item1,
-            Event = () => _stateData.AttackCollider.SetColliderActive(true),
+            Event = () => _stateData.AttackCollider?.SetColliderActive(true),
         };
 
         AnimOperator.AnimEvent anim2 = new AnimOperator.AnimEvent
         {
             Frame = _stateData.AttackAciveFrame.Item2,
-            Event = () => _stateData.AttackCollider.SetColliderActive(false),
+            Event = () => _stateData.AttackCollider?.SetColliderActive(false),
         };
 
         List<AnimOperator.AnimEvent> list = new List<AnimOperator.AnimEvent>();
         list.Add(anim);
         list.Add(anim2);
 
-        _anim.OnPlay("Attack", list);
+        _anim?.OnPlay("Attack", list);
+
+        if (_anim == null)
+        {
+            _stateData.AttackCollider?.SetColliderActive(true);
+        }
     }
 
     public override void OnExecute()
@@ -46,6 +51,12 @@ public class EnemyStateAttack : MonoStateBase
 
     public override Enum OnExit()
     {
+        if (_anim == null)
+        {
+            _stateData.AttackCollider?.SetColliderActive(false);
+            return ReturneState();
+        }
+
         if (_anim.EndCurrentAnim)
         {
             _stateData.IBehaviourDatable.OnAttack = false;

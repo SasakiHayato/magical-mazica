@@ -51,6 +51,8 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     Vector2 IBehaviourDatable.SetMoveDirection { set { MoveDirection = value; } }
     RigidOperator IBehaviourDatable.Rigid => Rigid;
 
+    ObjectType IDamagable.ObjectType => ObjectType.Enemy;
+
     void Awake()
     {
         GameController.Instance.AddFieldObjectDatable(this);
@@ -72,7 +74,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         _currentHp.Subscribe(i => _slider.value = i).AddTo(this);
 
         _beforePosition = transform.position;
-        EnemyStateData.AttackAciveFrame = (4, 6);
+        
         EnemyStateData.AttackCollider = _attackCollider;
         EnemyStateData.IBehaviourDatable = this;
         Setup();

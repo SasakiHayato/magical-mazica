@@ -29,10 +29,18 @@ namespace MonoState.Data
         /// <returns></returns>
         public MonoData GetMonoData<MonoData>(string path) where MonoData : IMonoDatable
         {
-            IMonoDatable monoDatable = _monoDataList.Find(m => m.Path == path);
-            IMonoDatableSystem<MonoData> system = monoDatable as IMonoDatableSystem<MonoData>;
+            try
+            {
+                IMonoDatable monoDatable = _monoDataList.Find(m => m.Path == path);
+                IMonoDatableSystem<MonoData> system = monoDatable as IMonoDatableSystem<MonoData>;
 
-            return (MonoData)system;
+                return (MonoData)system;
+            }
+            catch
+            {
+                return default;
+            }
+            
         }
 
         /// <summary>
@@ -43,10 +51,18 @@ namespace MonoState.Data
         /// <returns></returns>
         public MonoData GetMonoDataUni<MonoData>(string path) where MonoData : Object, IMonoDatable
         {
-            IMonoDatable monoDatable = _monoDataList.Find(m => m.Path == path);
-            IMonoDatableUni<MonoData> uni = monoDatable as IMonoDatableUni<MonoData>;
+            try
+            {
+                IMonoDatable monoDatable = _monoDataList.Find(m => m.Path == path);
+                IMonoDatableUni<MonoData> uni = monoDatable as IMonoDatableUni<MonoData>;
 
-            return (MonoData)uni;
+                return (MonoData)uni;
+            }
+            catch
+            {
+                return null;
+            }
+            
         }
     }
 }

@@ -18,7 +18,7 @@ public class EnemyStateRun : MonoStateBase
 
     public override void OnEntry()
     {
-        _anim.OnPlay("Run");
+        _anim?.OnPlay("Run");
     }
 
     public override void OnExecute()
