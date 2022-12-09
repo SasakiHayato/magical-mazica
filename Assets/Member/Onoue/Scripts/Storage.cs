@@ -45,6 +45,7 @@ public class Storage : MonoBehaviour
         }
         else
         {
+            //Addじゃイベントが発行されなかった
             _materialCount.Add(id, 0);
             _materialCount[id] = value;
         }

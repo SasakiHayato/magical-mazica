@@ -49,15 +49,20 @@ namespace UIManagement
             player.SelectMaterial.Subscribe(collection =>
             {
                 //選択中イベントの受け取り
-                _materialViewPanels.ForEach(p =>
+                _materialViewPanels.ForEach(panel =>
                 {
-                    if (collection.OldValue == p.CurrentMaterialID)
+                    //選択された素材に含まれているものをアクティブに、されていないものをニュートラル状態にする
+                    collection.ForEach(id =>
                     {
-                        p.State = MaterialPanelState.Neutral;
-                    }
-                    if (collection.NewValue == p.CurrentMaterialID)
+                        if (panel.CurrentMaterialID == id)
+                        {
+                            panel.State = MaterialPanelState.Active;
+                        }
+                    });
+
+                    if (panel.State != MaterialPanelState.Active)
                     {
-                        p.State = MaterialPanelState.Active;
+                        panel.State = MaterialPanelState.Neutral;
                     }
                 });
             })
