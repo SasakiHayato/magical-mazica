@@ -1,18 +1,20 @@
 using UnityEngine;
-using BehaviourTree;
 
 public class Boss : EnemyBase
 {
-    [SerializeField] float _farDistance;
-    [SerializeField] float _nearDistance;
-    [SerializeField] float _updateSpeedRate;
-    [SerializeField] float _downSpeedRate;
-    
+    [SerializeField] BossData _bossData;
+
+    BossTaskProcesser _taskProcesser = new BossTaskProcesser();
     Transform _core = null;
 
     protected override void Setup()
     {
+        _bossData.TaskSetup(transform);
+
         CreateCore();
+        MonoState.AddState(State.Idle, new EnemyStateIdle());
+
+        MonoState.IsRun = true;
     }
 
     void CreateCore()
@@ -25,25 +27,35 @@ public class Boss : EnemyBase
 
     protected override void Execute()
     {
-        MoveSystem();
+        OnMove();
+        OnTask();
     }
 
-    void MoveSystem()
+    void OnMove()
     {
         float speed = Speed;
         float distance = Mathf.Abs(_core.position.x) - Mathf.Abs(GameController.Instance.Player.position.x);
         
-        if (Mathf.Abs(distance) > _farDistance)
+        if (Mathf.Abs(distance) > _bossData.FarDist)
         {
-            speed *= _updateSpeedRate;
+            speed *= _bossData.UpdateSpeed;
         }
 
-        if (Mathf.Abs(distance) < _nearDistance)
+        if (Mathf.Abs(distance) < _bossData.NearDist)
         {
-            speed /= _downSpeedRate;
+            speed /= _bossData.DownSpeedRate;
         }
 
         Rigid.SetMoveDirection = Vector2.right * -1 * speed;
+    }
+
+    void OnTask()
+    {
+        if (!_taskProcesser.OnProcess())
+        {
+            int id = Random.Range(0, _bossData.TaskDataLength);
+            _taskProcesser.SetTaskData(_bossData.GetTaskData(id));
+        }
     }
 
     protected override bool IsDamage(int damage)

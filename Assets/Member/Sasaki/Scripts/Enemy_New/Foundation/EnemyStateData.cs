@@ -9,7 +9,7 @@ public class EnemyStateData : IMonoDatableSystem<EnemyStateData>
 
     public (int, int) AttackAciveFrame { get; set; }
 
-    public EnemyAISystem.EnemyAttackCollider AttackCollider { get; set; }
+    public EnemyAttackCollider AttackCollider { get; set; }
     public IBehaviourDatable IBehaviourDatable { get; set; }
     EnemyStateData IMonoDatableSystem<EnemyStateData>.GetData => this;
     string IMonoDatable.Path => nameof(EnemyStateData);

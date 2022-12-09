@@ -27,7 +27,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     [SerializeField] bool _isInstantiateFloat;
     [SerializeField] Slider _slider;
     [SerializeField] DamageText _damageText;
-    [SerializeField] EnemyAISystem.EnemyAttackCollider _attackCollider;
+    [SerializeField] EnemyAttackCollider _attackCollider;
 
     float _xScale = 0;
     Vector2 _beforePosition = Vector2.zero;
@@ -80,6 +80,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         
         EnemyStateData.AttackCollider = _attackCollider;
         EnemyStateData.IBehaviourDatable = this;
+
         Setup();
     }
 
