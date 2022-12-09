@@ -51,7 +51,7 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
                 p.Storage.AddMaterial(m, 100);
             });
         })
-        .AddTo(_characterManager.GetPlayer());
+        .AddTo(_characterManager);
 
         //ƒvƒŒƒCƒ„[‚ğ¶¬
         _characterManager.CreatePlayer(_createMap.PlayerTransform);

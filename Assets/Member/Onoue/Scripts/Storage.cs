@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx;
 public class Storage : MonoBehaviour
 {
-    /// <summary>‘fŞ‚ÌIDA‘fŞ‚ğ‚Á‚Ä‚¢‚é”/// </summary>
+    /// <summary>‘fŞ‚ÌIDA‘fŞ‚ğ‚Á‚Ä‚¢‚é” </summary>
     ReactiveDictionary<RawMaterialID, int> _materialCount = new ReactiveDictionary<RawMaterialID,int>();
     public System.IObservable<DictionaryReplaceEvent<RawMaterialID, int>> MaterialDictionary => _materialCount.ObserveReplace();
     
