@@ -21,23 +21,21 @@ public class CreateBossStage : MapCreaterBase
 
     int _dataNum;//何個データ作ったか
     int _createdNum;//何個マップを作ったか
-    bool _isCreated = false;//true:作れる false:作れない
     List<GameObject> _createdStageList = new List<GameObject>();
 
     public static CreateBossStage Instance;
     public override Transform PlayerTransform { get; protected set; }
     public int CreatedNum { get => _createdNum; set => _createdNum = value; }
-    public bool IsCreated { get => _isCreated; set => _isCreated = value; }
 
-    private void Awake()
+    //private void Awake()
+    //{
+    //    Instance = this;
+    //    InitialSet();
+    //}
+    protected override void Create()
     {
         Instance = this;
         InitialSet();
-    }
-    protected override void Create()
-    {
-        //Instance = this;
-        //InitialSet();
     }
     protected override void Initalize()
     {
@@ -101,6 +99,9 @@ public class CreateBossStage : MapCreaterBase
         }
         return CreatedNum;
     }
+    /// <summary>
+    /// Bossの生成
+    /// </summary>
     public void CreateBoss()
     {
         GameObject boss = Instantiate(_bossObj);
