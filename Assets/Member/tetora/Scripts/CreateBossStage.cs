@@ -5,6 +5,8 @@ using System.Linq;
 public class CreateBossStage : MapCreaterBase
 {
     [SerializeField]
+    GameObject _bossObj;
+    [SerializeField]
     Grid _parentGrid;
     [SerializeField]
     List<BossStageScriptable> _stageTipList;
@@ -53,6 +55,7 @@ public class CreateBossStage : MapCreaterBase
     public void InitialSet()
     {
         CreateMap();
+        CreateBoss();
     }
     /// <summary>
     /// マップ生成
@@ -71,27 +74,6 @@ public class CreateBossStage : MapCreaterBase
             _createdNum++;
             SetMapTip(stage);
         }
-    }
-    /// <summary>
-    /// Tagのついたオブジェクトの場所をセットする
-    /// </summary>
-    /// <param name="objTag">オブジェクトのタグ</param>
-    /// <returns>Transform</returns>
-    public Transform SetCharaPos(string objTag)
-    {
-        if (string.IsNullOrEmpty(objTag))
-        {
-            return null;
-        }
-        if (objTag == "Player")
-        {
-            return _playerPos;
-        }
-        if (objTag == "Boss")
-        {
-            return _bossPos;
-        }
-        return null;
     }
     /// <summary>
     /// ステージの場所変更
@@ -118,6 +100,11 @@ public class CreateBossStage : MapCreaterBase
             return CreatedNum - 1;
         }
         return CreatedNum;
+    }
+    public void CreateBoss()
+    {
+        GameObject boss = Instantiate(_bossObj);
+        boss.transform.position = _bossPos.position;
     }
 }
 
