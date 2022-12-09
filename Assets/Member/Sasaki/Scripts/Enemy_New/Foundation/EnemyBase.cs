@@ -28,7 +28,8 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     [SerializeField] Slider _slider;
     [SerializeField] DamageText _damageText;
     [SerializeField] EnemyAISystem.EnemyAttackCollider _attackCollider;
-    
+
+    float _xScale = 0;
     Vector2 _beforePosition = Vector2.zero;
    
     /// <summary>åªç›HP</summary>
@@ -61,6 +62,8 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
     void Start()
     {
+        _xScale = Mathf.Abs(transform.localScale.x);
+
         Rigid = GetComponent<RigidOperator>();
         Rigid.FreezeRotation = true;
         
@@ -103,7 +106,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         if (Mathf.Abs(forward.x) > 0.01f)
         {
             Vector2 scale = transform.localScale;
-            scale.x = Mathf.Sign(forward.x);
+            scale.x = Mathf.Sign(forward.x) * _xScale;
             transform.localScale = scale;
         }
     }
