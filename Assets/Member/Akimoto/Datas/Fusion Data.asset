@@ -28,13 +28,69 @@ MonoBehaviour:
     _fusionUseMaterials:
       _materialData1: 0
       _materialData2: 1
+    _useType: 0
+    _bulletSpeed: 4
+  - _name: "\u30AB\u30F3\u30C4\u30A6\u30DC\u30E0"
+    _icon: {fileID: 0}
+    _sprite: {fileID: 0}
+    _fusionUseMaterials:
+      _materialData1: 0
+      _materialData2: 2
     _useType: 1
     _bulletSpeed: 5
-  - _name: "\u30B9\u30CA\u30A4\u30D7\u30D7\u30E9\u30F3\u30C8"
+  - _name: "\u30DD\u30A4\u30BA\u30F3\u30DC\u30E0"
+    _icon: {fileID: 0}
+    _sprite: {fileID: 0}
+    _fusionUseMaterials:
+      _materialData1: 0
+      _materialData2: 3
+    _useType: 0
+    _bulletSpeed: 5
+  - _name: "\u30A6\u30EB\u30C8\u30E9\u30D1\u30EF\u30FC"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
     _fusionUseMaterials:
       _materialData1: 1
       _materialData2: 1
     _useType: 1
+    _bulletSpeed: 5
+  - _name: "\u30AB\u30F3\u30C4\u30A6\u30D1\u30EF\u30FC"
+    _icon: {fileID: 0}
+    _sprite: {fileID: 0}
+    _fusionUseMaterials:
+      _materialData1: 1
+      _materialData2: 2
+    _useType: 1
+    _bulletSpeed: 6
+  - _name: "\u30D1\u30EF\u30FC\u30DD\u30A4\u30BA\u30F3"
+    _icon: {fileID: 0}
+    _sprite: {fileID: 0}
+    _fusionUseMaterials:
+      _materialData1: 1
+      _materialData2: 3
+    _useType: 1
+    _bulletSpeed: 5
+  - _name: "\u30A6\u30EB\u30C8\u30E9\u30AB\u30F3\u30C4\u30A6"
+    _icon: {fileID: 0}
+    _sprite: {fileID: 0}
+    _fusionUseMaterials:
+      _materialData1: 2
+      _materialData2: 2
+    _useType: 1
     _bulletSpeed: 10
+  - _name: "\u30AB\u30F3\u30C4\u30A6\u30DD\u30A4\u30BA\u30F3"
+    _icon: {fileID: 0}
+    _sprite: {fileID: 0}
+    _fusionUseMaterials:
+      _materialData1: 2
+      _materialData2: 3
+    _useType: 1
+    _bulletSpeed: 6
+  - _name: "\u30A6\u30EB\u30C8\u30E9\u30DD\u30A4\u30BA\u30F3"
+    _icon: {fileID: 0}
+    _sprite: {fileID: 0}
+    _fusionUseMaterials:
+      _materialData1: 3
+      _materialData2: 3
+    _useType: 0
+    _bulletSpeed: 4
