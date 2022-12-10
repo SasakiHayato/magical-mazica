@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum MapState
 {
-    Wall, Floar, Player, Teleport, Goal
+    Wall, Floar, Player, Teleport, Goal, Enemy
 }
 [System.Serializable]
 public class CreateMap : MapCreaterBase
@@ -25,6 +25,8 @@ public class CreateMap : MapCreaterBase
 
     float _wallObjSize = 3;//マップ一つ一つのサイズ
     List<GameObject> _stageObjList = new List<GameObject>();
+    Dictionary<bool, GameObject> _enemyDic = new Dictionary<bool, GameObject>();
+    (int, bool)[] _dictionaryKey;
     StageMap _stageMap;
     int _startDigPos;//掘り始める始点
     //public Transform PlayerTransform { get; private set; }
@@ -32,7 +34,7 @@ public class CreateMap : MapCreaterBase
 
     public static int TepoatObjLength => Instance._teleportObj.Length;
 
-    static CreateMap Instance = null;
+    public static CreateMap Instance = null;
 
     public override Transform PlayerTransform { get; protected set; }
 
@@ -178,38 +180,45 @@ public class CreateMap : MapCreaterBase
         {
             GameObject enemy = Instantiate(_scriptableObject.EnemyObject[i]);
             DebugSetEnemyObject.SetEnemy(enemy.transform);
-            SetEnemyPos(enemy);
+            SetEnemyPos(enemy, i);
         }
     }
     /// <summary>
     /// 敵の生成する場所を決める
     /// </summary>
     /// <param name="enemy">敵のGameObject</param>
-    void SetEnemyPos(GameObject enemy)
+    void SetEnemyPos(GameObject enemy, int count)
     {
         int random = _stageMap.RandomFloarId();//ランダムな床のIDを取得し変数に格納
+        var ene = enemy.GetComponent<Enemy>();
         if (_stageMap[random].IsGenerate != true)
         {
-            SetEnemyPos(enemy);
+            SetEnemyPos(enemy, count);
         }
         else
         {
             if (_stageMap.CheckUnderDir(_stageMap[random], MapState.Floar))//下が床なら＝空中
             {
-                if (enemy.GetComponent<EnemyBase>().IsInstantiateFloat)
+                if (ene.IsInstantiateFloat)
                 {
                     enemy.transform.position = _stageMap[random, _wallObjSize];
+                    _stageMap[random].State = MapState.Enemy;
                     _stageMap[random].IsGenerate = false;
+                    _dictionaryKey[count] = (ene.ID++, _stageMap[random].IsGenerate);
+                    _enemyDic.Add(_dictionaryKey[count].Item2, enemy);
                 }
                 else
                 {
-                    SetEnemyPos(enemy);
+                    SetEnemyPos(enemy, count);
                 }
             }
             else
             {
                 enemy.transform.position = _stageMap[random, _wallObjSize];
+                _stageMap[random].State = MapState.Enemy;
                 _stageMap[random].IsGenerate = false;
+                _dictionaryKey[count] = (ene.ID++, _stageMap[random].IsGenerate);
+                _enemyDic.Add(_dictionaryKey[count].Item2, enemy);
             }
         }
     }
@@ -319,6 +328,63 @@ public class CreateMap : MapCreaterBase
     {
         Transform transform = _teleporterController.GetData(id);
         GameController.Instance.Player.position = transform.position;
+    }
+    /// <summary>
+    /// Enemyが死んだときにFlagを変える
+    /// </summary>
+    /// <param name="enemy">死んだEnemy</param>
+    public void DeadEnemy(GameObject enemy)
+    {
+        var ene = enemy.GetComponent<Enemy>();
+        for (int i = 0; i < _dictionaryKey.Length; i++)
+        {
+            if (ene.ID == _dictionaryKey[i].Item1)
+            {
+                ChangeKey(i);
+                break;
+            }
+        }
+    }
+    /// <summary>
+    /// Keyの反転
+    /// </summary>
+    /// <param name="i">配列番号</param>
+    void ChangeKey(int i)
+    {
+        bool flag = _dictionaryKey[i].Item2 ? false : true;
+        _dictionaryKey[i].Item2 = flag;
+    }
+    /// <summary>
+    /// 生成できるキーを返す
+    /// </summary>
+    /// <returns></returns>
+    (int, bool) CheckKey()
+    {
+        (int, bool) key = (0, false);
+
+        for (int i = 0; i < _dictionaryKey.Length; i++)
+        {
+            if (_dictionaryKey[i].Item2 == true)
+            {
+                key = _dictionaryKey[i];
+                break;
+            }
+        }
+        return key;
+    }
+    /// <summary>
+    /// Enemyを生成する
+    /// </summary>
+    /// <returns></returns>
+    public void CreateEnemy()
+    {
+        for (int i = 0; i < _dictionaryKey.Length; i++)
+        {
+            if (_dictionaryKey[i].Item2 == true)
+            {
+
+            }
+        }
     }
 }
 
