@@ -27,3 +27,15 @@ MonoBehaviour:
     _clip: {fileID: 8300000, guid: 8c2bc7e7e5781314db8352f3371530fe, type: 3}
     _volume: 0.388
     _isLoop: 0
+  - _path: Damage1
+    _clip: {fileID: 8300000, guid: 8fc26d14e69b5b144b022ef5ef401c03, type: 3}
+    _volume: 0.388
+    _isLoop: 0
+  - _path: Damage2
+    _clip: {fileID: 8300000, guid: 2be45dee95c5f414ebe065ef459a8e32, type: 3}
+    _volume: 0.388
+    _isLoop: 0
+  - _path: Dead
+    _clip: {fileID: 8300000, guid: af0d8d7d4fc29a642895d570734810c6, type: 3}
+    _volume: 0.388
+    _isLoop: 0

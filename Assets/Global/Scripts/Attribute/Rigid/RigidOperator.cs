@@ -118,6 +118,8 @@ public partial class RigidOperator : MonoBehaviour
 
     void Acceleration()
     {
+        if (!_useGravity) return;
+
         bool isGround = _fieldTouch.IsTouch(FieldTouchOperator.TouchType.Ground, true);
         _timer = isGround ? 0.05f : Time.fixedDeltaTime + _timer;
 

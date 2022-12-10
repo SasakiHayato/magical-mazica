@@ -31,6 +31,11 @@ public interface IDamagable
     void AddDamage(int damage);
 }
 
+public interface IDamageForceble
+{
+    void OnFoece(Vector2 direction);
+}
+
 /// <summary>
 /// ƒQ[ƒ€\‘¢‚Ì—§‚¿ã‚°, ”jŠü‚ğ’S‚¤ƒNƒ‰ƒX
 /// </summary>
@@ -136,11 +141,7 @@ public class GameController
     /// </summary>
     public void Setup()
     {
-        _setupList.OrderBy(s => s.Priority).ToList().ForEach(s => 
-        {
-            Debug.Log(s);
-            s.GameSetup();
-        });
+        _setupList.OrderBy(s => s.Priority).ToList().ForEach(s => s.GameSetup());
     }
 
     /// <summary>

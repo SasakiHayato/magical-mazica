@@ -52,9 +52,11 @@ public class CreateBossStage : MapCreaterBase
     /// </summary>
     public void InitialSet()
     {
+        PlayerTransform = _playerPos;
         CreateMap();
         CreateBoss();
     }
+
     /// <summary>
     /// É}ÉbÉvê∂ê¨
     /// </summary>
@@ -106,6 +108,7 @@ public class CreateBossStage : MapCreaterBase
     {
         GameObject boss = Instantiate(_bossObj);
         boss.transform.position = _bossPos.position;
+        DebugSetEnemyObject.SetEnemy(boss.transform);
     }
 }
 
