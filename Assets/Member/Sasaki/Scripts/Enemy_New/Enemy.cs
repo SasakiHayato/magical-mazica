@@ -29,6 +29,11 @@ public class Enemy : EnemyBase, IDamageForceble
     {
         Rigid.SetMoveDirection = MoveDirection * Speed;
     }
+    protected override void DeadEvent()
+    {
+        //CreateMap.Instance.DeadEnemy(gameObject);
+        base.DeadEvent();        
+    }
 
     protected override bool IsDamage(int damage)
     {
