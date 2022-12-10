@@ -34,6 +34,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
         _id = id;
         _teleportEvent = teleportEvent;
         _getTeleport = getTeleportEvent;
+        Debug.Log(_getTeleport);
     }
 
     void IUIOperateEventable.OnEnableEvent()
@@ -56,7 +57,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
         {
             _currentSelectID = CreateMap.TepoatObjLength - 1;
         }
-
+        
         _point.transform.position = _getTeleport.Invoke(_currentSelectID).position;
         horizontal = _currentSelectID;
     }
