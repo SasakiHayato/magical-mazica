@@ -98,13 +98,20 @@ public class AnimOperator : MonoBehaviour, IMonoDatableUni<AnimOperator>
     IEnumerator OnExecuteEvent(AnimEvent animEvent)
     {
         int frame = 0;
-        
+
+#if UNITY_EDITOR
         while (frame < animEvent.Frame * 20)
         {
             frame ++;
             yield return null;
         }
-
+#else
+        while (frame < animEvent.Frame)
+        {
+            frame ++;
+            yield return null;
+        }
+#endif
         animEvent.Event?.Invoke();
     }
 }
