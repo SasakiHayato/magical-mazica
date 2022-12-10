@@ -52,7 +52,7 @@ public class PlayerInputController : MonoBehaviour
         _playerInput.actions["UISubmit"].started -= context => Submit();
         _playerInput.actions["UICancel"].started -= context => Cancel();
     }
-    private void FixedUpdate()
+    private void Update()
     {
         if (_player != null)
         {
