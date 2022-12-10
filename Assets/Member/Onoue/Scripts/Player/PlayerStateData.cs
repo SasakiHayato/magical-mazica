@@ -44,13 +44,13 @@ public class PlayerStateData : IMonoDatableSystem<PlayerStateData>
 
     [SerializeField] JumpData _jumpData;
     [SerializeField] RigidOperator _rigidOperator;
-
+    [SerializeField] GameObject _attackCollider;
     Vector2 _moveDirection = Vector2.zero;
 
     public JumpData Jump => _jumpData;
     public RigidOperator Rigid => _rigidOperator;
     public StatusData Status { get; private set; } = new StatusData();
-
+    public GameObject AttackCollider { get => _attackCollider; set => _attackCollider = value; }
     public Vector2 ReadMoveDirection => _moveDirection.normalized;
     public Vector2 SetMoveDirection { set { _moveDirection = value; } }
 }

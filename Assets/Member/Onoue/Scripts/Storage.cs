@@ -10,12 +10,15 @@ public class Storage : MonoBehaviour
     
     private void Start()
     {
+        SetUp();
     }
 
-    void Test()
+    void SetUp()
     {
-        _materialCount[RawMaterialID.BombBean] = 2;
-        _materialCount[RawMaterialID.PowerPlant] = 0;
+        _materialCount[RawMaterialID.BombBean] = 100;
+        _materialCount[RawMaterialID.PowerPlant] = 100;
+        _materialCount[RawMaterialID.Penetration] = 100;
+        _materialCount[RawMaterialID.Poison] = 100;
     }
 
     //public void SetMaterial(List<RawMaterialID> materialIDs)
