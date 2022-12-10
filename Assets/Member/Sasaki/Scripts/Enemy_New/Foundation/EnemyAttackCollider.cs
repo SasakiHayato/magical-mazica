@@ -3,10 +3,15 @@ using UnityEngine;
 public class EnemyAttackCollider : MonoBehaviour
 {
     [SerializeField] int _power;
-
+    
     Collider2D _collider;
 
     void Start()
+    {
+        Setup();
+    }
+
+    void Setup()
     {
         _collider = GetComponent<Collider2D>();
         _collider.isTrigger = true;
@@ -15,6 +20,10 @@ public class EnemyAttackCollider : MonoBehaviour
 
     public void SetColliderActive(bool isActive)
     {
+        if (_collider == null)
+        {
+            Setup();
+        }
         _collider.enabled = isActive;
     }
 

@@ -95,6 +95,11 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     protected abstract void Setup();
     protected abstract void Execute();
     protected abstract bool IsDamage(int damage);
+    protected virtual void DeadEvent()
+    {
+        SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Dead");
+        EffectStocker.Instance.LoadEffect("Dead", transform.position);
+    }
 
     /// <summary>
     /// スケールをいじって回転を表現
@@ -123,8 +128,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
         if (_currentHp.Value <= 0)
         {
-            SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Dead");
-            EffectStocker.Instance.LoadEffect("Dead", transform.position);
+            DeadEvent();
             Destroy(gameObject);
         }
     }

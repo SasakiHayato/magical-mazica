@@ -136,11 +136,7 @@ public class GameController
     /// </summary>
     public void Setup()
     {
-        _setupList.OrderBy(s => s.Priority).ToList().ForEach(s => 
-        {
-            Debug.Log(s);
-            s.GameSetup();
-        });
+        _setupList.OrderBy(s => s.Priority).ToList().ForEach(s => s.GameSetup());
     }
 
     /// <summary>

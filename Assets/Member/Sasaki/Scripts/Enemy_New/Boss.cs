@@ -62,4 +62,10 @@ public class Boss : EnemyBase
     {
         return true;
     }
+
+    protected override void DeadEvent()
+    {
+        base.DeadEvent();
+        SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
+    }
 }
