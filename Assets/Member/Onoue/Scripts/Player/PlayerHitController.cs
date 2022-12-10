@@ -12,6 +12,12 @@ public class PlayerHitController : MonoBehaviour
             EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.CmShake);
             GameObject go = collision.transform.gameObject;
             go.GetComponent<IDamagable>().AddDamage(_player.Damage);
+
+            if (go.TryGetComponent(out IDamageForceble forceble))
+            {
+                // ‰¼
+                forceble.OnFoece(Vector2.zero);
+            }
         }
     }
 }

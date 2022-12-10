@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : EnemyBase
+public class Enemy : EnemyBase, IDamageForceble
 {
     [SerializeField] int _attackIsActiveFrame;
     [SerializeField] int _attackEndActiveFrame;
@@ -33,5 +33,11 @@ public class Enemy : EnemyBase
     protected override bool IsDamage(int damage)
     {
         return true;
+    }
+
+    void IDamageForceble.OnFoece(Vector2 direction)
+    {
+        Rigid.SetImpulse(direction.x, RigidMasterData.ImpulseDirectionType.Horizontal, true);
+        Rigid.SetImpulse(direction.y, RigidMasterData.ImpulseDirectionType.Vertical, true);
     }
 }

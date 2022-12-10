@@ -31,6 +31,11 @@ public interface IDamagable
     void AddDamage(int damage);
 }
 
+public interface IDamageForceble
+{
+    void OnFoece(Vector2 direction);
+}
+
 /// <summary>
 /// ゲーム構造の立ち上げ, 破棄を担うクラス
 /// </summary>
