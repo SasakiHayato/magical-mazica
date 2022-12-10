@@ -133,6 +133,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public void Fire()
     {
         _animOperator.OnPlay("Mazic");
+        Fusion();
         _fusionItem.Attack(transform.position);
     }
 
@@ -200,6 +201,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 _storage.AddMaterial(_setMaterial[1], -1);
                 print("‚Å‚«‚½");
                 _setMaterial.ForEach(m => m = RawMaterialID.Empty);
+                _selectMaterial.OnNext(_setMaterial);
             }
             else
             {
