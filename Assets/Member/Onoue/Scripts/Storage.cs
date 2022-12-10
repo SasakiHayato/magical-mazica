@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx;
 public class Storage : MonoBehaviour
 {
-    /// <summary>素材のID、素材を持っている数/// </summary>
+    /// <summary>素材のID、素材を持っている数 </summary>
     ReactiveDictionary<RawMaterialID, int> _materialCount = new ReactiveDictionary<RawMaterialID,int>();
     public System.IObservable<DictionaryReplaceEvent<RawMaterialID, int>> MaterialDictionary => _materialCount.ObserveReplace();
     
@@ -45,6 +45,7 @@ public class Storage : MonoBehaviour
         }
         else
         {
+            //Addじゃイベントが発行されなかった
             _materialCount.Add(id, 0);
             _materialCount[id] = value;
         }

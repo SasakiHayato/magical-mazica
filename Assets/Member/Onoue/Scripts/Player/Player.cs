@@ -23,11 +23,13 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     [SerializeField] AnimOperator _animOperator;
     [SerializeField] GameObject _attackCollider;
     [SerializeField] PlayerStateData _playerStateData;
-    
+
     ReactiveProperty<int> _hp = new ReactiveProperty<int>();
     //選択したMaterialのIDをセットする変数
-    ReactiveCollection<RawMaterialID> _setMaterial = new ReactiveCollection<RawMaterialID> { RawMaterialID.Empty, RawMaterialID.Empty };
-    
+    //ReactiveCollection<RawMaterialID> _setMaterial = new ReactiveCollection<RawMaterialID> { RawMaterialID.Empty, RawMaterialID.Empty };
+    List<RawMaterialID> _setMaterial = new List<RawMaterialID>() { RawMaterialID.Empty, RawMaterialID.Empty };
+    Subject<List<RawMaterialID>> _selectMaterial = new Subject<List<RawMaterialID>>();
+
     FusionItem _fusionItem;
     [SerializeField] Storage _storage;
     [SerializeField] FieldTouchOperator _fieldTouchOperator;
@@ -41,7 +43,9 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     
     /// <summary>現在HPの更新の通知</summary>
     public System.IObservable<int> CurrentHP => _hp;
-    public System.IObservable<CollectionReplaceEvent<RawMaterialID>> SelectMaterial => _setMaterial.ObserveReplace();
+    //public System.IObservable<CollectionReplaceEvent<RawMaterialID>> SelectMaterial => _setMaterial.ObserveReplace();
+    /// <summary>素材選択状態の通知</summary>
+    public System.IObservable<List<RawMaterialID>> SelectMaterial => _selectMaterial;
     public FieldTouchOperator FieldTouchOperator { get => _fieldTouchOperator; private set => _fieldTouchOperator = value; }
     
     Player IMonoDatableUni<Player>.GetData => this;
@@ -129,6 +133,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public void Fire()
     {
         _animOperator.OnPlay("Mazic");
+        Fusion();
         _fusionItem.Attack(transform.position);
     }
 
@@ -166,6 +171,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         _setMaterial[0] = id;
         print(_setMaterial[0]);
         print(_setMaterial[1]);
+        _selectMaterial.OnNext(_setMaterial);
     }
 
     /// <summary>
@@ -194,6 +200,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 _storage.AddMaterial(_setMaterial[0], -1);
                 _storage.AddMaterial(_setMaterial[1], -1);
                 print("できた");
+                _setMaterial.ForEach(m => m = RawMaterialID.Empty);
+                _selectMaterial.OnNext(_setMaterial);
             }
             else
             {
@@ -208,7 +216,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     private void Update()
     {
-        Debug.Log(_stateMachine.CurrentKey);
+        //Debug.Log(_stateMachine.CurrentKey);
     }
 
     private void FixedUpdate()

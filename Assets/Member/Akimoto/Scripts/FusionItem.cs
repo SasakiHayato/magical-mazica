@@ -12,6 +12,7 @@ public class FusionItem : MonoBehaviour
 {
     [SerializeField] FusionData _fusionData;
     [SerializeField] Bullet _bulletPrefab;
+    [SerializeField] float _throwBulletHeightOffset;
     /// <summary>アイテム名</summary>
     private ReactiveProperty<string> _name = new ReactiveProperty<string>();
     /// <summary>アイコン</summary>
@@ -58,6 +59,12 @@ public class FusionItem : MonoBehaviour
         blt.transform.position = transform.position;
         blt.Velocity = directions * _database.BulletSpeed;
         Dispose();
+    }
+
+    private Vector2 BulletDirectionOffset(Vector2 direction)
+    {
+        Vector2 ret = new Vector2(direction.x, direction.y + _throwBulletHeightOffset);
+        return ret;
     }
 
     /// <summary>
