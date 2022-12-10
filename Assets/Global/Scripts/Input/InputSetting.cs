@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class InputSetting
 {
@@ -12,18 +13,15 @@ public class InputSetting
     {
         _buttonInputDataList.ForEach(b => 
         {
-            if (SetInput(b.InputType, b.Path))
-            {
-                b.Action.Invoke();
-            }
+            b.Subject.OnNext(SetInput(b.InputType, b.Path));
         });
 
         _axisInputDataList.ForEach(b => 
         {
             float x = Input.GetAxis(b.HorizontalPath);
             float y = Input.GetAxis(b.VerticalPath);
-
-            b.Action.Invoke(new Vector2(x, y));
+            b.CurrentDirection = new Vector2(x, y);
+            b.Action.Invoke(b.CurrentDirection);
         });
     }
 
@@ -37,6 +35,16 @@ public class InputSetting
         }
 
         return false;
+    }
+
+    public Subject<bool> GetSubject(string path)
+    {
+        return _buttonInputDataList.Find(s => s.Path == path).Subject;
+    }
+
+    public Vector2 GetInputDirection(string horizontalPath)
+    {
+        return _axisInputDataList.Find(s => s.HorizontalPath == horizontalPath).CurrentDirection;
     }
 
     public InputSetting CreateButtonInput(string path, System.Action action, InputUserType userType, InputType input = InputType.Down)

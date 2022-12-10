@@ -10,21 +10,34 @@ public class PlayerInputController : MonoBehaviour
 
     PlayerInput _playerInput;
     Player _player;
+
+    InputSetting _inputSetting;
     private void Awake()
     {
         TryGetComponent(out _playerInput);
         TryGetComponent(out _player);
         GameController.Instance.UserInput.SetController(this);
+        InputSetting.SetInputUser(gameObject, out _inputSetting);
     }
+
     void OnEnable()
     {
-        _playerInput.actions["Jump"].started += ContextMenu => 
-        {
-            OnJump(ContextMenu);
-        };
-        _playerInput.actions["Attack"].started += OnAttack;
-        _playerInput.actions["Fire"].started += OnFire;
-        _playerInput.actions["Fusion"].started += OnFusion;
+        _inputSetting.CreateButtonInput("Fire1", () => _player.Attack(), InputUserType.Player);
+        _inputSetting.CreateButtonInput("Fire2", () => _player.Fusion(), InputUserType.Player);
+        _inputSetting.CreateButtonInput("Jump", () => _player.Jump(), InputUserType.Player);
+
+        _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.Player, direction => _player.SetMoveDirection(new Vector2(direction.x, 0)));
+
+        //_playerInput.actions["Jump"].started += ContextMenu => 
+        //{
+        //    OnJump(ContextMenu);
+        //};
+        //_playerInput.actions["Attack"].started += OnAttack;
+        //_playerInput.actions["Fire"].started += OnFire;
+        //_playerInput.actions["Fusion"].started += OnFusion;
+
+
+        return;
         _playerInput.actions["SetMaterial"].started += OnSet;
 
         _playerInput.actions["PlayerSubmit"].started +=
@@ -38,11 +51,13 @@ public class PlayerInputController : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerInput.actions["Jump"].started -= OnJump;
-        _playerInput.actions["Attack"].started -= OnAttack;
-        _playerInput.actions["Fire"].started -= OnFire;
-        _playerInput.actions["Fusion"].started -= OnFusion;
-        _playerInput.actions["SetMaterial"].started -= OnSet;
+        InputSetting.Dispose();
+        return;
+        //_playerInput.actions["Jump"].started -= OnJump;
+        //_playerInput.actions["Attack"].started -= OnAttack;
+        //_playerInput.actions["Fire"].started -= OnFire;
+        //_playerInput.actions["Fusion"].started -= OnFusion;
+        //_playerInput.actions["SetMaterial"].started -= OnSet;
 
         _playerInput.actions["PlayerSubmit"].started -=
             context => GameController.Instance.UserInput.IsOperateRequest = true;
@@ -54,6 +69,7 @@ public class PlayerInputController : MonoBehaviour
     }
     private void Update()
     {
+        return;
         if (_player != null)
         {
             var direction = _playerInput.actions["Move"].ReadValue<Vector2>().x;
