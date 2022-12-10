@@ -50,7 +50,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     string IMonoDatable.Path => nameof(Player);
     GameObject IFieldObjectDatable.Target => gameObject;
 
-    ObjectType IDamagable.ObjectType => ObjectType.Player;
+    ObjectType IFieldObjectDatable.ObjectType => ObjectType.Player;
 
     MonoStateMachine<Player> _stateMachine;
 
