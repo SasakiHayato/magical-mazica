@@ -29,3 +29,4 @@ MonoBehaviour:
   - {fileID: 8676972492661217935, guid: e0b04945c3ed40d4a94c82f1eb46a5a3, type: 3}
   - {fileID: 8676972492661217935, guid: e0b04945c3ed40d4a94c82f1eb46a5a3, type: 3}
   - {fileID: 8676972492661217935, guid: e0b04945c3ed40d4a94c82f1eb46a5a3, type: 3}
+  _bossObj: {fileID: 0}

@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aad2c3e9157ea4a42a8d87c30d50480e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObject: {fileID: 11400000, guid: c367dee142adb4c43b14a120a7b9ff80, type: 2}
+  _scriptableObject: {fileID: 11400000, guid: 06d4cf612885673489f9607bf926379d, type: 2}
   _wallObj: {fileID: 3990626567200311567, guid: 82a63c52617dfab498cec8368cb6d6aa, type: 3}
   _goalObj: {fileID: 9151029219824797125, guid: 17e71aa930cb99c44a7132d314c7bc8c, type: 3}
   _parentObj: {fileID: 28473813}
@@ -1544,6 +1544,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2834049787349273774, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: _fieldManager
+      value: 
+      objectReference: {fileID: 572681085}
     - target: {fileID: 2834049787349273774, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: _characterManager
       value: 
