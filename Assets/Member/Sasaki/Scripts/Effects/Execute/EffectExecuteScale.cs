@@ -8,12 +8,12 @@ public class EffectExecuteScale : IEffectExecutable
     float _timer = 0;
     Vector2 _defaultScale;
 
-    ParticleSystem _particle;
-
-    void IEffectExecutable.SetEffect(ParticleSystem particle)
+    Transform _effect;
+    
+    void IEffectExecutable.SetEffect(GameObject effect, ParticleSystem particle)
     {
-        _defaultScale = particle.transform.localScale;
-        _particle = particle;
+        _defaultScale = effect.transform.localScale;
+        _effect = effect.transform;
     }
 
     bool IEffectExecutable.Execute()
@@ -21,14 +21,14 @@ public class EffectExecuteScale : IEffectExecutable
         _timer += Time.deltaTime * _executeSpeed;
 
         Vector2 scale = Vector2.Lerp(_defaultScale, _setScale, _timer);
-        _particle.transform.localScale = scale;
+        _effect.localScale = scale;
 
         return _setScale == scale;
     }
 
     void IEffectExecutable.Initalize()
     {
-        _particle.transform.localScale = _defaultScale;
+        _effect.localScale = _defaultScale;
         _timer = 0;
     }
 }
