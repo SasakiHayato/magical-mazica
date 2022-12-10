@@ -17,6 +17,10 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
     void Awake()
     {
         s_eventCameraList = _eventCameraList;
+    }
+
+    void Start()
+    {
         EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.CmShake, this);
     }
 
