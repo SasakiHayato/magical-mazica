@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Boss : EnemyBase
 {
+    [SerializeField] Vector2 _forceDirection;
     [SerializeField] BossData _bossData;
 
     BossTaskProcesser _taskProcesser = new BossTaskProcesser();
@@ -67,5 +68,20 @@ public class Boss : EnemyBase
     {
         base.DeadEvent();
         SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Player")) return;
+
+        if (TryGetComponent(out IDamagable damagable))
+        {
+            damagable.AddDamage(1);
+        }
+
+        if (TryGetComponent(out IDamageForceble forceble))
+        {
+            forceble.OnFoece(_forceDirection);
+        }
     }
 }

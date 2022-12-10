@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3788859870656146208}
   - component: {fileID: 3523595739340774738}
   m_Layer: 0
-  m_Name: DeadParticle
+  m_Name: DeadParticle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1419600298004010720}
   serializedVersion: 8
   lengthInSec: 1
-  simulationSpeed: 1
+  simulationSpeed: 7
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -117,7 +117,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4825,10 +4825,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13780383122faf944b7b2b5b61dfb5b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _executable:
-    rid: 4439156616672837632
+  _executableList:
+  - rid: 7198353324489834503
   references:
     version: 2
     RefIds:
-    - rid: 4439156616672837632
+    - rid: 7198353324489834503
       type: {class: EffectExecuteDefault, ns: , asm: Assembly-CSharp}

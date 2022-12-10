@@ -4,7 +4,7 @@ public class EffectExecuteDefault : IEffectExecutable
 {
     ParticleSystem _particle;
 
-    void IEffectExecutable.SetEffect(ParticleSystem particle)
+    void IEffectExecutable.SetEffect(GameObject effect, ParticleSystem particle)
     {
         _particle = particle;
     }

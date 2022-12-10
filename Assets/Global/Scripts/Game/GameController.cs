@@ -61,7 +61,7 @@ public class GameController
         /// <summary>
         /// GameController‚©‚ç‚Ì‚İ‚ÌŒÄ‚Ño‚µ‚ğ‘z’è
         /// </summary>
-        public void Dipose()
+        public void Dispose()
         {
             try
             {
@@ -157,7 +157,7 @@ public class GameController
     /// </summary>
     static void DisposeInstance()
     {
-        Instance._fieldObjectData.Dipose();
+        Instance._fieldObjectData.Dispose();
         Instance.Dispose();
 
         Instance.Initalize();

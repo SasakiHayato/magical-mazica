@@ -99,7 +99,9 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     protected virtual void DeadEvent()
     {
         SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Dead");
-        EffectStocker.Instance.LoadEffect("Dead", transform.position);
+        EffectStocker.Instance.LoadEffect("Dead1", transform.position);
+        EffectStocker.Instance.LoadEffect("Dead2", transform.position);
+        EffectStocker.Instance.LoadEffect("Dead3", transform.position);
     }
 
     /// <summary>
