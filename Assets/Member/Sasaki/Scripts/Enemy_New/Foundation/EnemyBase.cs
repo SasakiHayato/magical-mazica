@@ -55,7 +55,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     Vector2 IBehaviourDatable.SetMoveDirection { set { MoveDirection = value; } }
     RigidOperator IBehaviourDatable.Rigid => Rigid;
 
-    ObjectType IDamagable.ObjectType => ObjectType.Enemy;
+    ObjectType IFieldObjectDatable.ObjectType => ObjectType.Enemy;
 
     void Awake()
     {

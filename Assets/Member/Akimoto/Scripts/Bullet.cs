@@ -66,17 +66,20 @@ public class Bullet : MonoBehaviour
     {
         if (collision.TryGetComponent(out IDamagable damagable))
         {
-            if (damagable.ObjectType != ObjectType)
+            if (collision.TryGetComponent(out IFieldObjectDatable fieldObject))
             {
-                damagable.AddDamage(_damage);
-
-                if (TryGetComponent(out IDamageForceble forceble))
+                if (fieldObject.ObjectType != ObjectType)
                 {
-                    // ‰¼
-                    forceble.OnFoece(Vector2.zero);
-                }
+                    damagable.AddDamage(_damage);
 
-                Destroy(gameObject);
+                    if (TryGetComponent(out IDamageForceble forceble))
+                    {
+                        // ‰¼
+                        forceble.OnFoece(Vector2.zero);
+                    }
+
+                    Destroy(gameObject);
+                }
             }
         }
     }
