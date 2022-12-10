@@ -19,8 +19,12 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 
     void Awake()
     {
-        EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.HitStop, this);
         GameController.Instance.AddGameSetupable(this);
+    }
+
+    void Start()
+    {
+        EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.HitStop, this);
     }
 
     public void Setup()

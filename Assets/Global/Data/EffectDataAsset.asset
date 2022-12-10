@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: EffectDataAsset
   m_EditorClassIdentifier: 
   _effectDataList:
-  - _path: Dead
+  - _path: Dead1
+    _effect: {fileID: 3523595739340774738, guid: e5f6cd0abacaaae42be7fb28437679bc, type: 3}
+  - _path: Dead2
+    _effect: {fileID: 7579535796867564770, guid: f38da645dc4cd104180fea85e1a47aed, type: 3}
+  - _path: Dead3
     _effect: {fileID: 3523595739340774738, guid: ae704ae0a7972e5428fc8b6ca3a7768e, type: 3}
   - _path: EnemyAttack
     _effect: {fileID: -7217949928853897825, guid: 991bc8b62bf099b4280f50f386f0ebb4, type: 3}

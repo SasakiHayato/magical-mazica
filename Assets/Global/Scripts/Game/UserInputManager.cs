@@ -25,6 +25,7 @@ public class UserInputManager
     public void SetInput(InputType inputType)
     {
         //CurrentInputType = inputType;
+        UnityEngine.Debug.Log(_playerInput);
         _playerInput.ChangeInput(inputType);
     }
 
