@@ -19,6 +19,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         Idle,
         Move,
         Attack,
+        KnockBack,
     }
 
     [SerializeField] int _speed;

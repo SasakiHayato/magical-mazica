@@ -7,16 +7,20 @@ public class Enemy : EnemyBase
     [SerializeField] int _attackIsActiveFrame;
     [SerializeField] int _attackEndActiveFrame;
     [SerializeField] AnimOperator _animOperator;
+    [SerializeField] BehaviourTree.BehaviourTreeUser _treeUser;
 
     protected override void Setup()
     {
         MonoState
             .AddState(State.Idle, new EnemyStateIdle())
             .AddState(State.Move, new EnemyStateRun())
-            .AddState(State.Attack, new EnemyStateAttack());
+            .AddState(State.Attack, new EnemyStateAttack())
+            .AddState(State.KnockBack, new EnemyStateKnockBack());
 
         EnemyStateData.AttackAciveFrame = (_attackIsActiveFrame, _attackEndActiveFrame);
-        MonoState.AddMonoData(_animOperator);
+        MonoState
+            .AddMonoData(_animOperator)
+            .AddMonoData(_treeUser);
 
         MonoState.IsRun = true;
     }

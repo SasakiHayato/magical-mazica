@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using BehaviourTree.Data;
 using BehaviourTree.IO;
+using MonoState.Data;
 
 namespace BehaviourTree
 {
@@ -10,7 +11,7 @@ namespace BehaviourTree
     /// BehaviorTreeを使用するObjectにアタッチするクラス
     /// AI挙動の操作を行う
     /// </summary>
-    public class BehaviourTreeUser : MonoBehaviour
+    public class BehaviourTreeUser : MonoBehaviour, IMonoDatableUni<BehaviourTreeUser>
     {
         [SerializeField] string _userPath;
         [SerializeField] bool _runUpdate = true;
@@ -29,6 +30,10 @@ namespace BehaviourTree
         public Action OnNext { get; private set; }
 
         public int UserID { get; private set; }
+
+        BehaviourTreeUser IMonoDatableUni<BehaviourTreeUser>.GetData => this;
+
+        string IMonoDatable.Path => nameof(BehaviourTreeUser);
 
         void Start()
         {
