@@ -32,15 +32,17 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
     float _xScale = 0;
     Vector2 _beforePosition = Vector2.zero;
-   
+    int _id = 0;
+
     /// <summary>åªç›HP</summary>
     ReactiveProperty<int> _currentHp = new ReactiveProperty<int>();
-    
+
     protected int Speed => _speed;
     protected Vector2 MoveDirection { get; private set; }
     protected RigidOperator Rigid { get; private set; }
     protected MonoStateMachine<EnemyBase> MonoState { get; private set; }
     protected EnemyStateData EnemyStateData { get; private set; } = new EnemyStateData();
+    public int ID { get => _id; set => _id = value; }
 
     /// <summary>
     /// ê∂ê¨éûÇ…ãÛíÜÇ…ê∂ê¨Ç∑ÇÈÇ±Ç∆ÇãñóeÇ∑ÇÈÇ©Ç«Ç§Ç©
@@ -67,7 +69,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
         Rigid = GetComponent<RigidOperator>();
         Rigid.FreezeRotation = true;
-        
+
         MonoState = new MonoStateMachine<EnemyBase>(this);
         MonoState
             .AddMonoData(EnemyStateData);
@@ -78,7 +80,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         _currentHp.Subscribe(i => _slider.value = i).AddTo(this);
 
         _beforePosition = transform.position;
-        
+
         EnemyStateData.AttackCollider = _attackCollider;
         EnemyStateData.IBehaviourDatable = this;
 
