@@ -4,17 +4,24 @@ using UnityEngine;
 using System;
 using MonoState.State;
 using MonoState.Data;
+using MonoState.Opration;
 
-public class PlayerFloat : MonoStateBase
+public class PlayerFloat : MonoStateBase, IStateExitEventable
 {
     Player _player;
     AnimOperator _anim;
     PlayerStateData _playerStateData;
-
+    float _acceleration;
+    void IStateExitEventable.ExitEvent()
+    {
+        _playerStateData.Rigid.MaxAcceleration = _acceleration;
+    }
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
         _anim.OnPlay("Fall");
+        _acceleration = _playerStateData.Rigid.MaxAcceleration;
+        _playerStateData.Rigid.MaxAcceleration = 1;
         _playerStateData.Rigid.SetMoveDirection = Vector2.zero;
     }
     //Update

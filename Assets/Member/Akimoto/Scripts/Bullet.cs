@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
     private int _damage;
     public Vector2 Velocity { set => _rb.velocity = value; }
     public ObjectType ObjectType { get; set; } = ObjectType.Obstacle;
-
+    public BulletType UseType => _useType;
     /// <summary>
     /// 画像やパラメーターの設定
     /// </summary>

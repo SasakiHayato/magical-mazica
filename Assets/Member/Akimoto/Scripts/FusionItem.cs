@@ -27,7 +27,7 @@ public class FusionItem : MonoBehaviour
 
     public void Setup()
     {
-        
+
     }
 
     /// <summary>
@@ -57,13 +57,21 @@ public class FusionItem : MonoBehaviour
         //ê∂ê¨
         Bullet blt = Bullet.Init(_bulletPrefab, _database, _damage);
         blt.transform.position = transform.position;
-        blt.Velocity = directions * _database.BulletSpeed;
+        blt.Velocity = BulletDirectionOffset(directions, blt) * _database.BulletSpeed;
         Dispose();
     }
 
-    private Vector2 BulletDirectionOffset(Vector2 direction)
+    private Vector2 BulletDirectionOffset(Vector2 direction, Bullet bullet)
     {
-        Vector2 ret = new Vector2(direction.x, direction.y + _throwBulletHeightOffset);
+        Vector2 ret = new Vector2(direction.x, direction.y);
+        switch (bullet.UseType)
+        {
+            case BulletType.Throw:
+                ret = new Vector2(direction.x, direction.y + _throwBulletHeightOffset);
+                break;
+            case BulletType.Strike:
+                break;
+        }
         return ret;
     }
 
