@@ -19,6 +19,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         Idle,
         Move,
         Attack,
+        KnockBack,
     }
 
     [SerializeField] int _speed;
@@ -27,8 +28,9 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     [SerializeField] bool _isInstantiateFloat;
     [SerializeField] Slider _slider;
     [SerializeField] DamageText _damageText;
-    [SerializeField] EnemyAISystem.EnemyAttackCollider _attackCollider;
-    
+    [SerializeField] EnemyAttackCollider _attackCollider;
+
+    float _xScale = 0;
     Vector2 _beforePosition = Vector2.zero;
    
     /// <summary>現在HP</summary>
@@ -61,6 +63,8 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
     void Start()
     {
+        _xScale = Mathf.Abs(transform.localScale.x);
+
         Rigid = GetComponent<RigidOperator>();
         Rigid.FreezeRotation = true;
         
@@ -77,6 +81,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         
         EnemyStateData.AttackCollider = _attackCollider;
         EnemyStateData.IBehaviourDatable = this;
+
         Setup();
     }
 
@@ -91,6 +96,11 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     protected abstract void Setup();
     protected abstract void Execute();
     protected abstract bool IsDamage(int damage);
+    protected virtual void DeadEvent()
+    {
+        SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Dead");
+        EffectStocker.Instance.LoadEffect("Dead", transform.position);
+    }
 
     /// <summary>
     /// スケールをいじって回転を表現
@@ -103,7 +113,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         if (Mathf.Abs(forward.x) > 0.01f)
         {
             Vector2 scale = transform.localScale;
-            scale.x = Mathf.Sign(forward.x);
+            scale.x = Mathf.Sign(forward.x) * _xScale;
             transform.localScale = scale;
         }
     }
@@ -119,8 +129,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
         if (_currentHp.Value <= 0)
         {
-            SoundManager.PlayRequest(SoundSystem.SoundType.SEEnemy, "Dead");
-            EffectStocker.Instance.LoadEffect("Dead", transform.position);
+            DeadEvent();
             Destroy(gameObject);
         }
     }

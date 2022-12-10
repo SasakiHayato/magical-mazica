@@ -59,7 +59,11 @@ public class SceneViewer : MonoBehaviour
 
     async UniTask OnWaitUnLoad(SceneType sceneType)
     {
-        await _fadeManager.PlayAnimation(_fadeAnimationType, FadeType.In);
+        if (_fadeManager != null)
+        {
+            await _fadeManager.PlayAnimation(_fadeAnimationType, FadeType.In);
+        }
+        
         GameController.Instance.Dispose();
         await UniTask.Delay(System.TimeSpan.FromSeconds(WaitTime));
 

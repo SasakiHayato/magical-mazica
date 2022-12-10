@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a898d864e086d48b228e86f4e578f4, type: 3}
+  m_Name: FieldData_Beta_New
+  m_EditorClassIdentifier: 
+  _mapVerSide: 13
+  _mapHorSide: 21
+  _enemyObject:
+  - {fileID: 6663473620630066629, guid: c1e6ad08fb33d904cb0d1537117fa25b, type: 3}
+  - {fileID: 6663473620630066629, guid: c1e6ad08fb33d904cb0d1537117fa25b, type: 3}
+  - {fileID: 6663473620630066629, guid: c1e6ad08fb33d904cb0d1537117fa25b, type: 3}
+  - {fileID: 6663473620630066629, guid: c1e6ad08fb33d904cb0d1537117fa25b, type: 3}
+  - {fileID: 6663473620630066629, guid: c1e6ad08fb33d904cb0d1537117fa25b, type: 3}
+  - {fileID: 6124500461401124618, guid: cbc9af03217b133499fd57fd44b52fc2, type: 3}
+  - {fileID: 6124500461401124618, guid: cbc9af03217b133499fd57fd44b52fc2, type: 3}
+  - {fileID: 6124500461401124618, guid: cbc9af03217b133499fd57fd44b52fc2, type: 3}
+  - {fileID: 6124500461401124618, guid: cbc9af03217b133499fd57fd44b52fc2, type: 3}
+  - {fileID: 53595578301934052, guid: ceb9a68f2336f354fa60cda232e2dc12, type: 3}
+  - {fileID: 53595578301934052, guid: ceb9a68f2336f354fa60cda232e2dc12, type: 3}
+  - {fileID: 53595578301934052, guid: ceb9a68f2336f354fa60cda232e2dc12, type: 3}
+  - {fileID: 53595578301934052, guid: ceb9a68f2336f354fa60cda232e2dc12, type: 3}
+  - {fileID: 53595578301934052, guid: ceb9a68f2336f354fa60cda232e2dc12, type: 3}
+  - {fileID: 6772870067137376895, guid: 2e20b6f90637be84597b773cde7b315b, type: 3}
+  - {fileID: 6772870067137376895, guid: 2e20b6f90637be84597b773cde7b315b, type: 3}
+  - {fileID: 6772870067137376895, guid: 2e20b6f90637be84597b773cde7b315b, type: 3}
+  - {fileID: 6772870067137376895, guid: 2e20b6f90637be84597b773cde7b315b, type: 3}
+  - {fileID: 6772870067137376895, guid: 2e20b6f90637be84597b773cde7b315b, type: 3}
+  - {fileID: 6772870067137376895, guid: 2e20b6f90637be84597b773cde7b315b, type: 3}
+  _bossObj: {fileID: 0}

@@ -69,6 +69,13 @@ public class Bullet : MonoBehaviour
             if (damagable.ObjectType != ObjectType)
             {
                 damagable.AddDamage(_damage);
+
+                if (TryGetComponent(out IDamageForceble forceble))
+                {
+                    // ‰¼
+                    forceble.OnFoece(Vector2.zero);
+                }
+
                 Destroy(gameObject);
             }
         }
