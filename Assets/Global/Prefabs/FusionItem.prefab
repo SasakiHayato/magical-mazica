@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fusionData: {fileID: 11400000, guid: 4a4caa952df998b429378d4635dd984f, type: 2}
   _bulletPrefab: {fileID: 3293845007953075938, guid: 8f4c83b2268c18148b5dc302d9498404, type: 3}
+  _throwBulletHeightOffset: 1.5
