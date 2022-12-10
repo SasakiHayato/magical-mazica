@@ -5,6 +5,8 @@ using System.Linq;
 public class CreateBossStage : MapCreaterBase
 {
     [SerializeField]
+    GameObject _bossObj;
+    [SerializeField]
     Grid _parentGrid;
     [SerializeField]
     List<BossStageScriptable> _stageTipList;
@@ -19,23 +21,21 @@ public class CreateBossStage : MapCreaterBase
 
     int _dataNum;//何個データ作ったか
     int _createdNum;//何個マップを作ったか
-    bool _isCreated = false;//true:作れる false:作れない
     List<GameObject> _createdStageList = new List<GameObject>();
 
     public static CreateBossStage Instance;
     public override Transform PlayerTransform { get; protected set; }
     public int CreatedNum { get => _createdNum; set => _createdNum = value; }
-    public bool IsCreated { get => _isCreated; set => _isCreated = value; }
 
-    private void Awake()
+    //private void Awake()
+    //{
+    //    Instance = this;
+    //    InitialSet();
+    //}
+    protected override void Create()
     {
         Instance = this;
         InitialSet();
-    }
-    protected override void Create()
-    {
-        //Instance = this;
-        //InitialSet();
     }
     protected override void Initalize()
     {
@@ -53,6 +53,7 @@ public class CreateBossStage : MapCreaterBase
     public void InitialSet()
     {
         CreateMap();
+        CreateBoss();
     }
     /// <summary>
     /// マップ生成
@@ -71,27 +72,6 @@ public class CreateBossStage : MapCreaterBase
             _createdNum++;
             SetMapTip(stage);
         }
-    }
-    /// <summary>
-    /// Tagのついたオブジェクトの場所をセットする
-    /// </summary>
-    /// <param name="objTag">オブジェクトのタグ</param>
-    /// <returns>Transform</returns>
-    public Transform SetCharaPos(string objTag)
-    {
-        if (string.IsNullOrEmpty(objTag))
-        {
-            return null;
-        }
-        if (objTag == "Player")
-        {
-            return _playerPos;
-        }
-        if (objTag == "Boss")
-        {
-            return _bossPos;
-        }
-        return null;
     }
     /// <summary>
     /// ステージの場所変更
@@ -118,6 +98,14 @@ public class CreateBossStage : MapCreaterBase
             return CreatedNum - 1;
         }
         return CreatedNum;
+    }
+    /// <summary>
+    /// Bossの生成
+    /// </summary>
+    public void CreateBoss()
+    {
+        GameObject boss = Instantiate(_bossObj);
+        boss.transform.position = _bossPos.position;
     }
 }
 
