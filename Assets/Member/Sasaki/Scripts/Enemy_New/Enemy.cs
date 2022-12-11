@@ -31,7 +31,7 @@ public class Enemy : EnemyBase, IDamageForceble
     }
     protected override void DeadEvent()
     {
-        //CreateMap.Instance.DeadEnemy(gameObject);
+        CreateMap.Instance.DeadEnemy(gameObject);
         base.DeadEvent();        
     }
 

@@ -25,9 +25,7 @@ public class CreateMap : MapCreaterBase
 
     float _wallObjSize = 3;//マップ一つ一つのサイズ
     List<GameObject> _stageObjList = new List<GameObject>();
-    Dictionary<int, Vector2> _enemyDic = new Dictionary<int, Vector2>();
-    (int, bool)[] _dictionaryKey;
-    EnemyTransform[] _enemyTrans;
+    Dictionary<int, EnemyTransform> _enemyDic = new Dictionary<int, EnemyTransform>();//Key:ID Value:EnemyTransform
     StageMap _stageMap;
     int _startDigPos;//掘り始める始点
 
@@ -58,8 +56,6 @@ public class CreateMap : MapCreaterBase
     /// <summary>初期設定</summary>
     public void InitialSet()
     {
-        _dictionaryKey = new (int, bool)[_scriptableObject.EnemyObject.Count];
-        _enemyTrans = new EnemyTransform[_scriptableObject.EnemyObject.Count];
         _stageMap = new StageMap(_scriptableObject.MapHorSide, _scriptableObject.MapVerSide);
         _teleporterController = new TeleporterController();
         //壁オブジェクトのScaleSizeを入れる
@@ -207,10 +203,9 @@ public class CreateMap : MapCreaterBase
                     enemy.transform.position = _stageMap[random, _wallObjSize];
                     _stageMap[random].State = MapState.Enemy;
                     _stageMap[random].IsGenerate = false;
-                    _dictionaryKey[count] = (ene.ID++, _stageMap[random].IsGenerate);
-                    _enemyTrans[count] = new EnemyTransform(enemy);
-                    _enemyTrans[count].Position = _stageMap[random, _wallObjSize];
-                   // _enemyDic.Add(_dictionaryKey[count].Item1, enemy.transform.position);
+                    _enemyDic.Add(count, new EnemyTransform(enemy));
+                    _enemyDic[count].IsCreate = false;
+                    _enemyDic[count].Position = _stageMap[random, _wallObjSize];
                 }
                 else
                 {
@@ -222,10 +217,9 @@ public class CreateMap : MapCreaterBase
                 enemy.transform.position = _stageMap[random, _wallObjSize];
                 _stageMap[random].State = MapState.Enemy;
                 _stageMap[random].IsGenerate = false;
-                _dictionaryKey[count] = (ene.ID++, _stageMap[random].IsGenerate);
-                _enemyTrans[count] = new EnemyTransform(enemy);
-                _enemyTrans[count].Position = _stageMap[random, _wallObjSize];
-                //_enemyDic.Add(_dictionaryKey[count].Item1, enemy.transform.position);
+                _enemyDic.Add(count, new EnemyTransform(enemy));
+                _enemyDic[count].IsCreate = false;
+                _enemyDic[count].Position = _stageMap[random, _wallObjSize];
             }
         }
     }
@@ -344,47 +338,28 @@ public class CreateMap : MapCreaterBase
     {
         Debug.Log("DeadEnemy");
         var ene = enemy.GetComponent<Enemy>();
-        for (int i = 0; i < _dictionaryKey.Length; i++)
-        {
-            if (ene.ID == _dictionaryKey[i].Item1)
-            {
-                ChangeKey(i);
-                break;
-            }
-        }
+        ChangeFlag(ene.ID);
+        CreateEnemy(ene.ID);
     }
-    /// <summary>
-    /// Keyの反転
-    /// </summary>
-    /// <param name="i">配列番号</param>
-    void ChangeKey(int i)
+    void ChangeFlag(int id)
     {
-        Debug.Log("ChangeKey");
-        bool flag = _dictionaryKey[i].Item2 ? false : true;
-        _dictionaryKey[i].Item2 = flag;
+        if (_enemyDic[id].IsCreate)
+        {
+            _enemyDic[id].IsCreate = false;
+        }
+        else
+        {
+            _enemyDic[id].IsCreate = true;
+        }
     }
     /// <summary>
     /// Enemyを生成する
     /// </summary>
-    public void CreateEnemy()
+    public void CreateEnemy(int id)
     {
         Debug.Log("CreateEnemy");
-        for (int i = 0; i < _dictionaryKey.Length; i++)
-        {
-            if (_dictionaryKey[i].Item2 == false)
-            {
-                continue;
-            }
-            foreach (var item in _enemyTrans)
-            {
-                //if (item.Position == _enemyDic[true])
-                //{
-                //    var obj = Instantiate(item.EnemyObj);
-                //    obj.transform.position = item.Position;
-                //}
-            }
-
-        }
+        GameObject enemyObj = Instantiate(_enemyDic[id].EnemyObj);
+        enemyObj.transform.position = _enemyDic[id].Position;
     }
 }
 
