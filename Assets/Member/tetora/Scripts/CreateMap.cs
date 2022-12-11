@@ -25,16 +25,15 @@ public class CreateMap : MapCreaterBase
 
     float _wallObjSize = 3;//マップ一つ一つのサイズ
     List<GameObject> _stageObjList = new List<GameObject>();
-    Dictionary<bool, GameObject> _enemyDic = new Dictionary<bool, GameObject>();
-    (int, bool)[] _dictionaryKey;
+    Dictionary<int, EnemyTransform> _enemyDic = new Dictionary<int, EnemyTransform>();//Key:ID Value:EnemyTransform
     StageMap _stageMap;
     int _startDigPos;//掘り始める始点
-    //public Transform PlayerTransform { get; private set; }
+
     public StageMap StageMap { get => _stageMap; }
 
     public static int TepoatObjLength => Instance._teleportObj.Length;
 
-    public static CreateMap Instance = null;
+    public static CreateMap Instance { get; set; }
 
     public override Transform PlayerTransform { get; protected set; }
 
@@ -204,8 +203,9 @@ public class CreateMap : MapCreaterBase
                     enemy.transform.position = _stageMap[random, _wallObjSize];
                     _stageMap[random].State = MapState.Enemy;
                     _stageMap[random].IsGenerate = false;
-                    _dictionaryKey[count] = (ene.ID++, _stageMap[random].IsGenerate);
-                    _enemyDic.Add(_dictionaryKey[count].Item2, enemy);
+                    _enemyDic.Add(count, new EnemyTransform(enemy));
+                    _enemyDic[count].IsCreate = false;
+                    _enemyDic[count].Position = _stageMap[random, _wallObjSize];
                 }
                 else
                 {
@@ -217,8 +217,9 @@ public class CreateMap : MapCreaterBase
                 enemy.transform.position = _stageMap[random, _wallObjSize];
                 _stageMap[random].State = MapState.Enemy;
                 _stageMap[random].IsGenerate = false;
-                _dictionaryKey[count] = (ene.ID++, _stageMap[random].IsGenerate);
-                _enemyDic.Add(_dictionaryKey[count].Item2, enemy);
+                _enemyDic.Add(count, new EnemyTransform(enemy));
+                _enemyDic[count].IsCreate = false;
+                _enemyDic[count].Position = _stageMap[random, _wallObjSize];
             }
         }
     }
@@ -333,58 +334,32 @@ public class CreateMap : MapCreaterBase
     /// Enemyが死んだときにFlagを変える
     /// </summary>
     /// <param name="enemy">死んだEnemy</param>
-    public void DeadEnemy(GameObject enemy)
+    public void DeadEnemy(GameObject enemy)//Enemyが死んだときに外部から呼ぶ
     {
+        Debug.Log("DeadEnemy");
         var ene = enemy.GetComponent<Enemy>();
-        for (int i = 0; i < _dictionaryKey.Length; i++)
-        {
-            if (ene.ID == _dictionaryKey[i].Item1)
-            {
-                ChangeKey(i);
-                break;
-            }
-        }
+        ChangeFlag(ene.ID);
+        CreateEnemy(ene.ID);
     }
-    /// <summary>
-    /// Keyの反転
-    /// </summary>
-    /// <param name="i">配列番号</param>
-    void ChangeKey(int i)
+    void ChangeFlag(int id)
     {
-        bool flag = _dictionaryKey[i].Item2 ? false : true;
-        _dictionaryKey[i].Item2 = flag;
-    }
-    /// <summary>
-    /// 生成できるキーを返す
-    /// </summary>
-    /// <returns></returns>
-    (int, bool) CheckKey()
-    {
-        (int, bool) key = (0, false);
-
-        for (int i = 0; i < _dictionaryKey.Length; i++)
+        if (_enemyDic[id].IsCreate)
         {
-            if (_dictionaryKey[i].Item2 == true)
-            {
-                key = _dictionaryKey[i];
-                break;
-            }
+            _enemyDic[id].IsCreate = false;
         }
-        return key;
+        else
+        {
+            _enemyDic[id].IsCreate = true;
+        }
     }
     /// <summary>
     /// Enemyを生成する
     /// </summary>
-    /// <returns></returns>
-    public void CreateEnemy()
+    public void CreateEnemy(int id)
     {
-        for (int i = 0; i < _dictionaryKey.Length; i++)
-        {
-            if (_dictionaryKey[i].Item2 == true)
-            {
-
-            }
-        }
+        Debug.Log("CreateEnemy");
+        GameObject enemyObj = Instantiate(_enemyDic[id].EnemyObj);
+        enemyObj.transform.position = _enemyDic[id].Position;
     }
 }
 
