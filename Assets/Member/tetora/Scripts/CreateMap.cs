@@ -23,7 +23,7 @@ public class CreateMap : MapCreaterBase
     int _releDis = 3;//何マス離すか
     TeleporterController _teleporterController;
     [SerializeField]
-    int _createEnemyTime = 7;
+    int _createEnemyTime = 30;//敵生成のインターバル
 
     float _wallObjSize = 3;//マップ一つ一つのサイズ
     GameObject[] _enemies;
@@ -73,7 +73,6 @@ public class CreateMap : MapCreaterBase
         SetGoalPos();
         InstantiateEnemy();
         InstantiateTeleObj();
-        StartCoroutine(nameof(CreateEnemyCoroutine));
     }
     /// <summary>ランダムな開始地点を決める</summary>
     int RandomPos()
@@ -349,6 +348,7 @@ public class CreateMap : MapCreaterBase
     {
         var ene = enemy.GetComponent<Enemy>();
         ChangeFlag(ene.ID);
+        StartCoroutine(nameof(CreateEnemyCoroutine), ene.ID);
     }
     /// <summary>
     /// Flagを切り替える
@@ -378,20 +378,22 @@ public class CreateMap : MapCreaterBase
         ChangeFlag(id);
     }
 
-    IEnumerator CreateEnemyCoroutine()
+    IEnumerator CreateEnemyCoroutine(int id) //倒されたときにそこの場所だけカウントダウン開始
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(_createEnemyTime);
-            for (int i = 0; i < _enemies.Length; i++)
-            {
-                if (_enemyDic[i].IsCreate != true)
-                {
-                    continue;
-                }
-                CreateEnemy(i);
-            }
-        }        
+        yield return new WaitForSeconds(_createEnemyTime);
+        CreateEnemy(id);
     }
+    //IEnumerator CreateEnemyCoroutine() //一斉に敵を生成する
+    //{
+    //    yield return new WaitForSeconds(_createEnemyTime);
+    //    for (int i = 0; i < _enemies.Length; i++)
+    //    {
+    //        if (_enemyDic[i].IsCreate != true)
+    //        {
+    //            continue;
+    //        }
+    //        CreateEnemy(i);
+    //    }
+    //}
 }
 
