@@ -22,8 +22,11 @@ public class CreateMap : MapCreaterBase
     [SerializeField]
     int _releDis = 3;//何マス離すか
     TeleporterController _teleporterController;
+    [SerializeField]
+    int _createEnemyTime = 7;
 
     float _wallObjSize = 3;//マップ一つ一つのサイズ
+    GameObject[] _enemies;
     List<GameObject> _stageObjList = new List<GameObject>();
     Dictionary<int, EnemyTransform> _enemyDic = new Dictionary<int, EnemyTransform>();//Key:ID Value:EnemyTransform
     StageMap _stageMap;
@@ -57,6 +60,11 @@ public class CreateMap : MapCreaterBase
     public void InitialSet()
     {
         _stageMap = new StageMap(_scriptableObject.MapHorSide, _scriptableObject.MapVerSide);
+        _enemies = new GameObject[_scriptableObject.EnemyObject.Count];
+        for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
+        {
+            _enemies[i] = _scriptableObject.EnemyObject[i].gameObject;
+        }
         _teleporterController = new TeleporterController();
         //壁オブジェクトのScaleSizeを入れる
         _wallObjSize = _wallObj.transform.localScale.x;
@@ -65,6 +73,7 @@ public class CreateMap : MapCreaterBase
         SetGoalPos();
         InstantiateEnemy();
         InstantiateTeleObj();
+        StartCoroutine(nameof(CreateEnemyCoroutine));
     }
     /// <summary>ランダムな開始地点を決める</summary>
     int RandomPos()
@@ -177,9 +186,13 @@ public class CreateMap : MapCreaterBase
     {
         for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
-            GameObject enemy = Instantiate(_scriptableObject.EnemyObject[i]);
+            GameObject enemy = Instantiate(_enemies[i]);
+            var enebase = enemy.GetComponent<EnemyBase>();
+            enebase.ID = i;
+            _enemyDic.Add(enebase.ID, new EnemyTransform(enemy));
+            _enemyDic[enebase.ID].IsCreate = false;
             DebugSetEnemyObject.SetEnemy(enemy.transform);
-            SetEnemyPos(enemy, i);
+            SetEnemyPos(enemy, enebase.ID);
         }
     }
     /// <summary>
@@ -203,9 +216,7 @@ public class CreateMap : MapCreaterBase
                     enemy.transform.position = _stageMap[random, _wallObjSize];
                     _stageMap[random].State = MapState.Enemy;
                     _stageMap[random].IsGenerate = false;
-                    _enemyDic.Add(count, new EnemyTransform(enemy));
-                    _enemyDic[count].IsCreate = false;
-                    _enemyDic[count].Position = _stageMap[random, _wallObjSize];
+                    _enemyDic[count].Position = enemy.transform.position;
                 }
                 else
                 {
@@ -217,9 +228,7 @@ public class CreateMap : MapCreaterBase
                 enemy.transform.position = _stageMap[random, _wallObjSize];
                 _stageMap[random].State = MapState.Enemy;
                 _stageMap[random].IsGenerate = false;
-                _enemyDic.Add(count, new EnemyTransform(enemy));
-                _enemyDic[count].IsCreate = false;
-                _enemyDic[count].Position = _stageMap[random, _wallObjSize];
+                _enemyDic[count].Position = enemy.transform.position;
             }
         }
     }
@@ -242,7 +251,9 @@ public class CreateMap : MapCreaterBase
         }
         DecisionPlayerPos();
     }
-
+    /// <summary>
+    /// ゴールの位置を調整する
+    /// </summary>
     void SetGoalPos()
     {
         var goal = Instantiate(_goalObj);
@@ -336,11 +347,13 @@ public class CreateMap : MapCreaterBase
     /// <param name="enemy">死んだEnemy</param>
     public void DeadEnemy(GameObject enemy)//Enemyが死んだときに外部から呼ぶ
     {
-        Debug.Log("DeadEnemy");
         var ene = enemy.GetComponent<Enemy>();
         ChangeFlag(ene.ID);
-        CreateEnemy(ene.ID);
     }
+    /// <summary>
+    /// Flagを切り替える
+    /// </summary>
+    /// <param name="id">切り替えたい場所のID</param>
     void ChangeFlag(int id)
     {
         if (_enemyDic[id].IsCreate)
@@ -353,13 +366,32 @@ public class CreateMap : MapCreaterBase
         }
     }
     /// <summary>
-    /// Enemyを生成する
+    /// 敵を生成する
     /// </summary>
+    /// <param name="id">敵のID</param>
     public void CreateEnemy(int id)
     {
-        Debug.Log("CreateEnemy");
-        GameObject enemyObj = Instantiate(_enemyDic[id].EnemyObj);
+        GameObject enemyObj = Instantiate(_enemies[id]);
+        var enebase = enemyObj.GetComponent<EnemyBase>();
+        enebase.ID = id;
         enemyObj.transform.position = _enemyDic[id].Position;
+        ChangeFlag(id);
+    }
+
+    IEnumerator CreateEnemyCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(_createEnemyTime);
+            for (int i = 0; i < _enemies.Length; i++)
+            {
+                if (_enemyDic[i].IsCreate != true)
+                {
+                    continue;
+                }
+                CreateEnemy(i);
+            }
+        }        
     }
 }
 
