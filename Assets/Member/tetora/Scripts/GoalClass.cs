@@ -10,10 +10,10 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && GameController.Instance.UserInput.IsOperateRequest)
+        if (collision.gameObject.CompareTag("Player") && InputSetting.UIInputOperate.IsOperateRequest)
         {
-            GameController.Instance.UserInput.SetInput(UserInputManager.InputType.UserInterface);
-            GameController.Instance.UserInput.OperateRequest(this);
+            InputSetting.ChangeInputUser(InputUserType.UI);
+            InputSetting.UIInputOperate.OperateRequest(this);
         }
     }
 
@@ -62,13 +62,17 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     void IUIOperateEventable.CancelEvent()
     {
-        GameController.Instance.UserInput.SetInput(UserInputManager.InputType.Player);
-        GameController.Instance.UserInput.OperateRequest(this);
+        Dispose();
     }
 
     void IUIOperateEventable.DisposeEvent()
     {
-        GameController.Instance.UserInput.SetInput(UserInputManager.InputType.Player);
-        GameController.Instance.UserInput.OperateRequest(null);
+        Dispose();
+    }
+
+    void Dispose()
+    {
+        InputSetting.ChangeInputUser(InputUserType.Player);
+        InputSetting.UIInputOperate.OperateRequest(null);
     }
 }
