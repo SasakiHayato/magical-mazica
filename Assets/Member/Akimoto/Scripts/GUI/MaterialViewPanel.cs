@@ -111,6 +111,9 @@ namespace UIManagement
         }
     }
 
+    /// <summary>
+    /// ‘fŞ•\¦‰æ–Ê‚Ìó‘Ô
+    /// </summary>
     public enum MaterialPanelState
     {
         Neutral,

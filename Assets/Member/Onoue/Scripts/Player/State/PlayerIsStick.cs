@@ -16,7 +16,6 @@ public class PlayerIsStick : MonoStateBase, IStateExitEventable
 
     void IStateExitEventable.ExitEvent()
     {
-        _playerStateData.Rigid.SetGravityRate(1);
         _playerStateData.Rigid.MaxAcceleration = _acceleration;
     }
 
@@ -24,7 +23,6 @@ public class PlayerIsStick : MonoStateBase, IStateExitEventable
     public override void OnEntry()
     {
         _playerStateData.Rigid.SetMoveDirection = Vector2.zero;
-        _playerStateData.Rigid.SetGravityRate(0.1f);
         _acceleration = _playerStateData.Rigid.MaxAcceleration;
         _playerStateData.Rigid.MaxAcceleration = 0;
         _player.FieldTouchOperator.IsTouchLayerID(out _id);

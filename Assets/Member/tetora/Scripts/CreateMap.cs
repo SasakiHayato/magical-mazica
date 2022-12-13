@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum MapState
 {
-    Wall, Floar, Player, Teleport, Goal
+    Wall, Floar, Player, Teleport, Goal, Enemy
 }
 [System.Serializable]
 public class CreateMap : MapCreaterBase
@@ -22,17 +22,21 @@ public class CreateMap : MapCreaterBase
     [SerializeField]
     int _releDis = 3;//何マス離すか
     TeleporterController _teleporterController;
+    [SerializeField]
+    int _createEnemyTime = 30;//敵生成のインターバル
 
     float _wallObjSize = 3;//マップ一つ一つのサイズ
+    GameObject[] _enemies;
     List<GameObject> _stageObjList = new List<GameObject>();
+    Dictionary<int, EnemyTransform> _enemyDic = new Dictionary<int, EnemyTransform>();//Key:ID Value:EnemyTransform
     StageMap _stageMap;
     int _startDigPos;//掘り始める始点
-    //public Transform PlayerTransform { get; private set; }
+
     public StageMap StageMap { get => _stageMap; }
 
     public static int TepoatObjLength => Instance._teleportObj.Length;
 
-    static CreateMap Instance = null;
+    public static CreateMap Instance { get; set; }
 
     public override Transform PlayerTransform { get; protected set; }
 
@@ -56,6 +60,11 @@ public class CreateMap : MapCreaterBase
     public void InitialSet()
     {
         _stageMap = new StageMap(_scriptableObject.MapHorSide, _scriptableObject.MapVerSide);
+        _enemies = new GameObject[_scriptableObject.EnemyObject.Count];
+        for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
+        {
+            _enemies[i] = _scriptableObject.EnemyObject[i].gameObject;
+        }
         _teleporterController = new TeleporterController();
         //壁オブジェクトのScaleSizeを入れる
         _wallObjSize = _wallObj.transform.localScale.x;
@@ -176,40 +185,49 @@ public class CreateMap : MapCreaterBase
     {
         for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
-            GameObject enemy = Instantiate(_scriptableObject.EnemyObject[i]);
+            GameObject enemy = Instantiate(_enemies[i]);
+            var enebase = enemy.GetComponent<EnemyBase>();
+            enebase.ID = i;
+            _enemyDic.Add(enebase.ID, new EnemyTransform(enemy));
+            _enemyDic[enebase.ID].IsCreate = false;
             DebugSetEnemyObject.SetEnemy(enemy.transform);
-            SetEnemyPos(enemy);
+            SetEnemyPos(enemy, enebase.ID);
         }
     }
     /// <summary>
     /// 敵の生成する場所を決める
     /// </summary>
     /// <param name="enemy">敵のGameObject</param>
-    void SetEnemyPos(GameObject enemy)
+    void SetEnemyPos(GameObject enemy, int count)
     {
         int random = _stageMap.RandomFloarId();//ランダムな床のIDを取得し変数に格納
+        var ene = enemy.GetComponent<Enemy>();
         if (_stageMap[random].IsGenerate != true)
         {
-            SetEnemyPos(enemy);
+            SetEnemyPos(enemy, count);
         }
         else
         {
             if (_stageMap.CheckUnderDir(_stageMap[random], MapState.Floar))//下が床なら＝空中
             {
-                if (enemy.GetComponent<EnemyBase>().IsInstantiateFloat)
+                if (ene.IsInstantiateFloat)
                 {
                     enemy.transform.position = _stageMap[random, _wallObjSize];
+                    _stageMap[random].State = MapState.Enemy;
                     _stageMap[random].IsGenerate = false;
+                    _enemyDic[count].Position = enemy.transform.position;
                 }
                 else
                 {
-                    SetEnemyPos(enemy);
+                    SetEnemyPos(enemy, count);
                 }
             }
             else
             {
                 enemy.transform.position = _stageMap[random, _wallObjSize];
+                _stageMap[random].State = MapState.Enemy;
                 _stageMap[random].IsGenerate = false;
+                _enemyDic[count].Position = enemy.transform.position;
             }
         }
     }
@@ -232,7 +250,9 @@ public class CreateMap : MapCreaterBase
         }
         DecisionPlayerPos();
     }
-
+    /// <summary>
+    /// ゴールの位置を調整する
+    /// </summary>
     void SetGoalPos()
     {
         var goal = Instantiate(_goalObj);
@@ -320,5 +340,60 @@ public class CreateMap : MapCreaterBase
         Transform transform = _teleporterController.GetData(id);
         GameController.Instance.Player.position = transform.position;
     }
+    /// <summary>
+    /// Enemyが死んだときにFlagを変える
+    /// </summary>
+    /// <param name="enemy">死んだEnemy</param>
+    public void DeadEnemy(GameObject enemy)//Enemyが死んだときに外部から呼ぶ
+    {
+        var ene = enemy.GetComponent<Enemy>();
+        ChangeFlag(ene.ID);
+        StartCoroutine(nameof(CreateEnemyCoroutine), ene.ID);
+    }
+    /// <summary>
+    /// Flagを切り替える
+    /// </summary>
+    /// <param name="id">切り替えたい場所のID</param>
+    void ChangeFlag(int id)
+    {
+        if (_enemyDic[id].IsCreate)
+        {
+            _enemyDic[id].IsCreate = false;
+        }
+        else
+        {
+            _enemyDic[id].IsCreate = true;
+        }
+    }
+    /// <summary>
+    /// 敵を生成する
+    /// </summary>
+    /// <param name="id">敵のID</param>
+    public void CreateEnemy(int id)
+    {
+        GameObject enemyObj = Instantiate(_enemies[id]);
+        var enebase = enemyObj.GetComponent<EnemyBase>();
+        enebase.ID = id;
+        enemyObj.transform.position = _enemyDic[id].Position;
+        ChangeFlag(id);
+    }
+
+    IEnumerator CreateEnemyCoroutine(int id) //倒されたときにそこの場所だけカウントダウン開始
+    {
+        yield return new WaitForSeconds(_createEnemyTime);
+        CreateEnemy(id);
+    }
+    //IEnumerator CreateEnemyCoroutine() //一斉に敵を生成する
+    //{
+    //    yield return new WaitForSeconds(_createEnemyTime);
+    //    for (int i = 0; i < _enemies.Length; i++)
+    //    {
+    //        if (_enemyDic[i].IsCreate != true)
+    //        {
+    //            continue;
+    //        }
+    //        CreateEnemy(i);
+    //    }
+    //}
 }
 

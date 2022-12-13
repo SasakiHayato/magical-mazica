@@ -43,6 +43,7 @@ public class FusionDatabase
     [SerializeField] FusionUseRawMaterial _fusionUseMaterials;
     [SerializeField] BulletType _useType;
     [SerializeField] float _bulletSpeed;
+    [SerializeReference, SubclassSelector] IFusionBullet _fusionBullet;
     /// <summary>名前</summary>
     public string Name => _name;
     /// <summary>このアイテムのアイコン画像</summary>

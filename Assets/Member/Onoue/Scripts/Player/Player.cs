@@ -20,35 +20,39 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     [SerializeField] int _maxHP;
     [SerializeField] float _speed;
     [SerializeField] int _damage = 5;
+    //無敵時間
+    [SerializeField] float _invincibleTime;
     [SerializeField] AnimOperator _animOperator;
-    [SerializeField] GameObject _attackCollider;
     [SerializeField] PlayerStateData _playerStateData;
-    
-    ReactiveProperty<int> _hp = new ReactiveProperty<int>();
-    //選択したMaterialのIDをセットする変数
-    ReactiveCollection<RawMaterialID> _setMaterial = new ReactiveCollection<RawMaterialID> { RawMaterialID.Empty, RawMaterialID.Empty };
-    
-    FusionItem _fusionItem;
     [SerializeField] Storage _storage;
     [SerializeField] FieldTouchOperator _fieldTouchOperator;
+    ReactiveProperty<int> _hp = new ReactiveProperty<int>();
+    //選択したMaterialのIDをセットする変数
+    //ReactiveCollection<RawMaterialID> _setMaterial = new ReactiveCollection<RawMaterialID> { RawMaterialID.Empty, RawMaterialID.Empty };
+    List<RawMaterialID> _setMaterial = new List<RawMaterialID>() { RawMaterialID.Empty, RawMaterialID.Empty };
+    Subject<List<RawMaterialID>> _selectMaterial = new Subject<List<RawMaterialID>>();
 
+    FusionItem _fusionItem;
+    bool _isHit;
+    float _timer;
     /// <summary>攻撃力</summary>
     public int Damage { get => _damage; private set => _damage = value; }
     /// <summary>最大HP</summary>
     public int MaxHP => _maxHP;
-    
     public Storage Storage { get => _storage; private set => _storage = value; }
-    
     /// <summary>現在HPの更新の通知</summary>
     public System.IObservable<int> CurrentHP => _hp;
-    public System.IObservable<CollectionReplaceEvent<RawMaterialID>> SelectMaterial => _setMaterial.ObserveReplace();
+    /// <summary>素材選択状態の通知</summary>
+    public System.IObservable<List<RawMaterialID>> SelectMaterial => _selectMaterial;
     public FieldTouchOperator FieldTouchOperator { get => _fieldTouchOperator; private set => _fieldTouchOperator = value; }
-    
+
     Player IMonoDatableUni<Player>.GetData => this;
     string IMonoDatable.Path => nameof(Player);
     GameObject IFieldObjectDatable.Target => gameObject;
 
-    ObjectType IDamagable.ObjectType => ObjectType.Player;
+    ObjectType IFieldObjectDatable.ObjectType => ObjectType.Player;
+
+    public ObjectType ObjectType => ObjectType.Player;
 
     MonoStateMachine<Player> _stateMachine;
 
@@ -59,15 +63,12 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     }
     private void Start()
     {
-        //_storage = GetComponentInChildren<Storage>();
-        //_fieldTouchOperator = GetComponentInChildren<FieldTouchOperator>();
         _fusionItem = FindObjectOfType<FusionItem>();
         _hp.Value = _maxHP;
 
         _playerStateData.Jump.InitalizeJumpCount();
         _playerStateData.Status.Set(_maxHP, _speed);
-
-        _attackCollider.SetActive(false);
+        _playerStateData.AttackCollider.SetActive(false);
 
         SetupState();
     }
@@ -102,25 +103,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Attack()
     {
-        _attackCollider.SetActive(false);
-
-        AnimOperator.AnimEvent anim = new AnimOperator.AnimEvent
-        {
-            Frame = 4,
-            Event = () => _attackCollider.SetActive(true),
-        };
-
-        AnimOperator.AnimEvent anim2 = new AnimOperator.AnimEvent
-        {
-            Frame = 6,
-            Event = () => _attackCollider.SetActive(false),
-        };
-
-        List<AnimOperator.AnimEvent> list = new List<AnimOperator.AnimEvent>();
-        list.Add(anim);
-        list.Add(anim2);
-
-        _animOperator.OnPlay("Attack", list);
         _stateMachine.ChangeState(PlayerState.Attack);
     }
     /// <summary>
@@ -129,7 +111,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public void Fire()
     {
         _animOperator.OnPlay("Mazic");
-        _fusionItem.Attack(transform.position);
+        Fusion();
+        _fusionItem.Attack(new Vector2(transform.localScale.x,0));
     }
 
     public void SetMoveDirection(Vector2 direction)
@@ -166,6 +149,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         _setMaterial[0] = id;
         print(_setMaterial[0]);
         print(_setMaterial[1]);
+        _selectMaterial.OnNext(_setMaterial);
     }
 
     /// <summary>
@@ -194,6 +178,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 _storage.AddMaterial(_setMaterial[0], -1);
                 _storage.AddMaterial(_setMaterial[1], -1);
                 print("できた");
+                _setMaterial.ForEach(m => m = RawMaterialID.Empty);
+                _selectMaterial.OnNext(_setMaterial);
             }
             else
             {
@@ -208,7 +194,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     private void Update()
     {
-        Debug.Log(_stateMachine.CurrentKey);
+        //Debug.Log(_stateMachine.CurrentKey);
     }
 
     private void FixedUpdate()
@@ -224,11 +210,25 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
+        //無敵
+        if (_isHit)
+        {
+            _timer += Time.deltaTime;
+            if (_timer > _invincibleTime)
+            {
+                _isHit = false;
+                _timer = 0;
+            }
+        }
     }
     void IDamagable.AddDamage(int damage)
     {
+        if (_isHit)
+        {
+            return;
+        }
+        _isHit = true;
         _hp.Value -= damage;
-
         if (_hp.Value <= 0)
         {
             // 仮

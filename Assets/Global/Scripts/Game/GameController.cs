@@ -22,6 +22,7 @@ public interface IGameDisposable
 
 public interface IFieldObjectDatable
 {
+    ObjectType ObjectType { get; }
     GameObject Target { get; }
 }
 
@@ -56,6 +57,11 @@ public class GameController
             if (_dataList.Count <= 0) return;
             
             _dataList.Remove(field);
+        }
+
+        public IEnumerable<IFieldObjectDatable> GetObjectData(ObjectType objectType)
+        {
+            return _dataList.Where(d => d.ObjectType == objectType);
         }
 
         /// <summary>
@@ -129,6 +135,11 @@ public class GameController
     public void RemoveFieldObjectDatable(IFieldObjectDatable field)
     {
         _fieldObjectData.Remove(field);
+    }
+
+    public IEnumerable<IFieldObjectDatable> GetFieldObjectDatable(ObjectType objectType)
+    {
+        return _fieldObjectData.GetObjectData(objectType);
     }
 
     public void AddMapHierarchy()

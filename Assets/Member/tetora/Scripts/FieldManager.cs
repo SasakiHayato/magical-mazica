@@ -12,6 +12,7 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
     int _hierarchyNum;
     Subject<List<RawMaterialID>> _materialIDSubject = new Subject<List<RawMaterialID>>();
     public int HierarchyNum { get => _hierarchyNum; set => _hierarchyNum = value; }
+    /// <summary>このステージで使う素材IDのListを発行するSubject</summary>
     public IObservable<List<RawMaterialID>> MaterialList => _materialIDSubject;
 
     int IGameSetupable.Priority => 3;
@@ -45,9 +46,10 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
             RawMaterialID.Poison
         };
         _materialIDSubject.OnNext(defMaterials);
+        //プレイヤー生成時に素材を持たせる
         _characterManager.PlayerSpawn.Subscribe(p =>
         {
-            //とりあえず100個くらい
+            //とりあえず100個くらい持たせとく
             defMaterials.ForEach(m =>
             {
                 p.Storage.AddMaterial(m, 100);
@@ -55,6 +57,7 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
         })
         .AddTo(_characterManager);
 
+        //プレイヤーを生成
         _characterManager.CreatePlayer(_createMap.PlayerTransform);
     }
 
