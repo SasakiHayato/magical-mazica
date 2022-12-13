@@ -9,6 +9,7 @@ public class Enemy : EnemyBase, IDamageForceble
     [SerializeField] AnimOperator _animOperator;
     [SerializeField] BehaviourTree.BehaviourTreeUser _treeUser;
 
+
     protected override void Setup()
     {
         MonoState
@@ -28,6 +29,11 @@ public class Enemy : EnemyBase, IDamageForceble
     protected override void Execute()
     {
         Rigid.SetMoveDirection = MoveDirection * Speed;
+    }
+    protected override void DeadEvent()
+    {
+        CreateMap.Instance.DeadEnemy(gameObject);
+        base.DeadEvent();
     }
 
     protected override bool IsDamage(int damage)

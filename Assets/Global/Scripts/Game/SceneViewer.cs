@@ -12,7 +12,7 @@ public class SceneViewer : MonoBehaviour
     }
 
     [SerializeField] string _bgmPath;
-    [SerializeField] UserInputManager.InputType _defaultInputType;
+    [SerializeField] InputUserType _defaultInputType;
     [SerializeField] FadeManager _fadeManager;
     [SerializeField] FadeAnimationType _fadeAnimationType;
 
@@ -54,7 +54,7 @@ public class SceneViewer : MonoBehaviour
     {
         GameController.Instance.Setup();
         SoundManager.PlayRequest(SoundSystem.SoundType.BGM, _bgmPath);
-        GameController.Instance.UserInput.SetInput(_defaultInputType);
+        InputSetting.ChangeInputUser(_defaultInputType);
     }
 
     async UniTask OnWaitUnLoad(SceneType sceneType)

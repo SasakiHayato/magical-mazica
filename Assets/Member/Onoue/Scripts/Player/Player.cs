@@ -52,6 +52,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     ObjectType IFieldObjectDatable.ObjectType => ObjectType.Player;
 
+    public ObjectType ObjectType => ObjectType.Player;
+
     MonoStateMachine<Player> _stateMachine;
 
     private void Awake()
