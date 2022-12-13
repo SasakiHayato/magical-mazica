@@ -25,6 +25,8 @@ public class Blast : MonoBehaviour
         _damage = damage;
         _objectType = objectType;
         DestroyCount(duration);
+        if (_particleEffect)
+            Instantiate(_particleEffect, transform.position, Quaternion.identity);
     }
 
     private async void DestroyCount(float duration)

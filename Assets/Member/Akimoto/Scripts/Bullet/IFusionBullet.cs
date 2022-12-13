@@ -8,6 +8,11 @@ using DG.Tweening;
 public interface IFusionBullet
 {
     /// <summary>
+    /// ”jŠü‰Â”\‚©‚Ç‚¤‚©
+    /// </summary>
+    /// <returns></returns>
+    public bool IsDestroy(Collider2D collision);
+    /// <summary>
     /// ”jŠü
     /// </summary>
     public void Dispose();
@@ -19,7 +24,13 @@ public interface IFusionBullet
     /// ’Êí‚Ì‹““®
     /// </summary>
     public void Idle();
+    /// <summary>
+    /// —^‚¦‚éƒ_ƒ[ƒW
+    /// </summary>
     public int Damage { set; }
+    /// <summary>
+    /// ’N‚©‚çŒ‚‚½‚ê‚½’e‚©
+    /// </summary>
     public ObjectType ObjectType { set; }
 }
 
@@ -41,12 +52,18 @@ public class BlastPower : IFusionBullet
 
     public void Hit(IDamagable damageble, Vector2 position)
     {
+        damageble.AddDamage(Damage);
         Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
     }
 
     public void Dispose()
     {
 
+    }
+
+    public bool IsDestroy(Collider2D collision)
+    {
+        return true;
     }
 }
 
@@ -69,6 +86,11 @@ public class BlastBlast : IFusionBullet
     }
 
     public void Idle()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public bool IsDestroy(Collider2D collision)
     {
         throw new System.NotImplementedException();
     }

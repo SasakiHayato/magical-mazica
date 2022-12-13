@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using UniRx.Triggers;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 
@@ -21,6 +22,7 @@ public class Bullet : MonoBehaviour
     public Vector2 Velocity { set => _rb.velocity = value; }
     public ObjectType ObjectType { get; set; } = ObjectType.Obstacle;
     public BulletType UseType => _useType;
+    public FusionDatabase Database { private get; set; }
     /// <summary>
     /// 画像やパラメーターの設定
     /// </summary>
@@ -40,6 +42,9 @@ public class Bullet : MonoBehaviour
             default:
                 break;
         }
+        this.UpdateAsObservable()
+            .Subscribe(_ => Database.FusionBullet.Idle())
+            .AddTo(this);
     }
 
     /// <summary>
@@ -49,6 +54,8 @@ public class Bullet : MonoBehaviour
     {
         Bullet ret = Instantiate(original);
         ret.Setup(database.Sprite, database.UseType, damage);
+        ret.Database = database.Copy();
+        ret.Database.FusionBullet.Damage = damage;
         return ret;
     }
 
@@ -68,7 +75,8 @@ public class Bullet : MonoBehaviour
         {
             if (damagable.ObjectType != ObjectType)
             {
-                damagable.AddDamage(_damage);
+                Database.FusionBullet.Hit(damagable, transform.position);
+                //damagable.AddDamage(_damage);
 
                 if (TryGetComponent(out IDamageForceble forceble))
                 {
@@ -76,7 +84,11 @@ public class Bullet : MonoBehaviour
                     forceble.OnFoece(Vector2.zero);
                 }
 
-                Destroy(gameObject);
+                if (Database.FusionBullet.IsDestroy(collision))
+                {
+                    Database.FusionBullet.Dispose();
+                    Destroy(gameObject);
+                }
             }
         }
     }
