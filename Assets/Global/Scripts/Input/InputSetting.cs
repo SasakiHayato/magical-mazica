@@ -1,14 +1,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface IUIOperateEventable
+{
+    void OnEnableEvent();
+    void Select(ref int horizontal, ref int vertical);
+    bool SubmitEvent();
+    void CancelEvent();
+    void DisposeEvent();
+}
+
+
 public class InputSetting
 {
+    public class UIInputOperator
+    {
+        public bool IsOperateRequest { get; set; }
+        public IUIOperateEventable Operate { get; private set; }
+
+        public void OperateRequest(IUIOperateEventable operate)
+        {
+            operate?.OnEnableEvent();
+            UIInputOperate.IsOperateRequest = false;
+            Operate = operate;
+        }
+    }
+
     InputUserType _currentUser = InputUserType.Player;
 
     List<ButtonInputData> _buttonInputDataList = new List<ButtonInputData>();
     List<AxisInputData> _axisInputDataList = new List<AxisInputData>();
 
     static InputSetting s_instance = null;
+    public static UIInputOperator UIInputOperate { get; private set; }
 
     void Run()
     {
@@ -68,6 +92,7 @@ public class InputSetting
         if (s_instance == null)
         {
             inputOperator = new InputSetting();
+            UIInputOperate = new UIInputOperator();
             s_instance = inputOperator;
         }
         else
@@ -82,5 +107,6 @@ public class InputSetting
     {
         s_instance._axisInputDataList = new List<AxisInputData>();
         s_instance._buttonInputDataList = new List<ButtonInputData>();
+        UIInputOperate = null;
     }
 }

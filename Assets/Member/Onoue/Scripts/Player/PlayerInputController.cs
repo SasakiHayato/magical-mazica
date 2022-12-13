@@ -24,15 +24,10 @@ public class PlayerInputController : MonoBehaviour
         _inputSetting.CreateButtonInput
             (
                 "Submit", 
-                () => GameController.Instance.UserInput.IsOperateRequest = true, 
+                () => InputSetting.UIInputOperate.IsOperateRequest = true, 
                 InputUserType.Player
             );
-        _inputSetting.CreateButtonInput
-            (
-                "Cancel",
-                () => GameController.Instance.UserInput.IsOperateRequest = false,
-                InputUserType.Player
-            );
+        
         _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.Player, dir => _player.SetMoveDirection(new Vector2(dir.x, 0)));
         _inputSetting.CreateAxisInput("Horizontal2", "Vertical2", InputUserType.Player, dir => SetMaterial(dir));
 
@@ -92,24 +87,24 @@ public class PlayerInputController : MonoBehaviour
             _selectY += (int)Mathf.Sign(value.y);
         }
 
-        GameController.Instance.UserInput.Operate.Select(ref _selectX, ref _selectY);
+        InputSetting.UIInputOperate.Operate.Select(ref _selectX, ref _selectY);
     }
 
     void Submit()
     {
-        if (GameController.Instance.UserInput.Operate == null) return;
+        if (InputSetting.UIInputOperate.Operate == null) return;
 
-        if (GameController.Instance.UserInput.Operate.SubmitEvent())
+        if (InputSetting.UIInputOperate.Operate.SubmitEvent())
         {
-            GameController.Instance.UserInput.Operate.DisposeEvent();
+            InputSetting.UIInputOperate.Operate.DisposeEvent();
         }
     }
 
     void Cancel()
     {
-        if (GameController.Instance.UserInput.Operate == null) return;
+        if (InputSetting.UIInputOperate.Operate == null) return;
 
-        GameController.Instance.UserInput?.Operate.CancelEvent();
+        InputSetting.UIInputOperate?.Operate.CancelEvent();
         _selectX = 0;
         _selectY = 0;
     }
