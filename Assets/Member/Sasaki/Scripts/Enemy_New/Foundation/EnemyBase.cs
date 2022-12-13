@@ -57,6 +57,8 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
     ObjectType IFieldObjectDatable.ObjectType => ObjectType.Enemy;
 
+    public ObjectType ObjectType => ObjectType.Enemy;
+
     void Awake()
     {
         GameController.Instance.AddFieldObjectDatable(this);

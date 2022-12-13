@@ -28,6 +28,7 @@ public interface IFieldObjectDatable
 
 public interface IDamagable
 {
+    ObjectType ObjectType { get; }
     void AddDamage(int damage);
 }
 
