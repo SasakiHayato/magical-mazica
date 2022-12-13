@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
 {
@@ -8,15 +7,12 @@ public class PlayerInputController : MonoBehaviour
     bool _onSelectX = false;
     bool _onSelectY = false;
 
-    PlayerInput _playerInput;
     Player _player;
 
     InputSetting _inputSetting;
     private void Awake()
     {
-        TryGetComponent(out _playerInput);
         TryGetComponent(out _player);
-        GameController.Instance.UserInput.SetController(this);
         InputSetting.SetInputUser(gameObject, out _inputSetting);
     }
 
@@ -25,108 +21,53 @@ public class PlayerInputController : MonoBehaviour
         _inputSetting.CreateButtonInput("Fire1", () => _player.Attack(), InputUserType.Player);
         _inputSetting.CreateButtonInput("Fire2", () => _player.Fusion(), InputUserType.Player);
         _inputSetting.CreateButtonInput("Jump", () => _player.Jump(), InputUserType.Player);
+        _inputSetting.CreateButtonInput
+            (
+                "Submit", 
+                () => GameController.Instance.UserInput.IsOperateRequest = true, 
+                InputUserType.Player
+            );
+        _inputSetting.CreateButtonInput
+            (
+                "Cancel",
+                () => GameController.Instance.UserInput.IsOperateRequest = false,
+                InputUserType.Player
+            );
+        _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.Player, dir => _player.SetMoveDirection(new Vector2(dir.x, 0)));
+        _inputSetting.CreateAxisInput("Horizontal2", "Vertical2", InputUserType.Player, dir => SetMaterial(dir));
 
-        _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.Player, direction => _player.SetMoveDirection(new Vector2(direction.x, 0)));
-
-        //_playerInput.actions["Jump"].started += ContextMenu => 
-        //{
-        //    OnJump(ContextMenu);
-        //};
-        //_playerInput.actions["Attack"].started += OnAttack;
-        //_playerInput.actions["Fire"].started += OnFire;
-        //_playerInput.actions["Fusion"].started += OnFusion;
-
-
-        return;
-        _playerInput.actions["SetMaterial"].started += OnSet;
-
-        _playerInput.actions["PlayerSubmit"].started +=
-            context => GameController.Instance.UserInput.IsOperateRequest = true;
-        _playerInput.actions["PlayerSubmit"].canceled +=
-            context => GameController.Instance.UserInput.IsOperateRequest = false;
-
-        _playerInput.actions["UISubmit"].started += context => Submit();
-        _playerInput.actions["UICancel"].started += context => Cancel();
+        _inputSetting.CreateButtonInput("Submit", () => Submit(), InputUserType.UI);
+        _inputSetting.CreateButtonInput("Cancel", () => Cancel(), InputUserType.UI);
+        _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.UI, dir => Select(dir));
     }
 
     private void OnDisable()
     {
         InputSetting.Dispose();
-        return;
-        //_playerInput.actions["Jump"].started -= OnJump;
-        //_playerInput.actions["Attack"].started -= OnAttack;
-        //_playerInput.actions["Fire"].started -= OnFire;
-        //_playerInput.actions["Fusion"].started -= OnFusion;
-        //_playerInput.actions["SetMaterial"].started -= OnSet;
-
-        _playerInput.actions["PlayerSubmit"].started -=
-            context => GameController.Instance.UserInput.IsOperateRequest = true;
-        _playerInput.actions["PlayerSubmit"].canceled -=
-            context => GameController.Instance.UserInput.IsOperateRequest = false;
-
-        _playerInput.actions["UISubmit"].started -= context => Submit();
-        _playerInput.actions["UICancel"].started -= context => Cancel();
-    }
-    private void Update()
-    {
-        return;
-        if (_player != null)
-        {
-            var direction = _playerInput.actions["Move"].ReadValue<Vector2>().x;
-            _player.SetMoveDirection(new Vector2(direction, 0));
-        }
-
-        if (_playerInput.currentActionMap.name == UserInputManager.InputType.UserInterface.ToString()
-            && GameController.Instance.UserInput.Operate != null)
-        {
-            Select(_playerInput.actions["UISelect"].ReadValue<Vector2>());
-        }
     }
     
-    private void OnJump(InputAction.CallbackContext obj)
+    private void SetMaterial(Vector2 dir)
     {
-        _player.Jump();
-    }
-
-    private void OnAttack(InputAction.CallbackContext obj)
-    {
-        _player.Attack();
-    }
-    private void OnFire(InputAction.CallbackContext obj)
-    {
-        _player.Fire();
-    }
-    private void OnFusion(InputAction.CallbackContext obj)
-    {
-        _player.Fusion();
-    }
-    private void OnSet(InputAction.CallbackContext obj)
-    {
-        SetMaterial(obj);
-    }
-    private void SetMaterial(InputAction.CallbackContext obj)
-    {
-        var get = obj.action.actionMap["SetMaterial"].ReadValue<Vector2>();
-        if (get == Vector2.up)
+        if (dir == Vector2.up)
         {
             _player.SetMaterialID(RawMaterialID.BombBean);
         }
-        else if (get == Vector2.down)
+        else if (dir == Vector2.down)
         {
             //ëfçﬁÇí«â¡Ç∑ÇÈÇ‹Ç≈ãÛÇì¸ÇÍÇÈ
             _player.SetMaterialID(RawMaterialID.Empty);
         }
-        else if (get == Vector2.left)
+        else if (dir == Vector2.left)
         {
             _player.SetMaterialID(RawMaterialID.PowerPlant);
         }
-        else if (get == Vector2.right)
+        else if (dir == Vector2.right)
         {
             //ëfçﬁÇí«â¡Ç∑ÇÈÇ‹Ç≈ãÛÇì¸ÇÍÇÈ
             _player.SetMaterialID(RawMaterialID.Empty);
         }
     }
-
+    
     void Select(Vector2 value)
     {
         if (0 == value.x)
@@ -171,10 +112,5 @@ public class PlayerInputController : MonoBehaviour
         GameController.Instance.UserInput?.Operate.CancelEvent();
         _selectX = 0;
         _selectY = 0;
-    }
-
-    public void ChangeInput(UserInputManager.InputType inputType)
-    {
-        _playerInput.SwitchCurrentActionMap(inputType.ToString());
     }
 }

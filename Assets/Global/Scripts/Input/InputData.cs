@@ -21,13 +21,13 @@ public class ButtonInputData
         InputType = input;
         InputUserType = userType;
         Path = path;
-        Subject.Subscribe(_ => action.Invoke());
+        Action = action;
     }
 
-    public Subject<bool> Subject { get; private set; }
     public InputType InputType { get; private set; }
     public InputUserType InputUserType { get; private set; }
     public string Path { get; private set; }
+    public Action Action { get; private set; }
 }
 
 public class AxisInputData
@@ -44,5 +44,4 @@ public class AxisInputData
     public string HorizontalPath { get; private set; }
     public string VerticalPath { get; private set; }
     public Action<UnityEngine.Vector2> Action { get; private set; }
-    public UnityEngine.Vector2 CurrentDirection { get; set; }
 }

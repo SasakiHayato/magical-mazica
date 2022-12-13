@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
 
 public class InputSetting
 {
+    InputUserType _currentUser = InputUserType.Player;
+
     List<ButtonInputData> _buttonInputDataList = new List<ButtonInputData>();
     List<AxisInputData> _axisInputDataList = new List<AxisInputData>();
 
@@ -13,15 +14,19 @@ public class InputSetting
     {
         _buttonInputDataList.ForEach(b => 
         {
-            b.Subject.OnNext(SetInput(b.InputType, b.Path));
+            if (b.InputUserType != _currentUser || !SetInput(b.InputType, b.Path)) return;
+            
+            b.Action.Invoke();
         });
 
         _axisInputDataList.ForEach(b => 
         {
-            float x = Input.GetAxis(b.HorizontalPath);
-            float y = Input.GetAxis(b.VerticalPath);
-            b.CurrentDirection = new Vector2(x, y);
-            b.Action.Invoke(b.CurrentDirection);
+            if (b.InputUserType != _currentUser) return;
+
+            float x = Input.GetAxisRaw(b.HorizontalPath);
+            float y = Input.GetAxisRaw(b.VerticalPath);
+            
+            b.Action.Invoke(new Vector2(x, y));
         });
     }
 
@@ -35,16 +40,6 @@ public class InputSetting
         }
 
         return false;
-    }
-
-    public Subject<bool> GetSubject(string path)
-    {
-        return _buttonInputDataList.Find(s => s.Path == path).Subject;
-    }
-
-    public Vector2 GetInputDirection(string horizontalPath)
-    {
-        return _axisInputDataList.Find(s => s.HorizontalPath == horizontalPath).CurrentDirection;
     }
 
     public InputSetting CreateButtonInput(string path, System.Action action, InputUserType userType, InputType input = InputType.Down)
@@ -61,6 +56,11 @@ public class InputSetting
         _axisInputDataList.Add(inputData);
 
         return this;
+    }
+
+    public static void ChangeInputUser(InputUserType userType)
+    {
+        s_instance._currentUser = userType;
     }
 
     public static void SetInputUser(GameObject user, out InputSetting inputOperator)
