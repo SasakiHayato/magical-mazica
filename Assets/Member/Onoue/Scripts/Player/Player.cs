@@ -5,7 +5,7 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using MonoState;
 using MonoState.Data;
-public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatableUni<Player>
+public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatableUni<Player>, IDamageForceble
 {
     public enum PlayerState
     {
@@ -15,7 +15,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         Attack,
         WallJump,
         Float,
-        IsStick
+        IsStick,
+        KnockBack,
     }
     [SerializeField] int _maxHP;
     [SerializeField] float _speed;
@@ -83,7 +84,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             .AddState(PlayerState.Attack, new PlayerAttack())
             .AddState(PlayerState.WallJump, new PlayerWallJump())
             .AddState(PlayerState.Float, new PlayerFloat())
-            .AddState(PlayerState.IsStick, new PlayerIsStick());
+            .AddState(PlayerState.IsStick, new PlayerIsStick())
+            .AddState(PlayerState.KnockBack, new PlayerKnockBack());
 
         _stateMachine
             .AddMonoData(this)
@@ -234,5 +236,15 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             // ‰¼
             //SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
         }
+    }
+
+    void IDamageForceble.OnFoece(Vector2 direction)
+    {
+        if (direction == Vector2.zero) return;
+
+        _playerStateData.Rigid.SetImpulse(direction.x, RigidMasterData.ImpulseDirectionType.Horizontal, true);
+        _playerStateData.Rigid.SetImpulse(direction.y, RigidMasterData.ImpulseDirectionType.Vertical, true);
+        
+        _stateMachine.ChangeState(PlayerState.KnockBack);
     }
 }
