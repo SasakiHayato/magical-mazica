@@ -88,6 +88,16 @@ public class InputController : MonoBehaviour
             _selectY += (int)Mathf.Sign(value.y);
         }
 
+        if (_selectX < 0)
+        {
+            _selectX = 0;
+        }
+
+        if (_selectY < 0)
+        {
+            _selectY = 0;
+        }
+
         InputSetting.UIInputOperate.Operate.Select(ref _selectX, ref _selectY);
     }
 

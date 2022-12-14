@@ -51,10 +51,6 @@ public class GUIManager : MonoBehaviour, IGameSetupable
             })
             .AddTo(_characterManager);
         }
-
-        //_popup.Setup(this);
-        //_popup.SetActive = false;
-        //_popupInstance = _popup;
     }
 
     public static Popup FindPopup(string path)

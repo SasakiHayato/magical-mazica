@@ -13,6 +13,7 @@ public class SceneViewer : MonoBehaviour
 
     [SerializeField] string _bgmPath;
     [SerializeField] InputUserType _defaultInputType;
+    [SerializeField] SceneType _sceneType;
     [SerializeField] FadeManager _fadeManager;
     [SerializeField] FadeAnimationType _fadeAnimationType;
 
@@ -27,6 +28,11 @@ public class SceneViewer : MonoBehaviour
 
     void Start()
     {
+        if (_sceneType == SceneType.Title)
+        {
+            InputSetting.UIInputOperate.OperateRequest(new UIInputSelectTitle());
+        }
+
         Setup();
     }
 
