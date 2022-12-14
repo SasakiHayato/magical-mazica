@@ -10,7 +10,6 @@ public interface IUIOperateEventable
     void DisposeEvent();
 }
 
-
 public class InputSetting
 {
     public class UIInputOperator
@@ -107,6 +106,6 @@ public class InputSetting
     {
         s_instance._axisInputDataList = new List<AxisInputData>();
         s_instance._buttonInputDataList = new List<ButtonInputData>();
-        UIInputOperate = null;
+        s_instance = null;
     }
 }
