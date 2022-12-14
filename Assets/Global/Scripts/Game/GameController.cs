@@ -28,6 +28,7 @@ public interface IFieldObjectDatable
 
 public interface IDamagable
 {
+    ObjectType ObjectType { get; }
     void AddDamage(int damage);
 }
 
@@ -112,9 +113,9 @@ public class GameController
 
     public int CurrentMapHierarchy { get; private set; } = 1;
 
-    public UserInputManager UserInput { get; private set; } = new UserInputManager();
-
     public Transform Player { get; set; }
+
+    public readonly int MaxMapHierarchy = 2;
 
     public void AddGameSetupable(IGameSetupable setup)
     {
@@ -178,7 +179,6 @@ public class GameController
         _setupList = new List<IGameSetupable>();
         _disposeList = new List<IGameDisposable>();
         _fieldObjectData = new FieldObjectData();
-        UserInput = new UserInputManager();
         Player = null;
     }
 }

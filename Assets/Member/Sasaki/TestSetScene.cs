@@ -9,7 +9,7 @@ public class TestSetScene : MonoBehaviour, IUIOperateEventable
     
     void Start()
     {
-        GameController.Instance.UserInput.OperateRequest(this);
+        InputSetting.UIInputOperate.OperateRequest(this);
     }
 
     void IUIOperateEventable.CancelEvent()
