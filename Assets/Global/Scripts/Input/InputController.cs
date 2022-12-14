@@ -19,49 +19,30 @@ public class InputController : MonoBehaviour
 
     void OnEnable()
     {
-        _inputSetting.CreateButtonInput("Fire1", () => _player.Attack(), InputUserType.Player);
-        _inputSetting.CreateButtonInput("Fire2", () => _player.Fusion(), InputUserType.Player);
-        _inputSetting.CreateButtonInput("Jump", () => _player.Jump(), InputUserType.Player);
+        _inputSetting.CreateButtonInput("RightTrigger_2", () => _player.Attack(), InputUserType.Player);
+        _inputSetting.CreateButtonInput("RightTrigger_1", () => _player.Fusion(), InputUserType.Player);
+        _inputSetting.CreateButtonInput("LeftTrigger_2", () => _player.Jump(), InputUserType.Player);
+        _inputSetting.CreateButtonInput("WestButton", () => _player.SetMaterialID(RawMaterialID.Empty), InputUserType.Player);
+        _inputSetting.CreateButtonInput("EastButton", () => _player.SetMaterialID(RawMaterialID.PowerPlant), InputUserType.Player);
+        _inputSetting.CreateButtonInput("SouthButton", () => _player.SetMaterialID(RawMaterialID.Empty), InputUserType.Player);
+        _inputSetting.CreateButtonInput("NorthButton", () => _player.SetMaterialID(RawMaterialID.BombBean), InputUserType.Player);
         _inputSetting.CreateButtonInput
             (
-                "Submit", 
+                "LeftStickButton", 
                 () => InputSetting.UIInputOperate.IsOperateRequest = true, 
                 InputUserType.Player
             );
         
         _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.Player, dir => _player.SetMoveDirection(new Vector2(dir.x, 0)));
-        _inputSetting.CreateAxisInput("Horizontal2", "Vertical2", InputUserType.Player, dir => SetMaterial(dir));
-
-        _inputSetting.CreateButtonInput("Submit", () => Submit(), InputUserType.UI);
-        _inputSetting.CreateButtonInput("Cancel", () => Cancel(), InputUserType.UI);
+        
+        _inputSetting.CreateButtonInput("WestButton", () => Submit(), InputUserType.UI);
+        _inputSetting.CreateButtonInput("SouthButton", () => Cancel(), InputUserType.UI);
         _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.UI, dir => Select(dir));
     }
 
     private void OnDisable()
     {
         InputSetting.Dispose();
-    }
-    
-    private void SetMaterial(Vector2 dir)
-    {
-        if (dir == Vector2.up)
-        {
-            _player.SetMaterialID(RawMaterialID.BombBean);
-        }
-        else if (dir == Vector2.down)
-        {
-            //‘fŞ‚ğ’Ç‰Á‚·‚é‚Ü‚Å‹ó‚ğ“ü‚ê‚é
-            _player.SetMaterialID(RawMaterialID.Empty);
-        }
-        else if (dir == Vector2.left)
-        {
-            _player.SetMaterialID(RawMaterialID.PowerPlant);
-        }
-        else if (dir == Vector2.right)
-        {
-            //‘fŞ‚ğ’Ç‰Á‚·‚é‚Ü‚Å‹ó‚ğ“ü‚ê‚é
-            _player.SetMaterialID(RawMaterialID.Empty);
-        }
     }
     
     void Select(Vector2 value)
