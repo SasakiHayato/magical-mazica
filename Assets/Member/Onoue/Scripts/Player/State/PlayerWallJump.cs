@@ -9,9 +9,12 @@ public class PlayerWallJump : MonoStateBase
 {
     Player _player;
     PlayerStateData _playerStateData;
+    AnimOperator _anim;
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
+        _anim.OnPlay("Jump");
+
         //_player.Rigidbody.velocity = Vector2.zero;
         _playerStateData.Rigid.InitalizeGravity();
         _player.FieldTouchOperator.IsTouchLayerID(out int[] id);
@@ -65,6 +68,7 @@ public class PlayerWallJump : MonoStateBase
     {
         _player = data.GetMonoDataUni<Player>(nameof(Player));
         _playerStateData = data.GetMonoData<PlayerStateData>(nameof(PlayerStateData));
+        _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
     }
 }
 

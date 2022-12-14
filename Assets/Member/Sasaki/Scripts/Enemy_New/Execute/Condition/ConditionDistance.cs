@@ -14,6 +14,8 @@ public class ConditionDistance : BehaviourConditional
 
     protected override bool Try()
     {
+        if (GameController.Instance.Player == null) return false;
+
         switch (_attributeType)
         {
             case AttributeType.Out: 

@@ -37,13 +37,14 @@ public class Popup : MonoBehaviour
     CanvasGroup _canvasGroup;
 
     public string Path => _popupPath;
+    public int DataLength => _sourceDataList.Count;
 
-    void Start()
+    void Awake()
     {
         _canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        
+
         int id = 0;
-        _sourceDataList.ForEach(s => 
+        _sourceDataList.ForEach(s =>
         {
             s.Setup(id);
             id++;
@@ -74,7 +75,6 @@ public class Popup : MonoBehaviour
     public void OnCancel()
     {
         _sourceDataList.ForEach(s => s.Initalize());
-
         _canvasGroup.alpha = 0;
     }
 }

@@ -5,6 +5,9 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using MonoState;
 using MonoState.Data;
+using static SoundSystem.SoundType;
+
+
 public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatableUni<Player>, IDamageForceble
 {
     public enum PlayerState
@@ -106,6 +109,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Attack()
     {
+        _playerStateData.SetAttckType = PlayerStateData.AttackType.Default;
         _stateMachine.ChangeState(PlayerState.Attack);
     }
     /// <summary>
@@ -113,7 +117,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Fire()
     {
-        _animOperator.OnPlay("Mazic");
+        _playerStateData.SetAttckType = PlayerStateData.AttackType.Mazic;
+        _stateMachine.ChangeState(PlayerState.Attack);
         Fusion();
         _fusionItem.Attack(new Vector2(transform.localScale.x,0));
     }
@@ -128,8 +133,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Jump()
     {
-        _animOperator.OnPlay("Jump");
-
         if (_playerStateData.Jump.CurrentJumpCount >= 0)
         {
             _stateMachine.ChangeState(PlayerState.Jump);
@@ -232,10 +235,17 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         }
         _isHit = true;
         _hp.Value -= damage;
+
         if (_hp.Value <= 0 && !_isDebug)
         {
+            SoundManager.PlayRequest(SEPlayer, "Dead");
+
             Destroy(gameObject);
             SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
+        }
+        else
+        {
+            SoundManager.PlayRequestRandom(SEPlayer, "Damage");
         }
     }
 

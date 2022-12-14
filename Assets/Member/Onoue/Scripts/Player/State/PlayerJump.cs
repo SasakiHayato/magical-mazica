@@ -7,6 +7,7 @@ using MonoState.Data;
 public class PlayerJump : MonoStateBase
 {
     Player _player;
+    AnimOperator _anim;
     PlayerStateData _playerStateData;
     float _speed;
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
@@ -15,6 +16,8 @@ public class PlayerJump : MonoStateBase
         _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.Power, RigidMasterData.ImpulseDirectionType.Vertical, true);
         _playerStateData.Jump.CallbackJumpCount();
         _speed = _playerStateData.Rigid.ReadVelocity.x;
+
+        _anim.OnPlay("Jump");
     }
     //Update
     public override void OnExecute()
@@ -49,5 +52,6 @@ public class PlayerJump : MonoStateBase
     {
         _player = data.GetMonoDataUni<Player>(nameof(Player));
         _playerStateData = data.GetMonoData<PlayerStateData>(nameof(PlayerStateData));
+        _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
     }
 }

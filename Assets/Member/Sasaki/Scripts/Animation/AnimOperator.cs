@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using MonoState.Data;
-using System.Security.Cryptography.X509Certificates;
 
 public enum AnimStateType
 {
@@ -30,6 +28,7 @@ public class AnimOperator : MonoBehaviour, IMonoDatableUni<AnimOperator>
     List<Coroutine> _animEnvetCoroutineList = new List<Coroutine>();
 
     public bool EndCurrentAnim { get; private set; }
+    public string CurrentAnim { get; private set; }
 
     AnimOperator IMonoDatableUni<AnimOperator>.GetData => this;
     string IMonoDatable.Path => nameof(AnimOperator);
@@ -78,6 +77,7 @@ public class AnimOperator : MonoBehaviour, IMonoDatableUni<AnimOperator>
 
     void OnExecute(string stateName)
     {
+        CurrentAnim = stateName;
         _anim.Play(stateName);
         _waitAnimCoroutine = StartCoroutine(OnWait());
     }
