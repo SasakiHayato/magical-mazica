@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CalcDistance : MonoBehaviour
+public class CalcDistance : MonoBehaviour, IGameSetupable
 {
     [SerializeField]
     float _checkDis = 18;
@@ -11,10 +11,17 @@ public class CalcDistance : MonoBehaviour
     Transform _preTransform;
     GameObject _player;
 
-    private void Start()
+    int IGameSetupable.Priority => 4;
+
+    void IGameSetupable.GameSetup()
     {
         GetPlayer();
         SetMeasureTool();
+    }
+
+    private void Start()
+    {
+        
     }
     private void Update()
     {
