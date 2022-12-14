@@ -8,6 +8,11 @@ using DG.Tweening;
 public interface IFusionBullet
 {
     /// <summary>
+    /// ”jŠü‰Â”\‚©‚Ç‚¤‚©
+    /// </summary>
+    /// <returns></returns>
+    public bool IsDestroy(Collider2D collision);
+    /// <summary>
     /// ”jŠü
     /// </summary>
     public void Dispose();
@@ -19,7 +24,13 @@ public interface IFusionBullet
     /// ’Êí‚Ì‹““®
     /// </summary>
     public void Idle();
+    /// <summary>
+    /// —^‚¦‚éƒ_ƒ[ƒW
+    /// </summary>
     public int Damage { set; }
+    /// <summary>
+    /// ’N‚©‚çŒ‚‚½‚ê‚½’e‚©
+    /// </summary>
     public ObjectType ObjectType { set; }
 }
 
@@ -34,20 +45,17 @@ public class BlastPower : IFusionBullet
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
 
-    public void Idle()
-    {
-
-    }
+    public void Idle() { }
 
     public void Hit(IDamagable damageble, Vector2 position)
     {
+        damageble.AddDamage(Damage);
         Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
     }
 
-    public void Dispose()
-    {
+    public void Dispose() { }
 
-    }
+    public bool IsDestroy(Collider2D collision) => true;
 }
 
 /// <summary>
@@ -55,21 +63,21 @@ public class BlastPower : IFusionBullet
 /// </summary>
 public class BlastBlast : IFusionBullet
 {
-    public int Damage { set => throw new System.NotImplementedException(); }
-    public ObjectType ObjectType { set => throw new System.NotImplementedException(); }
+    [SerializeField] Blast _blastPrefab;
+    [SerializeField] float _blastRange;
+    [SerializeField] float _blastDuraion;
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
 
-    public void Dispose()
-    {
-        throw new System.NotImplementedException();
-    }
+    public void Dispose() { }
 
     public void Hit(IDamagable damageble, Vector2 position)
     {
-        throw new System.NotImplementedException();
+        damageble.AddDamage(Damage);
+        Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
     }
 
-    public void Idle()
-    {
-        throw new System.NotImplementedException();
-    }
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision) => true;
 }
