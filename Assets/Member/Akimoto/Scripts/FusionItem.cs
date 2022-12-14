@@ -57,6 +57,7 @@ public class FusionItem : MonoBehaviour
         //ê∂ê¨
         Bullet blt = Bullet.Init(_bulletPrefab, _database, _damage);
         blt.transform.position = transform.position;
+        blt.ObjectType = ObjectType.Player;
         blt.Velocity = BulletDirectionOffset(directions, blt) * _database.BulletSpeed;
         Dispose();
     }

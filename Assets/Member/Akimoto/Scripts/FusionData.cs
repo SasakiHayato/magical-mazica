@@ -54,12 +54,14 @@ public class FusionDatabase
     public BulletType UseType => _useType;
     /// <summary>弾の飛ぶ速度</summary>
     public float BulletSpeed => _bulletSpeed;
+    public IFusionBullet FusionBullet => _fusionBullet;
     /// <summary>融合成功可否の判定をする</summary>
     /// <returns>融合成功の可否</returns>
     public bool IsFusionSuccess(RawMaterialID rawMaterialID1, RawMaterialID rawMaterialID2)
     {
         return _fusionUseMaterials.IsFusionSuccess(rawMaterialID1, rawMaterialID2);
     }
+    public FusionDatabase Copy() => (FusionDatabase)MemberwiseClone();
 }
 
 /// <summary>融合に使用する素材を選択するクラス</summary>
