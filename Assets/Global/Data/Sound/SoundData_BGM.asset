@@ -16,10 +16,18 @@ MonoBehaviour:
   _soundType: 0
   _soundDataList:
   - _path: Game
-    _clip: {fileID: 8300000, guid: 0f04fd0e2b7a9a942803e6e85b5eaacb, type: 3}
+    _clip: {fileID: 8300000, guid: 500eb92508ad508468667e816276281f, type: 3}
+    _volume: 0.407
+    _isLoop: 1
+  - _path: Game2
+    _clip: {fileID: 8300000, guid: ead21c4de5f18854bbccefa5d5a7c59d, type: 3}
     _volume: 0.407
     _isLoop: 1
   - _path: Title
     _clip: {fileID: 8300000, guid: 43a0249f0f3d3e4419afc60d9914be14, type: 3}
+    _volume: 0.407
+    _isLoop: 1
+  - _path: Boss
+    _clip: {fileID: 8300000, guid: f2eb22196df07fe44b7a5e450d52d979, type: 3}
     _volume: 0.407
     _isLoop: 1
