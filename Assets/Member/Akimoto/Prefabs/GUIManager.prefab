@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 7686796369996498465}
   - component: {fileID: 3332647483836535798}
   - component: {fileID: 3956447998098157263}
+  - component: {fileID: 6872980931050312711}
   m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
@@ -155,6 +156,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6872980931050312711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453677664193001707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55f2cbaea59056e40aa8840fd27774ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _popupPath: GoalSelect
+  _selectScaleRate: 1.4
+  _sourceDataList:
+  - _source: {fileID: 7138642009813910942}
+  - _source: {fileID: 8212167968912570863}
 --- !u!1 &498927846753287121
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,14 +701,7 @@ MonoBehaviour:
     - {fileID: 4539730955481579461}
     - {fileID: 3895900189474933842}
     - {fileID: 5261919416114856262}
-  _popup:
-    _backgroundImage: {fileID: 3956447998098157263}
-    _mainText: {fileID: 2695177035866438418}
-    _positiveButtonText: {fileID: 984196580088971568}
-    _positiveButton: {fileID: 1899139270776402237}
-    _negativeButtonText: {fileID: 2044002684904122929}
-    _negativeButton: {fileID: 7811639597670019860}
-    _scaleChangeSpeed: 0.5
+  _popupList: []
 --- !u!1 &887420618987247413
 GameObject:
   m_ObjectHideFlags: 0

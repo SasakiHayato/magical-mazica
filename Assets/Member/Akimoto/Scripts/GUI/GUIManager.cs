@@ -13,12 +13,15 @@ public class GUIManager : MonoBehaviour, IGameSetupable
     [SerializeField] CharacterManager _characterManager;
     [SerializeField] RawMaterialData _materialData;
     [SerializeField] PlayerStatusPanel _playerStatusPanel;
-    [SerializeField] Popup _popup;
-    private static Popup _popupInstance;
+    [SerializeField] List<Popup> _popupList;
+    
     int IGameSetupable.Priority => 2;
+
+    static List<Popup> s_popupList;
 
     void Awake()
     {
+        s_popupList = _popupList;
         GameController.Instance.AddGameSetupable(this);
     }
 
@@ -49,22 +52,13 @@ public class GUIManager : MonoBehaviour, IGameSetupable
             .AddTo(_characterManager);
         }
 
-        _popup.Setup(this);
-        _popup.SetActive = false;
-        _popupInstance = _popup;
+        //_popup.Setup(this);
+        //_popup.SetActive = false;
+        //_popupInstance = _popup;
     }
 
-    /// <summary>
-    /// ポップアップの表示
-    /// </summary>
-    /// <param name="value">表示するテキスト</param>
-    /// <param name="positiveEvent">左側のボタンが押された時の処理</param>
-    /// <param name="negativeEvent">右側のボタンが押された時の処理</param>
-    /// <returns></returns>
-    public async UniTask ActivePopup(string value, string positiveTextValue, System.Action positiveEvent, string negativeTextValue, System.Action negativeEvent)
+    public static Popup FindPopup(string path)
     {
-        _popup.SetActive = true;
-        await _popup.Active(value, positiveTextValue, positiveEvent, negativeTextValue, negativeEvent);
-        _popup.SetActive = false;
+        return s_popupList.Find(p => p.Path == path);
     }
 }
