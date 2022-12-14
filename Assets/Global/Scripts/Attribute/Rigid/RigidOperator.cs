@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -50,6 +51,8 @@ public partial class RigidOperator : MonoBehaviour
     /// RigidBody2D.velocity‚Ì“Ç‚ÝŽæ‚è
     /// </summary>
     public Vector2 ReadVelocity => _rb.velocity;
+
+    public bool IsMoveMock => _impulseDataList.Any(i => i.IsMoveLock);
     
     void Awake()
     {

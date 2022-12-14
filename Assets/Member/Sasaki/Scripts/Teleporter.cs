@@ -21,11 +21,11 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && GameController.Instance.UserInput.IsOperateRequest)
+        if (collision.gameObject.CompareTag("Player") && InputSetting.UIInputOperate.IsOperateRequest)
         {
             CameraOperator.CallEvent("SelectTeleport");
-            GameController.Instance.UserInput.SetInput(UserInputManager.InputType.UserInterface);
-            GameController.Instance.UserInput.OperateRequest(this);
+            InputSetting.ChangeInputUser(InputUserType.UI);
+            InputSetting.UIInputOperate.OperateRequest(this);
         }
     }
 
@@ -34,7 +34,6 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
         _id = id;
         _teleportEvent = teleportEvent;
         _getTeleport = getTeleportEvent;
-        Debug.Log(_getTeleport);
     }
 
     void IUIOperateEventable.OnEnableEvent()
@@ -77,6 +76,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
 
     void IUIOperateEventable.CancelEvent()
     {
+        OnSelect = true;
         Dispose();
     }
 
@@ -87,8 +87,8 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
 
     void Dispose()
     {
-        GameController.Instance.UserInput.SetInput(UserInputManager.InputType.Player);
-        GameController.Instance.UserInput.OperateRequest(null);
+        InputSetting.ChangeInputUser(InputUserType.Player);
+        InputSetting.UIInputOperate.OperateRequest(null);
         _point.SetActive(false);
     }
 }

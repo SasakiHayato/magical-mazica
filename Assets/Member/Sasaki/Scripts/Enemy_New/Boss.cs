@@ -34,6 +34,8 @@ public class Boss : EnemyBase
 
     void OnMove()
     {
+        if (GameController.Instance.Player == null) return;
+        
         float speed = Speed;
         float distance = Mathf.Abs(_core.position.x) - Mathf.Abs(GameController.Instance.Player.position.x);
         
@@ -74,12 +76,12 @@ public class Boss : EnemyBase
     {
         if (!collision.CompareTag("Player")) return;
 
-        if (TryGetComponent(out IDamagable damagable))
+        if (collision.TryGetComponent(out IDamagable damagable))
         {
             damagable.AddDamage(1);
         }
 
-        if (TryGetComponent(out IDamageForceble forceble))
+        if (collision.TryGetComponent(out IDamageForceble forceble))
         {
             forceble.OnFoece(_forceDirection);
         }

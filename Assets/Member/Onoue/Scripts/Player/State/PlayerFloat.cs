@@ -12,6 +12,9 @@ public class PlayerFloat : MonoStateBase, IStateExitEventable
     AnimOperator _anim;
     PlayerStateData _playerStateData;
     float _acceleration;
+
+    readonly float LimitAcceleration = 0.75f;
+
     void IStateExitEventable.ExitEvent()
     {
         _playerStateData.Rigid.MaxAcceleration = _acceleration;
@@ -21,7 +24,7 @@ public class PlayerFloat : MonoStateBase, IStateExitEventable
     {
         _anim.OnPlay("Fall");
         _acceleration = _playerStateData.Rigid.MaxAcceleration;
-        _playerStateData.Rigid.MaxAcceleration = 1;
+        _playerStateData.Rigid.MaxAcceleration = LimitAcceleration;
         _playerStateData.Rigid.SetMoveDirection = Vector2.zero;
     }
     //Update

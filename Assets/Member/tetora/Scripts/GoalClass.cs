@@ -1,25 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GoalClass : MonoBehaviour, IUIOperateEventable
 {
     int _currentSelectID;
 
+    Popup _popup;
+
     readonly int MaxSelectID = 2;
+    readonly int AttributeID = 0;
+    readonly string PopupPath = "SelectGoal";
+
+    void Start()
+    {
+        _popup = GUIManager.FindPopup(PopupPath);
+    }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && GameController.Instance.UserInput.IsOperateRequest)
+        if (collision.gameObject.CompareTag("Player") && InputSetting.UIInputOperate.IsOperateRequest)
         {
-            GameController.Instance.UserInput.SetInput(UserInputManager.InputType.UserInterface);
-            GameController.Instance.UserInput.OperateRequest(this);
+            InputSetting.ChangeInputUser(InputUserType.UI);
+            InputSetting.UIInputOperate.OperateRequest(this);
         }
     }
 
     void IUIOperateEventable.OnEnableEvent()
     {
         _currentSelectID = 0;
+        _popup.OnView();
     }
 
     void IUIOperateEventable.Select(ref int horizontal, ref int vertical)
@@ -36,17 +44,19 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
             _currentSelectID = MaxSelectID - 1;
         }
 
-        Debug.Log($"OnNext => {_currentSelectID == 1} ID {_currentSelectID}");
-
+        _popup.OnSelect(_currentSelectID);
+        
         horizontal = _currentSelectID;
     }
 
     bool IUIOperateEventable.SubmitEvent()
     {
-        if (_currentSelectID == 1)
+        _popup.OnSubmit();
+
+        if (_currentSelectID == AttributeID)
         {
             // ‰¼‚ÌŠK‘w
-            if (GameController.Instance.CurrentMapHierarchy > 2)
+            if (GameController.Instance.CurrentMapHierarchy > GameController.Instance.MaxMapHierarchy)
             {
                 SceneViewer.SceneLoad(SceneViewer.SceneType.Boss);
             }
@@ -62,13 +72,19 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     void IUIOperateEventable.CancelEvent()
     {
-        GameController.Instance.UserInput.SetInput(UserInputManager.InputType.Player);
-        GameController.Instance.UserInput.OperateRequest(this);
+        Dispose();
     }
 
     void IUIOperateEventable.DisposeEvent()
     {
-        GameController.Instance.UserInput.SetInput(UserInputManager.InputType.Player);
-        GameController.Instance.UserInput.OperateRequest(null);
+        Dispose();
+    }
+
+    void Dispose()
+    {
+        _popup.OnCancel();
+        _currentSelectID = 0;
+        InputSetting.ChangeInputUser(InputUserType.Player);
+        InputSetting.UIInputOperate.OperateRequest(null);
     }
 }
