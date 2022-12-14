@@ -106,6 +106,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Attack()
     {
+        _playerStateData.SetAttckType = PlayerStateData.AttackType.Default;
         _stateMachine.ChangeState(PlayerState.Attack);
     }
     /// <summary>
@@ -113,7 +114,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Fire()
     {
-        _animOperator.OnPlay("Mazic");
+        _playerStateData.SetAttckType = PlayerStateData.AttackType.Mazic;
+        _stateMachine.ChangeState(PlayerState.Attack);
         Fusion();
         _fusionItem.Attack(new Vector2(transform.localScale.x,0));
     }
@@ -128,8 +130,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Jump()
     {
-        _animOperator.OnPlay("Jump");
-
         if (_playerStateData.Jump.CurrentJumpCount >= 0)
         {
             _stateMachine.ChangeState(PlayerState.Jump);

@@ -4,6 +4,12 @@ using MonoState.Data;
 [System.Serializable]
 public class PlayerStateData : IMonoDatableSystem<PlayerStateData>
 {
+    public enum AttackType
+    {
+        Default,
+        Mazic,
+    }
+
     PlayerStateData IMonoDatableSystem<PlayerStateData>.GetData => this;
     string IMonoDatable.Path => nameof(PlayerStateData);
 
@@ -45,7 +51,9 @@ public class PlayerStateData : IMonoDatableSystem<PlayerStateData>
     [SerializeField] JumpData _jumpData;
     [SerializeField] RigidOperator _rigidOperator;
     [SerializeField] GameObject _attackCollider;
+    
     Vector2 _moveDirection = Vector2.zero;
+    AttackType _attackType = AttackType.Default;
 
     public JumpData Jump => _jumpData;
     public RigidOperator Rigid => _rigidOperator;
@@ -53,4 +61,6 @@ public class PlayerStateData : IMonoDatableSystem<PlayerStateData>
     public GameObject AttackCollider { get => _attackCollider; set => _attackCollider = value; }
     public Vector2 ReadMoveDirection => _moveDirection.normalized;
     public Vector2 SetMoveDirection { set { _moveDirection = value; } }
+    public AttackType ReadAttackType => _attackType;
+    public AttackType SetAttckType { set { _attackType = value; } }
 }

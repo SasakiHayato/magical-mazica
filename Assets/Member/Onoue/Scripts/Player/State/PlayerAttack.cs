@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 using MonoState.State;
 using MonoState.Data;
@@ -9,8 +7,21 @@ public class PlayerAttack : MonoStateBase
 {
     AnimOperator _anim;
     PlayerStateData _stateData;
+
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
+    {
+        if (_stateData.ReadAttackType == PlayerStateData.AttackType.Default)
+        {
+            DefaultAttack();
+        }
+        else
+        {
+            _anim.OnPlay("Mazic");
+        }
+    }
+
+    void DefaultAttack()
     {
         AnimOperator.AnimEvent anim = new AnimOperator.AnimEvent
         {
@@ -30,10 +41,11 @@ public class PlayerAttack : MonoStateBase
 
         _anim.OnPlay("Attack", list);
     }
+
     //Update
     public override void OnExecute()
     {
-
+        
     }
     //ğŒ•ªŠò
     public override Enum OnExit()
@@ -51,7 +63,6 @@ public class PlayerAttack : MonoStateBase
     {
         _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
         _stateData = data.GetMonoData<PlayerStateData>(nameof(PlayerStateData));
-
     }
 }
 
