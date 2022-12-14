@@ -21,9 +21,13 @@ public class BulletTest : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            int i = 0;
-            //Bullet bullet = Bullet.Init(_bullet, _futionData.GetFusionData(RawMaterialID.BombBean, RawMaterialID.PowerPlant, ref i), i);
-            //bullet.
+            _fusionItem.Fusion(RawMaterialID.BombBean, RawMaterialID.PowerPlant);
+            _fusionItem.Attack(Vector2.right);
+        }
+        if (Input.GetButtonDown("Fire2"))
+        {
+            _fusionItem.Fusion(RawMaterialID.BombBean, RawMaterialID.BombBean);
+            _fusionItem.Attack(Vector2.right);
         }
     }
 }

@@ -43,7 +43,7 @@ public class Blast : MonoBehaviour
             {
                 obj.AddDamage(_damage);
 
-                if (TryGetComponent(out IDamageForceble forceble))
+                if (collision.TryGetComponent(out IDamageForceble forceble))
                 {
                     // ‰¼
                     forceble.OnFoece(Vector2.zero);

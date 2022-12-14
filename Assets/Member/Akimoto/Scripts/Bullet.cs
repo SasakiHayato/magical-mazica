@@ -43,7 +43,13 @@ public class Bullet : MonoBehaviour
                 break;
         }
         this.UpdateAsObservable()
-            .Subscribe(_ => Database.FusionBullet.Idle())
+            .Subscribe(_ =>
+            {
+                if (Database != null && Database.FusionBullet != null)
+                {
+                    Database.FusionBullet.Idle();
+                }
+            })
             .AddTo(this);
     }
 
@@ -69,24 +75,55 @@ public class Bullet : MonoBehaviour
         return ret;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.TryGetComponent(out IDamagable damagable))
+    //    {
+    //        if (damagable.ObjectType != ObjectType)
+    //        {
+    //            Database.FusionBullet.Hit(damagable, transform.position);
+    //            //damagable.AddDamage(_damage);
+
+    //            if (collision.TryGetComponent(out IDamageForceble forceble))
+    //            {
+    //                // ‰¼
+    //                forceble.OnFoece(Vector2.zero);
+    //            }
+
+    //            if (Database.FusionBullet.IsDestroy(collision))
+    //            {
+    //                Database.FusionBullet.Dispose();
+    //                Destroy(gameObject);
+    //            }
+    //        }
+    //    }
+    //}
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.TryGetComponent(out IDamagable damagable))
+        if (collision.collider.TryGetComponent(out IDamagable damagable))
         {
             if (damagable.ObjectType != ObjectType)
             {
-                Database.FusionBullet.Hit(damagable, transform.position);
+                if (Database != null && Database.FusionBullet != null)
+                {
+                    Database.FusionBullet.Hit(damagable, transform.position);
+                }
+                
                 //damagable.AddDamage(_damage);
 
-                if (TryGetComponent(out IDamageForceble forceble))
+                if (collision.collider.TryGetComponent(out IDamageForceble forceble))
                 {
                     // ‰¼
                     forceble.OnFoece(Vector2.zero);
                 }
 
-                if (Database.FusionBullet.IsDestroy(collision))
+                if (Database.FusionBullet.IsDestroy(collision.collider))
                 {
-                    Database.FusionBullet.Dispose();
+                    if (Database != null && Database.FusionBullet != null)
+                    {
+                        Database.FusionBullet.Dispose();
+                    }
                     Destroy(gameObject);
                 }
             }

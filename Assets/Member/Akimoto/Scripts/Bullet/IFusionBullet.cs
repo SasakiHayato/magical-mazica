@@ -45,10 +45,7 @@ public class BlastPower : IFusionBullet
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
 
-    public void Idle()
-    {
-
-    }
+    public void Idle() { }
 
     public void Hit(IDamagable damageble, Vector2 position)
     {
@@ -56,15 +53,9 @@ public class BlastPower : IFusionBullet
         Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
     }
 
-    public void Dispose()
-    {
+    public void Dispose() { }
 
-    }
-
-    public bool IsDestroy(Collider2D collision)
-    {
-        return true;
-    }
+    public bool IsDestroy(Collider2D collision) => true;
 }
 
 /// <summary>
@@ -72,26 +63,21 @@ public class BlastPower : IFusionBullet
 /// </summary>
 public class BlastBlast : IFusionBullet
 {
-    public int Damage { set => throw new System.NotImplementedException(); }
-    public ObjectType ObjectType { set => throw new System.NotImplementedException(); }
+    [SerializeField] Blast _blastPrefab;
+    [SerializeField] float _blastRange;
+    [SerializeField] float _blastDuraion;
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
 
-    public void Dispose()
-    {
-        throw new System.NotImplementedException();
-    }
+    public void Dispose() { }
 
     public void Hit(IDamagable damageble, Vector2 position)
     {
-        throw new System.NotImplementedException();
+        damageble.AddDamage(Damage);
+        Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
     }
 
-    public void Idle()
-    {
-        throw new System.NotImplementedException();
-    }
+    public void Idle() { }
 
-    public bool IsDestroy(Collider2D collision)
-    {
-        throw new System.NotImplementedException();
-    }
+    public bool IsDestroy(Collider2D collision) => true;
 }

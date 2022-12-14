@@ -30,7 +30,7 @@ MonoBehaviour:
     _fusionUseMaterials:
       _materialData1: 0
       _materialData2: 1
-    _useType: 0
+    _useType: 1
     _bulletSpeed: 4
     _fusionBullet:
       rid: 7803519092801142784
@@ -122,8 +122,12 @@ MonoBehaviour:
     - rid: 7803519092801142784
       type: {class: BlastPower, ns: , asm: Assembly-CSharp}
       data:
-        _blastPrefab: {fileID: 0}
-        _blastRange: 0
-        _blastDuraion: 0
+        _blastPrefab: {fileID: 6171674707284503135, guid: 76b1ed0c81947e74c96eeb9b08b1e1bf, type: 3}
+        _blastRange: 2
+        _blastDuraion: 0.2
     - rid: 7803519092801142785
       type: {class: BlastBlast, ns: , asm: Assembly-CSharp}
+      data:
+        _blastPrefab: {fileID: 6171674707284503135, guid: 76b1ed0c81947e74c96eeb9b08b1e1bf, type: 3}
+        _blastRange: 5
+        _blastDuraion: 0.2
