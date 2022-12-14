@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace SoundSystem
@@ -41,6 +42,13 @@ namespace SoundSystem
         public VolumeType VolumeType => _volumeType;
         public SoundType SoundType => _soundType;
         public SoundData GetSoundData(string path) => _soundDataList.Find(s => s.Path == path);
+        public SoundData GetSoundDataRandom(string containPath)
+        {
+            var list = _soundDataList.Where(s => s.Path.Contains(containPath)).ToList();
+            int id = Random.Range(0, list.Count());
+
+            return list[id];
+        }
     }
 
 }

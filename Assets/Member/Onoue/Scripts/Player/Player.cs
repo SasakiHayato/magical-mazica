@@ -5,6 +5,9 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using MonoState;
 using MonoState.Data;
+using static SoundSystem.SoundType;
+
+
 public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatableUni<Player>, IDamageForceble
 {
     public enum PlayerState
@@ -232,10 +235,17 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         }
         _isHit = true;
         _hp.Value -= damage;
+
         if (_hp.Value <= 0 && !_isDebug)
         {
+            SoundManager.PlayRequest(SEPlayer, "Dead");
+
             Destroy(gameObject);
             SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
+        }
+        else
+        {
+            SoundManager.PlayRequestRandom(SEPlayer, "Damage");
         }
     }
 

@@ -11,6 +11,8 @@ public class PlayerAttack : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
+        SoundManager.PlayRequestRandom(SoundSystem.SoundType.SEPlayer, "Attack");
+
         if (_stateData.ReadAttackType == PlayerStateData.AttackType.Default)
         {
             DefaultAttack();

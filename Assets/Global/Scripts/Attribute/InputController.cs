@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerInputController : MonoBehaviour
+public class InputController : MonoBehaviour
 {
     int _selectX = 0;
     int _selectY = 0;
@@ -10,6 +10,7 @@ public class PlayerInputController : MonoBehaviour
     Player _player;
 
     InputSetting _inputSetting;
+
     private void Awake()
     {
         TryGetComponent(out _player);
