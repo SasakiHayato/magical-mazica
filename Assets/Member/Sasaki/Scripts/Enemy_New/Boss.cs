@@ -74,12 +74,12 @@ public class Boss : EnemyBase
     {
         if (!collision.CompareTag("Player")) return;
 
-        if (TryGetComponent(out IDamagable damagable))
+        if (collision.TryGetComponent(out IDamagable damagable))
         {
             damagable.AddDamage(1);
         }
 
-        if (TryGetComponent(out IDamageForceble forceble))
+        if (collision.TryGetComponent(out IDamageForceble forceble))
         {
             forceble.OnFoece(_forceDirection);
         }

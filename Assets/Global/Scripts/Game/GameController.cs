@@ -115,6 +115,8 @@ public class GameController
 
     public Transform Player { get; set; }
 
+    public readonly int MaxMapHierarchy = 2;
+
     public void AddGameSetupable(IGameSetupable setup)
     {
         _setupList.Add(setup);

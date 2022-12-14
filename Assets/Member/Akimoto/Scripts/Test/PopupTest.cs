@@ -11,11 +11,11 @@ public class PopupTest : MonoBehaviour
 
     private async void Start()
     {
-        await UniTask.Delay(System.TimeSpan.FromSeconds(2));
-        Debug.Log("Popup表示");
-        await _guimanager.ActivePopup("テスト", "はい", () => Debug.Log("はい"), "いいえ", () => Debug.Log("いいえ"));
-        Debug.Log("表示終わり");
-        await _guimanager.ActivePopup("テスト", "はい", () => Debug.Log("はい"), "いいえ", () => Debug.Log("いいえ"));
-        Debug.Log("二度目の表示終わり");
+        //await UniTask.Delay(System.TimeSpan.FromSeconds(2));
+        //Debug.Log("Popup表示");
+        //await _guimanager.ActivePopup("テスト", "はい", () => Debug.Log("はい"), "いいえ", () => Debug.Log("いいえ"));
+        //Debug.Log("表示終わり");
+        //await _guimanager.ActivePopup("テスト", "はい", () => Debug.Log("はい"), "いいえ", () => Debug.Log("いいえ"));
+        //Debug.Log("二度目の表示終わり");
     }
 }

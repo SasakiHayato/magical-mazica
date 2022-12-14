@@ -271,7 +271,7 @@ MonoBehaviour:
   _freezeRotation: 1
   _useInertia: 0
   _mass: 1
-  _maxAcceleration: 1
+  _maxAcceleration: 3
   _fieldTouch: {fileID: 7637927183145572976}
 --- !u!1 &3300232714667496804
 GameObject:

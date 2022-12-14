@@ -1,123 +1,80 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UniRx;
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
 
-namespace UIManagement
+public class Popup : MonoBehaviour
 {
     [System.Serializable]
-    public class Popup
+    class SourceData
     {
-        [SerializeField] Image _backgroundImage;
-        [SerializeField] Text _mainText;
-        [SerializeField] Text _positiveButtonText;
-        [SerializeField] Button _positiveButton;
-        [SerializeField] Text _negativeButtonText;
-        [SerializeField] Button _negativeButton;
-        [SerializeField] float _scaleChangeSpeed;
-        /// <summary>初期スケール</summary>
-        private Vector2 _defScale;
-        private System.Action _positiveEvent;
-        private System.Action _negativeEvent;
-        /// <summary>クリック待機フラグ</summary>
-        private bool _isWaitClick;
-        /// <summary>選択可能グラグ</summary>
-        private bool _selectable;
-        /// <summary>Popupの表示非表示</summary>
-        public bool SetActive { set => _backgroundImage.gameObject.SetActive(value); }
+        [SerializeField] Image _source;
 
-        public void Setup(Component component)
+        Vector2 _offsetScale;
+
+        public int ID { get; private set; }
+
+        public void Setup(int id)
         {
-            //各ボタンの設定
-            _positiveButton.OnClickAsObservable()
-                .Where(x => _selectable)
-                .Subscribe(_ =>
-                {
-                    _selectable = false;
-                    _positiveEvent();
-                    _isWaitClick = false;
-                    _selectable = true;
-                })
-                .AddTo(component);
-            _negativeButton.OnClickAsObservable()
-                .Where(x => _selectable)
-                .Subscribe(_ =>
-                {
-                    _selectable = false;
-                    _negativeEvent();
-                    _isWaitClick = false;
-                    _selectable = true;
-                })
-                .AddTo(component);
-
-            _defScale = _backgroundImage.transform.localScale;
-            _backgroundImage.rectTransform.localScale = Vector2.zero;
-            Disable().Forget();
+            ID = id;
+            _offsetScale = _source.transform.localScale;
         }
 
-        /// <summary>
-        /// ポップアップの表示
-        /// </summary>
-        public async UniTask Active(string value, string positiveTextValue, System.Action positiveEvent, string negativeTextValue, System.Action negativeEvent)
+        public void View(float scaleRate)
         {
-            _mainText.text = value;
-            _positiveButtonText.text = positiveTextValue;
-            _positiveEvent = positiveEvent;
-            _negativeButtonText.text = negativeTextValue;
-            _negativeEvent = negativeEvent;
-            await _backgroundImage.transform.DOScale(_defScale, _scaleChangeSpeed);
-            _isWaitClick = true;
-            await UniTask.WaitUntil(() => !_isWaitClick); //選択されるまで待つ
-            await Disable();
+            _source.transform.localScale = _offsetScale * scaleRate;
         }
 
-        /// <summary>
-        /// ポップアップ非表示
-        /// </summary>
-        /// <returns></returns>
-        private async UniTask Disable()
+        public void Initalize()
         {
-            await _backgroundImage.transform.DOScale(Vector2.zero, _scaleChangeSpeed);
-        }
-
-        public void GetSelectObservable(System.IObservable<int> observable, Component component)
-        {
-            observable
-                .Subscribe(i => SelectButton((PopupSelectID)i))
-                .AddTo(component);
-        }
-
-        public void GetSelectObservable(System.IObservable<PopupSelectID> observable, Component component)
-        {
-            observable
-                .Subscribe(id => SelectButton(id))
-                .AddTo(component);
-        }
-
-        private void SelectButton(PopupSelectID value)
-        {
-            switch (value)
-            {
-                case PopupSelectID.Negative:
-                    _negativeButton.interactable = true;
-                    _positiveButton.interactable = false;
-                    break;
-                case PopupSelectID.Positive:
-                    _positiveButton.interactable = true;
-                    _negativeButton.interactable = false;
-                    break;
-                default:
-                    break;
-            }
+            _source.transform.localScale = _offsetScale;
         }
     }
-}
 
-public enum PopupSelectID
-{
-    Negative,
-    Positive,
+    [SerializeField] string _popupPath;
+    [SerializeField] float _selectScaleRate;
+    [SerializeField] List<SourceData> _sourceDataList; 
+    
+    CanvasGroup _canvasGroup;
+
+    public string Path => _popupPath;
+
+    void Start()
+    {
+        _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        
+        int id = 0;
+        _sourceDataList.ForEach(s => 
+        {
+            s.Setup(id);
+            id++;
+        });
+
+        OnCancel();
+    }
+
+    public void OnView()
+    {
+        _canvasGroup.alpha = 1;
+    }
+
+    public void OnSelect(int id)
+    {
+        foreach (SourceData data in _sourceDataList)
+        {
+            float scale = data.ID == id ? _selectScaleRate : 1;
+            data.View(scale);
+        }
+    }
+
+    public void OnSubmit()
+    {
+
+    }
+
+    public void OnCancel()
+    {
+        _sourceDataList.ForEach(s => s.Initalize());
+
+        _canvasGroup.alpha = 0;
+    }
 }
