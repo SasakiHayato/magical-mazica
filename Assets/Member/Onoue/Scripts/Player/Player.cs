@@ -18,6 +18,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         IsStick,
         KnockBack,
     }
+    [SerializeField] bool _isDebug;
     [SerializeField] int _maxHP;
     [SerializeField] float _speed;
     [SerializeField] int _damage = 5;
@@ -197,6 +198,16 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     private void Update()
     {
         //Debug.Log(_stateMachine.CurrentKey);
+        //–³“G
+        if (_isHit)
+        {
+            _timer += Time.deltaTime;
+            if (_timer > _invincibleTime)
+            {
+                _isHit = false;
+                _timer = 0;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -212,16 +223,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
-        //–³“G
-        if (_isHit)
-        {
-            _timer += Time.deltaTime;
-            if (_timer > _invincibleTime)
-            {
-                _isHit = false;
-                _timer = 0;
-            }
-        }
     }
     void IDamagable.AddDamage(int damage)
     {
@@ -231,10 +232,10 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         }
         _isHit = true;
         _hp.Value -= damage;
-        if (_hp.Value <= 0)
+        if (_hp.Value <= 0 && !_isDebug)
         {
-            // ‰¼
-            //SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
+            Destroy(gameObject);
+            SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
         }
     }
 

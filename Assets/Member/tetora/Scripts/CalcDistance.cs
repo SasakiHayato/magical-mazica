@@ -26,6 +26,8 @@ public class CalcDistance : MonoBehaviour
     /// </summary>
     void CheckCreate()
     {
+        if (_player == null) return;
+
         if (_player.transform.position.x - transform.position.x < _checkDis)
         {
             _createCount++;
@@ -50,7 +52,7 @@ public class CalcDistance : MonoBehaviour
     /// </summary>
     void GetPlayer()
     {
-        _player = FindObjectOfType<Player>().gameObject;
+        _player = GameController.Instance.Player.gameObject;
         _preTransform = _player.transform;
     }
     /// <summary>
