@@ -15,6 +15,8 @@ public class ShotBullet : IBossAttackTask
 
     void IBossAttackTask.Execute()
     {
+        if (GameController.Instance.Player == null) return;
+
         Vector2 direction = GameController.Instance.Player.position - _muzzle.position;
         Bullet bullet = Bullet.Init(_bulletPrefab, _source, BulletType.Strike, 1);
         bullet.ObjectType = ObjectType.Enemy;
