@@ -79,6 +79,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         //Slider‚Ì‰Šú‰»
         _slider.maxValue = _maxHp;
         _slider.value = _maxHp;
+        _currentHp.Value = _maxHp;
         _currentHp.Subscribe(i => _slider.value = i).AddTo(this);
 
         _beforePosition = transform.position;

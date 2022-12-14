@@ -78,6 +78,7 @@ public class SceneViewer : MonoBehaviour
 
     public static void SceneLoad(SceneType sceneType)
     {
+        SoundManager.StopBGM();
         Instance.OnWaitUnLoad(sceneType).Forget();
     }
 
