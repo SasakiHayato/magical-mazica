@@ -97,6 +97,11 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         Execute();
     }
 
+    void OnDestroy()
+    {
+        GameController.Instance.RemoveFieldObjectDatable(this);
+    }
+
     protected abstract void Setup();
     protected abstract void Execute();
     protected abstract bool IsDamage(int damage);
