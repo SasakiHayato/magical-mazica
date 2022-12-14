@@ -13,7 +13,7 @@ public class PlayerFloat : MonoStateBase, IStateExitEventable
     PlayerStateData _playerStateData;
     float _acceleration;
 
-    readonly float LimitAcceleration = 0.75f;
+    readonly float LimitAcceleration = 0.5f;
 
     void IStateExitEventable.ExitEvent()
     {

@@ -582,6 +582,10 @@ PrefabInstance:
       value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 4445758808677633344, guid: 2e0aa8010848d6442a957c0709cc664b, type: 3}
+      propertyPath: _sceneType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445758808677633344, guid: 2e0aa8010848d6442a957c0709cc664b, type: 3}
       propertyPath: _fadeManager
       value: 
       objectReference: {fileID: 1569973227}

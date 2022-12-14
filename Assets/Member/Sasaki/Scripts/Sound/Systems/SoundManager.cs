@@ -63,6 +63,35 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public static void PlayRequestRandom(SoundType type, string containPath)
+    {
+        if (Instance == null) return;
+
+        SoundDataAsset asset = Instance._soundDataAssetList.Find(s => s.SoundType == type);
+        SoundDataAsset.SoundData data = asset.GetSoundDataRandom(containPath);
+
+        if (data == null)
+        {
+            Debug.Log("サウンドデータが存在しません");
+            return;
+        }
+
+        Sounder sounder = Instance._pool.UseRequest(out System.Action action);
+        action += () => sounder.SetData(data, asset.VolumeType);
+
+        action.Invoke();
+
+        if (type == SoundType.BGM)
+        {
+            if (Instance._bgmSounder != null)
+            {
+                StopBGM();
+            }
+
+            Instance._bgmSounder = sounder;
+        }
+    }
+
     public static void StopBGM()
     {
         Instance._bgmSounder.OnStop();
