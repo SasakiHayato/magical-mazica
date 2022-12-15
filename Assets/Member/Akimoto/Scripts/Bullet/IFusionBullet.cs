@@ -32,6 +32,10 @@ public interface IFusionBullet
     /// ’N‚©‚çŒ‚‚½‚ê‚½’e‚©
     /// </summary>
     public ObjectType ObjectType { set; }
+    /// <summary>
+    /// “G‚Æ‚ÌÚG‰ñ”
+    /// </summary>
+    public int HitCount { get; set; }
 }
 
 /// <summary>
@@ -45,6 +49,7 @@ public class BlastPower : IFusionBullet
     [SerializeField] float _blastDuraion;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
+    public int HitCount { get; set; }
 
     public void Idle() { }
 
@@ -70,6 +75,7 @@ public class BlastBlast : IFusionBullet
     [SerializeField] float _blastDuraion;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
+    public int HitCount { get; set; }
 
     public void Dispose() { }
 
@@ -94,9 +100,10 @@ public class BlastPenetration : IFusionBullet
     [SerializeField] float _blastDuraion;
     [SerializeField] int _destroyHitNum;
     /// <summary>“G‚ÆÚG‚µ‚½‰ñ”</summary>
-    //[SerializeField] int _hitCount;
+    [SerializeField] int _hitCount;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
+    public int HitCount { get => _hitCount; set => _hitCount = value; }
 
     public void Dispose() { }
 
@@ -113,15 +120,15 @@ public class BlastPenetration : IFusionBullet
         return true;
         //if (collision.TryGetComponent(out IDamagable damageble) && damageble.ObjectType == ObjectType.Enemy)
         //{
-        //    Debug.Log($"ÚG‰ñ”:{_hitCount} İ’è‰ñ”:{_destroyHitNum}");
-        //    if (_hitCount >= _destroyHitNum)
+        //    Debug.Log($"ÚG‰ñ”:{HitCount} İ’è‰ñ”:{_destroyHitNum}");
+        //    if (HitCount >= _destroyHitNum)
         //    {
         //        Debug.Log("HitCount‚ªãŒÀ‚É’B‚µ‚½");
         //        return true;
         //    }
         //    else
         //    {
-        //        _hitCount++;
+        //        //HitCount++;
         //        return false;
         //    }
         //}
