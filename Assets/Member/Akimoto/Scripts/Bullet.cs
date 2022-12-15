@@ -84,9 +84,10 @@ public class Bullet : MonoBehaviour
                 if (Database != null && Database.FusionBullet != null)
                 {
                     Database.FusionBullet.Hit(damagable, transform.position);
+                    Database.FusionBullet.HitCount += 1;
                 }
 
-                //damagable.AddDamage(_damage);
+                damagable.AddDamage(_damage);
 
                 if (collision.TryGetComponent(out IDamageForceble forceble))
                 {
