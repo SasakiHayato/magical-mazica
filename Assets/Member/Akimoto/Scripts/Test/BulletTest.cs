@@ -19,12 +19,12 @@ public class BulletTest : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("RightTrigger_2"))
         {
-            _fusionItem.Fusion(RawMaterialID.BombBean, RawMaterialID.PowerPlant);
+            _fusionItem.Fusion(RawMaterialID.BombBean, RawMaterialID.Penetration);
             _fusionItem.Attack(Vector2.right);
         }
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("RightTrigger_1"))
         {
             _fusionItem.Fusion(RawMaterialID.BombBean, RawMaterialID.BombBean);
             _fusionItem.Attack(Vector2.right);
