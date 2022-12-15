@@ -41,9 +41,9 @@ MonoBehaviour:
       _materialData1: 0
       _materialData2: 2
     _useType: 1
-    _bulletSpeed: 5
+    _bulletSpeed: 10
     _fusionBullet:
-      rid: -2
+      rid: 7803519140656316416
   - _name: "\u30DD\u30A4\u30BA\u30F3\u30DC\u30E0"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
@@ -131,3 +131,11 @@ MonoBehaviour:
         _blastPrefab: {fileID: 6171674707284503135, guid: 76b1ed0c81947e74c96eeb9b08b1e1bf, type: 3}
         _blastRange: 5
         _blastDuraion: 0.2
+    - rid: 7803519140656316416
+      type: {class: BlastPenetration, ns: , asm: Assembly-CSharp}
+      data:
+        _blastPrefab: {fileID: 6171674707284503135, guid: 76b1ed0c81947e74c96eeb9b08b1e1bf, type: 3}
+        _blastRange: 2
+        _blastDuraion: 0.2
+        _destroyHitNum: 2
+        _hitCount: 0

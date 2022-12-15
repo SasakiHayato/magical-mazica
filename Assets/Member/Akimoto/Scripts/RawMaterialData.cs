@@ -73,9 +73,9 @@ public enum RawMaterialID
 {
     /// <summary>null</summary>
     Empty = -1,   
-    /// <summary>爆裂豆</summary>
+    /// <summary>爆発</summary>
     BombBean,
-    /// <summary>パワープラント</summary>
+    /// <summary>火力</summary>
     PowerPlant,
     /// <summary>貫通</summary>
     Penetration,
