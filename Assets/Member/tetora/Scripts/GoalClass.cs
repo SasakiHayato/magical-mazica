@@ -55,15 +55,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
         if (_currentSelectID == AttributeID)
         {
-            if (GameController.Instance.CurrentMapHierarchy >= GameController.Instance.MaxMapHierarchy)
-            {
-                SceneViewer.SceneLoad(SceneViewer.SceneType.Boss);
-            }
-            else
-            {
-                GameController.Instance.AddMapHierarchy();
-                SceneViewer.Initalize();
-            }
+            GameController.Instance.SetNextMap();
         }
 
         return true;

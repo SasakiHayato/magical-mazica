@@ -111,7 +111,7 @@ public class GameController
 
     FieldObjectData _fieldObjectData = new FieldObjectData();
 
-    public int CurrentMapHierarchy { get; private set; } = 1;
+    int _currentMapHierarchy = 1;
 
     public Transform Player { get; set; }
 
@@ -142,11 +142,6 @@ public class GameController
         return _fieldObjectData.GetObjectData(objectType);
     }
 
-    public void AddMapHierarchy()
-    {
-        CurrentMapHierarchy++;
-    }
-
     /// <summary>
     /// ÉQÅ[ÉÄç\ë¢ÇÃóßÇøè„Ç∞
     /// </summary>
@@ -161,6 +156,19 @@ public class GameController
     public void Dispose()
     {
         _disposeList.ForEach(d => d.GameDispose());
+    }
+
+    public void SetNextMap()
+    {
+        if (_currentMapHierarchy >= MaxMapHierarchy)
+        {
+            SceneViewer.SceneLoad(SceneViewer.SceneType.Boss);
+        }
+        else
+        {
+            _currentMapHierarchy++;
+            SceneViewer.Initalize();
+        }
     }
 
     /// <summary>
