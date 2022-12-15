@@ -48,6 +48,7 @@ public class CreateMap : MapCreaterBase
 
     protected override void Initalize()
     {
+        ResetMapFlag();
         if (_parentObj != null)
         {
             foreach (Transform item in _parentObj.transform)//transformをforeachで回すと子オブジェクトが取ってこれる
@@ -335,6 +336,16 @@ public class CreateMap : MapCreaterBase
         points[rnd].State = MapState.Teleport;
         return points[rnd].ObjTransform;
     }
+    void ResetMapFlag()
+    {
+        foreach (var item in _stageMap)
+        {
+            if (item.State == MapState.Enemy)
+            {
+                item.IsGenerate = true;
+            }
+        }
+    }
     void GetTeleportData(int id)
     {
         Transform transform = _teleporterController.GetData(id);
@@ -377,7 +388,6 @@ public class CreateMap : MapCreaterBase
         enemyObj.transform.position = _enemyDic[id].Position;
         ChangeFlag(id);
     }
-
     IEnumerator CreateEnemyCoroutine(int id) //倒されたときにそこの場所だけカウントダウン開始
     {
         yield return new WaitForSeconds(_createEnemyTime);
