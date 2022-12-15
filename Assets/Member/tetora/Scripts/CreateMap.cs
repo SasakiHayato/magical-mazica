@@ -61,6 +61,7 @@ public class CreateMap : MapCreaterBase
     {
         _stageMap = new StageMap(_scriptableObject.MapHorSide, _scriptableObject.MapVerSide);
         _enemies = new GameObject[_scriptableObject.EnemyObject.Count];
+        _enemyDic = new Dictionary<int, EnemyTransform>();
         for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
             _enemies[i] = _scriptableObject.EnemyObject[i].gameObject;
@@ -68,6 +69,7 @@ public class CreateMap : MapCreaterBase
         _teleporterController = new TeleporterController();
         //壁オブジェクトのScaleSizeを入れる
         _wallObjSize = _wallObj.transform.localScale.x;
+        ResetMapFlag();
         StartDig();
         DecisionPlayerPos();
         SetGoalPos();
@@ -185,9 +187,11 @@ public class CreateMap : MapCreaterBase
     {
         for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
+            Debug.Log($"Couunt:{_scriptableObject.EnemyObject.Count}");
             GameObject enemy = Instantiate(_enemies[i]);
-            var enebase = enemy.GetComponent<EnemyBase>();
+            var enebase = enemy.GetComponent<Enemy>();
             enebase.ID = i;
+            Debug.Log($"EnemyInfo:ID{enebase.ID},{enemy}");
             _enemyDic.Add(enebase.ID, new EnemyTransform(enemy));
             _enemyDic[enebase.ID].IsCreate = false;
             DebugSetEnemyObject.SetEnemy(enemy.transform);
@@ -335,6 +339,13 @@ public class CreateMap : MapCreaterBase
         points[rnd].State = MapState.Teleport;
         return points[rnd].ObjTransform;
     }
+    void ResetMapFlag()
+    {
+        foreach (var item in _stageMap)
+        {
+            item.IsGenerate = true;
+        }
+    }
     void GetTeleportData(int id)
     {
         Transform transform = _teleporterController.GetData(id);
@@ -377,7 +388,6 @@ public class CreateMap : MapCreaterBase
         enemyObj.transform.position = _enemyDic[id].Position;
         ChangeFlag(id);
     }
-
     IEnumerator CreateEnemyCoroutine(int id) //倒されたときにそこの場所だけカウントダウン開始
     {
         yield return new WaitForSeconds(_createEnemyTime);
