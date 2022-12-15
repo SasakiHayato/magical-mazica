@@ -36,7 +36,7 @@ public class DemoShooting2D : MonoBehaviour
     void Update()
     {
         //Single shoot
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("RightTrigger_2"))
         {
             Instantiate(Prefabs[Prefab], FirePoint.transform.position, FirePoint.transform.rotation);
         }

@@ -3,7 +3,6 @@ using ObjectPool;
 using ObjectPool.Event;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System;
 
 public interface IEffectExecutable
@@ -26,27 +25,44 @@ public interface IEffectExecutable
 
 public class Effect : MonoBehaviour, IPool, IPoolOnEnableEvent
 {
+    [SerializeField] EffectAddEventer _addEventer = null;
     [SerializeReference, SubclassSelector]
     List<IEffectExecutable> _executableList;
 
     int _endCount = 0;
 
     ParticleSystem _particle;
-
+    
     void IPool.Setup(Transform parent)
     {
         _particle = GetComponent<ParticleSystem>();
         _executableList.ForEach(e => e.SetEffect(gameObject, _particle));
+
+        if (_addEventer != null)
+        {
+            _addEventer.Setup();
+        }
     }
 
     void IPoolOnEnableEvent.OnEnableEvent()
     {
         _endCount = 0;
         _executableList.ForEach(e => e.Initalize());
+        
+        if (_addEventer != null)
+        {
+            _addEventer?.Initalize();
+
+        }
 
         if (_particle != null)
         {
             _particle.Play();
+        }
+
+        if (_addEventer != null)
+        {
+            _addEventer.OnPlay();
         }
 
         foreach (IEffectExecutable effectable in _executableList)
@@ -57,7 +73,14 @@ public class Effect : MonoBehaviour, IPool, IPoolOnEnableEvent
 
     bool IPool.Execute()
     {
-        return _endCount >= _executableList.Count;
+        if (_addEventer != null)
+        {
+            return _endCount >= _executableList.Count && _addEventer.IsEndTask;
+        }
+        else
+        {
+            return _endCount >= _executableList.Count;
+        }
     }
 
     IEnumerator OnProcess(Func<bool> func)
