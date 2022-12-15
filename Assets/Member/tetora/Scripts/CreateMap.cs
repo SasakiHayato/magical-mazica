@@ -61,6 +61,7 @@ public class CreateMap : MapCreaterBase
     {
         _stageMap = new StageMap(_scriptableObject.MapHorSide, _scriptableObject.MapVerSide);
         _enemies = new GameObject[_scriptableObject.EnemyObject.Count];
+        _enemyDic = new Dictionary<int, EnemyTransform>();
         for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
             _enemies[i] = _scriptableObject.EnemyObject[i].gameObject;
@@ -186,9 +187,11 @@ public class CreateMap : MapCreaterBase
     {
         for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
+            Debug.Log($"Couunt:{_scriptableObject.EnemyObject.Count}");
             GameObject enemy = Instantiate(_enemies[i]);
-            var enebase = enemy.GetComponent<EnemyBase>();
+            var enebase = enemy.GetComponent<Enemy>();
             enebase.ID = i;
+            Debug.Log($"EnemyInfo:ID{enebase.ID},{enemy}");
             _enemyDic.Add(enebase.ID, new EnemyTransform(enemy));
             _enemyDic[enebase.ID].IsCreate = false;
             DebugSetEnemyObject.SetEnemy(enemy.transform);
