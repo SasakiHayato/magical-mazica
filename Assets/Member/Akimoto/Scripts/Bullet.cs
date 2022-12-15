@@ -75,33 +75,9 @@ public class Bullet : MonoBehaviour
         return ret;
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.TryGetComponent(out IDamagable damagable))
-    //    {
-    //        if (damagable.ObjectType != ObjectType)
-    //        {
-    //            Database.FusionBullet.Hit(damagable, transform.position);
-    //            //damagable.AddDamage(_damage);
-
-    //            if (collision.TryGetComponent(out IDamageForceble forceble))
-    //            {
-    //                // ‰¼
-    //                forceble.OnFoece(Vector2.zero);
-    //            }
-
-    //            if (Database.FusionBullet.IsDestroy(collision))
-    //            {
-    //                Database.FusionBullet.Dispose();
-    //                Destroy(gameObject);
-    //            }
-    //        }
-    //    }
-    //}
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.TryGetComponent(out IDamagable damagable))
+        if (collision.TryGetComponent(out IDamagable damagable))
         {
             if (damagable.ObjectType != ObjectType)
             {
@@ -109,21 +85,25 @@ public class Bullet : MonoBehaviour
                 {
                     Database.FusionBullet.Hit(damagable, transform.position);
                 }
-                
+
                 //damagable.AddDamage(_damage);
 
-                if (collision.collider.TryGetComponent(out IDamageForceble forceble))
+                if (collision.TryGetComponent(out IDamageForceble forceble))
                 {
                     // ‰¼
                     forceble.OnFoece(Vector2.zero);
                 }
 
-                if (Database.FusionBullet.IsDestroy(collision.collider))
+                if (Database != null && Database.FusionBullet != null)
                 {
-                    if (Database != null && Database.FusionBullet != null)
+                    if (Database.FusionBullet.IsDestroy(collision))
                     {
                         Database.FusionBullet.Dispose();
+                        Destroy(gameObject);
                     }
+                }
+                else
+                {
                     Destroy(gameObject);
                 }
             }

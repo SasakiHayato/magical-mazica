@@ -18,13 +18,13 @@ MonoBehaviour:
     _description: "\u885D\u6483\u3092\u4E0E\u3048\u308B\u3068\u6FC0\u3057\u304F\u7206\u767A\u3059\u308B\u8C46\n\u3088\u304F\u60AA\u4E8B\u306B\u5229\u7528\u3055\u308C\u3066\u3044\u308B"
     _sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     _spriteColor: {r: 1, g: 0, b: 0, a: 1}
-    _baseDamage: 3
+    _baseDamage: 4
   - _name: "\u30D1\u30EF\u30FC\u30D7\u30E9\u30F3\u30C8"
     _id: 1
     _description: "\u6301\u3064\u3068\u529B\u304C\u6E67\u3044\u3066\u304F\u308B\u8349\n\u3053\u308C\u3092\u5229\u7528\u3057\u3066\u7269\u3092\u529B\u5F37\u304F\u6295\u3052\u3064\u3051\u308B\u4E8B\u304C\u51FA\u6765\u305D\u3046\u3060"
     _sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
     _spriteColor: {r: 1, g: 0.98724854, b: 0, a: 1}
-    _baseDamage: 5
+    _baseDamage: 7
   - _name: "\u8CAB\u901A\u3059\u308B\u3084\u3064"
     _id: 2
     _description: "\u8CAB\u901A\u3059\u308B\u3089\u3057\u3044"
