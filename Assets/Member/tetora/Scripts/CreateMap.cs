@@ -48,7 +48,6 @@ public class CreateMap : MapCreaterBase
 
     protected override void Initalize()
     {
-        ResetMapFlag();
         if (_parentObj != null)
         {
             foreach (Transform item in _parentObj.transform)//transformをforeachで回すと子オブジェクトが取ってこれる
@@ -69,6 +68,7 @@ public class CreateMap : MapCreaterBase
         _teleporterController = new TeleporterController();
         //壁オブジェクトのScaleSizeを入れる
         _wallObjSize = _wallObj.transform.localScale.x;
+        ResetMapFlag();
         StartDig();
         DecisionPlayerPos();
         SetGoalPos();
@@ -340,10 +340,7 @@ public class CreateMap : MapCreaterBase
     {
         foreach (var item in _stageMap)
         {
-            if (item.State == MapState.Enemy)
-            {
-                item.IsGenerate = true;
-            }
+            item.IsGenerate = true;
         }
     }
     void GetTeleportData(int id)
