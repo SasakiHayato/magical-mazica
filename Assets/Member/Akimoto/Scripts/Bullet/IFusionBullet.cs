@@ -191,3 +191,60 @@ public class PowerPoison : IFusionBullet
 
     public bool IsDestroy(Collider2D collision, int hitCount) => true;
 }
+/// <summary>
+/// 貫通x貫通<br/>
+/// 真っすぐ飛んでいき、一定数の敵に接触したら消える
+/// </summary>
+public class PenetrationPenetration : IFusionBullet
+{
+    [SerializeField] int _destroyHitNum;
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position)
+    {
+        damageble.AddDamage(Damage);
+    }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount) => hitCount >= _destroyHitNum;
+}
+/// <summary>
+/// 貫通x毒
+/// </summary>
+public class PenetrationPoison : IFusionBullet
+{
+    [SerializeField] int _destroyHitNum;
+    public int Damage { private get; set; }
+    public ObjectType ObjectType {  private get; set; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position)
+    {
+        //毒付与したい
+    }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount) => hitCount >= _destroyHitNum;
+}
+public class PoisonPoison : IFusionBullet
+{
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position)
+    {
+        //毒付与したい
+    }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount) => true;
+}

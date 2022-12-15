@@ -61,7 +61,7 @@ MonoBehaviour:
       _materialData1: 1
       _materialData2: 1
     _useType: 1
-    _bulletSpeed: 5
+    _bulletSpeed: 8
     _fusionBullet:
       rid: 7803519140656316418
   - _name: "\u30AB\u30F3\u30C4\u30A6\u30D1\u30EF\u30FC"
@@ -91,9 +91,9 @@ MonoBehaviour:
       _materialData1: 2
       _materialData2: 2
     _useType: 1
-    _bulletSpeed: 10
+    _bulletSpeed: 15
     _fusionBullet:
-      rid: -2
+      rid: 7803519143773470720
   - _name: "\u30AB\u30F3\u30C4\u30A6\u30DD\u30A4\u30BA\u30F3"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
@@ -103,7 +103,7 @@ MonoBehaviour:
     _useType: 1
     _bulletSpeed: 6
     _fusionBullet:
-      rid: -2
+      rid: 7803519143773470721
   - _name: "\u30A6\u30EB\u30C8\u30E9\u30DD\u30A4\u30BA\u30F3"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
@@ -113,12 +113,10 @@ MonoBehaviour:
     _useType: 0
     _bulletSpeed: 4
     _fusionBullet:
-      rid: -2
+      rid: 7803519143773470722
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 7803519092801142784
       type: {class: BlastPower, ns: , asm: Assembly-CSharp}
       data:
@@ -152,3 +150,13 @@ MonoBehaviour:
         _destroyHitNum: 10
     - rid: 7803519140656316420
       type: {class: PowerPoison, ns: , asm: Assembly-CSharp}
+    - rid: 7803519143773470720
+      type: {class: PenetrationPenetration, ns: , asm: Assembly-CSharp}
+      data:
+        _destroyHitNum: 10
+    - rid: 7803519143773470721
+      type: {class: PenetrationPoison, ns: , asm: Assembly-CSharp}
+      data:
+        _destroyHitNum: 5
+    - rid: 7803519143773470722
+      type: {class: PoisonPoison, ns: , asm: Assembly-CSharp}
