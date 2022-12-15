@@ -11,7 +11,7 @@ public interface IFusionBullet
     /// ”jŠü‰Â”\‚©‚Ç‚¤‚©
     /// </summary>
     /// <returns></returns>
-    public bool IsDestroy(Collider2D collision);
+    public bool IsDestroy(Collider2D collision, int hitCount);
     /// <summary>
     /// ”jŠü
     /// </summary>
@@ -32,10 +32,6 @@ public interface IFusionBullet
     /// ’N‚©‚çŒ‚‚½‚ê‚½’e‚©
     /// </summary>
     public ObjectType ObjectType { set; }
-    /// <summary>
-    /// “G‚Æ‚ÌÚG‰ñ”
-    /// </summary>
-    public int HitCount { get; set; }
 }
 
 /// <summary>
@@ -49,7 +45,6 @@ public class BlastPower : IFusionBullet
     [SerializeField] float _blastDuraion;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
-    public int HitCount { get; set; }
 
     public void Idle() { }
 
@@ -61,7 +56,7 @@ public class BlastPower : IFusionBullet
 
     public void Dispose() { }
 
-    public bool IsDestroy(Collider2D collision) => true;
+    public bool IsDestroy(Collider2D collision, int hitCount) => true;
 }
 
 /// <summary>
@@ -75,7 +70,6 @@ public class BlastBlast : IFusionBullet
     [SerializeField] float _blastDuraion;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
-    public int HitCount { get; set; }
 
     public void Dispose() { }
 
@@ -87,7 +81,7 @@ public class BlastBlast : IFusionBullet
 
     public void Idle() { }
 
-    public bool IsDestroy(Collider2D collision) => true;
+    public bool IsDestroy(Collider2D collision, int hitCount) => true;
 }
 /// <summary>
 /// ”š”­xŠÑ’Ê<br/>
@@ -99,11 +93,8 @@ public class BlastPenetration : IFusionBullet
     [SerializeField] float _blastRange;
     [SerializeField] float _blastDuraion;
     [SerializeField] int _destroyHitNum;
-    /// <summary>“G‚ÆÚG‚µ‚½‰ñ”</summary>
-    [SerializeField] int _hitCount;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
-    public int HitCount { get => _hitCount; set => _hitCount = value; }
 
     public void Dispose() { }
 
@@ -115,27 +106,15 @@ public class BlastPenetration : IFusionBullet
 
     public void Idle() { }
 
-    public bool IsDestroy(Collider2D collision)
+    public bool IsDestroy(Collider2D collision, int hitCount)
     {
-        return true;
-        //if (collision.TryGetComponent(out IDamagable damageble) && damageble.ObjectType == ObjectType.Enemy)
-        //{
-        //    Debug.Log($"ÚG‰ñ”:{HitCount} İ’è‰ñ”:{_destroyHitNum}");
-        //    if (HitCount >= _destroyHitNum)
-        //    {
-        //        Debug.Log("HitCount‚ªãŒÀ‚É’B‚µ‚½");
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        //HitCount++;
-        //        return false;
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.Log("DamagebleˆÈŠO‚ÉÚG‚µ‚½");
-        //    return true;
-        //}
+        if (collision.TryGetComponent(out IDamagable damageble) && damageble.ObjectType == ObjectType.Enemy)
+        {
+            return hitCount >= _destroyHitNum;
+        }
+        else
+        {
+            return true;
+        }
     }
 }
