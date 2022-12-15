@@ -53,7 +53,7 @@ MonoBehaviour:
     _useType: 0
     _bulletSpeed: 5
     _fusionBullet:
-      rid: -2
+      rid: 7803519140656316417
   - _name: "\u30A6\u30EB\u30C8\u30E9\u30D1\u30EF\u30FC"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
@@ -63,7 +63,7 @@ MonoBehaviour:
     _useType: 1
     _bulletSpeed: 5
     _fusionBullet:
-      rid: -2
+      rid: 7803519140656316418
   - _name: "\u30AB\u30F3\u30C4\u30A6\u30D1\u30EF\u30FC"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
     _useType: 1
     _bulletSpeed: 6
     _fusionBullet:
-      rid: -2
+      rid: 7803519140656316419
   - _name: "\u30D1\u30EF\u30FC\u30DD\u30A4\u30BA\u30F3"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
@@ -83,7 +83,7 @@ MonoBehaviour:
     _useType: 1
     _bulletSpeed: 5
     _fusionBullet:
-      rid: -2
+      rid: 7803519140656316420
   - _name: "\u30A6\u30EB\u30C8\u30E9\u30AB\u30F3\u30C4\u30A6"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
@@ -123,7 +123,7 @@ MonoBehaviour:
       type: {class: BlastPower, ns: , asm: Assembly-CSharp}
       data:
         _blastPrefab: {fileID: 6171674707284503135, guid: 76b1ed0c81947e74c96eeb9b08b1e1bf, type: 3}
-        _blastRange: 2
+        _blastRange: 3
         _blastDuraion: 0.2
     - rid: 7803519092801142785
       type: {class: BlastBlast, ns: , asm: Assembly-CSharp}
@@ -135,7 +135,20 @@ MonoBehaviour:
       type: {class: BlastPenetration, ns: , asm: Assembly-CSharp}
       data:
         _blastPrefab: {fileID: 6171674707284503135, guid: 76b1ed0c81947e74c96eeb9b08b1e1bf, type: 3}
-        _blastRange: 2
+        _blastRange: 3
         _blastDuraion: 0.2
-        _destroyHitNum: 2
-        _hitCount: 0
+        _destroyHitNum: 3
+    - rid: 7803519140656316417
+      type: {class: BlastPoison, ns: , asm: Assembly-CSharp}
+      data:
+        _blastPrefab: {fileID: 6171674707284503135, guid: 76b1ed0c81947e74c96eeb9b08b1e1bf, type: 3}
+        _blastRange: 5
+        _blastDuraion: 0.2
+    - rid: 7803519140656316418
+      type: {class: PowerPower, ns: , asm: Assembly-CSharp}
+    - rid: 7803519140656316419
+      type: {class: PowerPenetration, ns: , asm: Assembly-CSharp}
+      data:
+        _destroyHitNum: 10
+    - rid: 7803519140656316420
+      type: {class: PowerPoison, ns: , asm: Assembly-CSharp}
