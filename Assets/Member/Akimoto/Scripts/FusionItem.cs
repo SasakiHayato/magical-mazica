@@ -4,6 +4,7 @@ using UnityEngine;
 using UniRx;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System.Linq;
 
 /// <summary>
 /// 融合アイテムの管理クラス<br/>プレイヤースクリプトと一緒に付けて使う
@@ -71,6 +72,10 @@ public class FusionItem : MonoBehaviour
                 ret = new Vector2(direction.x, direction.y + _throwBulletHeightOffset);
                 break;
             case BulletType.Strike:
+                var enemies = GameController.Instance.GetFieldObjectDatable(ObjectType.Enemy)
+                    .OrderBy(_ => Vector2.Distance(_.Target.transform.position, transform.position));
+                var obj = enemies.FirstOrDefault().Target.transform.position - transform.position;
+                ret = obj.normalized;
                 break;
         }
         return ret;
