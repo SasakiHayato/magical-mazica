@@ -11,7 +11,7 @@ public interface IFusionBullet
     /// ”jŠü‰Â”\‚©‚Ç‚¤‚©
     /// </summary>
     /// <returns></returns>
-    public bool IsDestroy(Collider2D collision);
+    public bool IsDestroy(Collider2D collision, int hitCount);
     /// <summary>
     /// ”jŠü
     /// </summary>
@@ -32,10 +32,6 @@ public interface IFusionBullet
     /// ’N‚©‚çŒ‚‚½‚ê‚½’e‚©
     /// </summary>
     public ObjectType ObjectType { set; }
-    /// <summary>
-    /// “G‚Æ‚ÌÚG‰ñ”
-    /// </summary>
-    public int HitCount { get; set; }
 }
 
 /// <summary>
@@ -49,19 +45,17 @@ public class BlastPower : IFusionBullet
     [SerializeField] float _blastDuraion;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
-    public int HitCount { get; set; }
 
     public void Idle() { }
 
     public void Hit(IDamagable damageble, Vector2 position)
     {
-        damageble.AddDamage(Damage);
         Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
     }
 
     public void Dispose() { }
 
-    public bool IsDestroy(Collider2D collision) => true;
+    public bool IsDestroy(Collider2D collision, int hitCount) => true;
 }
 
 /// <summary>
@@ -75,19 +69,17 @@ public class BlastBlast : IFusionBullet
     [SerializeField] float _blastDuraion;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
-    public int HitCount { get; set; }
 
     public void Dispose() { }
 
     public void Hit(IDamagable damageble, Vector2 position)
     {
-        damageble.AddDamage(Damage);
         Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
     }
 
     public void Idle() { }
 
-    public bool IsDestroy(Collider2D collision) => true;
+    public bool IsDestroy(Collider2D collision, int hitCount) => true;
 }
 /// <summary>
 /// ”š”­xŠÑ’Ê<br/>
@@ -99,43 +91,160 @@ public class BlastPenetration : IFusionBullet
     [SerializeField] float _blastRange;
     [SerializeField] float _blastDuraion;
     [SerializeField] int _destroyHitNum;
-    /// <summary>“G‚ÆÚG‚µ‚½‰ñ”</summary>
-    [SerializeField] int _hitCount;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
-    public int HitCount { get => _hitCount; set => _hitCount = value; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position)
+    {
+        Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
+    }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount)
+    {
+        if (collision.TryGetComponent(out IDamagable damageble) && damageble.ObjectType == ObjectType.Enemy)
+        {
+            return hitCount >= _destroyHitNum;
+        }
+        else
+        {
+            return true;
+        }
+    }
+}
+/// <summary>
+/// ”š”­x“Å<br/>
+/// ^‚Á‚·‚®”ò‚ñ‚Å‚¢‚«A‰½‚©‚ÉÚG‚µ‚½‚ç”š”­‚·‚é‚µ‚ÄÁ‚¦‚éB’e‚©”š”­‚ÉÚG‚µ‚½“G‚É“Å‚ğ•t—^‚·‚é
+/// </summary>
+public class BlastPoison : IFusionBullet
+{
+    [SerializeField] Blast _blastPrefab;
+    [SerializeField] float _blastRange;
+    [SerializeField] float _blastDuraion;
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position)
+    {
+        Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
+        //“Å•t—^‚µ‚½‚¢
+    }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount) => true;
+}
+/// <summary>
+/// ‰Î—Íx‰Î—Í<br/>
+/// ^‚Á‚·‚®”ò‚ñ‚Å‚¢‚«AÚG‚µ‚½“G‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
+/// </summary>
+public class PowerPower : IFusionBullet
+{
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position) { }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount) => true;
+
+}
+/// <summary>
+/// ‰Î—ÍxŠÑ’Ê<br/>
+/// ^‚Á‚·‚®”ò‚ñ‚Å‚¢‚«Aˆê’è”‚Ì“G‚ÉÚG‚µ‚½‚çÁ‚¦‚é
+/// </summary>
+public class PowerPenetration : IFusionBullet
+{
+    [SerializeField] int _destroyHitNum;
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position) { }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount) => hitCount >= _destroyHitNum;
+}
+public class PowerPoison : IFusionBullet
+{
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position)
+    {
+        //“Å•t—^‚µ‚½‚¢
+    }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount) => true;
+}
+/// <summary>
+/// ŠÑ’ÊxŠÑ’Ê<br/>
+/// ^‚Á‚·‚®”ò‚ñ‚Å‚¢‚«Aˆê’è”‚Ì“G‚ÉÚG‚µ‚½‚çÁ‚¦‚é
+/// </summary>
+public class PenetrationPenetration : IFusionBullet
+{
+    [SerializeField] int _destroyHitNum;
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
 
     public void Dispose() { }
 
     public void Hit(IDamagable damageble, Vector2 position)
     {
         damageble.AddDamage(Damage);
-        Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
     }
 
     public void Idle() { }
 
-    public bool IsDestroy(Collider2D collision)
+    public bool IsDestroy(Collider2D collision, int hitCount) => hitCount >= _destroyHitNum;
+}
+/// <summary>
+/// ŠÑ’Êx“Å
+/// </summary>
+public class PenetrationPoison : IFusionBullet
+{
+    [SerializeField] int _destroyHitNum;
+    public int Damage { private get; set; }
+    public ObjectType ObjectType {  private get; set; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position)
     {
-        return true;
-        //if (collision.TryGetComponent(out IDamagable damageble) && damageble.ObjectType == ObjectType.Enemy)
-        //{
-        //    Debug.Log($"ÚG‰ñ”:{HitCount} İ’è‰ñ”:{_destroyHitNum}");
-        //    if (HitCount >= _destroyHitNum)
-        //    {
-        //        Debug.Log("HitCount‚ªãŒÀ‚É’B‚µ‚½");
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        //HitCount++;
-        //        return false;
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.Log("DamagebleˆÈŠO‚ÉÚG‚µ‚½");
-        //    return true;
-        //}
+        //“Å•t—^‚µ‚½‚¢
     }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount) => hitCount >= _destroyHitNum;
+}
+public class PoisonPoison : IFusionBullet
+{
+    public int Damage { private get; set; }
+    public ObjectType ObjectType { private get; set; }
+
+    public void Dispose() { }
+
+    public void Hit(IDamagable damageble, Vector2 position)
+    {
+        //“Å•t—^‚µ‚½‚¢
+    }
+
+    public void Idle() { }
+
+    public bool IsDestroy(Collider2D collision, int hitCount) => true;
 }

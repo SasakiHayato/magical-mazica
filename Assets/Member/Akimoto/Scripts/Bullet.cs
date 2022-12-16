@@ -19,6 +19,8 @@ public class Bullet : MonoBehaviour
     private BulletType _useType;
     /// <summary>É_ÉÅÅ[ÉW</summary>
     private int _damage;
+    /// <summary>ê⁄êGâÒêî</summary>
+    private int _hitCount;
     public Vector2 Velocity { set => _rb.velocity = value; }
     public ObjectType ObjectType { get; set; } = ObjectType.Obstacle;
     public BulletType UseType => _useType;
@@ -84,7 +86,7 @@ public class Bullet : MonoBehaviour
                 if (Database != null && Database.FusionBullet != null)
                 {
                     Database.FusionBullet.Hit(damagable, transform.position);
-                    Database.FusionBullet.HitCount += 1;
+                    _hitCount++;
                 }
 
                 damagable.AddDamage(_damage);
@@ -97,7 +99,7 @@ public class Bullet : MonoBehaviour
 
                 if (Database != null && Database.FusionBullet != null)
                 {
-                    if (Database.FusionBullet.IsDestroy(collision))
+                    if (Database.FusionBullet.IsDestroy(collision, _hitCount))
                     {
                         Database.FusionBullet.Dispose();
                         Destroy(gameObject);
