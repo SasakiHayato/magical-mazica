@@ -8,7 +8,7 @@ public class ConditionObstacle : BehaviourConditional
     protected override bool Try()
     {
         if (GameController.Instance.Player == null) return false;
-      
+        
         return !IsHit();
     }
 

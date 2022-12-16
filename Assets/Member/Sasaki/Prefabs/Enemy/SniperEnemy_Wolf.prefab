@@ -427,10 +427,17 @@ MonoBehaviour:
         _condition:
           _conditionType: 0
           _couditionList:
-          - rid: 7198353249150173190
+          - rid: 7198353459115720708
         _action:
           _actionList:
           - rid: 7198353280677445648
+      - _treeExecuteType: 0
+        _condition:
+          _conditionType: 0
+          _couditionList:
+          - rid: 7198353459115720707
+        _action:
+          _actionList:
           - rid: 7198353280677445649
           - rid: 7198353280677445650
   - _name: Attack
@@ -503,7 +510,17 @@ MonoBehaviour:
       data:
         _hitLayer:
           serializedVersion: 2
-          m_Bits: 192
+          m_Bits: 256
+    - rid: 7198353459115720707
+      type: {class: ConditionObstacle, ns: , asm: Assembly-CSharp}
+      data:
+        _hitLayer:
+          serializedVersion: 2
+          m_Bits: 256
+    - rid: 7198353459115720708
+      type: {class: ConditionTestAccess, ns: , asm: Assembly-CSharp}
+      data:
+        _isAccess: 1
 --- !u!1 &6628192417333302762
 GameObject:
   m_ObjectHideFlags: 0
