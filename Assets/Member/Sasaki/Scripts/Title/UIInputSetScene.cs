@@ -54,7 +54,6 @@ public class UIInputSetScene : IUIOperateEventable, IGameSetupable
             {
                 if (_currentID == AttributeID)
                 {
-                    SoundManager.PlayRequest(SoundSystem.SoundType.SEInput, "Click");
                     SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer, "Greeting");
                     SceneViewer.SceneLoad(SceneViewer.SceneType.Game);
                 }
