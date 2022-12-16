@@ -72,6 +72,7 @@ public class SceneViewer : MonoBehaviour
         
         GameController.Instance.Dispose();
         await UniTask.Delay(System.TimeSpan.FromSeconds(WaitTime));
+        GameController.DisposeLocalData();
 
         SceneManager.LoadScene((int)sceneType);
     }

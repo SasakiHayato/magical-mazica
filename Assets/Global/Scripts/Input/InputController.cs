@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InputController : MonoBehaviour
@@ -98,5 +100,22 @@ public class InputController : MonoBehaviour
         InputSetting.UIInputOperate?.Operate.CancelEvent();
         _selectX = 0;
         _selectY = 0;
+    }
+
+    public static void CallbackInputEvent(bool onEvent)
+    {
+        List<IFieldObjectDatable> list = GameController.Instance.GetFieldObjectDatable(ObjectType.Enemy).ToList();
+        IFieldObjectDatable player = GameController.Instance.GetFieldObjectDatable(ObjectType.Player).FirstOrDefault();
+
+        if (player != null) list.Add(player);
+
+        foreach (IFieldObjectDatable datable in list)
+        {
+            if (datable.Target.TryGetComponent(out IInputEventable input))
+            {
+                if (onEvent) input.OnEvent();
+                else input.DisposeEvent();
+            }
+        }
     }
 }

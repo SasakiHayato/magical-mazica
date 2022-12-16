@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class TeleporterController
 {
-    List<TeleportPoint> _teleportList = new List<TeleportPoint>();
-    int _id;
     public class TeleportPoint
     {
         public readonly int ID;
@@ -16,6 +14,10 @@ public class TeleporterController
             ObjTransform = objTransform;
         }
     }
+
+    int _id;
+    
+    List<TeleportPoint> _teleportList = new List<TeleportPoint>();
 
     public void CreateData(Transform transform, System.Action<int> action)
     {
