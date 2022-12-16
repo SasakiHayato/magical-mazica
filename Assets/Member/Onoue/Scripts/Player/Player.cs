@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using MonoState;
 using MonoState.Data;
 using static SoundSystem.SoundType;
-
+using DG.Tweening;
 
 public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatableUni<Player>, IDamageForceble, IInputEventable
 {
@@ -31,6 +31,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     [SerializeField] PlayerStateData _playerStateData;
     [SerializeField] Storage _storage;
     [SerializeField] FieldTouchOperator _fieldTouchOperator;
+    [SerializeField] SpriteRenderer _spriteRenderer;
+
     ReactiveProperty<int> _hp = new ReactiveProperty<int>();
     //選択したMaterialのIDをセットする変数
     //ReactiveCollection<RawMaterialID> _setMaterial = new ReactiveCollection<RawMaterialID> { RawMaterialID.Empty, RawMaterialID.Empty };
@@ -38,7 +40,9 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     Subject<List<RawMaterialID>> _selectMaterial = new Subject<List<RawMaterialID>>();
 
     FusionItem _fusionItem;
+    Tween _tween;
     bool _isHit;
+    bool _isAlphaMax;
     float _timer;
     /// <summary>攻撃力</summary>
     public int Damage { get => _damage; private set => _damage = value; }
@@ -68,7 +72,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     }
     private void Start()
     {
-        _fusionItem = FindObjectOfType<FusionItem>();
+        _fusionItem = GetComponentInChildren<FusionItem>();
         _hp.Value = _maxHP;
 
         _playerStateData.Jump.InitalizeJumpCount();
@@ -120,7 +124,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         _playerStateData.SetAttckType = PlayerStateData.AttackType.Mazic;
         _stateMachine.ChangeState(PlayerState.Attack);
         Fusion();
-        _fusionItem.Attack(new Vector2(transform.localScale.x,0));
+        _fusionItem.Attack(new Vector2(transform.localScale.x, 0));
     }
 
     public void SetMoveDirection(Vector2 direction)
@@ -212,7 +216,30 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             }
         }
     }
+    void Blink()
+    {
+        if (_tween != null)
+        {
+            _tween.Kill();
+        }
+        _tween = DOTween
+            .To(value => { }, 0, 1, 0.2f)
+            .OnStepComplete(() => DoBlink(!_isAlphaMax))
+            .SetLoops(3 * 2, LoopType.Restart)
+            .OnComplete(() => DoBlink(false));
+        DoBlink(false);
+    }
+    /// <summary>
+    /// 点滅する時に呼び出されます
+    /// </summary>
+    private void DoBlink(bool isBlink)
+    {
+        _isAlphaMax = isBlink;
 
+        var color = _spriteRenderer.color;
+        color.a = isBlink ? 0.5f : 1;
+        _spriteRenderer.color = color;
+    }
     private void FixedUpdate()
     {
         if (_playerStateData.ReadMoveDirection.x != 0)
@@ -233,6 +260,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         {
             return;
         }
+        Blink();
         _isHit = true;
         _hp.Value -= damage;
 
@@ -246,6 +274,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         else
         {
             SoundManager.PlayRequestRandom(SEPlayer, "Damage");
+            EffectStocker.Instance.LoadEffect("Damage", transform.position);
         }
     }
 
@@ -255,7 +284,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
         _playerStateData.Rigid.SetImpulse(direction.x, RigidMasterData.ImpulseDirectionType.Horizontal, true);
         _playerStateData.Rigid.SetImpulse(direction.y, RigidMasterData.ImpulseDirectionType.Vertical, true);
-        
+
         _stateMachine.ChangeState(PlayerState.KnockBack);
     }
 
@@ -266,6 +295,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     void IInputEventable.DisposeEvent()
     {
-        
+
     }
 }
