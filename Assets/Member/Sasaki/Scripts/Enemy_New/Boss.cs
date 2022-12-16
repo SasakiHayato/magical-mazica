@@ -1,9 +1,11 @@
 using UnityEngine;
 
-public class Boss : EnemyBase
+public class Boss : EnemyBase, IInputEventable
 {
     [SerializeField] Vector2 _forceDirection;
     [SerializeField] BossData _bossData;
+
+    bool _isRejectionTask = false;
 
     BossTaskProcesser _taskProcesser = new BossTaskProcesser();
     Transform _core = null;
@@ -28,6 +30,8 @@ public class Boss : EnemyBase
 
     protected override void Execute()
     {
+        if (!_isRejectionTask) return;
+        
         OnMove();
         OnTask();
     }
@@ -85,5 +89,15 @@ public class Boss : EnemyBase
         {
             forceble.OnFoece(_forceDirection);
         }
+    }
+
+    void IInputEventable.OnEvent()
+    {
+        _isRejectionTask = true;
+    }
+
+    void IInputEventable.DisposeEvent()
+    {
+        _isRejectionTask = false;
     }
 }

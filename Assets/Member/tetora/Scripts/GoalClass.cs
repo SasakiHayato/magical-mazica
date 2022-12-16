@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class GoalClass : MonoBehaviour, IUIOperateEventable
 {
-    [SerializeField] TeleportAttributer _teleportAttributer;
     int _currentSelectID;
 
     Popup _popup;
@@ -26,7 +25,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (InputSetting.UIInputOperate.IsOperateRequest && _teleportAttributer.IsAttribute)
+        if (InputSetting.UIInputOperate.IsOperateRequest && InputSetting.UIInputOperate.IsInputAttribute)
         {
             InputSetting.ChangeInputUser(InputUserType.UI);
             InputSetting.UIInputOperate.OperateRequest(this);

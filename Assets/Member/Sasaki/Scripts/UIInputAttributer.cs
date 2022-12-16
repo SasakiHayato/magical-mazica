@@ -1,20 +1,18 @@
 using UnityEngine;
 
-public class TeleportAttributer : MonoBehaviour
+public class UIInputAttributer : MonoBehaviour
 {
-    public bool IsAttribute { get; private set; } = true;
-
     readonly string EnemyTag = "Enemy";
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (!collision.gameObject.CompareTag(EnemyTag)) return;
-        IsAttribute = false;
+        InputSetting.UIInputOperate.IsInputAttribute = false;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.gameObject.CompareTag(EnemyTag)) return;
-        IsAttribute = true;
+        InputSetting.UIInputOperate.IsInputAttribute = true;
     }
 }
