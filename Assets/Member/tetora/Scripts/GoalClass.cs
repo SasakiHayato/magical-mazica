@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GoalClass : MonoBehaviour, IUIOperateEventable
 {
+    [SerializeField] TeleportAttributer _teleportAttributer;
     int _currentSelectID;
 
     Popup _popup;
@@ -9,15 +10,23 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     readonly int MaxSelectID = 2;
     readonly int AttributeID = 0;
     readonly string PopupPath = "SelectGoal";
+    readonly string PlayerTag = "Player";
 
     void Start()
     {
         _popup = GUIManager.FindPopup(PopupPath);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.gameObject.CompareTag(PlayerTag)) return;
+
+        InputSetting.UIInputOperate.IsOperateRequest = false;
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && InputSetting.UIInputOperate.IsOperateRequest)
+        if (InputSetting.UIInputOperate.IsOperateRequest && _teleportAttributer.IsAttribute)
         {
             InputSetting.ChangeInputUser(InputUserType.UI);
             InputSetting.UIInputOperate.OperateRequest(this);
