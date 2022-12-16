@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4723107735738678597, guid: 0bd97e23f8b532a4f8969605a3b00a4e, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 252aac54686ebb3429e054498258be4d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 521028814465558987}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4f6fccd708afd8446b750eec3e30188d, type: 2}
+  m_Controller: {fileID: 9100000, guid: aefdd947454a42b468d5b5f59f5fbcce, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 6663473620630066626}
   - component: {fileID: 6663473620630066627}
   m_Layer: 0
-  m_Name: ApproachEnemy_New
+  m_Name: ApproachEnemy_Bear
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,7 +442,7 @@ MonoBehaviour:
   _attackIsActiveFrame: 4
   _attackEndActiveFrame: 6
   _animOperator: {fileID: 521028814465558986}
-  _treeUser: {fileID: 0}
+  _treeUser: {fileID: 521028814563274264}
 --- !u!1 &6663473620696852627
 GameObject:
   m_ObjectHideFlags: 0
