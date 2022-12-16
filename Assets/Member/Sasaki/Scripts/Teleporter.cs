@@ -7,11 +7,13 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
 
     int _id;
     int _currentSelectID;
-
+    
     Action<int> _teleportEvent;
     Func<int, Transform> _getTeleport;
 
     public static bool OnSelect { get; private set; } = false;
+
+    readonly string PlayerTag = "Player";
 
     void Start()
     {
@@ -19,9 +21,16 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
         _point.SetActive(false);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.gameObject.CompareTag(PlayerTag)) return;
+
+        InputSetting.UIInputOperate.IsOperateRequest = false;
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && InputSetting.UIInputOperate.IsOperateRequest)
+        if (InputSetting.UIInputOperate.IsOperateRequest && InputSetting.UIInputOperate.IsInputAttribute)
         {
             CameraOperator.CallEvent("SelectTeleport");
             InputSetting.ChangeInputUser(InputUserType.UI);

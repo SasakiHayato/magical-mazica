@@ -9,15 +9,23 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     readonly int MaxSelectID = 2;
     readonly int AttributeID = 0;
     readonly string PopupPath = "SelectGoal";
+    readonly string PlayerTag = "Player";
 
     void Start()
     {
         _popup = GUIManager.FindPopup(PopupPath);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.gameObject.CompareTag(PlayerTag)) return;
+
+        InputSetting.UIInputOperate.IsOperateRequest = false;
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && InputSetting.UIInputOperate.IsOperateRequest)
+        if (InputSetting.UIInputOperate.IsOperateRequest && InputSetting.UIInputOperate.IsInputAttribute)
         {
             InputSetting.ChangeInputUser(InputUserType.UI);
             InputSetting.UIInputOperate.OperateRequest(this);
@@ -55,15 +63,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
         if (_currentSelectID == AttributeID)
         {
-            if (GameController.Instance.CurrentMapHierarchy >= GameController.Instance.MaxMapHierarchy)
-            {
-                SceneViewer.SceneLoad(SceneViewer.SceneType.Boss);
-            }
-            else
-            {
-                GameController.Instance.AddMapHierarchy();
-                SceneViewer.Initalize();
-            }
+            GameController.Instance.SetNextMap();
         }
 
         return true;

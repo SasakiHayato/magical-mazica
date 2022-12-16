@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface IInputEventable
+{
+    void OnEvent();
+    void DisposeEvent();
+}
+
 public interface IUIOperateEventable
 {
     void OnEnableEvent();
@@ -14,6 +20,7 @@ public class InputSetting
 {
     public class UIInputOperator
     {
+        public bool IsInputAttribute { get; set; }
         public bool IsOperateRequest { get; set; }
         public IUIOperateEventable Operate { get; private set; }
 
@@ -29,7 +36,7 @@ public class InputSetting
 
     List<ButtonInputData> _buttonInputDataList = new List<ButtonInputData>();
     List<AxisInputData> _axisInputDataList = new List<AxisInputData>();
-
+    
     static InputSetting s_instance = null;
     public static UIInputOperator UIInputOperate { get; private set; }
 
@@ -104,8 +111,6 @@ public class InputSetting
 
     public static void Dispose()
     {
-        s_instance._axisInputDataList = new List<AxisInputData>();
-        s_instance._buttonInputDataList = new List<ButtonInputData>();
         s_instance = null;
     }
 }

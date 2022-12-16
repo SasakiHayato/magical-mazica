@@ -92,16 +92,8 @@ public class GameController
     {
         get
         {
-            if (s_instance == null)
-            {
-                s_instance = new GameController();
-
-                GameObject obj = new GameObject("GameControllerDisposer");
-
-                GameControllerDisposer disposer = obj.AddComponent<GameControllerDisposer>();
-                disposer.Action = DisposeInstance;
-            }
-
+            s_instance = s_instance == null ? new GameController() : s_instance;
+            
             return s_instance;
         }
     }
@@ -111,7 +103,7 @@ public class GameController
 
     FieldObjectData _fieldObjectData = new FieldObjectData();
 
-    public int CurrentMapHierarchy { get; private set; } = 1;
+    int _currentMapHierarchy = 1;
 
     public Transform Player { get; set; }
 
@@ -142,11 +134,6 @@ public class GameController
         return _fieldObjectData.GetObjectData(objectType);
     }
 
-    public void AddMapHierarchy()
-    {
-        CurrentMapHierarchy++;
-    }
-
     /// <summary>
     /// ÉQÅ[ÉÄç\ë¢ÇÃóßÇøè„Ç∞
     /// </summary>
@@ -160,17 +147,28 @@ public class GameController
     /// </summary>
     public void Dispose()
     {
+        _fieldObjectData.Dispose();
         _disposeList.ForEach(d => d.GameDispose());
+    }
+
+    public void SetNextMap()
+    {
+        if (_currentMapHierarchy >= MaxMapHierarchy)
+        {
+            SceneViewer.SceneLoad(SceneViewer.SceneType.Boss);
+        }
+        else
+        {
+            _currentMapHierarchy++;
+            SceneViewer.Initalize();
+        }
     }
 
     /// <summary>
     /// é©êgÇÃInstanceÇÃîjä¸
     /// </summary>
-    static void DisposeInstance()
+    public static void DisposeLocalData()
     {
-        Instance._fieldObjectData.Dispose();
-        Instance.Dispose();
-
         Instance.Initalize();
     }
 
@@ -179,6 +177,7 @@ public class GameController
         _setupList = new List<IGameSetupable>();
         _disposeList = new List<IGameDisposable>();
         _fieldObjectData = new FieldObjectData();
+
         Player = null;
     }
 }
