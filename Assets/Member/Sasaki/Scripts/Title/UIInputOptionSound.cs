@@ -1,4 +1,6 @@
-public class UIInputOptionSound : IUIOperateEventable
+using UnityEngine;
+
+public class UIInputOptionSound : IUIOperateEventable, IGameSetupable
 {
     enum UISelectType
     {
@@ -9,17 +11,24 @@ public class UIInputOptionSound : IUIOperateEventable
     }
 
     int _currentID = 0;
-    Popup _popup = null;
+    
+    static Popup _popup = null;
+    static PanelMover _panelMover = null;
 
     readonly string Path = "OptionSound";
+    readonly Vector2 MovePosition = new Vector2(500, 0);
+
+    int IGameSetupable.Priority => 1;
 
     void IUIOperateEventable.OnEnableEvent()
     {
         if (_popup == null)
         {
             _popup = GUIManager.FindPopup(Path);
+            _panelMover = new PanelMover(_popup.Parent, _popup.Parent.position);
         }
 
+        _panelMover.Initalize();
         _popup.OnView();
     }
 
@@ -49,19 +58,35 @@ public class UIInputOptionSound : IUIOperateEventable
     {
         UISelectType type = (UISelectType)System.Enum.ToObject(typeof(UISelectType), _currentID);
 
-        switch (type)
+        _panelMover
+            .SetCallbackAction(() =>
+            {
+                switch (type)
+                {
+                    case UISelectType.Back:
+                        InputSetting.UIInputOperate.OperateRequest(new UIInputOption());
+                        break;
+                    case UISelectType.MasterVolume:
+                        break;
+                    case UISelectType.BGMVolume:
+                        break;
+                    case UISelectType.SEVolume:
+                        break;
+                }
+
+                _popup.OnCancel();
+            })
+            .OnMove(_popup.Parent.position.Collect() + MovePosition);
+    }
+
+    void IGameSetupable.GameSetup()
+    {
+        if (_popup == null)
         {
-            case UISelectType.Back:
-                InputSetting.UIInputOperate.OperateRequest(new UIInputOption());
-                break;
-            case UISelectType.MasterVolume:
-                break;
-            case UISelectType.BGMVolume:
-                break;
-            case UISelectType.SEVolume:
-                break;
+            _popup = GUIManager.FindPopup(Path);
+            _panelMover = new PanelMover(_popup.Parent, _popup.Parent.position);
         }
 
-        _popup.OnCancel();
+        _panelMover.OnMove(_popup.Parent.position.Collect() + MovePosition);
     }
 }
