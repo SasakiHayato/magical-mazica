@@ -348,7 +348,7 @@ MonoBehaviour:
   _attackIsActiveFrame: 0
   _attackEndActiveFrame: 0
   _animOperator: {fileID: 6628192417333302763}
-  _treeUser: {fileID: 0}
+  _treeUser: {fileID: 6628192416898339385}
 --- !u!1 &6628192416898339391
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,6 +438,7 @@ MonoBehaviour:
       _conditionType: 0
       _couditionList:
       - rid: 7198353280677445644
+      - rid: 7198353459115720705
     _treeData:
       _treeType: 0
       _executeList:
@@ -497,6 +498,12 @@ MonoBehaviour:
       type: {class: ActionWait, ns: , asm: Assembly-CSharp}
       data:
         _waitTime: 1
+    - rid: 7198353459115720705
+      type: {class: ConditionObstacle, ns: , asm: Assembly-CSharp}
+      data:
+        _hitLayer:
+          serializedVersion: 2
+          m_Bits: 192
 --- !u!1 &6628192417333302762
 GameObject:
   m_ObjectHideFlags: 0
