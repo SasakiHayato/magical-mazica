@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Teleporter : MonoBehaviour, IUIOperateEventable
 {
-    [SerializeField] TeleportAttributer _teleportAttributer; 
     [SerializeField] GameObject _point;
 
     int _id;
@@ -31,7 +30,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (InputSetting.UIInputOperate.IsOperateRequest && _teleportAttributer.IsAttribute)
+        if (InputSetting.UIInputOperate.IsOperateRequest && InputSetting.UIInputOperate.IsInputAttribute)
         {
             CameraOperator.CallEvent("SelectTeleport");
             InputSetting.ChangeInputUser(InputUserType.UI);

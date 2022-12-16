@@ -8,7 +8,7 @@ using MonoState.Data;
 using static SoundSystem.SoundType;
 
 
-public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatableUni<Player>, IDamageForceble
+public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatableUni<Player>, IDamageForceble, IInputEventable
 {
     public enum PlayerState
     {
@@ -257,5 +257,15 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         _playerStateData.Rigid.SetImpulse(direction.y, RigidMasterData.ImpulseDirectionType.Vertical, true);
         
         _stateMachine.ChangeState(PlayerState.KnockBack);
+    }
+
+    void IInputEventable.OnEvent()
+    {
+        _playerStateData.SetMoveDirection = Vector2.zero;
+    }
+
+    void IInputEventable.DisposeEvent()
+    {
+        
     }
 }

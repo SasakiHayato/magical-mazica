@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : EnemyBase, IDamageForceble
+public class Enemy : EnemyBase, IDamageForceble, IInputEventable
 {
     [SerializeField] int _attackIsActiveFrame;
     [SerializeField] int _attackEndActiveFrame;
@@ -43,7 +41,22 @@ public class Enemy : EnemyBase, IDamageForceble
 
     void IDamageForceble.OnFoece(Vector2 direction)
     {
+        if (direction == Vector2.zero) return;
+
         Rigid.SetImpulse(direction.x, RigidMasterData.ImpulseDirectionType.Horizontal, true);
         Rigid.SetImpulse(direction.y, RigidMasterData.ImpulseDirectionType.Vertical, true);
+
+        MonoState.ChangeState(State.KnockBack);
+    }
+
+    void IInputEventable.OnEvent()
+    {
+        _treeUser.SetRunRequest(false);
+        GetComponent<IBehaviourDatable>().SetMoveDirection = Vector2.zero;
+    }
+
+    void IInputEventable.DisposeEvent()
+    {
+        _treeUser.SetRunRequest(true);
     }
 }

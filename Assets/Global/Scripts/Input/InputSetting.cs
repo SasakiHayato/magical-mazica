@@ -20,6 +20,7 @@ public class InputSetting
 {
     public class UIInputOperator
     {
+        public bool IsInputAttribute { get; set; }
         public bool IsOperateRequest { get; set; }
         public IUIOperateEventable Operate { get; private set; }
 
