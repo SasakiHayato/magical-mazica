@@ -58,6 +58,19 @@ public class EffectStocker : MonoBehaviour
         }
     }
 
+    public void LoadEffect(string path, Transform parent)
+    {
+        StockData data = _stockDataList.FirstOrDefault(e => e.Path == path);
+
+        if (data != null)
+        {
+            Effect effect = data.Pool.UseRequest();
+            effect.transform.position = parent.position;
+
+            effect.transform.SetParent(parent);
+        }
+    }
+
     public void AddFieldEffect(FieldEffect.EffectType effectType, IFieldEffectable effectable)
     {
         _fieldEffect.AddEffect(effectType, effectable);
