@@ -19,5 +19,7 @@ MonoBehaviour:
     _effect: {fileID: 7579535796867564770, guid: f38da645dc4cd104180fea85e1a47aed, type: 3}
   - _path: Dead3
     _effect: {fileID: 4582446224507524059, guid: 39cf8ed839610d8419a246847796e3ac, type: 3}
+  - _path: Hit
+    _effect: {fileID: 3345437848674026314, guid: 668d2157a7621174fad173ff1a6e0dcd, type: 3}
   - _path: EnemyAttack
     _effect: {fileID: -7217949928853897825, guid: 991bc8b62bf099b4280f50f386f0ebb4, type: 3}

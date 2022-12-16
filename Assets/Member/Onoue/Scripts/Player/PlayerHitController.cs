@@ -1,23 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHitController : MonoBehaviour
 {
     [SerializeField] Player _player;
+
+    readonly string EnemyTag = "Enemy";
+    readonly float ForcePower = 10;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
-        {
-            EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.CmShake);
-            GameObject go = collision.transform.gameObject;
-            go.GetComponent<IDamagable>().AddDamage(_player.Damage);
+        if (!collision.CompareTag(EnemyTag)) return;
 
-            if (go.TryGetComponent(out IDamageForceble forceble))
-            {
-                // ‰¼
-                forceble.OnFoece(Vector2.zero);
-            }
+        SetEffect();
+        Process(collision.gameObject.transform);
+    }
+
+    void Process(Transform target)
+    {
+        if (target.TryGetComponent(out IDamagable damagable))
+        {
+            damagable.AddDamage(_player.Damage);
         }
+
+        if (target.TryGetComponent(out IDamageForceble forceble))
+        {
+            Vector2 forceDirection = target.position - _player.transform.position;
+            forceDirection.y = 1;
+            forceble.OnFoece(forceDirection.normalized * ForcePower);
+        }
+    }
+
+    void SetEffect()
+    {
+        EffectStocker.Instance.LoadEffect("Hit", transform.position);
+        EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.CmShake);
     }
 }
