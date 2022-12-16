@@ -92,16 +92,8 @@ public class GameController
     {
         get
         {
-            if (s_instance == null)
-            {
-                s_instance = new GameController();
-
-                GameObject obj = new GameObject("GameControllerDisposer");
-
-                GameControllerDisposer disposer = obj.AddComponent<GameControllerDisposer>();
-                disposer.Action = DisposeInstance;
-            }
-
+            s_instance = s_instance == null ? new GameController() : s_instance;
+            
             return s_instance;
         }
     }
@@ -155,6 +147,7 @@ public class GameController
     /// </summary>
     public void Dispose()
     {
+        _fieldObjectData.Dispose();
         _disposeList.ForEach(d => d.GameDispose());
     }
 
@@ -174,11 +167,8 @@ public class GameController
     /// <summary>
     /// é©êgÇÃInstanceÇÃîjä¸
     /// </summary>
-    static void DisposeInstance()
+    public static void DisposeLocalData()
     {
-        Instance._fieldObjectData.Dispose();
-        Instance.Dispose();
-
         Instance.Initalize();
     }
 
@@ -187,6 +177,7 @@ public class GameController
         _setupList = new List<IGameSetupable>();
         _disposeList = new List<IGameDisposable>();
         _fieldObjectData = new FieldObjectData();
+
         Player = null;
     }
 }
