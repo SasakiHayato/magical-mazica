@@ -21,6 +21,8 @@ public class Bullet : MonoBehaviour
     private int _damage;
     /// <summary>接触回数</summary>
     private int _hitCount;
+    /// <summary>接触対象に付与する状態異常</summary>
+    private StatusEffectBase _statusEffect;
     public Vector2 Velocity { set => _rb.velocity = value; }
     public ObjectType ObjectType { get; set; } = ObjectType.Obstacle;
     public BulletType UseType => _useType;
@@ -56,6 +58,15 @@ public class Bullet : MonoBehaviour
     }
 
     /// <summary>
+    /// 画像やパラメーターの設定
+    /// </summary>
+    public void Setup(Sprite sprite, BulletType useType, int damage, StatusEffectBase statusEffect)
+    {
+        _statusEffect = statusEffect;
+        Setup(sprite, useType, damage);
+    }
+
+    /// <summary>
     /// 融合時のBulletのインスタンスを生成して返す
     /// </summary>
     public static Bullet Init(Bullet original, FusionDatabase database, int damage)
@@ -87,6 +98,17 @@ public class Bullet : MonoBehaviour
                 {
                     Database.FusionBullet.Hit(damagable, transform.position);
                     _hitCount++;
+
+                    //状態異常付与可能なら対象に付与する
+                    var eft = Database.FusionBullet.StatusEffect();
+                    if (collision.TryGetComponent(out EnemyBase enemyBase) && eft != null)
+                    {
+                        enemyBase.SetStatusEffect = eft;
+                        eft.EndEvent
+                            .Subscribe(_ => enemyBase.StatusEffectRemove(eft))
+                            .AddTo(enemyBase);
+                        eft.Effect(damagable.AddDamage, enemyBase);
+                    }
                 }
 
                 damagable.AddDamage(_damage);
