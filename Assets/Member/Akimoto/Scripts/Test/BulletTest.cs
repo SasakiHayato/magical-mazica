@@ -21,12 +21,12 @@ public class BulletTest : MonoBehaviour
     {
         if (Input.GetButtonDown("RightTrigger_2"))
         {
-            _fusionItem.Fusion(RawMaterialID.BombBean, RawMaterialID.Penetration);
+            _fusionItem.Fusion(RawMaterialID.Poison, RawMaterialID.Poison);
             _fusionItem.Attack(Vector2.right);
         }
         if (Input.GetButtonDown("RightTrigger_1"))
         {
-            _fusionItem.Fusion(RawMaterialID.BombBean, RawMaterialID.BombBean);
+            _fusionItem.Fusion(RawMaterialID.Poison, RawMaterialID.BombBean);
             _fusionItem.Attack(Vector2.right);
         }
     }

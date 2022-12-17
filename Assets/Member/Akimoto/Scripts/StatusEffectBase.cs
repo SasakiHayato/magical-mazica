@@ -6,7 +6,7 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 
-public abstract class StatusEffectBase : MonoBehaviour
+public abstract class StatusEffectBase
 {
     protected Subject<Unit> _endEvent = new Subject<Unit>();
     protected IConnectableObservable<int> _countDown;
@@ -36,19 +36,4 @@ public enum StatusEffectID
 {
     /// <summary>毒</summary>
     Posion,
-}
-/// <summary>
-/// 状態異常評価の時に評価される値
-/// </summary>
-public enum EffectEvaluationStatType
-{
-    Health,
-}
-/// <summary>
-/// 状態異常評価タイミング
-/// </summary>
-public enum EffectTiming
-{
-    EverySecond,
-    OneTimeOnly,
 }

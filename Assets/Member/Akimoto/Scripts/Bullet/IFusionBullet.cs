@@ -25,6 +25,10 @@ public interface IFusionBullet
     /// </summary>
     public void Idle();
     /// <summary>
+    /// •t—^‚·‚éó‘ÔˆÙí
+    /// </summary>
+    public StatusEffectBase StatusEffect();
+    /// <summary>
     /// —^‚¦‚éƒ_ƒ[ƒW
     /// </summary>
     public int Damage { set; }
@@ -56,6 +60,8 @@ public class BlastPower : IFusionBullet
     public void Dispose() { }
 
     public bool IsDestroy(Collider2D collision, int hitCount) => true;
+
+    public StatusEffectBase StatusEffect() => null;
 }
 
 /// <summary>
@@ -80,6 +86,7 @@ public class BlastBlast : IFusionBullet
     public void Idle() { }
 
     public bool IsDestroy(Collider2D collision, int hitCount) => true;
+    public StatusEffectBase StatusEffect() => null;
 }
 /// <summary>
 /// ”š”­xŠÑ’Ê<br/>
@@ -114,6 +121,7 @@ public class BlastPenetration : IFusionBullet
             return true;
         }
     }
+    public StatusEffectBase StatusEffect() => null;
 }
 /// <summary>
 /// ”š”­x“Å<br/>
@@ -124,20 +132,36 @@ public class BlastPoison : IFusionBullet
     [SerializeField] Blast _blastPrefab;
     [SerializeField] float _blastRange;
     [SerializeField] float _blastDuraion;
+    [SerializeField] int _slipDamage;
+    [SerializeField] int _duration;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
+    //public StatusEffectBase StatusEffect
+    //{
+    //    get
+    //    {
+    //        Poison ret = (Poison)SelectEffect.AssignmentEffect(StatusEffectID.Posion, _duration);
+    //        ret.Damage = _slipDamage;
+    //        return ret;
+    //    }
+    //}
 
     public void Dispose() { }
 
     public void Hit(IDamagable damageble, Vector2 position)
     {
-        Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, ObjectType);
-        //“Å•t—^‚µ‚½‚¢
+        Blast.Init(_blastPrefab, position, _blastRange, _blastDuraion, Damage, StatusEffect(), ObjectType);
     }
 
     public void Idle() { }
 
     public bool IsDestroy(Collider2D collision, int hitCount) => true;
+    public StatusEffectBase StatusEffect()
+    {
+        Poison ret = (Poison)SelectEffect.AssignmentEffect(StatusEffectID.Posion, _duration);
+        ret.Damage = _slipDamage;
+        return ret;
+    }
 }
 /// <summary>
 /// ‰Î—Íx‰Î—Í<br/>
@@ -155,6 +179,7 @@ public class PowerPower : IFusionBullet
     public void Idle() { }
 
     public bool IsDestroy(Collider2D collision, int hitCount) => true;
+    public StatusEffectBase StatusEffect() => null;
 
 }
 /// <summary>
@@ -174,22 +199,29 @@ public class PowerPenetration : IFusionBullet
     public void Idle() { }
 
     public bool IsDestroy(Collider2D collision, int hitCount) => hitCount >= _destroyHitNum;
+    public StatusEffectBase StatusEffect() => null;
 }
 public class PowerPoison : IFusionBullet
 {
+    [SerializeField] int _slipDamage;
+    [SerializeField] int _duration;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
 
     public void Dispose() { }
 
-    public void Hit(IDamagable damageble, Vector2 position)
-    {
-        //“Å•t—^‚µ‚½‚¢
-    }
+    public void Hit(IDamagable damageble, Vector2 position) { }
 
     public void Idle() { }
 
     public bool IsDestroy(Collider2D collision, int hitCount) => true;
+
+    public StatusEffectBase StatusEffect()
+    {
+        Poison ret = (Poison)SelectEffect.AssignmentEffect(StatusEffectID.Posion, _duration);
+        ret.Damage = _slipDamage;
+        return ret;
+    }
 }
 /// <summary>
 /// ŠÑ’ÊxŠÑ’Ê<br/>
@@ -211,6 +243,8 @@ public class PenetrationPenetration : IFusionBullet
     public void Idle() { }
 
     public bool IsDestroy(Collider2D collision, int hitCount) => hitCount >= _destroyHitNum;
+
+    public StatusEffectBase StatusEffect() => null;
 }
 /// <summary>
 /// ŠÑ’Êx“Å
@@ -218,33 +252,43 @@ public class PenetrationPenetration : IFusionBullet
 public class PenetrationPoison : IFusionBullet
 {
     [SerializeField] int _destroyHitNum;
+    [SerializeField] int _duration;
+    [SerializeField] int _slipDamage;
     public int Damage { private get; set; }
     public ObjectType ObjectType {  private get; set; }
 
     public void Dispose() { }
 
-    public void Hit(IDamagable damageble, Vector2 position)
-    {
-        //“Å•t—^‚µ‚½‚¢
-    }
+    public void Hit(IDamagable damageble, Vector2 position) { }
 
     public void Idle() { }
 
     public bool IsDestroy(Collider2D collision, int hitCount) => hitCount >= _destroyHitNum;
+    public StatusEffectBase StatusEffect()
+    {
+        Poison ret = (Poison)SelectEffect.AssignmentEffect(StatusEffectID.Posion, _duration);
+        ret.Damage = _slipDamage;
+        return ret;
+    }
 }
 public class PoisonPoison : IFusionBullet
 {
+    [SerializeField] int _slipDamage;
+    [SerializeField] int _duration;
     public int Damage { private get; set; }
     public ObjectType ObjectType { private get; set; }
 
     public void Dispose() { }
 
-    public void Hit(IDamagable damageble, Vector2 position)
-    {
-        //“Å•t—^‚µ‚½‚¢
-    }
+    public void Hit(IDamagable damageble, Vector2 position) { }
 
     public void Idle() { }
 
     public bool IsDestroy(Collider2D collision, int hitCount) => true;
+    public StatusEffectBase StatusEffect()
+    {
+        Poison ret = (Poison)SelectEffect.AssignmentEffect(StatusEffectID.Posion, _duration);
+        ret.Damage = _slipDamage;
+        return ret;
+    }
 }
