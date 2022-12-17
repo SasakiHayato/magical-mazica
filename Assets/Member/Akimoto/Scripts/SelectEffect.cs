@@ -8,7 +8,7 @@ using DG.Tweening;
 public class SelectEffect
 {
 
-    public static StatusEffectBase AssignmentEffect(StatusEffectID statusEffectID, float time)
+    public static StatusEffectBase AssignmentEffect(StatusEffectID statusEffectID, int time)
     {
         StatusEffectBase ret;
         switch (statusEffectID)

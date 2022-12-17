@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UniRx;
 using Cysharp.Threading.Tasks;
@@ -9,8 +10,20 @@ public class StatusEffects { }
 
 public class Poison : StatusEffectBase
 {
-    public override int Effect(System.Func<int> method, EffectEvaluationStatType evaluationStatType)
+    public int Damage { get; set; }
+    public override void Effect(Action<int> damageMethod, Component component)
     {
-        throw new System.NotImplementedException();
+        _countDown = CreateCountDownStream(Time).Publish();
+        _countDown.Connect();
+        _countDown
+            .AsObservable()
+            .Subscribe(_ =>
+            {
+                damageMethod(Damage);
+            }, () =>
+            {
+                _endEvent.OnNext(Unit.Default);
+            })
+            .AddTo(component);
     }
 }
