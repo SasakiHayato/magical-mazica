@@ -1,4 +1,6 @@
-public class UIInputOption : IUIOperateEventable
+using UnityEngine;
+
+public class UIInputOption : IUIOperateEventable, IGameSetupable
 {
     enum SelectUIType
     {
@@ -7,17 +9,24 @@ public class UIInputOption : IUIOperateEventable
     }
 
     int _currentID = 0;
-    Popup _popup;
+    
+    static Popup _popup;
+    static PanelMover _panelMover = null;
 
     readonly string Path = "Option";
+    readonly Vector2 MovePosition = new Vector2(-500, 0);
+
+    int IGameSetupable.Priority => 1;
 
     void IUIOperateEventable.OnEnableEvent()
     {
         if (_popup == null)
         {
             _popup = GUIManager.FindPopup(Path);
+            _panelMover = new PanelMover(_popup.Parent, _popup.Parent.position);
         }
 
+        _panelMover.Initalize();
         _popup.OnView();
     }
 
@@ -53,10 +62,26 @@ public class UIInputOption : IUIOperateEventable
                 InputSetting.UIInputOperate.OperateRequest(new UIInputOptionSound());
                 break;
             case SelectUIType.Back:
+                _panelMover
+            .SetCallbackAction(() =>
+            {
                 InputSetting.UIInputOperate.OperateRequest(new UIInputSelectTitle());
+                _popup.OnCancel();
+            })
+            .OnMove(_popup.Parent.position.Collect() + MovePosition);
+                
                 break;
         }
+    }
 
-        _popup.OnCancel();
+    void IGameSetupable.GameSetup()
+    {
+        if (_popup == null)
+        {
+            _popup = GUIManager.FindPopup(Path);
+            _panelMover = new PanelMover(_popup.Parent, _popup.Parent.position);
+        }
+
+        _panelMover.OnMove(_popup.Parent.position.Collect() + MovePosition);
     }
 }

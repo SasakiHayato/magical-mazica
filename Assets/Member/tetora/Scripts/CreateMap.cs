@@ -187,11 +187,9 @@ public class CreateMap : MapCreaterBase
     {
         for (int i = 0; i < _scriptableObject.EnemyObject.Count; i++)
         {
-            Debug.Log($"Couunt:{_scriptableObject.EnemyObject.Count}");
             GameObject enemy = Instantiate(_enemies[i]);
             var enebase = enemy.GetComponent<Enemy>();
             enebase.ID = i;
-            Debug.Log($"EnemyInfo:ID{enebase.ID},{enemy}");
             _enemyDic.Add(enebase.ID, new EnemyTransform(enemy));
             _enemyDic[enebase.ID].IsCreate = false;
             DebugSetEnemyObject.SetEnemy(enemy.transform);

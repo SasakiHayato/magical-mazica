@@ -215,7 +215,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 1.98}
   m_Direction: 0
 --- !u!114 &1979952273589037224
 MonoBehaviour:
@@ -244,6 +244,7 @@ MonoBehaviour:
     _attackCollider: {fileID: 1979952273060667450}
   _storage: {fileID: 2779073037037807334}
   _fieldTouchOperator: {fileID: 7637927183145572976}
+  _spriteRenderer: {fileID: 5511639872723931496}
 --- !u!114 &1979952273589037230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,7 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fusionData: {fileID: 11400000, guid: 4a4caa952df998b429378d4635dd984f, type: 2}
   _bulletPrefab: {fileID: 3293845007953075938, guid: 8f4c83b2268c18148b5dc302d9498404, type: 3}
-  _throwBulletHeightOffset: 0
+  _throwBulletHeightOffset: 1
 --- !u!1 &5345489019897239339
 GameObject:
   m_ObjectHideFlags: 0

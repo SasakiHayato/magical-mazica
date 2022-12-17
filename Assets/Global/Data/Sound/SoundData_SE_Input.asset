@@ -16,6 +16,6 @@ MonoBehaviour:
   _soundType: 3
   _soundDataList:
   - _path: Click
-    _clip: {fileID: 8300000, guid: e7d32a885e907cf48a06a19ab427abe9, type: 3}
+    _clip: {fileID: 8300000, guid: 8337c9ca098b70049a36b2a24ac3fd51, type: 3}
     _volume: 0.398
     _isLoop: 0

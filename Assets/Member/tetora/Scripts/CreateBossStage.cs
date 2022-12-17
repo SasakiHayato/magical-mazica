@@ -71,7 +71,7 @@ public class CreateBossStage : MapCreaterBase
         for (int i = 0; i < _stageTipList[rnd].StageList.Count; i++)
         {
             GameObject stage = Instantiate(_stageTipList[rnd].StageList[i].gameObject, parentObj.transform);
-            _createdNum++;
+            CreatedNum++;
             SetMapTip(stage);
         }
     }

@@ -73,11 +73,11 @@ namespace BehaviourTree
 
             return; // バグが出るので、返す。要修正
 
-            #if UNITY_EDITOR
-            string ioPath;
-            BehaviourTreeIO.CreateFile(_userPath, out ioPath);
-            userData.SetIOPath(ioPath);
-            #endif
+            //#if UNITY_EDITOR
+            //string ioPath;
+            //BehaviourTreeIO.CreateFile(_userPath, out ioPath);
+            //userData.SetIOPath(ioPath);
+            //#endif
         }
 
         void SetModelData()

@@ -19,9 +19,9 @@ public class CalcDistance : MonoBehaviour, IGameSetupable
         SetMeasureTool();
     }
 
-    private void Start()
+    void Awake()
     {
-        
+        GameController.Instance.AddGameSetupable(this);
     }
     private void Update()
     {

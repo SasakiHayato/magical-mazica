@@ -32,12 +32,14 @@ public class Popup : MonoBehaviour
 
     [SerializeField] string _popupPath;
     [SerializeField] float _selectScaleRate;
+    [SerializeField] RectTransform _parent;
     [SerializeField] List<SourceData> _sourceDataList; 
     
     CanvasGroup _canvasGroup;
 
     public string Path => _popupPath;
     public int DataLength => _sourceDataList.Count;
+    public RectTransform Parent => _parent;
 
     void Awake()
     {
