@@ -11,12 +11,26 @@ public class Blast : MonoBehaviour
     /// <summary>égópé“ÇÃObjectType</summary>
     private ObjectType _objectType;
     private int _damage;
+    private StatusEffectBase _statusEffect;
 
     public static Blast Init(Blast original, Vector2 position, float range, float duration, int damage, ObjectType objectType)
     {
         Blast ret = Instantiate(original, position, Quaternion.identity);
         ret.Setup(range, duration, damage, objectType);
         return ret;
+    }
+
+    public static Blast Init(Blast original, Vector2 position, float range, float duration, int damage, StatusEffectBase statusEffect, ObjectType objectType)
+    {
+        Blast ret = Instantiate(original, position, Quaternion.identity);
+        ret.Setup(range, duration, damage, objectType);
+        return ret;
+    }
+
+    public void Setup(float range, float duration, int damage, StatusEffectBase statusEffect, ObjectType objectType)
+    {
+        _statusEffect = statusEffect;
+        Setup(range, duration, damage, objectType);
     }
 
     public void Setup(float range, float duration, int damage, ObjectType objectType)
@@ -29,6 +43,10 @@ public class Blast : MonoBehaviour
             Instantiate(_particleEffect, transform.position, Quaternion.identity);
     }
 
+    /// <summary>
+    /// éwíËïbêîë“Ç¡ÇƒÇ©ÇÁè¡Ç¶ÇÈ
+    /// </summary>
+    /// <param name="duration"></param>
     private async void DestroyCount(float duration)
     {
         await UniTask.Delay(System.TimeSpan.FromSeconds(duration));
@@ -37,11 +55,16 @@ public class Blast : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IDamagable obj))
+        if (collision.TryGetComponent(out IDamagable damageble))
         {
-            if (obj.ObjectType != _objectType)
+            if (damageble.ObjectType != _objectType)
             {
-                obj.AddDamage(_damage);
+                damageble.AddDamage(_damage);
+
+                if (collision.TryGetComponent(out EnemyBase enemyBase) && _statusEffect != null)
+                {
+                    enemyBase.SetStatusEffect = _statusEffect;
+                }
 
                 if (collision.TryGetComponent(out IDamageForceble forceble))
                 {

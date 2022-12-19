@@ -14,7 +14,7 @@ public class PlayerIdle : MonoStateBase
     public override void OnEntry()
     {
         _playerStateData.Rigid.SetMoveDirection = Vector2.zero;
-        _playerStateData.Jump.InitalizeJumpCount();
+        _playerStateData.Jump.Initalize();
         _anim.OnPlay("Idle");
     }
     //Update

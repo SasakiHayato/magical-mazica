@@ -51,6 +51,7 @@ namespace UIManagement
                 //選択中イベントの受け取り
                 _materialViewPanels.ForEach(panel =>
                 {
+                    panel.State = MaterialPanelState.Neutral;
                     //選択された素材に含まれているものをアクティブに、されていないものをニュートラル状態にする
                     collection.ForEach(id =>
                     {

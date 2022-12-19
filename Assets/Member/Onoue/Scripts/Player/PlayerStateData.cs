@@ -17,22 +17,36 @@ public class PlayerStateData : IMonoDatableSystem<PlayerStateData>
     public class JumpData
     {
         [SerializeField] int _defaultJumpCount = 2;
-        [SerializeField] float _power = 15;
+        [SerializeField] float[] _power;
         [SerializeField] Vector2 _wallPower = new Vector2(20, 25);
 
-        public float Power => _power;
+        int _currentJumpID = 0;
+
+        public float Power => _power[_currentJumpID];
         public Vector2 WallPower => _wallPower;
 
         public int CurrentJumpCount { get; private set; }
+
+        public void SetNextID()
+        {
+            if (_currentJumpID >= _power.Length)
+            {
+                _currentJumpID = 0;
+                return;
+            }
+
+            _currentJumpID++;
+        }
 
         public void CallbackJumpCount()
         {
             CurrentJumpCount--;
         }
 
-        public void InitalizeJumpCount()
+        public void Initalize()
         {
             CurrentJumpCount = _defaultJumpCount - 1;
+            _currentJumpID = 0;
         }
     }
 

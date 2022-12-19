@@ -1,4 +1,5 @@
 using MonoState;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
@@ -33,6 +34,8 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     float _xScale = 0;
     Vector2 _beforePosition = Vector2.zero;
     int _id = 0;
+    /// <summary>•t—^‚³‚ê‚Ä‚¢‚éó‘ÔˆÙí</summary>
+    List<StatusEffectBase> _statusEffects = new List<StatusEffectBase>();
 
     /// <summary>Œ»İHP</summary>
     ReactiveProperty<int> _currentHp = new ReactiveProperty<int>();
@@ -43,6 +46,21 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     protected MonoStateMachine<EnemyBase> MonoState { get; private set; }
     protected EnemyStateData EnemyStateData { get; private set; } = new EnemyStateData();
     public int ID { get => _id; set => _id = value; }
+    /// <summary>ó‘ÔˆÙí‚Ì•t—^</summary>
+    public StatusEffectBase SetStatusEffect
+    {
+        set
+        {
+            value.EndEvent
+                .Subscribe(_ =>
+                {
+                    _statusEffects.Remove(value);
+                })
+                .AddTo(this);
+            _statusEffects.Add(value);
+            value.Effect(AddDamage, this);
+        }
+    }
 
     /// <summary>
     /// ¶¬‚É‹ó’†‚É¶¬‚·‚é‚±‚Æ‚ğ‹–—e‚·‚é‚©‚Ç‚¤‚©
@@ -130,7 +148,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         }
     }
 
-    void IDamagable.AddDamage(int damage)
+    public void AddDamage(int damage)
     {
         if (IsDamage(damage))
         {

@@ -28,6 +28,8 @@ public class InputController : MonoBehaviour
         }
 
         SetupUIInput();
+
+        Debug.Log(InputSetting.CurrentController);
     }
 
     void OnDestroy()
@@ -51,13 +53,13 @@ public class InputController : MonoBehaviour
                     }
                     else
                     {
-                        _player.SetMaterialID(RawMaterialID.Empty);
+                        _player.SetMaterialID(RawMaterialID.Poison);
                     }
                 }, 
                 InputUserType.Player
             );
         _inputSetting.CreateButtonInput("EastButton", () => _player.SetMaterialID(RawMaterialID.PowerPlant), InputUserType.Player);
-        _inputSetting.CreateButtonInput("SouthButton", () => _player.SetMaterialID(RawMaterialID.Empty), InputUserType.Player);
+        _inputSetting.CreateButtonInput("SouthButton", () => _player.SetMaterialID(RawMaterialID.Penetration), InputUserType.Player);
         _inputSetting.CreateButtonInput("NorthButton", () => _player.SetMaterialID(RawMaterialID.BombBean), InputUserType.Player);
         //_inputSetting.CreateButtonInput
         //    (

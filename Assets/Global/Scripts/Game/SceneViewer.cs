@@ -30,6 +30,10 @@ public class SceneViewer : MonoBehaviour
     {
         if (_sceneType == SceneType.Title)
         {
+            GameController.Instance.AddGameSetupable(new UIInputSetScene());
+            GameController.Instance.AddGameSetupable(new UIInputOption());
+            GameController.Instance.AddGameSetupable(new UIInputOptionSound());
+            
             InputSetting.UIInputOperate.OperateRequest(new UIInputSelectTitle());
         }
 

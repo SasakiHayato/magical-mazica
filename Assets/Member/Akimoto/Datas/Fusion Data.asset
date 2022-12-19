@@ -83,7 +83,7 @@ MonoBehaviour:
     _useType: 1
     _bulletSpeed: 5
     _fusionBullet:
-      rid: 7803519140656316420
+      rid: 7803519193648201728
   - _name: "\u30A6\u30EB\u30C8\u30E9\u30AB\u30F3\u30C4\u30A6"
     _icon: {fileID: 0}
     _sprite: {fileID: 0}
@@ -113,7 +113,7 @@ MonoBehaviour:
     _useType: 0
     _bulletSpeed: 4
     _fusionBullet:
-      rid: 7803519143773470722
+      rid: 7803519193648201729
   references:
     version: 2
     RefIds:
@@ -142,14 +142,14 @@ MonoBehaviour:
         _blastPrefab: {fileID: 6171674707284503135, guid: 76b1ed0c81947e74c96eeb9b08b1e1bf, type: 3}
         _blastRange: 5
         _blastDuraion: 0.2
+        _slipDamage: 1
+        _duration: 3
     - rid: 7803519140656316418
       type: {class: PowerPower, ns: , asm: Assembly-CSharp}
     - rid: 7803519140656316419
       type: {class: PowerPenetration, ns: , asm: Assembly-CSharp}
       data:
         _destroyHitNum: 10
-    - rid: 7803519140656316420
-      type: {class: PowerPoison, ns: , asm: Assembly-CSharp}
     - rid: 7803519143773470720
       type: {class: PenetrationPenetration, ns: , asm: Assembly-CSharp}
       data:
@@ -158,5 +158,15 @@ MonoBehaviour:
       type: {class: PenetrationPoison, ns: , asm: Assembly-CSharp}
       data:
         _destroyHitNum: 5
-    - rid: 7803519143773470722
+        _duration: 1
+        _slipDamage: 3
+    - rid: 7803519193648201728
+      type: {class: PowerPoison, ns: , asm: Assembly-CSharp}
+      data:
+        _slipDamage: 1
+        _duration: 3
+    - rid: 7803519193648201729
       type: {class: PoisonPoison, ns: , asm: Assembly-CSharp}
+      data:
+        _slipDamage: 2
+        _duration: 3

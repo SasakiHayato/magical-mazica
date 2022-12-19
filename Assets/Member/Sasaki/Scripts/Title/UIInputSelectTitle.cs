@@ -1,18 +1,23 @@
 public class UIInputSelectTitle : IUIOperateEventable
 {
     int _currentID = 0;
-    Popup _popup = null;
 
-    readonly int AttributeID = 1;
+    static Popup _popup = null;
+    static PanelMover _panelMover = null;
+
+    readonly int AttributeID = 0;
     readonly string Path = "SelectTitle";
+    readonly UnityEngine.Vector2 MovePosition = new UnityEngine.Vector2(500, 0);
 
     void IUIOperateEventable.OnEnableEvent()
     {
         if (_popup == null)
         {
             _popup = GUIManager.FindPopup(Path);
+            _panelMover = new PanelMover(_popup.Parent, _popup.Parent.position);
         }
-        
+
+        _panelMover.Initalize();
         _popup.OnView();
     }
 
@@ -22,6 +27,7 @@ public class UIInputSelectTitle : IUIOperateEventable
         {
             vertical = _popup.DataLength - 1;
         }
+
         _currentID = vertical;
         _popup.OnSelect(vertical);
     }
@@ -39,15 +45,14 @@ public class UIInputSelectTitle : IUIOperateEventable
 
     void IUIOperateEventable.DisposeEvent()
     {
-        if (_currentID == AttributeID)
-        {
-            InputSetting.UIInputOperate.OperateRequest(new UIInputSetScene());
-        }
-        else
-        {
-            InputSetting.UIInputOperate.OperateRequest(new UIInputOption());
-        }
-
-        _popup.OnCancel();
+        _panelMover
+            .SetCallbackAction(() =>
+            {
+                if (_currentID == AttributeID) InputSetting.UIInputOperate.OperateRequest(new UIInputSetScene());
+                else InputSetting.UIInputOperate.OperateRequest(new UIInputOption());
+                
+                _popup.OnCancel();
+            })
+            .OnMove(_popup.Parent.position.Collect() + MovePosition);
     }
 }

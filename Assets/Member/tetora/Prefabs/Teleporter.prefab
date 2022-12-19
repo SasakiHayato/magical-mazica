@@ -239,8 +239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e13ef776114df4091c4f44857ef0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _teleportAttributer: {fileID: 1196304677207482814}
   _point: {fileID: 660008173057636810, guid: 7c2f4f3dda1c65b488c796d54962c178, type: 3}
+  _teleportAttributer: {fileID: 1196304677207482814}
 --- !u!1001 &258031152181070194
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1407,7 +1407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87565ca88866c114d99fdef138d1b0ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guimanager: {fileID: 1788660885}
 --- !u!4 &1557642993
 Transform:
   m_ObjectHideFlags: 0
@@ -1727,6 +1726,14 @@ PrefabInstance:
       objectReference: {fileID: 1788660887}
     - target: {fileID: 2834049787349273774, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: _playerStatusPanel._materialImages.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259713888025730387, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259713888025730387, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

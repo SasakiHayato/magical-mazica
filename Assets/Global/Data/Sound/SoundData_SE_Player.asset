@@ -17,7 +17,7 @@ MonoBehaviour:
   _soundDataList:
   - _path: Greeting
     _clip: {fileID: 8300000, guid: 67dda2caa439acc418b5adb4de94fa77, type: 3}
-    _volume: 0.388
+    _volume: 0.673
     _isLoop: 0
   - _path: Attack1
     _clip: {fileID: 8300000, guid: 9594135afa46ab4489454842a14dc76d, type: 3}

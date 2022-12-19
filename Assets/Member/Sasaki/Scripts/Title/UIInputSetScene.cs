@@ -1,20 +1,27 @@
 using UnityEngine;
 
-public class UIInputSetScene : IUIOperateEventable
+public class UIInputSetScene : IUIOperateEventable, IGameSetupable
 {
     int _currentID = 0;
-    Popup _popup;
-
-    readonly int AttributeID = 1;
-    readonly string Path = "SetScene";
     
+    static Popup _popup;
+    static PanelMover _panelMover = null;
+
+    readonly int AttributeID = 0;
+    readonly string Path = "SetScene";
+    readonly Vector2 MovePosition = new Vector2(-500, 0);
+
+    int IGameSetupable.Priority => 1;
+
     void IUIOperateEventable.OnEnableEvent()
     {
         if (_popup == null)
         {
             _popup = GUIManager.FindPopup(Path);
+            _panelMover = new PanelMover(_popup.Parent, _popup.Parent.position);
         }
-        
+
+        _panelMover.Initalize();
         _popup.OnView();
     }
 
@@ -42,16 +49,32 @@ public class UIInputSetScene : IUIOperateEventable
 
     void IUIOperateEventable.DisposeEvent()
     {
-        if (_currentID == AttributeID)
+        _panelMover
+            .SetCallbackAction(() =>
+            {
+                if (_currentID == AttributeID)
+                {
+                    SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer, "Greeting");
+                    SceneViewer.SceneLoad(SceneViewer.SceneType.Game);
+                }
+                else
+                {
+                    InputSetting.UIInputOperate.OperateRequest(new UIInputSelectTitle());
+                }
+
+                _popup.OnCancel();
+            })
+            .OnMove(_popup.Parent.position.Collect() + MovePosition);
+    }
+
+    void IGameSetupable.GameSetup()
+    {
+        if (_popup == null)
         {
-            SoundManager.PlayRequest(SoundSystem.SoundType.SEInput, "Click");
-            SceneViewer.SceneLoad(SceneViewer.SceneType.Game);
-        }
-        else
-        {
-            InputSetting.UIInputOperate.OperateRequest(new UIInputSelectTitle());
+            _popup = GUIManager.FindPopup(Path);
+            _panelMover = new PanelMover(_popup.Parent, _popup.Parent.position);
         }
 
-        _popup.OnCancel();
+        _panelMover.OnMove(_popup.Parent.position.Collect() + MovePosition);
     }
 }

@@ -16,6 +16,14 @@ public interface IUIOperateEventable
     void DisposeEvent();
 }
 
+public enum ControllerType
+{
+    XBOX,
+    DUALSHOCK,
+
+    None,
+}
+
 public class InputSetting
 {
     public class UIInputOperator
@@ -36,7 +44,9 @@ public class InputSetting
 
     List<ButtonInputData> _buttonInputDataList = new List<ButtonInputData>();
     List<AxisInputData> _axisInputDataList = new List<AxisInputData>();
-    
+
+    public static ControllerType CurrentController { get; private set; } = ControllerType.DUALSHOCK;
+
     static InputSetting s_instance = null;
     public static UIInputOperator UIInputOperate { get; private set; }
 
@@ -88,6 +98,26 @@ public class InputSetting
         return this;
     }
 
+    static void ConnectController()
+    {
+        try
+        {
+            string name = Input.GetJoystickNames()[0];
+
+            if (name == "")
+            {
+                CurrentController = ControllerType.None;
+                return;
+            }
+
+            CurrentController = name.Contains("XBOX") ? ControllerType.XBOX : ControllerType.DUALSHOCK;
+        }
+        catch 
+        {
+            CurrentController = ControllerType.None;
+        }
+    }
+
     public static void ChangeInputUser(InputUserType userType)
     {
         s_instance._currentUser = userType;
@@ -99,6 +129,7 @@ public class InputSetting
         {
             inputOperator = new InputSetting();
             UIInputOperate = new UIInputOperator();
+            ConnectController();
             s_instance = inputOperator;
         }
         else
