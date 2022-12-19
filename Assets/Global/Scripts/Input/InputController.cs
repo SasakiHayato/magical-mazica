@@ -28,6 +28,8 @@ public class InputController : MonoBehaviour
         }
 
         SetupUIInput();
+
+        Debug.Log(InputSetting.CurrentController);
     }
 
     void OnDestroy()
