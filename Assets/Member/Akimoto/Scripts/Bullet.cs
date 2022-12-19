@@ -104,10 +104,6 @@ public class Bullet : MonoBehaviour
                     if (collision.TryGetComponent(out EnemyBase enemyBase) && eft != null)
                     {
                         enemyBase.SetStatusEffect = eft;
-                        eft.EndEvent
-                            .Subscribe(_ => enemyBase.StatusEffectRemove(eft))
-                            .AddTo(enemyBase);
-                        eft.Effect(damagable.AddDamage, enemyBase);
                     }
                 }
 

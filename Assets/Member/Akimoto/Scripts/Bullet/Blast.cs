@@ -64,10 +64,6 @@ public class Blast : MonoBehaviour
                 if (collision.TryGetComponent(out EnemyBase enemyBase) && _statusEffect != null)
                 {
                     enemyBase.SetStatusEffect = _statusEffect;
-                    _statusEffect.EndEvent
-                        .Subscribe(_ => enemyBase.StatusEffectRemove(_statusEffect))
-                        .AddTo(enemyBase);
-                    _statusEffect.Effect(damageble.AddDamage, enemyBase);
                 }
 
                 if (collision.TryGetComponent(out IDamageForceble forceble))

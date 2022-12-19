@@ -34,6 +34,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     float _xScale = 0;
     Vector2 _beforePosition = Vector2.zero;
     int _id = 0;
+    /// <summary>•t—^‚³‚ê‚Ä‚¢‚éó‘ÔˆÙí</summary>
     List<StatusEffectBase> _statusEffects = new List<StatusEffectBase>();
 
     /// <summary>Œ»İHP</summary>
@@ -50,14 +51,16 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     {
         set
         {
+            value.EndEvent
+                .Subscribe(_ =>
+                {
+                    _statusEffects.Remove(value);
+                })
+                .AddTo(this);
             _statusEffects.Add(value);
-            //value.EndEvent
-            //    .Subscribe(_ => _statusEffects.Remove(value))
-            //    .AddTo(this);
-            //value.Effect(AddDamage, this);
+            value.Effect(AddDamage, this);
         }
     }
-    public void StatusEffectRemove(StatusEffectBase statusEffect) => _statusEffects.Remove(statusEffect);
 
     /// <summary>
     /// ¶¬‚É‹ó’†‚É¶¬‚·‚é‚±‚Æ‚ğ‹–—e‚·‚é‚©‚Ç‚¤‚©
