@@ -13,15 +13,19 @@ public class GUIManager : MonoBehaviour, IGameSetupable
     [SerializeField] CharacterManager _characterManager;
     [SerializeField] RawMaterialData _materialData;
     [SerializeField] PlayerStatusPanel _playerStatusPanel;
+    [SerializeField] BossHealthBar _bossHealthBar;
     [SerializeField] List<Popup> _popupList;
     
     int IGameSetupable.Priority => 2;
 
     static List<Popup> s_popupList;
+    static BossHealthBar s_healthBar;
 
     void Awake()
     {
         s_popupList = _popupList;
+        s_healthBar = _bossHealthBar;
+        s_healthBar.SetActive = false;
         GameController.Instance.AddGameSetupable(this);
     }
 
@@ -56,5 +60,25 @@ public class GUIManager : MonoBehaviour, IGameSetupable
     public static Popup FindPopup(string path)
     {
         return s_popupList.Find(p => p.Path == path);
+    }
+
+    /// <summary>
+    /// ボスの体力バーを表示する
+    /// </summary>
+    /// <param name="maxHp"></param>
+    /// <param name="currentHpObservable"></param>
+    /// <param name="component"></param>
+    public static void ShowBossHealthBar(int maxHp, System.IObservable<int> currentHpObservable, Component component)
+    {
+        s_healthBar.SetActive = true;
+        s_healthBar.Setup(maxHp, currentHpObservable, component);
+    }
+
+    /// <summary>
+    /// ボスの体力バーを非表示にする
+    /// </summary>
+    public static void DisableBossHealBar()
+    {
+        s_healthBar.SetActive = false;
     }
 }
