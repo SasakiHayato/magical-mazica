@@ -7,7 +7,7 @@ public class UIInputSetScene : IUIOperateEventable, IGameSetupable
     static Popup _popup;
     static PanelMover _panelMover = null;
 
-    readonly int AttributeID = 1;
+    readonly int AttributeID = 0;
     readonly string Path = "SetScene";
     readonly Vector2 MovePosition = new Vector2(-500, 0);
 

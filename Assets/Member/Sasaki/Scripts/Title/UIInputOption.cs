@@ -4,8 +4,8 @@ public class UIInputOption : IUIOperateEventable, IGameSetupable
 {
     enum SelectUIType
     {
-        Back = 0,
-        Sound = 1,
+        Back = 1,
+        Sound = 0,
     }
 
     int _currentID = 0;
