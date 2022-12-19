@@ -982,8 +982,8 @@ MonoBehaviour:
   _selectScaleRate: 1.1
   _parent: {fileID: 700360751}
   _sourceDataList:
-  - _source: {fileID: 561642851}
   - _source: {fileID: 1622323537}
+  - _source: {fileID: 561642851}
 --- !u!114 &700360753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1080,8 +1080,8 @@ MonoBehaviour:
   _selectScaleRate: 1.1
   _parent: {fileID: 722591997}
   _sourceDataList:
-  - _source: {fileID: 1034189042}
   - _source: {fileID: 67028249}
+  - _source: {fileID: 1034189042}
 --- !u!114 &722591999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1243,6 +1243,14 @@ PrefabInstance:
       propertyPath: _popupList.Array.data[3]
       value: 
       objectReference: {fileID: 1833126814}
+    - target: {fileID: 3259713888025730387, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259713888025730387, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6400063758484754951, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2722,8 +2730,8 @@ MonoBehaviour:
   _selectScaleRate: 1.1
   _parent: {fileID: 1491006091}
   _sourceDataList:
-  - _source: {fileID: 1400631615}
   - _source: {fileID: 1816605094}
+  - _source: {fileID: 1400631615}
 --- !u!114 &1491006093
 MonoBehaviour:
   m_ObjectHideFlags: 0
