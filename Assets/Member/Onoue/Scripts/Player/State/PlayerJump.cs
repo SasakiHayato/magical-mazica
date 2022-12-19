@@ -16,7 +16,7 @@ public class PlayerJump : MonoStateBase
         _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.Power, RigidMasterData.ImpulseDirectionType.Vertical, true);
         _playerStateData.Jump.CallbackJumpCount();
         _speed = _playerStateData.Rigid.ReadVelocity.x;
-
+        
         _anim.OnPlay("Jump");
     }
     //Update

@@ -238,7 +238,9 @@ MonoBehaviour:
   _playerStateData:
     _jumpData:
       _defaultJumpCount: 2
-      _power: 15
+      _power:
+      - 18.5
+      - 16
       _wallPower: {x: 20, y: 25}
     _rigidOperator: {fileID: 2918460987798947337}
     _attackCollider: {fileID: 1979952273060667450}

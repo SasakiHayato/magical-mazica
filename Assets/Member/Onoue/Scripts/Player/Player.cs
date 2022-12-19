@@ -75,7 +75,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         _fusionItem = GetComponentInChildren<FusionItem>();
         _hp.Value = _maxHP;
 
-        _playerStateData.Jump.InitalizeJumpCount();
+        _playerStateData.Jump.Initalize();
         _playerStateData.Status.Set(_maxHP, _speed);
         _playerStateData.AttackCollider.SetActive(false);
 
@@ -139,12 +139,12 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     {
         if (_playerStateData.Jump.CurrentJumpCount >= 0)
         {
-            _stateMachine.ChangeState(PlayerState.Jump);
+            _stateMachine.ChangeState(PlayerState.Jump, true);
+            _playerStateData.Jump.SetNextID();
         }
         if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true))
         {
             _stateMachine.ChangeState(PlayerState.WallJump);
-            //_playerStateData.Jump.SetWallJumpedFrag = true;
         }
     }
 
