@@ -28,3 +28,7 @@ MonoBehaviour:
   - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
   - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
   - {fileID: 6423235623607631742, guid: c922982342a3bea45982529c283e5836, type: 3}
+  _bossObj: {fileID: 0}
+  _spriteParts:
+  - key: 0
+    value: {fileID: 0}

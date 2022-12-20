@@ -16,9 +16,36 @@ public class FieldScriptableObject : ScriptableObject
     [SerializeField]
     GameObject _bossObj;
 
+    [SerializeField]
+    StageParts[] _spriteParts;
+
     public int MapVerSide { get => _mapVerSide; }
     public int MapHorSide { get => _mapHorSide; }
     public List<GameObject> EnemyObject { get => _enemyObject; }
     public GameObject BossObj { get => _bossObj; }
+
+    /// <summary>
+    /// WallType‚É‚æ‚Á‚ÄParts‚ð“n‚·
+    /// </summary>
+    /// <param name="key">WallType</param>
+    /// <returns>Sprite</returns>
+    public GameObject GetParts(WallType key)
+    {
+        for (int i = 0; i < _spriteParts.Length; i++)
+        {
+            if (_spriteParts[i].key == key)
+            {
+                return _spriteParts[i].value;
+            }
+        }
+        return null;
+    }
+
+    [System.Serializable]
+    class StageParts
+    {
+        public WallType key;
+        public GameObject value;
+    }
 }
 

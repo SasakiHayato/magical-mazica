@@ -6,6 +6,15 @@ public enum MapState
 {
     Wall, Floar, Player, Teleport, Goal, Enemy
 }
+public enum WallType//床の位置が名前の由来
+{
+    None, NonFloar,
+    Top, Right, Bottom, Left,//一方向だけ床
+    TopRight, TopLeft, TopBottom,//二方向だけ床
+    BottomLeft, BottomRight,
+    RightLeft,
+    NonTop, NonRight, NonBottom, NonLeft//三方向床
+}
 [System.Serializable]
 public class CreateMap : MapCreaterBase
 {
@@ -71,6 +80,7 @@ public class CreateMap : MapCreaterBase
         _wallObjSize = _wallObj.transform.localScale.x;
         ResetMapFlag();
         StartDig();
+        //CreateStage();
         DecisionPlayerPos();
         SetGoalPos();
         InstantiateEnemy();
@@ -135,19 +145,7 @@ public class CreateMap : MapCreaterBase
             yield return dir;
         }
     }
-    /// <summary>穴を掘る処理</summary>
-    /// <param name="id">開始地点</param>
-    void Dig(int id)
-    {
-        _stageMap[id].State = MapState.Floar;
-        _stageMap[id].IsGenerate = true;
-        foreach (var posId in CheckDir(id))
-        {
-            _stageMap[posId.oneTarget].State = MapState.Floar;
-            Dig(posId.twoTarget);
-        }
-    }
-    /// <summary>掘り始める</summary>
+    ///// <summary>掘り始める</summary>
     void StartDig()
     {
         _startDigPos = RandomPos();
@@ -170,6 +168,45 @@ public class CreateMap : MapCreaterBase
             }
         }
     }
+    /// <summary>
+    /// Stageの作成開始
+    /// </summary>
+    void CreateStage()
+    {
+        _startDigPos = RandomPos();
+        Dig(_startDigPos);
+        foreach (var pos in _stageMap)
+        {
+            if (pos.State == MapState.Floar)
+            {
+                var emptyObj = new GameObject();
+                emptyObj.name = "Floar";
+                _stageObjList.Add(emptyObj);
+                SetTransform(emptyObj, pos);
+                continue;
+            }
+            else
+            {
+                CheckAroundState(pos);
+                CreateWallObj(pos);
+            }
+        }
+    }
+
+    /// <summary>穴を掘る処理</summary>
+    /// <param name="id">開始地点</param>
+    void Dig(int id)
+    {
+        _stageMap[id].State = MapState.Floar;
+        _stageMap[id].IsGenerate = true;
+        foreach (var posId in CheckDir(id))
+        {
+            _stageMap[posId.oneTarget].State = MapState.Floar;
+            Dig(posId.twoTarget);
+        }
+    }
+
+
     /// <summary>オブジェクトを並べる</summary>
     /// <param name="obj">並べたいオブジェクト</param>
     /// <param name="map">並べたいMap</param>
@@ -391,17 +428,100 @@ public class CreateMap : MapCreaterBase
         yield return new WaitForSeconds(_createEnemyTime);
         CreateEnemy(id);
     }
-    //IEnumerator CreateEnemyCoroutine() //一斉に敵を生成する
-    //{
-    //    yield return new WaitForSeconds(_createEnemyTime);
-    //    for (int i = 0; i < _enemies.Length; i++)
-    //    {
-    //        if (_enemyDic[i].IsCreate != true)
-    //        {
-    //            continue;
-    //        }
-    //        CreateEnemy(i);
-    //    }
-    //}
+    /// <summary>
+    /// 4方向の壁を調べる
+    /// </summary>
+    void CheckAroundState(Point pos)
+    {
+        if (_stageMap[pos.Id - _stageMap.MaxX].State == MapState.Wall || pos.Id - _stageMap.MaxX <= 0)//上が床
+        {
+            AddScore(pos, 1000);
+        }
+        if (_stageMap[pos.Id + 1].State == MapState.Wall || pos.Id + 1 >= _stageMap.MaxX)//右が床
+        {
+            AddScore(pos, 100);
+        }
+        if (_stageMap[pos.Id + _stageMap.MaxX].State == MapState.Wall || pos.Id + _stageMap.MaxX <= 0)//下が床
+        {
+            AddScore(pos, 10);
+        }
+        if (_stageMap[pos.Id - _stageMap.MaxX].State == MapState.Wall || pos.Id - _stageMap.MaxX <= 0)//左が床
+        {
+            AddScore(pos, 1);
+        }
+        JudgeScore(pos);
+    }
+    /// <summary>
+    /// 設置するオブジェクトのScoreに加算
+    /// </summary>
+    /// <param name="pos">設置するオブジェクト</param>
+    /// <param name="score">上が床なら+1000 右+100 下+10 左+1</param>
+    void AddScore(Point pos, int score)
+    {
+        pos.JudgeScore += score;
+    }
+    void JudgeScore(Point pos)
+    {
+        switch (pos.JudgeScore)
+        {
+            case 1110://上、右、下が床
+                pos.Type = WallType.NonLeft;
+                break;
+            case 1101://上、右、左が床
+                pos.Type = WallType.NonBottom;
+                break;
+            case 1100://上、右が床
+                pos.Type = WallType.TopRight;
+                break;
+            case 1011://上、下、左が床
+                pos.Type = WallType.NonRight;
+                break;
+            case 1010://上、下が床
+                pos.Type = WallType.TopBottom;
+                break;
+            case 1001://上、左が床
+                pos.Type = WallType.TopLeft;
+                break;
+            case 1000://上だけ床
+                pos.Type = WallType.Top;
+                break;
+            case 0111://右、下、左が床
+                pos.Type = WallType.NonTop;
+                break;
+            case 0110://右、下が床
+                pos.Type = WallType.BottomRight;
+                break;
+            case 0101://右、左が床
+                pos.Type = WallType.RightLeft;
+                break;
+            case 0100://右が床
+                pos.Type = WallType.Right;
+                break;
+            case 0011://下、左が床
+                pos.Type = WallType.BottomLeft;
+                break;
+            case 0010://下が床
+                pos.Type = WallType.Bottom;
+                break;
+            case 0001://左が床
+                pos.Type = WallType.Left;
+                break;
+            case 0000:
+                pos.Type = WallType.NonFloar;
+                break;
+        }
+    }
+    /// <summary>
+    /// 作るオブジェクトの変更
+    /// </summary>
+    /// <param name="point"></param>
+    /// <param name="wallType"></param>
+    void CreateWallObj(Point point)
+    {
+        GameObject wallObj = _scriptableObject.GetParts(point.Type);
+        Instantiate(wallObj);
+        _stageObjList.Add(wallObj);
+        SetTransform(wallObj, point);
+    }
 }
 
