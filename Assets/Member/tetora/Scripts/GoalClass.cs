@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GoalClass : MonoBehaviour, IUIOperateEventable
 {
+    [SerializeField] SelectButtonHelper _selectButtonHelper;
     int _currentSelectID;
 
     Popup _popup;
@@ -29,6 +30,19 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
         {
             InputSetting.ChangeInputUser(InputUserType.UI);
             InputSetting.UIInputOperate.OperateRequest(this);
+        }
+
+        if (collision.CompareTag(PlayerTag) && _selectButtonHelper)
+        {
+            _selectButtonHelper.HelpObj(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag(PlayerTag) && _selectButtonHelper)
+        {
+            _selectButtonHelper.HelpObj(false);
         }
     }
 

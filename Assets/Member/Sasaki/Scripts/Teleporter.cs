@@ -5,10 +5,11 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
 {
     [SerializeField] GameObject _point;
     [SerializeField] TeleportAttributer _teleportAttributer;
+    [SerializeField] SelectButtonHelper _selectButtonHelper;
 
     int _id;
     int _currentSelectID;
-    
+
     Action<int> _teleportEvent;
     Func<int, Transform> _getTeleport;
 
@@ -33,11 +34,24 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
     {
         if (!_teleportAttributer.IsAttribute) return;
 
+        if (collision.CompareTag(PlayerTag) && _selectButtonHelper)
+        {
+            _selectButtonHelper.HelpObj(true);
+        }
+
         if (InputSetting.UIInputOperate.IsOperateRequest)
         {
             CameraOperator.CallEvent("SelectTeleport");
             InputSetting.ChangeInputUser(InputUserType.UI);
             InputSetting.UIInputOperate.OperateRequest(this);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag(PlayerTag) && _selectButtonHelper)
+        {
+            _selectButtonHelper.HelpObj(false);
         }
     }
 
@@ -58,7 +72,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
     void IUIOperateEventable.Select(ref int horizontal, ref int vertical)
     {
         _currentSelectID = horizontal;
-        
+
         if (_currentSelectID < 0)
         {
             _currentSelectID = 0;
@@ -68,7 +82,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
         {
             _currentSelectID = CreateMap.TepoatObjLength - 1;
         }
-        
+
         _point.transform.position = _getTeleport.Invoke(_currentSelectID).position;
         horizontal = _currentSelectID;
     }
@@ -79,7 +93,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
         {
             return false;
         }
-        
+
         _teleportEvent.Invoke(_currentSelectID);
         OnSelect = true;
 
