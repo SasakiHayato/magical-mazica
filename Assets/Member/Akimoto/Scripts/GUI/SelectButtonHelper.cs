@@ -18,14 +18,12 @@ public class SelectButtonHelper : MonoBehaviour
 
     public void HelpObj(bool active)
     {
-        Debug.Log("aaaaaaa");
         switch (InputSetting.CurrentController)
         {
             case ControllerType.XBOX:
                 _xboxHelpObj.SetActive(active);
                 break;
             case ControllerType.DUALSHOCK:
-                Debug.Log("dualshock");
                 _ps4HelpObj.SetActive(active);
                 break;
             case ControllerType.None:

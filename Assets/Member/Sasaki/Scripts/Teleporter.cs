@@ -32,12 +32,10 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("stay");
         if (!_teleportAttributer.IsAttribute) return;
 
         if (collision.CompareTag(PlayerTag) && _selectButtonHelper)
         {
-            Debug.Log("“ü‚Á‚½");
             _selectButtonHelper.HelpObj(true);
         }
 
@@ -53,7 +51,6 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
     {
         if (collision.CompareTag(PlayerTag) && _selectButtonHelper)
         {
-            Debug.Log("‚Å‚½");
             _selectButtonHelper.HelpObj(false);
         }
     }
