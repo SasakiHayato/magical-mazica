@@ -100,6 +100,38 @@ public class StageMap : IEnumerable<Point>
         }
         return false;
     }
+    public bool CheckTopDir(Point checkMap)
+    {
+        if (checkMap.Id / MaxX + 1 < MaxY)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckBottomDir(Point checkMap)
+    {
+        if (checkMap.Id / MaxX - 1 > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckRightDir(Point checkMap)
+    {
+        if (checkMap.Id % MaxX + 1 < MaxX)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckLeftDir(Point checkMap)
+    {
+        if (checkMap.Id % MaxX - 1 > 0)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public IEnumerator<Point> GetEnumerator()
     {
@@ -119,15 +151,20 @@ public class StageMap : IEnumerable<Point>
 public class Point
 {
     MapState _state = MapState.Wall;
-    public MapState State { get => _state; set => _state = value; }
+    WallType _type = WallType.None;
     Transform _objTransform;
-    public Transform ObjTransform { get => _objTransform; set => _objTransform = value; }
     bool _isGenerate;
     bool _isOpen;
     int _cost;
+    int _judgeScore;//‚Ç‚ÌWallType‚©”»’f‚·‚éƒXƒRƒA
+
+    public MapState State { get => _state; set => _state = value; }
+    public WallType Type { get => _type; set => _type = value; }
+    public Transform ObjTransform { get => _objTransform; set => _objTransform = value; }
     public bool IsGenerate { get => _isGenerate; set => _isGenerate = value; }
     public bool IsOpen { get => _isOpen; set => _isOpen = value; }
     public int Cost { get => _cost; set => _cost = value; }
+    public int JudgeScore { get => _judgeScore; set => _judgeScore = value; }
     public readonly int Id;
     public Point(int id)
     {

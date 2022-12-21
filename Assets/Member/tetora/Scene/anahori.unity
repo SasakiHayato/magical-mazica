@@ -678,6 +678,7 @@ MonoBehaviour:
   - {fileID: 5093053654628721447, guid: 4f9691d0e88a67447bff17d5afa39e8e, type: 3}
   - {fileID: 5093053654628721447, guid: 4f9691d0e88a67447bff17d5afa39e8e, type: 3}
   _releDis: 4
+  _createEnemyTime: 30
 --- !u!114 &1880368566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,5 +704,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feaa0b4e778972b439b3ce7220fffff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitStopTime: 0
   _characterManager: {fileID: 1880368566}
   _createMap: {fileID: 1880368565}
