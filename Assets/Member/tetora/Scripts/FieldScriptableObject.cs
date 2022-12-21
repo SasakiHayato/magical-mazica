@@ -14,7 +14,7 @@ public class FieldScriptableObject : ScriptableObject
     List<GameObject> _enemyObject;//敵のオブジェクト
 
     [SerializeField]
-    GameObject _bossObj;
+    GameObject _aroundSoilObj;
 
     [SerializeField]
     StageParts[] _spriteParts;
@@ -22,7 +22,8 @@ public class FieldScriptableObject : ScriptableObject
     public int MapVerSide { get => _mapVerSide; }
     public int MapHorSide { get => _mapHorSide; }
     public List<GameObject> EnemyObject { get => _enemyObject; }
-    public GameObject BossObj { get => _bossObj; }
+    public GameObject AroundSoilObj { get => _aroundSoilObj; }
+    public StageParts[] SpriteParts { get => _spriteParts; }
 
     /// <summary>
     /// WallTypeによってPartsを渡す
@@ -35,14 +36,14 @@ public class FieldScriptableObject : ScriptableObject
         {
             if (_spriteParts[i].key == key)
             {
-                return _spriteParts[i].value;
+                return SpriteParts[i].value;
             }
         }
         return null;
     }
 
     [System.Serializable]
-    class StageParts
+    public class StageParts
     {
         public WallType key;
         public GameObject value;

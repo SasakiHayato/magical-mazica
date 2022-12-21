@@ -100,6 +100,38 @@ public class StageMap : IEnumerable<Point>
         }
         return false;
     }
+    public bool CheckTopDir(Point checkMap)
+    {
+        if (checkMap.Id / MaxX + 1 < MaxY)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckBottomDir(Point checkMap)
+    {
+        if (checkMap.Id / MaxX - 1 > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckRightDir(Point checkMap)
+    {
+        if (checkMap.Id % MaxX + 1 < MaxX)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckLeftDir(Point checkMap)
+    {
+        if (checkMap.Id % MaxX - 1 > 0)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public IEnumerator<Point> GetEnumerator()
     {
