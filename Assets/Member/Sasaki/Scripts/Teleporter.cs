@@ -43,6 +43,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
         {
             CameraOperator.CallEvent("SelectTeleport");
             InputSetting.ChangeInputUser(InputUserType.UI);
+            InputController.CallbackInputEvent(true);
             InputSetting.UIInputOperate.OperateRequest(this);
         }
     }
@@ -115,6 +116,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
     {
         InputSetting.ChangeInputUser(InputUserType.Player);
         InputSetting.UIInputOperate.OperateRequest(null);
+        InputController.CallbackInputEvent(false);
         _point.SetActive(false);
     }
 }
