@@ -1,40 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using MonoState.State;
 using System;
+using MonoState.State;
 using MonoState.Data;
 using BehaviourTree;
 
 public class EnemyStateKnockBack : MonoStateBase
 {
-    float _timer = 0;
-
     BehaviourTreeUser _treeUser;
-
-    readonly float _knockTime = 1;
+    EnemyStateData _stateData;
+    AnimOperator _anim;
 
     public override void Setup(MonoStateData data)
     {
         _treeUser = data.GetMonoDataUni<BehaviourTreeUser>(nameof(BehaviourTreeUser));
+        _stateData = data.GetMonoData<EnemyStateData>(nameof(EnemyStateData));
+        _anim = data.GetMonoDataUni<AnimOperator>(nameof(AnimOperator));
     }
 
     public override void OnEntry()
     {
-        _timer = 0;
         _treeUser.SetRunRequest(false);
+        _stateData.Rigid.UseInertia = true;
+        _anim.OnPlay("Idle");
     }
 
     public override void OnExecute()
     {
-        _timer += Time.deltaTime;
+        
     }
 
     public override Enum OnExit()
     {
-        if (_timer > _knockTime)
+        if (!_stateData.Rigid.IsMoveMock)
         {
             _treeUser.SetRunRequest(true);
+            _stateData.Rigid.UseInertia = false;
+
             return EnemyBase.State.Idle;
         }
 
