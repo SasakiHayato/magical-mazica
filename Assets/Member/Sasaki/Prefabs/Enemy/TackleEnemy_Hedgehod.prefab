@@ -502,6 +502,8 @@ MonoBehaviour:
   _attackEndActiveFrame: 6
   _animOperator: {fileID: 485377720859512432}
   _treeUser: {fileID: 485377721560943010}
+  _materialObject: {fileID: 972535417249200289, guid: 2f41c7ee14b88b4418e87b2caa899123, type: 3}
+  _materialData: {fileID: 11400000, guid: e27215ae9dba20544903cd9b5cfede1b, type: 2}
 --- !u!1 &6772870067293458379
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,8 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     [SerializeField] int _attackEndActiveFrame;
     [SerializeField] AnimOperator _animOperator;
     [SerializeField] BehaviourTree.BehaviourTreeUser _treeUser;
-
+    [SerializeField] FusionMaterialObject _materialObject;
+    [SerializeField] RawMaterialData _materialData;
 
     protected override void Setup()
     {
@@ -31,6 +32,10 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     protected override void DeadEvent()
     {
         CreateMap.Instance.DeadEnemy(gameObject);
+        RawMaterialDatabase rawMaterial = _materialData.GetMaterialDataRandom();
+
+        FusionMaterialObject.Init(_materialObject, transform.position, rawMaterial);
+
         base.DeadEvent();
     }
 
