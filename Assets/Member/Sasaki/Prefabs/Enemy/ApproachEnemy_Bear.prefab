@@ -200,6 +200,7 @@ MonoBehaviour:
         _action:
           _actionList:
           - rid: 7198353249150173202
+          - rid: 7198353596671066117
           - rid: 7198353249150173200
           - rid: 7198353249150173201
       - _treeExecuteType: 1
@@ -273,6 +274,11 @@ MonoBehaviour:
       type: {class: ActionWait, ns: , asm: Assembly-CSharp}
       data:
         _waitTime: 0.2
+    - rid: 7198353596671066117
+      type: {class: ActionLaodEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: EnemyAttack
+        _onWait: 1
 --- !u!1 &6663473620630066629
 GameObject:
   m_ObjectHideFlags: 0

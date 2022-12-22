@@ -32,6 +32,8 @@ public class Effect : MonoBehaviour, IPool, IPoolOnEnableEvent
     int _endCount = 0;
 
     ParticleSystem _particle;
+
+    public bool IsEnd { get; private set; } = false;
     
     void IPool.Setup(Transform parent)
     {
@@ -46,6 +48,7 @@ public class Effect : MonoBehaviour, IPool, IPoolOnEnableEvent
 
     void IPoolOnEnableEvent.OnEnableEvent()
     {
+        IsEnd = false;
         _endCount = 0;
         _executableList.ForEach(e => e.Initalize());
         
@@ -73,14 +76,9 @@ public class Effect : MonoBehaviour, IPool, IPoolOnEnableEvent
 
     bool IPool.Execute()
     {
-        if (_addEventer != null)
-        {
-            return _endCount >= _executableList.Count && _addEventer.IsEndTask;
-        }
-        else
-        {
-            return _endCount >= _executableList.Count;
-        }
+        IsEnd = _addEventer != null ? _endCount >= _executableList.Count && _addEventer.IsEndTask : _endCount >= _executableList.Count;
+
+        return IsEnd;
     }
 
     IEnumerator OnProcess(Func<bool> func)

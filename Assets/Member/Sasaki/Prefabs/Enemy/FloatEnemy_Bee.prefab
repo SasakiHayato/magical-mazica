@@ -80,7 +80,7 @@ MonoBehaviour:
         _action:
           _actionList:
           - rid: 7198353280677445641
-          - rid: 7198353280677445642
+          - rid: 7198353596671066118
           - rid: 7198353280677445638
           - rid: 7198353280677445643
   - _name: Chase
@@ -128,12 +128,13 @@ MonoBehaviour:
       type: {class: ActionChase, ns: , asm: Assembly-CSharp}
       data:
         _updateSpeed: 0.75
-    - rid: 7198353280677445642
-      type: {class: ActionWait, ns: , asm: Assembly-CSharp}
-      data:
-        _waitTime: 1
     - rid: 7198353280677445643
       type: {class: ActionDead, ns: , asm: Assembly-CSharp}
+    - rid: 7198353596671066118
+      type: {class: ActionLaodEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: EnemyAttack
+        _onWait: 1
 --- !u!1 &1134029413569434372
 GameObject:
   m_ObjectHideFlags: 0

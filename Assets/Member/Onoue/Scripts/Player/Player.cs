@@ -130,7 +130,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         }
         catch
         {
-            Debug.Log("aaa");
+            Debug.Log("”­ŽË‹‘”Û");
         }
         
     }
