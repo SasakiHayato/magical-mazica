@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
+using System;
 
 public interface IBehaviourDatable
 {
@@ -40,11 +41,13 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     /// <summary>åªç›HP</summary>
     ReactiveProperty<int> _currentHp = new ReactiveProperty<int>();
 
+    protected int MaxHP => _maxHp;
     protected int Speed => _speed;
     protected Vector2 MoveDirection { get; private set; }
     protected RigidOperator Rigid { get; private set; }
     protected MonoStateMachine<EnemyBase> MonoState { get; private set; }
     protected EnemyStateData EnemyStateData { get; private set; } = new EnemyStateData();
+    protected IObservable<int> HPObservable => _currentHp;
     public int ID { get => _id; set => _id = value; }
     /// <summary>èÛë‘àŸèÌÇÃïtó^</summary>
     public StatusEffectBase SetStatusEffect

@@ -1830,6 +1830,14 @@ PrefabInstance:
       propertyPath: _playerStatusPanel._materialImages.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3259713888025730387, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259713888025730387, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
 --- !u!114 &1788660885 stripped
