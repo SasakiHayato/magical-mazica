@@ -121,10 +121,18 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Fire()
     {
-        _playerStateData.SetAttckType = PlayerStateData.AttackType.Mazic;
-        _stateMachine.ChangeState(PlayerState.Attack);
-        Fusion();
-        _fusionItem.Attack(new Vector2(transform.localScale.x, 0));
+        try
+        {
+            _playerStateData.SetAttckType = PlayerStateData.AttackType.Mazic;
+            _stateMachine.ChangeState(PlayerState.Attack);
+            Fusion();
+            _fusionItem.Attack(new Vector2(transform.localScale.x, 0));
+        }
+        catch
+        {
+            Debug.Log("aaa");
+        }
+        
     }
 
     public void SetMoveDirection(Vector2 direction)
