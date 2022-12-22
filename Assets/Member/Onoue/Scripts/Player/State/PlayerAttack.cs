@@ -27,13 +27,13 @@ public class PlayerAttack : MonoStateBase
     {
         AnimOperator.AnimEvent anim = new AnimOperator.AnimEvent
         {
-            Frame = 4,
+            Frame = 1,
             Event = () => _stateData.AttackCollider.SetActive(true),
         };
 
         AnimOperator.AnimEvent anim2 = new AnimOperator.AnimEvent
         {
-            Frame = 6,
+            Frame = 4,
             Event = () => _stateData.AttackCollider.SetActive(false),
         };
 

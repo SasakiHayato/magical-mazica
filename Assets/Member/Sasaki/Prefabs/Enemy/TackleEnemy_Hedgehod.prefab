@@ -495,7 +495,7 @@ MonoBehaviour:
   _attackIsActiveFrame: 1
   _attackEndActiveFrame: 6
   _animOperator: {fileID: 485377720859512432}
-  _treeUser: {fileID: 0}
+  _treeUser: {fileID: 485377721560943010}
 --- !u!1 &6772870067293458379
 GameObject:
   m_ObjectHideFlags: 0

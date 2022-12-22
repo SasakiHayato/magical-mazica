@@ -33,6 +33,8 @@ public class AnimOperator : MonoBehaviour, IMonoDatableUni<AnimOperator>
     AnimOperator IMonoDatableUni<AnimOperator>.GetData => this;
     string IMonoDatable.Path => nameof(AnimOperator);
 
+    readonly int SampleRate = 12;
+
     void Awake()
     {
         _anim = GetComponent<Animator>();
@@ -100,13 +102,13 @@ public class AnimOperator : MonoBehaviour, IMonoDatableUni<AnimOperator>
         int frame = 0;
 
 #if UNITY_EDITOR
-        while (frame < animEvent.Frame * 20)
+        while (frame < animEvent.Frame * SampleRate)
         {
             frame ++;
             yield return null;
         }
 #else
-        while (frame < animEvent.Frame)
+        while (frame < animEvent.Frame * SampleRate)
         {
             frame ++;
             yield return null;
