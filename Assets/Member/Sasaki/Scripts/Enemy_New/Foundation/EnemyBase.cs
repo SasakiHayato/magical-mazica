@@ -104,6 +104,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
 
         EnemyStateData.AttackCollider = _attackCollider;
         EnemyStateData.IBehaviourDatable = this;
+        EnemyStateData.Rigid = Rigid;
 
         Setup();
     }

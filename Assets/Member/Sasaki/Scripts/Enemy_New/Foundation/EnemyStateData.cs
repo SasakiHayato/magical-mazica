@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using MonoState.Data;
 
@@ -9,6 +7,7 @@ public class EnemyStateData : IMonoDatableSystem<EnemyStateData>
 
     public (int, int) AttackAciveFrame { get; set; }
 
+    public RigidOperator Rigid { get; set; }
     public EnemyAttackCollider AttackCollider { get; set; }
     public IBehaviourDatable IBehaviourDatable { get; set; }
     EnemyStateData IMonoDatableSystem<EnemyStateData>.GetData => this;

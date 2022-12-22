@@ -36,6 +36,7 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
 
     protected override bool IsDamage(int damage)
     {
+        EffectStocker.Instance.LoadEffect("Damage", transform.position);
         return true;
     }
 

@@ -438,8 +438,8 @@ MonoBehaviour:
           - rid: 7198353459115720707
         _action:
           _actionList:
+          - rid: 7198353596671066119
           - rid: 7198353280677445649
-          - rid: 7198353280677445650
   - _name: Attack
     _mastarCodition:
       _conditionType: 0
@@ -501,10 +501,6 @@ MonoBehaviour:
       type: {class: ActionShotBullet, ns: , asm: Assembly-CSharp}
       data:
         _bullrtPrefab: {fileID: 7411682192359307736, guid: b39a5ea4704f0c1459882250ff0bffd3, type: 3}
-    - rid: 7198353280677445650
-      type: {class: ActionWait, ns: , asm: Assembly-CSharp}
-      data:
-        _waitTime: 1
     - rid: 7198353459115720705
       type: {class: ConditionObstacle, ns: , asm: Assembly-CSharp}
       data:
@@ -521,6 +517,11 @@ MonoBehaviour:
       type: {class: ConditionTestAccess, ns: , asm: Assembly-CSharp}
       data:
         _isAccess: 1
+    - rid: 7198353596671066119
+      type: {class: ActionLaodEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: EnemyAttack
+        _onWait: 1
 --- !u!1 &6628192417333302762
 GameObject:
   m_ObjectHideFlags: 0

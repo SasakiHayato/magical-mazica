@@ -9,7 +9,20 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
 
     bool _onEvent = false;
 
-    Vector3 Position => GameController.Instance.Player.position + _cameraData.View.Offset;
+    Vector3 Position
+    {
+        get
+        {
+            try
+            {
+                return GameController.Instance.Player.position + _cameraData.View.Offset;
+            }
+            catch
+            {
+                return Vector3.zero;
+            }
+        }
+    }
 
     static Vector3 s_position = Vector3.zero;
     static List<EventCamera> s_eventCameraList = null;

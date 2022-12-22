@@ -4900,14 +4900,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _addEventer: {fileID: 0}
   _executableList:
-  - rid: 7228006199537434626
+  - rid: 7198353596671066113
   references:
     version: 2
     RefIds:
-    - rid: 7228006199537434626
-      type: {class: EffectExecuteTimer, ns: , asm: Assembly-CSharp}
-      data:
-        _attributeTime: 1
+    - rid: 7198353596671066113
+      type: {class: EffectExecuteDefault, ns: , asm: Assembly-CSharp}
 --- !u!1 &709577273889843507
 GameObject:
   m_ObjectHideFlags: 0
