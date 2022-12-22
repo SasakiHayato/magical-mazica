@@ -10,24 +10,18 @@ using DG.Tweening;
 /// </summary>
 public class ASample : MonoBehaviour
 {
-    [SerializeField] FusionItem _fusionItem;
+    [SerializeField] GameObject _particle;
+    [SerializeField] Transform _transform;
 
     private void Start()
     {
-        _fusionItem.Setup();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.V))
         {
-            Debug.Log("óZçáäJén");
-            _fusionItem.Fusion(RawMaterialID.PowerPlant, RawMaterialID.BombBean);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            Debug.Log("çUåÇ");
-            _fusionItem.Attack(Vector2.right);
+            Instantiate(_particle, _transform);
         }
     }
 }
