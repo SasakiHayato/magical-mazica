@@ -32,6 +32,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
         if (InputSetting.UIInputOperate.IsOperateRequest)
         {
             InputSetting.ChangeInputUser(InputUserType.UI);
+            InputController.CallbackInputEvent(true);
             InputSetting.UIInputOperate.OperateRequest(this);
         }
 
@@ -102,5 +103,6 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
         _currentSelectID = 0;
         InputSetting.ChangeInputUser(InputUserType.Player);
         InputSetting.UIInputOperate.OperateRequest(null);
+        InputController.CallbackInputEvent(false);
     }
 }
