@@ -282,6 +282,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         else
         {
             SoundManager.PlayRequestRandom(SEPlayer, "Damage");
+            EffectStocker.Instance.LoadEffect("PlayerInvincible", transform);
             EffectStocker.Instance.LoadEffect("Damage", transform.position);
         }
     }
