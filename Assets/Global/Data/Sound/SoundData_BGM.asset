@@ -24,7 +24,7 @@ MonoBehaviour:
     _volume: 0.407
     _isLoop: 1
   - _path: Title
-    _clip: {fileID: 8300000, guid: 43a0249f0f3d3e4419afc60d9914be14, type: 3}
+    _clip: {fileID: 8300000, guid: 56f21a9bde7c6e9489c812ba48a63b4a, type: 3}
     _volume: 0.407
     _isLoop: 1
   - _path: Boss
