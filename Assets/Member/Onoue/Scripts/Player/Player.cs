@@ -67,7 +67,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     private void Awake()
     {
-        GameController.Instance.Player = transform;
+        GameController.Instance.SetPlayer = transform;
         GameController.Instance.AddFieldObjectDatable(this);
     }
     private void Start()

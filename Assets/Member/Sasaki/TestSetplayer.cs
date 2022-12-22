@@ -6,6 +6,6 @@ public class TestSetplayer : MonoBehaviour
 {
     private void Awake()
     {
-        GameController.Instance.Player = transform;
+        GameController.Instance.SetPlayer = transform;
     }
 }
