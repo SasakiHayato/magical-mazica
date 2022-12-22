@@ -591,9 +591,9 @@ MonoBehaviour:
           rid: 7198353319809777665
     - _taskDataList:
       - _onNextTimer: 2
-        _attackCollider: {fileID: 1790164026667585549}
+        _attackCollider: {fileID: 1790164028406172746}
         _task:
-          rid: 7198353319809777666
+          rid: 7198353596671066121
       - _onNextTimer: 2
         _attackCollider: {fileID: 1790164028406172746}
         _task:
@@ -613,10 +613,13 @@ MonoBehaviour:
         _speed: 5
         _bulletPrefab: {fileID: 7411682192359307736, guid: b39a5ea4704f0c1459882250ff0bffd3, type: 3}
         _muzzle: {fileID: 1790164027572342923}
-    - rid: 7198353319809777666
-      type: {class: OnAttack, ns: , asm: Assembly-CSharp}
     - rid: 7198353319809777667
       type: {class: OnAttack, ns: , asm: Assembly-CSharp}
+    - rid: 7198353596671066121
+      type: {class: OnLaodEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: EnemyAttack
+        _positionType: 1
 --- !u!1 &3548541825117790921
 GameObject:
   m_ObjectHideFlags: 0

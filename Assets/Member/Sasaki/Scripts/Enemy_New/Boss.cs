@@ -30,7 +30,7 @@ public class Boss : EnemyBase, IInputEventable
 
     protected override void Execute()
     {
-        if (!_isRejectionTask) return;
+        if (_isRejectionTask) return;
         
         OnMove();
         OnTask();
