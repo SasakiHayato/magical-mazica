@@ -47,7 +47,7 @@ public class EffectStocker : MonoBehaviour
         }
     }
 
-    public void LoadEffect(string path, Vector2 position)
+    public Effect LoadEffect(string path, Vector2 position)
     {
         StockData data = _stockDataList.FirstOrDefault(e => e.Path == path);
 
@@ -55,10 +55,14 @@ public class EffectStocker : MonoBehaviour
         {
             Effect effect = data.Pool.UseRequest();
             effect.transform.position = position;
+
+            return effect;
         }
+
+        return null;
     }
 
-    public void LoadEffect(string path, Transform parent)
+    public Effect LoadEffect(string path, Transform parent)
     {
         StockData data = _stockDataList.FirstOrDefault(e => e.Path == path);
 
@@ -68,7 +72,11 @@ public class EffectStocker : MonoBehaviour
             effect.transform.position = parent.position;
 
             effect.transform.SetParent(parent);
+
+            return effect;
         }
+
+        return null;
     }
 
     public void AddFieldEffect(FieldEffect.EffectType effectType, IFieldEffectable effectable)

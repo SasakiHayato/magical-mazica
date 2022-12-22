@@ -3,6 +3,7 @@ using UnityEngine;
 public class GoalClass : MonoBehaviour, IUIOperateEventable
 {
     [SerializeField] SelectButtonHelper _selectButtonHelper;
+    [SerializeField] TeleportAttributer _teleportAttributer;
     int _currentSelectID;
 
     Popup _popup;
@@ -26,9 +27,12 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (InputSetting.UIInputOperate.IsOperateRequest && InputSetting.UIInputOperate.IsInputAttribute)
+        if (!_teleportAttributer.IsAttribute) return;
+
+        if (InputSetting.UIInputOperate.IsOperateRequest)
         {
             InputSetting.ChangeInputUser(InputUserType.UI);
+            InputController.CallbackInputEvent(true);
             InputSetting.UIInputOperate.OperateRequest(this);
         }
 
@@ -99,5 +103,6 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
         _currentSelectID = 0;
         InputSetting.ChangeInputUser(InputUserType.Player);
         InputSetting.UIInputOperate.OperateRequest(null);
+        InputController.CallbackInputEvent(false);
     }
 }

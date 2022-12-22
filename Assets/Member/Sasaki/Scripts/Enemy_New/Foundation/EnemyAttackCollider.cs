@@ -32,6 +32,7 @@ public class EnemyAttackCollider : MonoBehaviour
         if (collision.CompareTag("Player") && collision.TryGetComponent(out IDamagable damageble))
         {
             damageble.AddDamage(_power);
+            EffectStocker.Instance.LoadEffect("Hit", transform.position);
         }
     }
 }

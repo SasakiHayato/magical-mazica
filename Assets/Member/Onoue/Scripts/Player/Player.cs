@@ -67,7 +67,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     private void Awake()
     {
-        GameController.Instance.Player = transform;
+        GameController.Instance.SetPlayer = transform;
         GameController.Instance.AddFieldObjectDatable(this);
     }
     private void Start()
@@ -121,10 +121,18 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// </summary>
     public void Fire()
     {
-        _playerStateData.SetAttckType = PlayerStateData.AttackType.Mazic;
-        _stateMachine.ChangeState(PlayerState.Attack);
-        Fusion();
-        _fusionItem.Attack(new Vector2(transform.localScale.x, 0));
+        try
+        {
+            _playerStateData.SetAttckType = PlayerStateData.AttackType.Mazic;
+            _stateMachine.ChangeState(PlayerState.Attack);
+            Fusion();
+            _fusionItem.Attack(new Vector2(transform.localScale.x, 0));
+        }
+        catch
+        {
+            Debug.Log("”­ŽË‹‘”Û");
+        }
+        
     }
 
     public void SetMoveDirection(Vector2 direction)
@@ -274,6 +282,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         else
         {
             SoundManager.PlayRequestRandom(SEPlayer, "Damage");
+            EffectStocker.Instance.LoadEffect("PlayerInvincible", transform);
             EffectStocker.Instance.LoadEffect("Damage", transform.position);
         }
     }

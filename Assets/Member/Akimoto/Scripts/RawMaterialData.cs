@@ -19,7 +19,15 @@ public class RawMaterialData : ScriptableObject
                 return data;
             }
         }
-        throw new System.Exception("指定された素材データが見つかりませんでした");
+
+        return null;
+    }
+
+    public RawMaterialDatabase GetMaterialDataRandom()
+    {
+        int id = Random.Range(0, _datas.Count);
+
+        return _datas.Find(d => d.ID == (RawMaterialID)System.Enum.ToObject(typeof(RawMaterialID), id));
     }
 }
 

@@ -29,8 +29,10 @@ public class FusionMaterialObject : MonoBehaviour
     /// <param name="data">生成する素材データ</param>
     /// <param name="player">現在のプレイヤー</param>
     /// <returns></returns>
-    public static FusionMaterialObject Init(FusionMaterialObject original, Vector2 createPosition, RawMaterialDatabase data, Player player)
+    public static FusionMaterialObject Init(FusionMaterialObject original, Vector2 createPosition, RawMaterialDatabase data, Player player = null)
     {
+        if (data == null) return null;
+
         FusionMaterialObject ret = Instantiate(original, createPosition, Quaternion.identity);
         Debug.Log(data);
         Debug.Log(player);
@@ -45,6 +47,7 @@ public class FusionMaterialObject : MonoBehaviour
 
         //プレイヤーが接近してから動かす
         _approachingTag.ApproachEvent
+            .Where(_ => player != null)
             .Where(_ => !_isMove)
             .Subscribe(_ =>
             {

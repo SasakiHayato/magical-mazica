@@ -16,6 +16,7 @@ public class Boss : EnemyBase, IInputEventable
 
         CreateCore();
         MonoState.AddState(State.Idle, new EnemyStateIdle());
+        GUIManager.ShowBossHealthBar(MaxHP, HPObservable, this);
 
         MonoState.IsRun = true;
     }
@@ -30,7 +31,7 @@ public class Boss : EnemyBase, IInputEventable
 
     protected override void Execute()
     {
-        if (!_isRejectionTask) return;
+        if (_isRejectionTask) return;
         
         OnMove();
         OnTask();

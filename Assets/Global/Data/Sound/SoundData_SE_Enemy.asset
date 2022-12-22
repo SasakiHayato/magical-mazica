@@ -16,7 +16,7 @@ MonoBehaviour:
   _soundType: 1
   _soundDataList:
   - _path: Dead
-    _clip: {fileID: 8300000, guid: fff12cc5c4501c842ad5bcb526bba164, type: 3}
+    _clip: {fileID: 8300000, guid: 7eedf450c6bc76f4085ea022b8b7849c, type: 3}
     _volume: 0.411
     _isLoop: 0
   - _path: Hit

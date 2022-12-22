@@ -92,8 +92,11 @@ public class GameController
     {
         get
         {
-            s_instance = s_instance == null ? new GameController() : s_instance;
-            
+            if (s_instance == null)
+            {
+                s_instance = new GameController();
+            }
+
             return s_instance;
         }
     }
@@ -102,10 +105,12 @@ public class GameController
     List<IGameDisposable> _disposeList = new List<IGameDisposable>();
 
     FieldObjectData _fieldObjectData = new FieldObjectData();
+    Transform _player = null;
 
     int _currentMapHierarchy = 1;
 
-    public Transform Player { get; set; }
+    public Transform Player => _player;
+    public Transform SetPlayer { set { _player = value; } }
 
     public readonly int MaxMapHierarchy = 2;
 
@@ -178,6 +183,6 @@ public class GameController
         _disposeList = new List<IGameDisposable>();
         _fieldObjectData = new FieldObjectData();
 
-        Player = null;
+        _player = null;
     }
 }

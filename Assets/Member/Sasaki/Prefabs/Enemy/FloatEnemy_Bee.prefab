@@ -80,7 +80,7 @@ MonoBehaviour:
         _action:
           _actionList:
           - rid: 7198353280677445641
-          - rid: 7198353280677445642
+          - rid: 7198353596671066118
           - rid: 7198353280677445638
           - rid: 7198353280677445643
   - _name: Chase
@@ -128,12 +128,13 @@ MonoBehaviour:
       type: {class: ActionChase, ns: , asm: Assembly-CSharp}
       data:
         _updateSpeed: 0.75
-    - rid: 7198353280677445642
-      type: {class: ActionWait, ns: , asm: Assembly-CSharp}
-      data:
-        _waitTime: 1
     - rid: 7198353280677445643
       type: {class: ActionDead, ns: , asm: Assembly-CSharp}
+    - rid: 7198353596671066118
+      type: {class: ActionLaodEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: EnemyAttack
+        _onWait: 1
 --- !u!1 &1134029413569434372
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,7 +555,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 6124500461401124618}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2c07b01dde82204479900a9585fb8f14, type: 2}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -592,7 +593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _maxHp: 5
+  _maxHp: 20
   _isInstantiateFloat: 0
   _slider: {fileID: 2032362823916638186}
   _damageText: {fileID: 8134728152921943851, guid: a8167e7857c103f4c9165cc6e5f3e9e9, type: 3}
@@ -601,6 +602,8 @@ MonoBehaviour:
   _attackEndActiveFrame: 0
   _animOperator: {fileID: 1134029413569434373}
   _treeUser: {fileID: 1134029413199484119}
+  _materialObject: {fileID: 972535417249200289, guid: 2f41c7ee14b88b4418e87b2caa899123, type: 3}
+  _materialData: {fileID: 11400000, guid: e27215ae9dba20544903cd9b5cfede1b, type: 2}
 --- !u!1001 &3297870480344013427
 PrefabInstance:
   m_ObjectHideFlags: 0
