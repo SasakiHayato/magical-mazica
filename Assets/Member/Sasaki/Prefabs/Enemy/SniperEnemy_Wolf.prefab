@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 53595578301934049}
   - component: {fileID: 53595578301934051}
   - component: {fileID: 53595578301934050}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SniperEnemy_Wolf
   m_TagString: Enemy
   m_Icon: {fileID: 0}
