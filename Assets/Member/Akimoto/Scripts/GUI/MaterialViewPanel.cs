@@ -19,10 +19,12 @@ namespace UIManagement
         [SerializeField] Image _activeImage;
         /// <summary>選択中の画像の色</summary>
         [SerializeField] Color _activeColor = Color.white;
-        /// <summary>被活性状態の画像の色</summary>
+        /// <summary>非活性状態の画像の色</summary>
         [SerializeField] Color _disableColor = Color.white;
         /// <summary>素材不足時のテキストの色</summary>
         [SerializeField] Color _shortageTextColor = Color.white;
+        /// <summary>アニメーション用のオブジェクト</summary>
+        [SerializeField] GameObject _selectAnimationObject;
         private MaterialPanelState _state;
         /// <summary>残り個数の表示</summary>
         public int SetNumText
@@ -61,6 +63,7 @@ namespace UIManagement
                 }
 
                 _state = value;
+                _selectAnimationObject.SetActive(false);
                 switch (_state)
                 {
                     case MaterialPanelState.Neutral:
@@ -68,6 +71,7 @@ namespace UIManagement
                         break;
                     case MaterialPanelState.Active:
                         ShortageJudge(_activeColor);
+                        _selectAnimationObject.SetActive(true);
                         break;
                     case MaterialPanelState.Disable:
                         _activeImage.color = _disableColor;
@@ -93,6 +97,7 @@ namespace UIManagement
             _image.sprite = data.Sprite;
             _image.color = data.SpriteColor;
             CurrentMaterialID = data.ID;
+            _selectAnimationObject.SetActive(false);
         }
 
         /// <summary>
