@@ -74,8 +74,16 @@ public class FusionItem : MonoBehaviour
             case BulletType.Strike:
                 var enemies = GameController.Instance.GetFieldObjectDatable(ObjectType.Enemy)
                     .OrderBy(_ => Vector2.Distance(_.Target.transform.position, transform.position));
-                var obj = enemies.FirstOrDefault().Target.transform.position - transform.position;
-                ret = obj.normalized;
+                var renderer = enemies.FirstOrDefault().Target.GetComponent<EnemyBase>().Renderer;
+                if (renderer.isVisible)
+                {
+                    var obj = enemies.FirstOrDefault().Target.transform.position - transform.position;
+                    ret = obj.normalized;
+                }
+                else
+                {
+                    ret = new Vector2(direction.x, 0);
+                }
                 break;
         }
         return ret;
