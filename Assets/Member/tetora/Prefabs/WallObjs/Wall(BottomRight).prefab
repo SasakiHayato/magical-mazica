@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5449298482065171990}
   m_Layer: 5
-  m_Name: Core (1)
+  m_Name: UIView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

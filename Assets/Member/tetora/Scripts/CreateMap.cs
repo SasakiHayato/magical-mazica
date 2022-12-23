@@ -38,6 +38,7 @@ public class CreateMap : MapCreaterBase
     GameObject[] _enemies;
     GameObject _aroundWallObj;
     List<GameObject> _stageObjList = new List<GameObject>();
+    List<Point> _floarList = new List<Point>();
     Dictionary<int, EnemyTransform> _enemyDic = new Dictionary<int, EnemyTransform>();//Key:ID Value:EnemyTransform
     StageMap _stageMap;
     int _startDigPos;//掘り始める始点
@@ -165,6 +166,7 @@ public class CreateMap : MapCreaterBase
         {
             if (pos.State == MapState.Floar)
             {
+                _floarList.Add(pos);
                 var emptyObj = new GameObject();
                 emptyObj.name = "Floar";
                 _stageObjList.Add(emptyObj);
@@ -290,11 +292,13 @@ public class CreateMap : MapCreaterBase
         int rightX = _stageMap.MaxX / 3 * 2;//3等分した時の右の線
         int underY = _stageMap.MaxY / 3;//3等分した時の下の線
         int overY = _stageMap.MaxY / 3 * 2;//3等分した時の上の線
+
         List<Point> leftUpList = new List<Point>();//左上の床List
         List<Point> leftDownList = new List<Point>();//左下の床List
         List<Point> rightUpList = new List<Point>();//右上の床List
         List<Point> rightDownList = new List<Point>();//右下の床List
-        foreach (var item in _stageMap.GetFloar())
+
+        foreach (var item in _stageMap.GetCanSetTeleporter())
         {
             int itemX = item.Id % _stageMap.MaxX;
             int itemY = item.Id / _stageMap.MaxX;
@@ -354,7 +358,8 @@ public class CreateMap : MapCreaterBase
     /// <returns>オブジェクトのTransform</returns>
     Transform CanSetRandomPos(List<Point> points)
     {
-        int rnd = new System.Random().Next(0, points.Count);
+        int rnd;
+        rnd = new System.Random().Next(0, points.Count - 1);
         points[rnd].State = MapState.Teleport;
         return points[rnd].ObjTransform;
     }

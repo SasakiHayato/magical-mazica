@@ -44,7 +44,21 @@ public class StageMap : IEnumerable<Point>
     {
         foreach (var floar in _map)
         {
-            if (floar.State == MapState.Floar)//Floar‚ÌêŠ‚ğ•Û‘¶
+            if (floar.State == MapState.Floar)//°‚Æ‚µ‚Ä”»’è‚·‚é‚à‚Ì‚·‚×‚Ä
+            {
+                yield return floar;
+            }
+        }
+    }
+    /// <summary>
+    /// Teleporter‚ªİ’u‚³‚ê‚Ä‚¢‚éêŠ
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<Point> GetCanSetTeleporter()
+    {
+        foreach (var floar in _map)
+        {
+            if (floar.State == MapState.Floar || floar.State == MapState.Enemy)//°‚Æ‚µ‚Ä”»’è‚·‚é‚à‚Ì‚·‚×‚Ä
             {
                 yield return floar;
             }
