@@ -31,7 +31,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     [SerializeField] Slider _slider;
     [SerializeField] DamageText _damageText;
     [SerializeField] EnemyAttackCollider _attackCollider;
-
+    [SerializeField] SpriteRenderer _renderer;
     float _xScale = 0;
     Vector2 _beforePosition = Vector2.zero;
     int _id = 0;
@@ -44,6 +44,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     protected int MaxHP => _maxHp;
     protected int Speed => _speed;
     protected Vector2 MoveDirection { get; private set; }
+    public SpriteRenderer Renderer { get => _renderer; set => _renderer = value; }
     protected RigidOperator Rigid { get; private set; }
     protected MonoStateMachine<EnemyBase> MonoState { get; private set; }
     protected EnemyStateData EnemyStateData { get; private set; } = new EnemyStateData();
