@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 6124500461401124623}
   - component: {fileID: 6124500461401124621}
   - component: {fileID: 6124500461401124620}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FloatEnemy_Bee
   m_TagString: Enemy
   m_Icon: {fileID: 0}

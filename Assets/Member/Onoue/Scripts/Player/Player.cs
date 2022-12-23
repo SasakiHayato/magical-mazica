@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
         Float,
         IsStick,
         KnockBack,
+        Dodge
     }
     [SerializeField] bool _isDebug;
     [SerializeField] int _maxHP;
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     public int Damage { get => _damage; private set => _damage = value; }
     /// <summary>最大HP</summary>
     public int MaxHP => _maxHP;
+    public bool IsHit { get => _isHit; set => _isHit = value; }
     public Storage Storage { get => _storage; private set => _storage = value; }
     /// <summary>現在HPの更新の通知</summary>
     public System.IObservable<int> CurrentHP => _hp;
@@ -93,7 +95,8 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             .AddState(PlayerState.WallJump, new PlayerWallJump())
             .AddState(PlayerState.Float, new PlayerFloat())
             .AddState(PlayerState.IsStick, new PlayerIsStick())
-            .AddState(PlayerState.KnockBack, new PlayerKnockBack());
+            .AddState(PlayerState.KnockBack, new PlayerKnockBack())
+            .AddState(PlayerState.Dodge, new PlayerDodge());
 
         _stateMachine
             .AddMonoData(this)
@@ -139,7 +142,13 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     {
         _playerStateData.SetMoveDirection = direction;
     }
-
+    public void Dodge()
+    {
+        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground,true))
+        {
+            _stateMachine.ChangeState(PlayerState.Dodge);
+        }
+    }
     /// <summary>
     /// ジャンプ
     /// </summary>
@@ -212,7 +221,6 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
 
     private void Update()
     {
-        //Debug.Log(_stateMachine.CurrentKey);
         //無敵
         if (_isHit)
         {
