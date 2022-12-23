@@ -649,7 +649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _xboxHelpObj: {fileID: 4992773099460552989}
   _ps4HelpObj: {fileID: 4138487684720370439}
-  _pcHelpObj: {fileID: 0}
+  _pcHelpObj: {fileID: 1195332642061267792}
 --- !u!1 &8506792007925092504
 GameObject:
   m_ObjectHideFlags: 0
