@@ -27,3 +27,5 @@ MonoBehaviour:
     _effect: {fileID: 3345437848674026314, guid: 770cecd3d267ff347995111a5f1edf63, type: 3}
   - _path: PlayerInvincible
     _effect: {fileID: 7579535796867564770, guid: 9e936d88d6fccf842b02e59818e87f5b, type: 3}
+  - _path: Explosion
+    _effect: {fileID: 4079266032581808228, guid: a90188da70400cb4abc0e8712efea633, type: 3}
