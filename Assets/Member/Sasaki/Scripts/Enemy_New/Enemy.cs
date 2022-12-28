@@ -31,7 +31,7 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     }
     protected override void DeadEvent()
     {
-        CreateMap.Instance.DeadEnemy(gameObject);
+        CreateMap.Instance?.DeadEnemy(gameObject);
         RawMaterialDatabase rawMaterial = _materialData.GetMaterialDataRandom();
 
         FusionMaterialObject.Init(_materialObject, transform.position, rawMaterial);

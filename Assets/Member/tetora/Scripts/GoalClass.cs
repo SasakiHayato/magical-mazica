@@ -5,7 +5,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     [SerializeField] bool _isTutorial = false;
     [SerializeField] SelectButtonHelper _selectButtonHelper;
     [SerializeField] TeleportAttributer _teleportAttributer;
-    
+
     int _currentSelectID;
 
     Popup _popup;
@@ -17,6 +17,11 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     void Start()
     {
+        if (_isTutorial)
+        {
+            _popup = TutorialUIManager.FindPopup(PopupPath);
+            return;
+        }
         _popup = GUIManager.FindPopup(PopupPath);
     }
 
@@ -62,7 +67,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     {
         _currentSelectID = horizontal;
 
-        if(0 > _currentSelectID)
+        if (0 > _currentSelectID)
         {
             _currentSelectID = 0;
         }
@@ -73,7 +78,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
         }
 
         _popup.OnSelect(_currentSelectID);
-        
+
         horizontal = _currentSelectID;
     }
 
