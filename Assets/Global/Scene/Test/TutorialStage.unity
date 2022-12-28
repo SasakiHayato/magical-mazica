@@ -208,7 +208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4445758808677633344, guid: 2e0aa8010848d6442a957c0709cc664b, type: 3}
       propertyPath: _sceneType
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4445758808677633344, guid: 2e0aa8010848d6442a957c0709cc664b, type: 3}
       propertyPath: _fadeManager
@@ -15291,7 +15291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f2cbaea59056e40aa8840fd27774ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _popupPath: GoalSelect
+  _popupPath: SelectGoal
   _selectScaleRate: 1.4
   _parent: {fileID: 0}
   _sourceDataList:
