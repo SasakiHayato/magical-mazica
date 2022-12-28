@@ -82,6 +82,7 @@ MonoBehaviour:
           - rid: 7198353280677445641
           - rid: 7198353596671066118
           - rid: 7198353280677445638
+          - rid: 7198353730517860355
           - rid: 7198353730517860352
           - rid: 7198353280677445643
   - _name: Chase
@@ -140,6 +141,11 @@ MonoBehaviour:
       type: {class: ActionWait, ns: , asm: Assembly-CSharp}
       data:
         _waitTime: 0.5
+    - rid: 7198353730517860355
+      type: {class: ActionLaodEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: Explosion
+        _onWait: 0
 --- !u!1 &1134029413569434372
 GameObject:
   m_ObjectHideFlags: 0
