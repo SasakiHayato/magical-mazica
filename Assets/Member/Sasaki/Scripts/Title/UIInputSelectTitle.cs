@@ -5,7 +5,7 @@ public class UIInputSelectTitle : IUIOperateEventable
     static Popup _popup = null;
     static PanelMover _panelMover = null;
 
-    readonly int AttributeID = 0;
+    readonly int AttributeID = 1;
     readonly string Path = "SelectTitle";
     readonly UnityEngine.Vector2 MovePosition = new UnityEngine.Vector2(500, 0);
 
