@@ -425,7 +425,7 @@ MonoBehaviour:
   _freezeRotation: 1
   _useInertia: 1
   _mass: 1
-  _maxAcceleration: 5
+  _maxAcceleration: 0.5
   _fieldTouch: {fileID: 6663473620696852653}
 --- !u!114 &6663473620630066627
 MonoBehaviour:

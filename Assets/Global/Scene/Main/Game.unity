@@ -1300,7 +1300,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 4055
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1343,8 +1343,8 @@ MonoBehaviour:
     _viewData:
       _offset: {x: 0, y: 0, z: -10}
     _shakeData:
-      _time: 0.2
-      _power: 1
+      _time: 0.05
+      _power: 0.3
   _eventCameraList:
   - {fileID: 944252179}
 --- !u!1 &1665336337
