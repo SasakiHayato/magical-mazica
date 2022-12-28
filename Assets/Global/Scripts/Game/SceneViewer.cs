@@ -9,6 +9,7 @@ public class SceneViewer : MonoBehaviour
         Title = 0,
         Game = 1,
         Boss = 2,
+        Tutorial = 3,
     }
 
     [SerializeField] string _bgmPath;
