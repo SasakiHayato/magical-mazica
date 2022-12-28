@@ -52,19 +52,28 @@ public class UIInputSetScene : IUIOperateEventable, IGameSetupable
         _panelMover
             .SetCallbackAction(() =>
             {
-                if (_currentID == AttributeID)
-                {
-                    SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer, "Greeting");
-                    SceneViewer.SceneLoad(SceneViewer.SceneType.Game);
-                }
-                else
-                {
-                    InputSetting.UIInputOperate.OperateRequest(new UIInputSelectTitle());
-                }
-
+                Callback();
                 _popup.OnCancel();
             })
             .OnMove(_popup.Parent.position.Collect() + MovePosition);
+    }
+
+    void Callback()
+    {
+        switch (_currentID)
+        {
+            case 0:
+                SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer, "Greeting");
+                SceneViewer.SceneLoad(SceneViewer.SceneType.Game);
+                break;
+            case 1:
+                SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer, "Greeting");
+                SceneViewer.SceneLoad(SceneViewer.SceneType.Tutorial);
+                break;
+            case 2:
+                InputSetting.UIInputOperate.OperateRequest(new UIInputSelectTitle());
+                break;
+        }
     }
 
     void IGameSetupable.GameSetup()

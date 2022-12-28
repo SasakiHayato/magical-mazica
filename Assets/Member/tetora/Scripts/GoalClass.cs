@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class GoalClass : MonoBehaviour, IUIOperateEventable
 {
+    [SerializeField] bool _isTutorial = false;
     [SerializeField] SelectButtonHelper _selectButtonHelper;
     [SerializeField] TeleportAttributer _teleportAttributer;
+    
     int _currentSelectID;
 
     Popup _popup;
@@ -81,7 +83,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
         if (_currentSelectID == AttributeID)
         {
-            GameController.Instance.SetNextMap();
+            GameController.Instance.SetNextMap(_isTutorial);
         }
 
         return true;
