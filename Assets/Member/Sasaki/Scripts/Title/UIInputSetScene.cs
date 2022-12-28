@@ -7,7 +7,6 @@ public class UIInputSetScene : IUIOperateEventable, IGameSetupable
     static Popup _popup;
     static PanelMover _panelMover = null;
 
-    readonly int AttributeID = 0;
     readonly string Path = "SetScene";
     readonly Vector2 MovePosition = new Vector2(-500, 0);
 
@@ -62,7 +61,7 @@ public class UIInputSetScene : IUIOperateEventable, IGameSetupable
     {
         switch (_currentID)
         {
-            case 0:
+            case 2:
                 SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer, "Greeting");
                 SceneViewer.SceneLoad(SceneViewer.SceneType.Game);
                 break;
@@ -70,7 +69,7 @@ public class UIInputSetScene : IUIOperateEventable, IGameSetupable
                 SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer, "Greeting");
                 SceneViewer.SceneLoad(SceneViewer.SceneType.Tutorial);
                 break;
-            case 2:
+            case 0:
                 InputSetting.UIInputOperate.OperateRequest(new UIInputSelectTitle());
                 break;
         }
