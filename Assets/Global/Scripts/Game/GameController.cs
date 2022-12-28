@@ -156,8 +156,14 @@ public class GameController
         _disposeList.ForEach(d => d.GameDispose());
     }
 
-    public void SetNextMap()
+    public void SetNextMap(bool isTutorial = false)
     {
+        if (isTutorial)
+        {
+            SceneViewer.SceneLoad(SceneViewer.SceneType.Game);
+            return;
+        }
+
         if (_currentMapHierarchy >= MaxMapHierarchy)
         {
             SceneViewer.SceneLoad(SceneViewer.SceneType.Boss);
