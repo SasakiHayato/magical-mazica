@@ -9,7 +9,13 @@ public class TutorialFieldManager : MonoBehaviour, IGameSetupable, IFieldEffecta
     [SerializeField]
     CharacterManager _characterManager;
     [SerializeField]
+    GameObject _enemy;
+    [SerializeField]
     Transform _createPlayerPos;
+    [SerializeField]
+    Transform _createEnemyPos;
+    [SerializeField]
+    Transform _enemyParent;
     [SerializeField]
     float _hitStopTime;
 
@@ -18,9 +24,12 @@ public class TutorialFieldManager : MonoBehaviour, IGameSetupable, IFieldEffecta
     public IObservable<List<RawMaterialID>> MaterialList => _materialIDSubject;
 
     int IGameSetupable.Priority => 3;
+
+    public static TutorialFieldManager Instance { get; private set; }
     void Awake()
     {
         GameController.Instance.AddGameSetupable(this);
+        Instance = this;
     }
 
     void Start()
@@ -63,5 +72,10 @@ public class TutorialFieldManager : MonoBehaviour, IGameSetupable, IFieldEffecta
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(_hitStopTime);
         Time.timeScale = 1;
+    }
+    public void CreateEnemy()
+    {
+        GameObject enemy = Instantiate(_enemy, _enemyParent);
+        enemy.transform.position = _createEnemyPos.position;
     }
 }

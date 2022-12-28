@@ -9,20 +9,33 @@ using UIManagement;
 
 public class TutorialUIManager : MonoBehaviour, IGameSetupable
 {
-    [SerializeField] TutorialFieldManager _fieldManager;
-    [SerializeField] CharacterManager _characterManager;
-    [SerializeField] RawMaterialData _materialData;
-    [SerializeField] PlayerStatusPanel _playerStatusPanel;
-    [SerializeField] List<Popup> _popupList;
+    [SerializeField]
+    TutorialFieldManager _fieldManager;
+    [SerializeField]
+    CharacterManager _characterManager;
+    [SerializeField]
+    TaskManager _taskManager;
+    [SerializeField]
+    RawMaterialData _materialData;
+    [SerializeField]
+    PlayerStatusPanel _playerStatusPanel;
+    [SerializeField]
+    List<Popup> _popupList;
+    [SerializeField]
+    Text _taskText;
+    [SerializeField]
+    Text _inputText;
 
     int IGameSetupable.Priority => 2;
 
     static List<Popup> s_popupList;
+    public static TutorialUIManager Instance { get; private set; }
 
     void Awake()
     {
         s_popupList = _popupList;
         GameController.Instance.AddGameSetupable(this);
+        Instance = this;
     }
 
     void IGameSetupable.GameSetup()
@@ -51,6 +64,18 @@ public class TutorialUIManager : MonoBehaviour, IGameSetupable
             })
             .AddTo(_characterManager);
         }
+        ChangeTaskText(0);
+    }
+
+    /// <summary>
+    /// ‚±‚ê‚©‚ç‚â‚éƒ^ƒXƒN‚ð•Ï‚¦‚é
+    /// </summary>
+    /// <param name="id"></param>
+    public void ChangeTaskText(int id)
+    {
+        Debug.Log($"ID:{id}");
+        _taskText.text = _taskManager.TaskList[id].TaskText;
+        _inputText.text = _taskManager.TaskList[id].InputText;
     }
 
     public static Popup FindPopup(string path)
