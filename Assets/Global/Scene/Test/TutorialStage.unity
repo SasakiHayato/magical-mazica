@@ -4519,7 +4519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &733687161
 Transform:
   m_ObjectHideFlags: 0
@@ -11191,7 +11191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterManager: {fileID: 2035389936}
-  _enemy: {fileID: 6772870067137376895, guid: 2e20b6f90637be84597b773cde7b315b, type: 3}
+  _enemy: {fileID: 5871626301439958346, guid: bf4ea76aa54397f4ca0ff27739dc5c77, type: 3}
   _createPlayerPos: {fileID: 2022893504}
   _createEnemyPos: {fileID: 1723814232}
   _enemyParent: {fileID: 2024751843}
@@ -14584,7 +14584,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
