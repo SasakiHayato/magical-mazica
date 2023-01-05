@@ -11,22 +11,21 @@ using DG.Tweening;
 /// </summary>
 public class SliderController : MonoBehaviour
 {
-    [SerializeField] Slider _slider;
-    [SerializeField] Image _fillImage;
-    [SerializeField] Image _animationImage;
-    [SerializeField] Image _backGroundImage;
-    /// <summary>塗りつぶす範囲の色を変える</summary>
-    public Color SetFillColor { set => _fillImage.color = value; }
-    /// <summary>スライダーが減る際にアニメーションさせる部分の色を変える</summary>
-    public Color SetAnimationImageColor { set => _animationImage.color = value; }
-    /// <summary>背景の色を変える</summary>
-    public Color SetBackGroundColor { set => _backGroundImage.color = value; }
-    public int SetMaxValue { set => _slider.maxValue = value; }
-    public int SetCurrentValue
+    [SerializeField] Slider _mainSlider;
+    [SerializeField] Slider _subSlider;
+    [SerializeField] float _duration;
+
+    public void Setup()
     {
-        set
-        {
-            _slider.value = value;
-        }
+        _subSlider.maxValue = _mainSlider.maxValue;
+        _subSlider.value = _mainSlider.value;
+
+        _mainSlider.onValueChanged
+            .AsObservable()
+            .Subscribe(i =>
+            {
+                DOTween.To(() => _subSlider.value, (x) => _subSlider.value = x, i, _duration);
+            })
+            .AddTo(this);
     }
 }
