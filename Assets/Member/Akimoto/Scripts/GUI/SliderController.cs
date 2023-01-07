@@ -15,16 +15,28 @@ public class SliderController : MonoBehaviour
     [SerializeField] Slider _subSlider;
     [SerializeField] float _duration;
 
-    public void Setup()
+    /// <summary>スライダーの値変更</summary>
+    public int Value { get => (int)_mainSlider.value; set => _mainSlider.value = value; }
+
+    public void Setup(int maxValue, int initValue)
     {
-        _subSlider.maxValue = _mainSlider.maxValue;
-        _subSlider.value = _mainSlider.value;
+        _mainSlider.maxValue = maxValue;
+        _mainSlider.value = initValue;
+        _subSlider.maxValue = maxValue;
+        _subSlider.value = initValue;
 
         _mainSlider.onValueChanged
             .AsObservable()
             .Subscribe(i =>
             {
-                DOTween.To(() => _subSlider.value, (x) => _subSlider.value = x, i, _duration);
+                if (_subSlider.value >= i)
+                {
+                    DOTween.To(() => _subSlider.value, (x) => _subSlider.value = x, i, _duration);
+                }
+                else
+                {
+                    _subSlider.value = i;
+                }
             })
             .AddTo(this);
     }

@@ -14,7 +14,7 @@ namespace UIManagement
     [System.Serializable]
     public class PlayerStatusPanel
     {
-        [SerializeField] Slider _slider;
+        [SerializeField] SliderController _slider;
         [SerializeField] Text _text;
         [SerializeField] List<MaterialViewPanel> _materialViewPanels;
 
@@ -25,8 +25,7 @@ namespace UIManagement
         public void SetSlider(Player player)
         {
             //Slider‚Ì‰ŠúÝ’è
-            _slider.maxValue = player.MaxHP;
-            _slider.value = player.MaxHP;
+            _slider.Setup(player.MaxHP, player.MaxHP);
             //Text‚ÌÝ’è
             _text.text = $"{player.MaxHP} / {player.MaxHP}";
 
@@ -34,7 +33,7 @@ namespace UIManagement
             player.CurrentHP
                 .Subscribe(x =>
                 {
-                    _slider.value = x;
+                    _slider.Value = x;
                     _text.text = $"{x} / {player.MaxHP}";
                 })
                 .AddTo(player);
