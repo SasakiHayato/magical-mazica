@@ -10,18 +10,21 @@ using DG.Tweening;
 /// </summary>
 public class ASample : MonoBehaviour
 {
-    [SerializeField] GameObject _particle;
-    [SerializeField] Transform _transform;
+    [SerializeField] SliderController _sliderController;
 
-    private void Start()
+    private async void Start()
     {
-    }
+        _sliderController.Setup(100, 100);
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Instantiate(_particle, _transform);
-        }
+        await UniTask.Delay(System.TimeSpan.FromSeconds(2));
+        _sliderController.Value -= 5;
+        await UniTask.Delay(System.TimeSpan.FromSeconds(2));
+        _sliderController.Value -= 10;
+        await UniTask.Delay(System.TimeSpan.FromSeconds(2));
+        _sliderController.Value -= 10;
+        await UniTask.Delay(System.TimeSpan.FromSeconds(2));
+        _sliderController.Value -= 20;
+        await UniTask.Delay(System.TimeSpan.FromSeconds(2));
+        _sliderController.Value -= 20;
     }
 }
