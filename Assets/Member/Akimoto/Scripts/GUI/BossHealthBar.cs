@@ -14,7 +14,7 @@ namespace UIManagement
     [System.Serializable]
     public class BossHealthBar
     {
-        [SerializeField] Slider _slider;
+        [SerializeField] SliderController _slider;
         /// <summary>Slider‚Ì•\Ž¦”ñ•\Ž¦</summary>
         public bool SetActive { set => _slider.gameObject.SetActive(value); }
 
@@ -25,10 +25,9 @@ namespace UIManagement
                 Debug.LogWarning("Slider‚ª‚ ‚è‚Ü‚¹‚ñ");
                 return;
             }
-            _slider.maxValue = maxHp;
-            _slider.value = maxHp;
+            _slider.Setup(maxHp, maxHp);
             currentHpObservable
-                .Subscribe(i => _slider.value = i)
+                .Subscribe(i => _slider.Value = i)
                 .AddTo(component);
         }
     }
