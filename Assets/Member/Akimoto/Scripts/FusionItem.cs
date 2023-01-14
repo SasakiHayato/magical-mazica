@@ -72,18 +72,26 @@ public class FusionItem : MonoBehaviour
                 ret = new Vector2(direction.x, direction.y + _throwBulletHeightOffset);
                 break;
             case BulletType.Strike:
-                var enemies = GameController.Instance.GetFieldObjectDatable(ObjectType.Enemy)
-                    .OrderBy(_ => Vector2.Distance(_.Target.transform.position, transform.position));
-                var renderer = enemies.FirstOrDefault().Target.GetComponent<EnemyBase>().Renderer;
-                if (renderer.isVisible)
+                try
                 {
-                    var obj = enemies.FirstOrDefault().Target.transform.position - transform.position;
-                    ret = obj.normalized;
+                    var enemies = GameController.Instance.GetFieldObjectDatable(ObjectType.Enemy)
+                    .OrderBy(_ => Vector2.Distance(_.Target.transform.position, transform.position));
+                    var renderer = enemies.FirstOrDefault().Target.GetComponent<EnemyBase>().Renderer;
+                    if (renderer.isVisible)
+                    {
+                        var obj = enemies.FirstOrDefault().Target.transform.position - transform.position;
+                        ret = obj.normalized;
+                    }
+                    else
+                    {
+                        ret = new Vector2(direction.x, 0);
+                    }
                 }
-                else
+                catch
                 {
                     ret = new Vector2(direction.x, 0);
                 }
+
                 break;
         }
         return ret;
