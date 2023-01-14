@@ -14,10 +14,10 @@ public class TaskObjectClass : MonoBehaviour
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!_isTask)
-        {
-            return;
-        }
+        //if (!_isTask)
+        //{
+        //    return;
+        //}
         if (collision.CompareTag("Player"))
         {
             TutorialUIManager.Instance.ChangeTaskText(_taskId);
