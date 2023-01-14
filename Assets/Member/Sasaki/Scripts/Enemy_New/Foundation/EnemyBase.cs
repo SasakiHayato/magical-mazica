@@ -28,7 +28,7 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
     /// <summary>ç≈ëÂHP</summary>
     [SerializeField] int _maxHp;
     [SerializeField] bool _isInstantiateFloat;
-    [SerializeField] Slider _slider;
+    [SerializeField] SliderController _slider;
     [SerializeField] DamageText _damageText;
     [SerializeField] EnemyAttackCollider _attackCollider;
     [SerializeField] SpriteRenderer _renderer;
@@ -99,10 +99,12 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
             .AddMonoData(EnemyStateData);
 
         //SliderÇÃèâä˙âª
-        _slider.maxValue = _maxHp;
-        _slider.value = _maxHp;
-        _currentHp.Value = _maxHp;
-        _currentHp.Subscribe(i => _slider.value = i).AddTo(this);
+        if (_slider)
+        {
+            _slider.Setup(_maxHp, _maxHp);
+            _currentHp.Value = _maxHp;
+            _currentHp.Subscribe(i => _slider.Value = i).AddTo(this);
+        }
 
         _beforePosition = transform.position;
 
