@@ -9,6 +9,9 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     [SerializeField] FusionMaterialObject _materialObject;
     [SerializeField] RawMaterialData _materialData;
 
+    System.Action<GameObject> _deadCallback = null;
+    public System.Action<GameObject> SetDeadCallback { set { _deadCallback = value; } }
+
     protected override void Setup()
     {
         MonoState
@@ -31,7 +34,7 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     }
     protected override void DeadEvent()
     {
-        CreateMap.Instance?.DeadEnemy(gameObject);
+        _deadCallback.Invoke(gameObject);
         RawMaterialDatabase rawMaterial = _materialData.GetMaterialDataRandom();
 
         FusionMaterialObject.Init(_materialObject, transform.position, rawMaterial);

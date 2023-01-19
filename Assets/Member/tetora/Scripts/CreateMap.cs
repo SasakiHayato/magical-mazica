@@ -43,17 +43,10 @@ public class CreateMap : MapCreaterBase
     StageMap _stageMap;
     int _startDigPos;//掘り始める始点
 
-    public StageMap StageMap { get => _stageMap; }
-
-    public static int TepoatObjLength => Instance._teleportObj.Length;
-
-    public static CreateMap Instance { get; set; }
-
     public override Transform PlayerTransform { get; protected set; }
 
     protected override void Create()
     {
-        Instance = this;
         InitialSet();
     }
 
@@ -212,6 +205,7 @@ public class CreateMap : MapCreaterBase
         {
             GameObject enemy = Instantiate(_enemies[i]);
             var enebase = enemy.GetComponent<Enemy>();
+            enebase.SetDeadCallback = DeadEnemy;
             enebase.ID = i;
             _enemyDic.Add(enebase.ID, new EnemyTransform(enemy));
             _enemyDic[enebase.ID].IsCreate = false;
@@ -333,7 +327,7 @@ public class CreateMap : MapCreaterBase
         {
             var teleObj = Instantiate(_teleportObj[i]);
             teleObj.transform.SetParent(_parentObj.transform);
-            _teleporterController.CreateData(teleObj.transform, GetTeleportData);
+            _teleporterController.CreateData(teleObj.transform, GetTeleportData, _teleportObj.Length);
 
             switch (i)
             {
@@ -379,7 +373,7 @@ public class CreateMap : MapCreaterBase
     /// Enemyが死んだときにFlagを変える
     /// </summary>
     /// <param name="enemy">死んだEnemy</param>
-    public void DeadEnemy(GameObject enemy)//Enemyが死んだときに外部から呼ぶ
+    void DeadEnemy(GameObject enemy)//Enemyが死んだときに外部から呼ぶ
     {
         var ene = enemy.GetComponent<Enemy>();
         ChangeFlag(ene.ID);
