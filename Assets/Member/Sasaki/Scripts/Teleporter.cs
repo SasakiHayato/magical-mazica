@@ -8,6 +8,7 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
     [SerializeField] SelectButtonHelper _selectButtonHelper;
 
     int _id;
+    int _telepoatObjLength;
     int _currentSelectID;
 
     Action<int> _teleportEvent;
@@ -56,9 +57,10 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
         }
     }
 
-    public void SetData(int id, Action<int> teleportEvent, Func<int, Transform> getTeleportEvent)
+    public void SetData(int id, Action<int> teleportEvent, Func<int, Transform> getTeleportEvent, int telepoatObjLength)
     {
         _id = id;
+        _telepoatObjLength = telepoatObjLength;
         _teleportEvent = teleportEvent;
         _getTeleport = getTeleportEvent;
     }
@@ -79,9 +81,9 @@ public class Teleporter : MonoBehaviour, IUIOperateEventable
             _currentSelectID = 0;
         }
 
-        if (_currentSelectID >= CreateMap.TepoatObjLength)
+        if (_currentSelectID >= _telepoatObjLength)
         {
-            _currentSelectID = CreateMap.TepoatObjLength - 1;
+            _currentSelectID = _telepoatObjLength - 1;
         }
 
         _point.transform.position = _getTeleport.Invoke(_currentSelectID).position;

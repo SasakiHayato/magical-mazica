@@ -19,11 +19,11 @@ public class TeleporterController
     
     List<TeleportPoint> _teleportList = new List<TeleportPoint>();
 
-    public void CreateData(Transform transform, System.Action<int> action)
+    public void CreateData(Transform transform, System.Action<int> action, int telepoatObjLength)
     {
         TeleportPoint teleportPoint = new TeleportPoint(_id, transform);
         Teleporter teleporter = transform.gameObject.GetComponent<Teleporter>();
-        teleporter.SetData(_id, action, GetData);
+        teleporter.SetData(_id, action, GetData, telepoatObjLength);
 
         _id++;
         _teleportList.Add(teleportPoint);
