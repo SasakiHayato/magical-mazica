@@ -12,6 +12,7 @@ public enum InputUserType
 {
     Player,
     UI,
+    None,
 }
 
 public class ButtonInputData
