@@ -60,11 +60,12 @@ public class SceneViewer : MonoBehaviour
         Load();
         await _fadeManager.PlayAnimation(_fadeAnimationType, FadeType.Out);
         await UniTask.Delay(System.TimeSpan.FromSeconds(WaitTime));
+        GameController.Instance.Setup(2);
     }
 
     void Load()
     {
-        GameController.Instance.Setup();
+        GameController.Instance.Setup(1);
         SoundManager.PlayRequest(SoundSystem.SoundType.BGM, _bgmPath);
         InputSetting.ChangeInputUser(_defaultInputType);
     }

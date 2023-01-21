@@ -15,6 +15,12 @@ public interface IGameSetupable
     void GameSetup();
 }
 
+public interface IGameLateSetupable
+{
+    int Priority { get; }
+    void GameLateSetup();
+}
+
 public interface IGameDisposable
 {
     void GameDispose();
@@ -102,6 +108,7 @@ public class GameController
     }
 
     List<IGameSetupable> _setupList = new List<IGameSetupable>();
+    List<IGameLateSetupable> _lateSetuplist = new List<IGameLateSetupable>();
     List<IGameDisposable> _disposeList = new List<IGameDisposable>();
 
     FieldObjectData _fieldObjectData = new FieldObjectData();
@@ -128,6 +135,11 @@ public class GameController
         _setupList.Add(setup);
     }
 
+    public void AddGameLateSetupble(IGameLateSetupable lateSetup)
+    {
+        _lateSetuplist.Add(lateSetup);
+    }
+
     public void AddGameDisposable(IGameDisposable dispose)
     {
         _disposeList.Add(dispose);
@@ -151,9 +163,20 @@ public class GameController
     /// <summary>
     /// ÉQÅ[ÉÄç\ë¢ÇÃóßÇøè„Ç∞
     /// </summary>
-    public void Setup()
+    public void Setup(int id)
     {
-        _setupList.OrderBy(s => s.Priority).ToList().ForEach(s => s.GameSetup());
+        switch (id)
+        {
+            case 1:
+                _setupList.OrderBy(s => s.Priority).ToList().ForEach(s => s.GameSetup());
+                break;
+            case 2:
+                if (_lateSetuplist.Count > 0)
+                {
+                    _lateSetuplist.OrderBy(s => s.Priority).ToList().ForEach(s => s.GameLateSetup());
+                }
+                break;
+        }
     }
 
     /// <summary>
@@ -195,6 +218,7 @@ public class GameController
     void Initalize()
     {
         _setupList = new List<IGameSetupable>();
+        _lateSetuplist = new List<IGameLateSetupable>();
         _disposeList = new List<IGameDisposable>();
         _fieldObjectData = new FieldObjectData();
 
