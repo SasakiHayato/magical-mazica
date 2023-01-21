@@ -120,7 +120,10 @@ public class InputSetting
 
     public static void ChangeInputUser(InputUserType userType)
     {
-        s_instance._currentUser = userType;
+        if (userType != InputUserType.None)
+        {
+            s_instance._currentUser = userType;
+        }
     }
 
     public static void SetInputUser(GameObject user, out InputSetting inputOperator)
