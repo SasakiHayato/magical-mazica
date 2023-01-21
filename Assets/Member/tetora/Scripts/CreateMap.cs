@@ -33,6 +33,8 @@ public class CreateMap : MapCreaterBase
     TeleporterController _teleporterController;
     [SerializeField]
     int _createEnemyTime = 30;//敵生成のインターバル
+    [SerializeField]
+    GameObject _floarObj;
 
     float _wallObjSize = 3;//マップ一つ一つのサイズ
     GameObject[] _enemies;
@@ -160,10 +162,10 @@ public class CreateMap : MapCreaterBase
             if (pos.State == MapState.Floar)
             {
                 _floarList.Add(pos);
-                var emptyObj = new GameObject();
-                emptyObj.name = "Floar";
-                _stageObjList.Add(emptyObj);
-                SetTransform(emptyObj, pos);
+                var floarObj = Instantiate(_floarObj);
+                floarObj.name = "Floar";
+                _stageObjList.Add(floarObj);
+                SetTransform(floarObj, pos);
                 continue;
             }
             else

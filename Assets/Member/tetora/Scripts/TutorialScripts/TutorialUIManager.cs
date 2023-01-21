@@ -23,8 +23,7 @@ public class TutorialUIManager : MonoBehaviour, IGameSetupable
     List<Popup> _popupList;
     [SerializeField]
     Text _taskText;
-    [SerializeField]
-    Text _inputText;
+
 
     int IGameSetupable.Priority => 2;
 
@@ -75,7 +74,6 @@ public class TutorialUIManager : MonoBehaviour, IGameSetupable
     {
         Debug.Log($"ID:{id}");
         _taskText.text = _taskManager.TaskList[id].TaskText;
-        _inputText.text = _taskManager.TaskList[id].InputText;
     }
 
     public static Popup FindPopup(string path)

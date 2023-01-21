@@ -18,12 +18,9 @@ public class Task
 {
     [SerializeField]
     string _taskText;
-    [SerializeField, TextArea]
-    string _inputText;
     [SerializeField]
     int _id;
 
     public string TaskText { get => _taskText; }
-    public string InputText { get => _inputText; }
     public int Id { get => _id; }
 }
