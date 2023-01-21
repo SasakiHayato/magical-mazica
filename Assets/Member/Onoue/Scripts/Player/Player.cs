@@ -126,10 +126,16 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     {
         try
         {
-            _playerStateData.SetAttckType = PlayerStateData.AttackType.Mazic;
-            _stateMachine.ChangeState(PlayerState.Attack);
-            Fusion();
-            _fusionItem.Attack(new Vector2(transform.localScale.x, 0));
+            if (Fusion())
+            {
+                _playerStateData.SetAttckType = PlayerStateData.AttackType.Mazic;
+                _stateMachine.ChangeState(PlayerState.Attack);
+                _fusionItem.Attack(new Vector2(transform.localScale.x, 0));
+            }
+            else
+            {
+                //ƒTƒEƒ“ƒh—¬‚·
+            }
         }
         catch
         {
@@ -182,7 +188,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// <summary>
     /// ‘I‘ğ‚³‚ê‚½‘fŞ‚ÌID‚ğó‚¯æ‚è˜B¬‚·‚é
     /// </summary>
-    public void Fusion()
+    public bool Fusion()
     {
         if (_setMaterial[0] == _setMaterial[1])
         {
@@ -190,11 +196,11 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             {
                 _fusionItem.Fusion(_setMaterial[0], _setMaterial[1]);
                 _storage.AddMaterial(_setMaterial[0], -2);
-                print("‚Å‚«‚½");
+                return true;
             }
             else
             {
-                print("‘fŞ‚ª‘«‚è‚Ü‚¹‚ñ");
+                return false;
             }
         }
         else if (_storage.GetCount(_setMaterial[0]) >= 1)
@@ -204,18 +210,18 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
                 _fusionItem.Fusion(_setMaterial[0], _setMaterial[1]);
                 _storage.AddMaterial(_setMaterial[0], -1);
                 _storage.AddMaterial(_setMaterial[1], -1);
-                print("‚Å‚«‚½");
                 _setMaterial.ForEach(m => m = RawMaterialID.Empty);
                 _selectMaterial.OnNext(_setMaterial);
+                return true;
             }
             else
             {
-                print("‘fŞ‚ª‘«‚è‚Ü‚¹‚ñ");
+                return false;
             }
         }
         else
         {
-            print("‘fŞ‚ª‘«‚è‚Ü‚¹‚ñ");
+            return false;
         }
     }
 

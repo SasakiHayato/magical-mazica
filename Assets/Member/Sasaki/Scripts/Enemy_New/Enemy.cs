@@ -37,7 +37,8 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
         _deadCallback.Invoke(gameObject);
         RawMaterialDatabase rawMaterial = _materialData.GetMaterialDataRandom();
 
-        FusionMaterialObject.Init(_materialObject, transform.position, rawMaterial);
+        Player player = GameController.Instance.Player.GetComponent<Player>();
+        FusionMaterialObject.Init(_materialObject, transform.position, rawMaterial, player);
 
         base.DeadEvent();
     }
