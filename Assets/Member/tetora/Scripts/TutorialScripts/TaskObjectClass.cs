@@ -6,26 +6,24 @@ public class TaskObjectClass : MonoBehaviour
 {
     [SerializeField]
     int _taskId;
-
-    bool _isTask;
+    int _createCount = 0;
     private void Start()
     {
-        _isTask = true;
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (!_isTask)
-        //{
-        //    return;
-        //}
         if (collision.CompareTag("Player"))
         {
             TutorialUIManager.Instance.ChangeTaskText(_taskId);
             if (_taskId == 3)
             {
+                if (_createCount >= 10)
+                {
+                    return;
+                }
+                _createCount++;
                 TutorialFieldManager.Instance.CreateEnemy();
             }
-            _isTask = false;
         }
     }
 }
