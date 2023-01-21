@@ -8,6 +8,7 @@ using DG.Tweening;
 /// <summary>
 /// 任意のタグが近くに来たらイベントを発行する
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
 public class ApproachingTag : MonoBehaviour
 {
     [SerializeField] string _tagName;
