@@ -134,7 +134,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             }
             else
             {
-                //ƒTƒEƒ“ƒh—¬‚·
+                SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer , "Miss");
             }
         }
         catch
