@@ -110,7 +110,16 @@ public class GameController
     int _currentMapHierarchy = 1;
 
     public Transform Player => _player;
-    public Transform SetPlayer { set { _player = value; } }
+    public Transform SetPlayer 
+    {
+        set 
+        {
+            if (value.GetComponent<Player>() != null)
+            {
+                _player = value;
+            }
+        }
+    }
 
     public readonly int MaxMapHierarchy = 2;
 
