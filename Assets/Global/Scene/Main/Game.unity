@@ -283,7 +283,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &395344296
 Transform:
   m_ObjectHideFlags: 0
@@ -468,6 +468,7 @@ MonoBehaviour:
   - {fileID: 5093053654628721447, guid: 050d8d3d89fd3214f8560622f19be094, type: 3}
   _releDis: 10
   _createEnemyTime: 30
+  _floarObj: {fileID: 1790036936698074179, guid: e1c00fd4169aa0649bb971bd1854c07e, type: 3}
 --- !u!114 &572681085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1530,6 +1531,22 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 887420619020249038, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858252356152915278, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858252356152915278, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858252357128600551, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858252357128600551, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
