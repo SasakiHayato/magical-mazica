@@ -44,7 +44,7 @@ public class InputController : MonoBehaviour
         _inputSetting.CreateButtonInput("LeftTrigger_2", () => _player.Jump(), InputUserType.Player);
         _inputSetting.CreateButtonInput
             (
-                "WestButton", 
+                "SouthButton", 
                 () => 
                 {
                     if (InputSetting.UIInputOperate.IsInputAttribute)
@@ -59,22 +59,16 @@ public class InputController : MonoBehaviour
                 InputUserType.Player
             );
         _inputSetting.CreateButtonInput("EastButton", () => _player.SetMaterialID(RawMaterialID.PowerPlant), InputUserType.Player);
-        _inputSetting.CreateButtonInput("SouthButton", () => _player.SetMaterialID(RawMaterialID.Penetration), InputUserType.Player);
+        _inputSetting.CreateButtonInput("WestButton", () => _player.SetMaterialID(RawMaterialID.Penetration), InputUserType.Player);
         _inputSetting.CreateButtonInput("NorthButton", () => _player.SetMaterialID(RawMaterialID.BombBean), InputUserType.Player);
-        //_inputSetting.CreateButtonInput
-        //    (
-        //        "LeftStickButton",
-        //        () => InputSetting.UIInputOperate.IsOperateRequest = true,
-        //        InputUserType.Player
-        //    );
-
+        
         _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.Player, dir => _player.SetMoveDirection(new Vector2(dir.x, 0)));
     }
 
     void SetupUIInput()
     {
-        _inputSetting.CreateButtonInput("WestButton", () => Submit(), InputUserType.UI);
-        _inputSetting.CreateButtonInput("SouthButton", () => Cancel(), InputUserType.UI);
+        _inputSetting.CreateButtonInput("SouthButton", () => Submit(), InputUserType.UI);
+        _inputSetting.CreateButtonInput("EastButton", () => Cancel(), InputUserType.UI);
         _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.UI, dir => Select(dir));
     }
 

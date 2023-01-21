@@ -23,9 +23,14 @@ namespace UIManagement
         [SerializeField] Color _disableColor = Color.white;
         /// <summary>素材不足時のテキストの色</summary>
         [SerializeField] Color _shortageTextColor = Color.white;
-        /// <summary>アニメーション用のオブジェクト</summary>
+        /// <summary>選択中アニメーション</summary>
+        [SerializeField] Image _selectedAnimImg;
+        /// <summary>選択されたアニメーション</summary>
         [SerializeField] GameObject _selectAnimationObject;
+        [SerializeField] float _selectedAnimationDuraion;
+        private Color _defColor;
         private MaterialPanelState _state;
+        private Sequence _sequence;
         /// <summary>残り個数の表示</summary>
         public int SetNumText
         {
@@ -62,18 +67,30 @@ namespace UIManagement
                     return;
                 }
 
+                if (_sequence != null)
+                {
+                    _sequence.Kill();
+                }
+
                 _state = value;
                 _selectAnimationObject.SetActive(false);
                 switch (_state)
                 {
                     case MaterialPanelState.Neutral:
-                        ShortageJudge(Color.clear);
+                        _selectedAnimImg.gameObject.SetActive(false);
+                        _activeImage.color = Color.clear;
                         break;
                     case MaterialPanelState.Active:
-                        ShortageJudge(_activeColor);
                         _selectAnimationObject.SetActive(true);
+                        _selectedAnimImg.gameObject.SetActive(true);
+                        _sequence = DOTween.Sequence();
+                        _sequence
+                            .Append(_selectedAnimImg.DOColor(Color.white, _selectedAnimationDuraion))
+                            .Append(_selectedAnimImg.DOColor(_defColor, _selectedAnimationDuraion))
+                            .SetLoops(-1);
                         break;
                     case MaterialPanelState.Disable:
+                        _selectedAnimImg.gameObject.SetActive(false);
                         _activeImage.color = _disableColor;
                         break;
                     default:
@@ -96,6 +113,9 @@ namespace UIManagement
         {
             _image.sprite = data.Sprite;
             _image.color = data.SpriteColor;
+            _selectedAnimImg.sprite = data.Sprite;
+            _selectedAnimImg.color = data.SpriteColor;
+            _defColor = data.SpriteColor;
             CurrentMaterialID = data.ID;
             _selectAnimationObject.SetActive(false);
         }
@@ -103,17 +123,29 @@ namespace UIManagement
         /// <summary>
         /// 素材不足分の判定
         /// </summary>
-        private void ShortageJudge(Color elseColor)
-        {
-            if (int.Parse(_text.text) <= 0)
-            {
-                _activeImage.color = _disableColor;
-            }
-            else
-            {
-                _activeImage.color = elseColor;
-            }
-        }
+        //private void ShortageJudge(Color elseColor)
+        //{
+        //    if (int.Parse(_text.text) <= 0)
+        //    {
+        //        _activeImage.color = _disableColor;
+        //        _selectedAnimImg.gameObject.SetActive(false);
+        //        if (_sequence != null)
+        //        {
+        //            _sequence.Kill();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        //_activeImage.color = elseColor;
+        //        _selectedAnimImg.gameObject.SetActive(true);
+        //        Color defColor = _selectedAnimImg.color;
+        //        _sequence = DOTween.Sequence();
+        //        _sequence
+        //            .Append(_selectedAnimImg.DOColor(Color.white, _selectedAnimationDuraion))
+        //            .Append(_selectedAnimImg.DOColor(defColor, _selectedAnimationDuraion))
+        //            .SetLoops(-1);
+        //    }
+        //}
     }
 
     /// <summary>
