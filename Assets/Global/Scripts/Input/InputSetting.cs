@@ -45,7 +45,7 @@ public class InputSetting
     List<ButtonInputData> _buttonInputDataList = new List<ButtonInputData>();
     List<AxisInputData> _axisInputDataList = new List<AxisInputData>();
 
-    public static ControllerType CurrentController { get; private set; } = ControllerType.DUALSHOCK;
+    public static ControllerType CurrentController { get; private set; } = ControllerType.None;
 
     static InputSetting s_instance = null;
     public static UIInputOperator UIInputOperate { get; private set; }
@@ -103,7 +103,6 @@ public class InputSetting
         try
         {
             string name = Input.GetJoystickNames()[0];
-
             if (name == "")
             {
                 CurrentController = ControllerType.None;
