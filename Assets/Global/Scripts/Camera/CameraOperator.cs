@@ -84,7 +84,7 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
 
             Vector3 magunitude = new Vector3(_cameraData.Shake.GetMagnitude, _cameraData.Shake.GetMagnitude, 0);
 
-            transform.position = Position + (magunitude * _cameraData.Shake.Power);
+            transform.position = Position + _cameraData.View.Offset + (magunitude * _cameraData.Shake.Power);
 
             yield return null;
         }
