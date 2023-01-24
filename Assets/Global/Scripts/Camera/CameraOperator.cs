@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class CameraOperator : MonoBehaviour, IFieldEffectable
 {
+    [SerializeField] MiniMapCameraData _miniMapCameraData;
     [SerializeField] CameraData _cameraData;
     [SerializeField] List<EventCamera> _eventCameraList;
 
+    Camera _minimapCm = null;
     bool _onEvent = false;
 
     Vector3 Position
@@ -15,7 +17,7 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
         {
             try
             {
-                return GameController.Instance.Player.position + _cameraData.View.Offset;
+                return GameController.Instance.Player.position;
             }
             catch
             {
@@ -35,6 +37,7 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
     void Start()
     {
         EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.CmShake, this);
+        CreateMiniMapCamera();
     }
 
     void Update()
@@ -44,10 +47,25 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
         Move();
     }
 
+    void CreateMiniMapCamera()
+    {
+        if (_miniMapCameraData.RenderTexture == null) return;
+
+        _minimapCm = new GameObject("MiniMapCm").AddComponent<Camera>();
+        _minimapCm.targetTexture = _miniMapCameraData.RenderTexture;
+        _minimapCm.cullingMask = _miniMapCameraData.ViewLayer;
+    }
+
     void Move()
     {
-        s_position = Position;
-        transform.position = Position;
+        s_position = Position + _cameraData.View.Offset;
+
+        transform.position = Position + _cameraData.View.Offset;
+
+        if (_minimapCm != null)
+        {
+            _minimapCm.transform.position = Position + _miniMapCameraData.OffsetPosition;
+        }
     }
 
     void IFieldEffectable.Execute()

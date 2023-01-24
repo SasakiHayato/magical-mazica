@@ -3467,6 +3467,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439c7db54a00a294ca1a01a862218558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _miniMapCameraData:
+    _offsetPosition: {x: 0, y: 0, z: -30}
+    _viewLayer:
+      serializedVersion: 2
+      m_Bits: 4096
+    _renderTexture: {fileID: 8400000, guid: 9a123c9ab9c84de41b8e9b713223ef3b, type: 2}
   _cameraData:
     _viewData:
       _offset: {x: 0, y: 0, z: -10}
@@ -11043,6 +11049,10 @@ PrefabInstance:
       propertyPath: m_FontData.m_Alignment
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2782503910391816175, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2834049787349273774, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: _popupList.Array.size
       value: 6
@@ -13342,6 +13352,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 686312577}
     m_Modifications:
+    - target: {fileID: 1561002428076433072, guid: b6990896a4eff3e4996f42b3a2b2b9b4, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2441154863903290316, guid: b6990896a4eff3e4996f42b3a2b2b9b4, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2846992128760220528, guid: b6990896a4eff3e4996f42b3a2b2b9b4, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915344567727514307, guid: b6990896a4eff3e4996f42b3a2b2b9b4, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049708927353585760, guid: b6990896a4eff3e4996f42b3a2b2b9b4, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8541359524538370901, guid: b6990896a4eff3e4996f42b3a2b2b9b4, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638969623128820129, guid: b6990896a4eff3e4996f42b3a2b2b9b4, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9151029219824797125, guid: b6990896a4eff3e4996f42b3a2b2b9b4, type: 3}
       propertyPath: m_Name
       value: Goal
