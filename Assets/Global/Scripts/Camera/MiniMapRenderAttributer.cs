@@ -1,13 +1,12 @@
 using UnityEngine;
-using UniRx; 
 
 public class MiniMapRenderAttributer : MonoBehaviour
 {
+    [SerializeField] bool _awakeView;
     [SerializeField] GameObject _renderObject;
 
     GameObject _clone = null;
-    ReactiveProperty<float> _reactiveDistance = new ReactiveProperty<float>();
-
+   
     static readonly float AttributeDistance = 10;
     readonly string MiniMapLayer = "MiniMap";
 
@@ -15,8 +14,11 @@ public class MiniMapRenderAttributer : MonoBehaviour
     {
         CreateView();
         SetLayer();
-        
-        _clone.SetActive(false);
+
+        if (!_awakeView)
+        {
+            _clone.SetActive(false);
+        }
     }
 
     void Update()

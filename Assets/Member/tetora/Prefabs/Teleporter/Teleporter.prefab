@@ -30,8 +30,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8693473654383629774}
-  m_RootOrder: 2
+  m_Father: {fileID: 649209524389147363}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4858918738312012975
 SpriteRenderer:
@@ -515,6 +515,7 @@ GameObject:
   - component: {fileID: 1209765566969879514}
   - component: {fileID: -7984546854082962462}
   - component: {fileID: 4728526304653269303}
+  - component: {fileID: 3454983050685766739}
   m_Layer: 0
   m_Name: Teleporter
   m_TagString: Untagged
@@ -536,7 +537,6 @@ Transform:
   m_Children:
   - {fileID: 1239861639101379384}
   - {fileID: 649209524389147363}
-  - {fileID: 8795713346430943972}
   - {fileID: 4464690191398856913}
   - {fileID: 4009306646140390359}
   m_Father: {fileID: 0}
@@ -650,6 +650,20 @@ MonoBehaviour:
   _xboxHelpObj: {fileID: 4992773099460552989}
   _ps4HelpObj: {fileID: 4138487684720370439}
   _pcHelpObj: {fileID: 1195332642061267792}
+--- !u!114 &3454983050685766739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5093053654628721447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171b5f2717594fa48b499f3ce0ac8c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _awakeView: 1
+  _renderObject: {fileID: 649209524389147366}
 --- !u!1 &8506792007925092504
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +779,7 @@ RectTransform:
   - {fileID: 259905538031872059}
   - {fileID: 297314986904316125}
   m_Father: {fileID: 8693473654383629774}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -842,7 +856,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4389651064952777937, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4389651064952777937, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
       propertyPath: m_LocalPosition.x
@@ -982,6 +996,11 @@ PrefabInstance:
 --- !u!4 &649209524389147363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 763009840661347217, guid: 3cd46a7155400e549923c54667d05afc, type: 3}
+  m_PrefabInstance: {fileID: 258031152181070194}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &649209524389147366 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 763009840661347220, guid: 3cd46a7155400e549923c54667d05afc, type: 3}
   m_PrefabInstance: {fileID: 258031152181070194}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1991188066520942761

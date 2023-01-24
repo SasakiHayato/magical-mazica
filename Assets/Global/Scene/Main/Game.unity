@@ -2074,6 +2074,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2687934280054804161, guid: c9e1b0fab536411479dcf2fe9e02d92f, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4096
+      objectReference: {fileID: 0}
     - target: {fileID: 2687934280054804166, guid: c9e1b0fab536411479dcf2fe9e02d92f, type: 3}
       propertyPath: _path
       value: SelectTeleport
