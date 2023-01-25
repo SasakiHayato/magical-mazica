@@ -17,6 +17,9 @@ public class AcquisitionDropObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _action();
+        if (_action != null)
+        {
+            _action();
+        }
     }
 }

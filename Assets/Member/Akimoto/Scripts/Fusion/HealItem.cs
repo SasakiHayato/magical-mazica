@@ -20,7 +20,7 @@ public class HealItem : DropObjectBase
 
     private void Setup(Player player)
     {
-        SubscribeEvent(player.transform.position);
+        SubscribeApproachingEvent(player.gameObject);
         //_approachingDropObject.SetAction(player.‰ñ•œ‚³‚¹‚é);
     }
 }

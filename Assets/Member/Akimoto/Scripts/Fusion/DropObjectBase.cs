@@ -17,7 +17,11 @@ public class DropObjectBase : MonoBehaviour
     [SerializeField] protected float _speed;
     protected bool _isMove;
 
-    protected void SubscribeEvent(Vector2 playerPosition)
+    /// <summary>
+    /// ÚG”»’è‚ğó‚¯æ‚é
+    /// </summary>
+    /// <param name="player"></param>
+    protected void SubscribeApproachingEvent(GameObject player)
     {
         _approachingTag.ApproachEvent
             .Where(_ => !_isMove)
@@ -27,7 +31,7 @@ public class DropObjectBase : MonoBehaviour
                 this.UpdateAsObservable()
                     .Subscribe(_ =>
                     {
-                        MoveToPlayer(playerPosition);
+                        MoveToPlayer(player);
                     })
                     .AddTo(this);
             })
@@ -38,9 +42,9 @@ public class DropObjectBase : MonoBehaviour
     /// ƒvƒŒƒCƒ„[‚Ì•û‚ÉˆÚ“®
     /// </summary>
     /// <param name="playerPosition"></param>
-    protected void MoveToPlayer(Vector2 playerPosition)
+    protected void MoveToPlayer(GameObject targetObject)
     {
-        Vector2 v = playerPosition - (Vector2)transform.position;
+        Vector2 v = (Vector2)targetObject.transform.position - (Vector2)transform.position;
         v.Normalize();
         _rb.velocity = v * _speed;
     }

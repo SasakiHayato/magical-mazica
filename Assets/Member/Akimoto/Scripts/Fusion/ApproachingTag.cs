@@ -21,7 +21,7 @@ public class ApproachingTag : MonoBehaviour
         if (collision.CompareTag(_tagName))
         {
             _approachEvent.OnNext(Unit.Default);
-            Destroy(transform.parent.gameObject);
+            //Destroy(transform.parent.gameObject);
         }
     }
 }

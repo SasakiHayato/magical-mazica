@@ -13,7 +13,6 @@ using ObjectPool;
 public class FusionMaterialObject : DropObjectBase
 {
     [SerializeField] SpriteRenderer _spriteRenderer;
-    [SerializeField] Rigidbody2D _rb;
     private RawMaterialDatabase _materialData;
     /// <summary>ëfçﬁÉfÅ[É^</summary>
     public RawMaterialDatabase MaterialID => _materialData;
@@ -40,7 +39,11 @@ public class FusionMaterialObject : DropObjectBase
         _spriteRenderer.sprite = data.Sprite;
         _spriteRenderer.color = data.SpriteColor;
 
-        SubscribeEvent(player.transform.position);
-        //_approachingDropObject.SetAction(() => ëfçﬁëùÇ‚Ç≥ÇπÇÈ);
+        SubscribeApproachingEvent(player.gameObject);
+        _approachingDropObject.SetAction = () =>
+        {
+            Debug.Log("a");
+            Destroy(gameObject);
+        };
     }
 }
