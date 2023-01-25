@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Note. åªèÛIUIOperateEventableÇ∆ëgÇ›çáÇÌÇπÇ»Ç¢Ç∆Ç¢ÇØÇ»Ç¢ÅB
 public class Popup : MonoBehaviour
 {
     [System.Serializable]
@@ -67,11 +68,6 @@ public class Popup : MonoBehaviour
             float scale = data.ID == id ? _selectScaleRate : 1;
             data.View(scale);
         }
-    }
-
-    public void OnSubmit()
-    {
-
     }
 
     public void OnCancel()

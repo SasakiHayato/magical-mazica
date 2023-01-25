@@ -17,11 +17,6 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     void Start()
     {
-        if (_isTutorial)
-        {
-            _popup = TutorialUIManager.FindPopup(PopupPath);
-            return;
-        }
         _popup = GUIManager.FindPopup(PopupPath);
     }
 
@@ -84,8 +79,6 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     bool IUIOperateEventable.SubmitEvent()
     {
-        _popup.OnSubmit();
-
         if (_currentSelectID == AttributeID)
         {
             GameController.Instance.SetNextMap(_isTutorial);

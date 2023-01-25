@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6182587382636948257}
   - component: {fileID: 7298793235089749697}
   - component: {fileID: 6935927884902877347}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 6509914483955536716}
   - component: {fileID: 5357273671112307921}
   - component: {fileID: 8603282698082885851}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 5913859499298317144}
   - component: {fileID: 4276871567197624663}
   - component: {fileID: 1397973616066727055}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 4026469098973006731}
   - component: {fileID: 8375026191389237452}
   - component: {fileID: 8262810456492845145}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 985856164928418107}
   - component: {fileID: 5591673974050239625}
   - component: {fileID: 425727344236290924}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: xbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +516,7 @@ GameObject:
   - component: {fileID: 3298018153882990274}
   - component: {fileID: 3621596410904826689}
   - component: {fileID: 7913362290243967053}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: ps4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 1069770982630276683}
   - component: {fileID: 2013137644866993691}
   - component: {fileID: 6118643801965618734}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: pc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -778,6 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb015965c642614b8f75c810d02ad27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isTutorial: 0
   _selectButtonHelper: {fileID: 8915507620978952749}
   _teleportAttributer: {fileID: 7445605528344839614}
 --- !u!114 &8915507620978952749

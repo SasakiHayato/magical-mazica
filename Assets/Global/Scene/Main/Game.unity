@@ -1340,6 +1340,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439c7db54a00a294ca1a01a862218558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _miniMapCameraData:
+    _offsetPosition: {x: 0, y: 0, z: -30}
+    _viewLayer:
+      serializedVersion: 2
+      m_Bits: 4096
+    _renderTexture: {fileID: 8400000, guid: 9a123c9ab9c84de41b8e9b713223ef3b, type: 2}
   _cameraData:
     _viewData:
       _offset: {x: 0, y: 0, z: -10}
@@ -2067,6 +2073,10 @@ PrefabInstance:
     - target: {fileID: 2687934280054804160, guid: c9e1b0fab536411479dcf2fe9e02d92f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687934280054804161, guid: c9e1b0fab536411479dcf2fe9e02d92f, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4096
       objectReference: {fileID: 0}
     - target: {fileID: 2687934280054804166, guid: c9e1b0fab536411479dcf2fe9e02d92f, type: 3}
       propertyPath: _path
