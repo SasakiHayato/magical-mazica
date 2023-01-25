@@ -150,8 +150,6 @@ namespace ObjectPool
                 return null;
             }
 
-            CurrentUseCount++;
-
             try
             {
                 PoolData data = _poolList.First(p => !p.IsUse);
@@ -174,8 +172,12 @@ namespace ObjectPool
 
                 Debug.LogWarning($"Poolが上限に達したので上限を増やしました。" +
                     $"\n 対象Pool.{_monoPool.name} : 生成数.{_createCount} : 上限.{_poolList.Count}");
-
+                CurrentUseCount--;
                 return UseRequest(out action);
+            }
+            finally
+            {
+                CurrentUseCount++;
             }
         }
 
@@ -193,8 +195,6 @@ namespace ObjectPool
                 return null;
             }
 
-            CurrentUseCount++;
-
             try
             {
                 PoolData data = _poolList.First(p => !p.IsUse);
@@ -210,16 +210,22 @@ namespace ObjectPool
                 action += () => data.Pool.StartCoroutine(Execution(data));
 
                 action.Invoke();
+
                 return data.Pool;
             }
             catch
             {
                 CreatePool(_createCount);
-
+                
                 Debug.LogWarning($"Poolが上限に達したので上限を増やしました。" +
                     $"\n 対象Pool.{_monoPool.name} : 生成数.{_createCount} : 上限.{_poolList.Count}");
+                CurrentUseCount--;
 
                 return UseRequest();
+            }
+            finally
+            {
+                CurrentUseCount++;
             }
         }
 
@@ -270,6 +276,8 @@ namespace ObjectPool
             data.DisposeEvent();
             data.Pool.gameObject.SetActive(false);
             CurrentUseCount--;
+
+            Debug.Log(CurrentUseCount);
         }
     }
 }
