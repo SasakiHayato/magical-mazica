@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+// Note. 現状使用されているとんでもクラス。Debug用のはずだった
 public class DebugSetEnemyObject : MonoBehaviour
 {
     [SerializeField] Transform _parent;
