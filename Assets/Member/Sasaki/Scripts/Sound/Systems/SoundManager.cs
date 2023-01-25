@@ -39,6 +39,13 @@ public class SoundManager : MonoBehaviour
         if (Instance == null) return;
       
         SoundDataAsset asset = Instance._soundDataAssetList.Find(s => s.SoundType == type);
+
+        if (asset == null)
+        {
+            Debug.Log("サウンドアセットデータが存在しません");
+            return;
+        }
+
         SoundDataAsset.SoundData data = asset.GetSoundData(path);
 
         if (data == null)
