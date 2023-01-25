@@ -55,6 +55,8 @@ namespace ObjectPool
 
         Transform _parent;
 
+        public int CurrentUseCount { get; private set; }
+
         /// <summary>
         /// ‰Šúİ’è
         /// </summary>
@@ -148,6 +150,8 @@ namespace ObjectPool
                 return null;
             }
 
+            CurrentUseCount++;
+
             try
             {
                 PoolData data = _poolList.First(p => !p.IsUse);
@@ -188,6 +192,8 @@ namespace ObjectPool
                 Debug.LogWarning("Pool‚Ìg—pŒ ŒÀ‚ª‚ ‚è‚Ü‚¹‚ñ");
                 return null;
             }
+
+            CurrentUseCount++;
 
             try
             {
@@ -263,6 +269,7 @@ namespace ObjectPool
             data.IsUse = false;
             data.DisposeEvent();
             data.Pool.gameObject.SetActive(false);
+            CurrentUseCount--;
         }
     }
 }

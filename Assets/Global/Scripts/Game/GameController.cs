@@ -194,13 +194,13 @@ public class GameController
     {
         if (isTutorial)
         {
-            SceneViewer.SceneLoad(SceneViewer.SceneType.Game);
+            SceneViewer.SceneLoad(SceneViewer.SceneType.Game, true);
             return;
         }
 
         if (_currentMapHierarchy >= MaxMapHierarchy)
         {
-            SceneViewer.SceneLoad(SceneViewer.SceneType.Boss);
+            SceneViewer.SceneLoad(SceneViewer.SceneType.Boss, true);
         }
         else
         {
