@@ -124,6 +124,7 @@ public class InputController : MonoBehaviour
         {
             if (datable.Target.TryGetComponent(out IInputEventable input))
             {
+                GameController.Instance.OnInputEvent = onEvent;
                 if (onEvent) input.OnEvent();
                 else input.DisposeEvent();
             }
