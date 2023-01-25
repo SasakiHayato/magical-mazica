@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89a338200dda974cb557cc36a9ecaaf, type: 3}
   m_Name: SoundDataAsset_SE_UI
   m_EditorClassIdentifier: 
-  _volumeType: 0
-  _soundType: 0
-  _soundDataList: []
+  _volumeType: 1
+  _soundType: 4
+  _soundDataList:
+  - _path: Popup
+    _clip: {fileID: 8300000, guid: 2119e93d92491844485fd4207fc66db6, type: 3}
+    _volume: 1
+    _isLoop: 0
+  - _path: Cursor
+    _clip: {fileID: 8300000, guid: 9d6ddfd9978ed2e438b47ca0101bfcf1, type: 3}
+    _volume: 0.428
+    _isLoop: 0
