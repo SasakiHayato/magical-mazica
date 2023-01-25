@@ -148,7 +148,7 @@ namespace BehaviourTree
                 }
                 else
                 {
-                    if (ModelData.TreeDataBase.ID != _treeModel.GetTreeDataBase().ID)
+                    if (ModelData.TreeDataBase.ID != _treeModel.GetTreeDataBase().ID && !_treeModel.IsTaskCall)
                     {
                         Set();
                     }
