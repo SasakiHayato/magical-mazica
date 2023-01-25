@@ -35,7 +35,7 @@ public class PlayerIsStick : MonoStateBase, IStateExitEventable
             _player.transform.localScale = new Vector3(-1, 1, 1);
         }
         _playerStateData.Rigid.ResetImpalse();
-        _anim.OnPlay("Stick");
+        _anim.OnPlay("IsStick");
     }
     //Update
     public override void OnExecute()

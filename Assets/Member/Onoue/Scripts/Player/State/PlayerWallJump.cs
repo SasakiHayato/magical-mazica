@@ -22,12 +22,14 @@ public class PlayerWallJump : MonoStateBase
         {
             _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.WallPower.y, RigidMasterData.ImpulseDirectionType.Vertical);
             _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.WallPower.x * -1, RigidMasterData.ImpulseDirectionType.Horizontal);
+            _player.transform.localScale = new Vector3(-1, 1, 1);
             //_player.RigidOperate.AddForce(new Vector2(-1, 1) * _player.WallJumpPower, ForceMode2D.Impulse);
         }
         else if (id[0] == 3)
         {
             _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.WallPower.y, RigidMasterData.ImpulseDirectionType.Vertical);
             _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.WallPower.x, RigidMasterData.ImpulseDirectionType.Horizontal);
+            _player.transform.localScale = new Vector3(1, 1, 1);
             //_player.RigidOperate.AddForce(Vector2.one * _player.WallJumpPower, ForceMode2D.Impulse);
         }
     }
