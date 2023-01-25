@@ -146,6 +146,13 @@ namespace BehaviourTree
                             ; break;
                     }
                 }
+                else
+                {
+                    if (ModelData.TreeDataBase.ID != _treeModel.GetTreeDataBase().ID)
+                    {
+                        Set();
+                    }
+                }
             }
         }
 
