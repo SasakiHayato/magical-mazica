@@ -106,6 +106,7 @@ public class FadeManager : MonoBehaviour
 public enum FadeAnimationType
 {
     Simple,
+    Mazical,
     //Wave,
 }
 
