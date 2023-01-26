@@ -5,11 +5,13 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 
+/// <summary>
+/// ‰ñ•œƒAƒCƒeƒ€
+/// </summary>
 public class HealItem : DropObjectBase
 {
-    [SerializeField] int _healValue;
     /// <summary>‰ñ•œ—Ê</summary>
-    public int HealValue => _healValue;
+    [SerializeField] int _healValue;
 
     public static HealItem Init(HealItem original, Vector2 createPosition, Player player = null)
     {
@@ -21,6 +23,7 @@ public class HealItem : DropObjectBase
     private void Setup(Player player)
     {
         SubscribeApproachingEvent(player.gameObject);
-        //_approachingDropObject.SetAction(player.‰ñ•œ‚³‚¹‚é);
+        _approachingDropObject.SetAction = () => player.Heal(_healValue);
+        Destroy(gameObject);
     }
 }

@@ -14,8 +14,6 @@ public class FusionMaterialObject : DropObjectBase
 {
     [SerializeField] SpriteRenderer _spriteRenderer;
     private RawMaterialDatabase _materialData;
-    /// <summary>素材データ</summary>
-    public RawMaterialDatabase MaterialID => _materialData;
 
     /// <summary>
     /// 素材オブジェクトの生成
@@ -38,11 +36,13 @@ public class FusionMaterialObject : DropObjectBase
     {
         _spriteRenderer.sprite = data.Sprite;
         _spriteRenderer.color = data.SpriteColor;
+        _materialData = data;
 
         SubscribeApproachingEvent(player.gameObject);
         _approachingDropObject.SetAction = () =>
         {
-            Debug.Log("a");
+            Debug.Log(player.Storage);
+            player.Storage.AddMaterial(_materialData.ID, 1);
             Destroy(gameObject);
         };
     }
