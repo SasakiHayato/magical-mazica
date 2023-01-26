@@ -80,12 +80,14 @@ public class InputController : MonoBehaviour
         {
             _onSelectX = true;
             _selectX += (int)Mathf.Sign(value.x);
+            SoundManager.PlayRequest(SoundSystem.SoundType.SEUI, "Cursor");
         }
 
         if (0 != value.y && !_onSelectY)
         {
             _onSelectY = true;
             _selectY += (int)Mathf.Sign(value.y);
+            SoundManager.PlayRequest(SoundSystem.SoundType.SEUI, "Cursor");
         }
 
         _selectX = _selectX < 0 ? 0 : _selectX;
@@ -124,6 +126,7 @@ public class InputController : MonoBehaviour
         {
             if (datable.Target.TryGetComponent(out IInputEventable input))
             {
+                GameController.Instance.OnInputEvent = onEvent;
                 if (onEvent) input.OnEvent();
                 else input.DisposeEvent();
             }

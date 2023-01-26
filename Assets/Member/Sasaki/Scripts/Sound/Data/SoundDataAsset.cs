@@ -16,6 +16,7 @@ namespace SoundSystem
         SEEnemy,
         SEPlayer,
         SEInput,
+        SEUI,
     }
 
     [CreateAssetMenu(fileName = "SoundDataAsset_[Name]")]

@@ -55,6 +55,8 @@ namespace ObjectPool
 
         Transform _parent;
 
+        public int CurrentUseCount { get; private set; }
+
         /// <summary>
         /// 初期設定
         /// </summary>
@@ -170,8 +172,12 @@ namespace ObjectPool
 
                 Debug.LogWarning($"Poolが上限に達したので上限を増やしました。" +
                     $"\n 対象Pool.{_monoPool.name} : 生成数.{_createCount} : 上限.{_poolList.Count}");
-
+                CurrentUseCount--;
                 return UseRequest(out action);
+            }
+            finally
+            {
+                CurrentUseCount++;
             }
         }
 
@@ -204,16 +210,22 @@ namespace ObjectPool
                 action += () => data.Pool.StartCoroutine(Execution(data));
 
                 action.Invoke();
+
                 return data.Pool;
             }
             catch
             {
                 CreatePool(_createCount);
-
+                
                 Debug.LogWarning($"Poolが上限に達したので上限を増やしました。" +
                     $"\n 対象Pool.{_monoPool.name} : 生成数.{_createCount} : 上限.{_poolList.Count}");
+                CurrentUseCount--;
 
                 return UseRequest();
+            }
+            finally
+            {
+                CurrentUseCount++;
             }
         }
 
@@ -263,6 +275,9 @@ namespace ObjectPool
             data.IsUse = false;
             data.DisposeEvent();
             data.Pool.gameObject.SetActive(false);
+            CurrentUseCount--;
+
+            Debug.Log(CurrentUseCount);
         }
     }
 }

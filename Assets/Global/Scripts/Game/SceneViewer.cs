@@ -70,11 +70,16 @@ public class SceneViewer : MonoBehaviour
         InputSetting.ChangeInputUser(_defaultInputType);
     }
 
-    async UniTask OnWaitUnLoad(SceneType sceneType)
+    async UniTask OnWaitUnLoad(SceneType sceneType, bool isWaitSound)
     {
         if (_fadeManager != null)
         {
             await _fadeManager.PlayAnimation(_fadeAnimationType, FadeType.In);
+        }
+
+        if (isWaitSound)
+        {
+            await UniTask.WaitUntil(() => SoundManager.IsStopAllSound);
         }
         
         GameController.Instance.Dispose();
@@ -84,10 +89,10 @@ public class SceneViewer : MonoBehaviour
         SceneManager.LoadScene((int)sceneType);
     }
 
-    public static void SceneLoad(SceneType sceneType)
+    public static void SceneLoad(SceneType sceneType, bool isWaitSound = false)
     {
         SoundManager.StopBGM();
-        Instance.OnWaitUnLoad(sceneType).Forget();
+        Instance.OnWaitUnLoad(sceneType, isWaitSound).Forget();
     }
 
     public static void Initalize()

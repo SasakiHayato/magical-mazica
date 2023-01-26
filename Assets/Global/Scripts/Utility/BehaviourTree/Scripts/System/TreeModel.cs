@@ -46,7 +46,7 @@ namespace BehaviourTree
         /// </summary>
         public void OnNext()
         {
-            IsTaskCall = false;
+            // IsTaskCall = false;
 
             TreeDataBase dataBase = GetTreeDataBase();
 
@@ -74,9 +74,9 @@ namespace BehaviourTree
         /// NullÇ≈Ç»ÇØÇÍÇŒåªç›ÇÃModelDataÇï‘Ç∑
         /// </summary>
         /// <returns></returns>
-        TreeDataBase GetTreeDataBase()
+        public TreeDataBase GetTreeDataBase()
         {
-            TreeDataBase data = ModelData.TreeDataBase;
+            TreeDataBase data = null;
             
             if (data == null)
             {
@@ -158,7 +158,9 @@ namespace BehaviourTree
 
             switch (_executeType)
             {
-                case ExecuteType.Update: return isProcess;
+                case ExecuteType.Update:
+                    IsTaskCall = false;
+                    return isProcess;
 
                 case ExecuteType.Task:
                     
