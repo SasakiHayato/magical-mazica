@@ -81,6 +81,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
     {
         if (_currentSelectID == AttributeID)
         {
+            SoundManager.PlayRequest(SoundSystem.SoundType.SEInput, "SceneChange");
             GameController.Instance.SetNextMap(_isTutorial);
         }
 

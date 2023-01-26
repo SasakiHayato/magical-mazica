@@ -26,6 +26,11 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
             .AddMonoData(_treeUser);
 
         MonoState.IsRun = true;
+
+        if (GameController.Instance.OnInputEvent)
+        {
+            gameObject.GetComponent<IInputEventable>().OnEvent();
+        }
     }
 
     protected override void Execute()

@@ -128,6 +128,8 @@ public class GameController
         }
     }
 
+    public bool OnInputEvent { get; set; }
+
     public readonly int MaxMapHierarchy = 2;
 
     public void AddGameSetupable(IGameSetupable setup)
@@ -192,13 +194,13 @@ public class GameController
     {
         if (isTutorial)
         {
-            SceneViewer.SceneLoad(SceneViewer.SceneType.Game);
+            SceneViewer.SceneLoad(SceneViewer.SceneType.Game, true);
             return;
         }
 
         if (_currentMapHierarchy >= MaxMapHierarchy)
         {
-            SceneViewer.SceneLoad(SceneViewer.SceneType.Boss);
+            SceneViewer.SceneLoad(SceneViewer.SceneType.Boss, true);
         }
         else
         {
