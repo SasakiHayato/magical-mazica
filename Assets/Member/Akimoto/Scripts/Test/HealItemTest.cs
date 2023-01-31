@@ -11,9 +11,5 @@ public class HealItemTest : MonoBehaviour
 
     private void Start()
     {
-        if (Input.GetKey("K"))
-        {
-            HealItem.Init(_healItem, transform.position, GameObject.Find("Player(Clone)").GetComponent<Player>());
-        }
     }
 }

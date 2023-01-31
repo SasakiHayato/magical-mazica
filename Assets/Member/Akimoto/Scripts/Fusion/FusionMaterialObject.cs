@@ -29,6 +29,7 @@ public class FusionMaterialObject : DropObjectBase
 
         FusionMaterialObject ret = Instantiate(original, createPosition, Quaternion.identity);
         ret.Setup(data, player);
+        Debug.Log($"ƒhƒƒbƒv‚µ‚½‘fÞ{data.Name}");
         return ret;
     }
 
@@ -41,7 +42,6 @@ public class FusionMaterialObject : DropObjectBase
         SubscribeApproachingEvent(player.gameObject);
         _approachingDropObject.SetAction = () =>
         {
-            Debug.Log(player.Storage);
             player.Storage.AddMaterial(_materialData.ID, 1);
             Destroy(gameObject);
         };

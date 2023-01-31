@@ -23,7 +23,11 @@ public class HealItem : DropObjectBase
     private void Setup(Player player)
     {
         SubscribeApproachingEvent(player.gameObject);
-        _approachingDropObject.SetAction = () => player.Heal(_healValue);
-        Destroy(gameObject);
+        _approachingDropObject.SetAction = () =>
+        {
+            player.Heal(_healValue);
+            Destroy(gameObject);
+        };
+        
     }
 }

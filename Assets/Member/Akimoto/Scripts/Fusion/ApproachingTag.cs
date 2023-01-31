@@ -13,6 +13,7 @@ public class ApproachingTag : MonoBehaviour
 {
     [SerializeField] string _tagName;
     private Subject<Unit> _approachEvent = new Subject<Unit>();
+    public string SetTagName { set => _tagName = value; }
     /// <summary>‘ÎÛ‚ªÚ‹ß‚µ‚Ä‚«‚½Û‚ÌƒCƒxƒ“ƒg</summary>
     public System.IObservable<Unit> ApproachEvent => _approachEvent;
 

@@ -12,14 +12,19 @@ using System;
 [RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
 public class AcquisitionDropObject : MonoBehaviour
 {
+    [SerializeField] string _tagName;
     private Action _action;
+    public string SetTagName { set => _tagName = value; }
     public Action SetAction { set => _action = value; }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_action != null)
         {
-            _action();
+            if (collision.CompareTag(_tagName))
+            {
+                _action();
+            }
         }
     }
 }
