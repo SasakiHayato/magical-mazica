@@ -2785,7 +2785,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Are you Ready...??
+  m_Text: 'Are you Ready...??
+
+
+    FInd the Goal'
 --- !u!222 &896304577
 CanvasRenderer:
   m_ObjectHideFlags: 0
