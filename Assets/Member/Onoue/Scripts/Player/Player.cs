@@ -276,6 +276,20 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             }
         }
     }
+
+    /// <summary>
+    /// ‰ñ•œ‚³‚¹‚é
+    /// </summary>
+    /// <param name="value"></param>
+    public void Heal(int value)
+    {
+        _hp.Value += value;
+        if (_hp.Value > _maxHP)
+        {
+            _hp.Value = _maxHP;
+        }
+    }
+
     void IDamagable.AddDamage(int damage)
     {
         if (_isHit)
