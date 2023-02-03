@@ -12,6 +12,7 @@ using DG.Tweening;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] LayerMask _obstacleLayer;
     [SerializeField] Rigidbody2D _rb;
     /// <summary>‰æ‘œ</summary>
     private Sprite _sprite;
@@ -90,6 +91,12 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (((1 << collision.gameObject.layer) & _obstacleLayer.value) != 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         if (collision.TryGetComponent(out IDamagable damagable))
         {
             if (damagable.ObjectType != ObjectType)

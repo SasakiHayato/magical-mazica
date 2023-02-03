@@ -217,6 +217,7 @@ Transform:
   - {fileID: 53595577346790481}
   - {fileID: 6628192417333302758}
   - {fileID: 3192684032210271604}
+  - {fileID: 3052567661533631662}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -352,6 +353,37 @@ MonoBehaviour:
   _treeUser: {fileID: 6628192416898339385}
   _materialObject: {fileID: 972535417249200289, guid: 2f41c7ee14b88b4418e87b2caa899123, type: 3}
   _materialData: {fileID: 11400000, guid: e27215ae9dba20544903cd9b5cfede1b, type: 2}
+--- !u!1 &1202307304713410451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3052567661533631662}
+  m_Layer: 11
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3052567661533631662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202307304713410451}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.07, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 53595578301934048}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6628192416898339391
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,6 +518,7 @@ MonoBehaviour:
     - rid: 7198353280677445645
       type: {class: ActionShotBullet, ns: , asm: Assembly-CSharp}
       data:
+        _muzzle: {fileID: 3052567661533631662}
         _bullrtPrefab: {fileID: 7411682192359307736, guid: b39a5ea4704f0c1459882250ff0bffd3, type: 3}
     - rid: 7198353280677445646
       type: {class: ActionWait, ns: , asm: Assembly-CSharp}
@@ -503,6 +536,7 @@ MonoBehaviour:
     - rid: 7198353280677445649
       type: {class: ActionShotBullet, ns: , asm: Assembly-CSharp}
       data:
+        _muzzle: {fileID: 3052567661533631662}
         _bullrtPrefab: {fileID: 7411682192359307736, guid: b39a5ea4704f0c1459882250ff0bffd3, type: 3}
     - rid: 7198353459115720705
       type: {class: ConditionObstacle, ns: , asm: Assembly-CSharp}
