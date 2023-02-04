@@ -26,6 +26,14 @@ public class PlayerIsStick : MonoStateBase, IStateExitEventable
         _acceleration = _playerStateData.Rigid.MaxAcceleration;
         _playerStateData.Rigid.MaxAcceleration = 0;
         _player.FieldTouchOperator.IsTouchLayerID(out _id);
+        if (_id[0] == 2)
+        {
+            _player.transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (_id[0] == 3)
+        {
+            _player.transform.localScale = new Vector3(1, 1, 1);
+        }
         _playerStateData.Rigid.ResetImpalse();
         _anim.OnPlay("IsStick");
     }
