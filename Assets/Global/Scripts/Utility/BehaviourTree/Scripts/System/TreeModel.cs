@@ -154,7 +154,17 @@ namespace BehaviourTree
 
         public bool CheckIsCondition(ExecuteData treeData)
         {
-            bool isProcess = treeData.Condition.IsProcess;
+            bool isProcess;
+            try
+            {
+
+               isProcess = treeData.Condition.IsProcess;
+            }
+            catch
+            {
+                isProcess = false;
+            }
+
 
             switch (_executeType)
             {
