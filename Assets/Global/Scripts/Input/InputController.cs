@@ -67,7 +67,17 @@ public class InputController : MonoBehaviour
 
     void SetupUIInput()
     {
+        //if (InputSetting.CurrentController == ControllerType.None)
+        //{
+        //    _inputSetting.CreateButtonInput("Keybord_Submit", () => Submit(), InputUserType.UI);
+        //}
+        //else
+        //{
+        //    _inputSetting.CreateButtonInput("SouthButton", () => Submit(), InputUserType.UI);
+        //}
+
         _inputSetting.CreateButtonInput("SouthButton", () => Submit(), InputUserType.UI);
+
         _inputSetting.CreateButtonInput("EastButton", () => Cancel(), InputUserType.UI);
         _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.UI, dir => Select(dir));
     }
