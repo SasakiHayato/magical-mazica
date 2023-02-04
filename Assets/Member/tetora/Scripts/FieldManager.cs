@@ -6,6 +6,7 @@ using UniRx;
 public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 {
     [SerializeField] float _hitStopTime;
+    [SerializeField] List<InitialMaterialNum> _initialMaterialNum;
     [SerializeField] CharacterManager _characterManager;
 
     [SerializeField] MapCreaterBase _createMap;
@@ -46,13 +47,20 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
             RawMaterialID.Poison
         };
         _materialIDSubject.OnNext(defMaterials);
+
         //ƒvƒŒƒCƒ„[¶¬‚É‘fŞ‚ğ‚½‚¹‚é
         _characterManager.PlayerSpawn.Subscribe(p =>
         {
-            //‚Æ‚è‚ ‚¦‚¸100ŒÂ‚­‚ç‚¢‚½‚¹‚Æ‚­
             defMaterials.ForEach(m =>
             {
-                p.Storage.AddMaterial(m, 100);
+                foreach (var initm in _initialMaterialNum)
+                {
+                    if (initm.MaterialID == m)
+                    {
+                        p.Storage.AddMaterial(m, initm.Num);
+                        break;
+                    }
+                }
             });
         })
         .AddTo(_characterManager);
@@ -99,6 +107,20 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(_hitStopTime);
         Time.timeScale = 1;
+    }
+
+    /// <summary>
+    /// ƒvƒŒƒCƒ„[‚Ì‰Šú‘fŞ”
+    /// </summary>
+    [Serializable]
+    public class InitialMaterialNum
+    {
+        [SerializeField] RawMaterialID _materialID;
+        [SerializeField] int _num;
+        /// <summary>‘fŞID</summary>
+        public RawMaterialID MaterialID => _materialID;
+        /// <summary>Š‘fŞ”</summary>
+        public int Num => _num;
     }
 
     /// <summary>Mob‚ª€‚ñ‚¾‚Æ‚«‚Ìˆ—</summary> //Note. ‚à‚µ‚©‚µ‚½‚ç‚¢‚ç‚È‚¢
