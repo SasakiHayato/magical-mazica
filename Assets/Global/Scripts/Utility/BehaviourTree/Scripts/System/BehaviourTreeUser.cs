@@ -52,11 +52,12 @@ namespace BehaviourTree
                 _user = transform;
             }
 
-            if (_userPath == "")
-            {
-                _userPath = BehaviourTreeMasterData.CreateUserPath();
-                Debug.LogWarning($"{gameObject.name} has not UserPath. So Create it. PathName is => {_userPath}.");
-            }
+            // Note. 現在必要ないのでコメントアウト
+            //if (_userPath == "")
+            //{
+            //    _userPath = BehaviourTreeMasterData.CreateUserPath();
+            //    Debug.LogWarning($"{gameObject.name} has not UserPath. So Create it. PathName is => {_userPath}.");
+            //}
 
             UserID = BehaviourTreeMasterData.CreateUserID();
 
