@@ -482,6 +482,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitStopTime: 0.2
+  _initialMaterialNum:
+  - _materialID: 0
+    _num: 10
+  - _materialID: 1
+    _num: 10
+  - _materialID: 2
+    _num: 10
+  - _materialID: 3
+    _num: 10
   _characterManager: {fileID: 1286523542}
   _createMap: {fileID: 572681084}
 --- !u!4 &572681086
