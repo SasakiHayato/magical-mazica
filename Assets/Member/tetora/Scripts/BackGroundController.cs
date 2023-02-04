@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BackGroundController : MonoBehaviour
 {
     [SerializeField]
-    SpriteRenderer[] _backGrounds;
-    [SerializeField, Tooltip("PlayerÇÃë¨ìxÇ…Ç©ÇØÇÈåWêî")]
-    float[] _backGroundSpeed;//(ó·)[0] = 1,[1] = 0.8, [2] = 0.5
+    Image[] _backGrounds;
+    [SerializeField]
+    float[] _backGroundSpeed;
 
+    Image[] _backGroundSpriteOrigins;
+    Image[] _backGroundSpriteClones;
     float _spriteSize;
-    SpriteRenderer[] _backGroundSpriteOrigins;
-    SpriteRenderer[] _backGroundSpriteClones;
-    bool _nextSprite;//true:Origin false:Clone
+    bool _isNextSprite;//true:Origin false:Clone
 
     public static BackGroundController Instance { get; private set; }
 
@@ -27,9 +28,9 @@ public class BackGroundController : MonoBehaviour
     void InitialSetting()
     {
         Debug.Log("èâä˙ê›íË");
-        _spriteSize = _backGrounds[0].bounds.size.x;
-        _backGroundSpriteOrigins = new SpriteRenderer[_backGrounds.Length];
-        _backGroundSpriteClones = new SpriteRenderer[_backGrounds.Length];
+        _spriteSize = _backGrounds[0].sprite.bounds.size.x;
+        _backGroundSpriteOrigins = new Image[_backGrounds.Length];
+        _backGroundSpriteClones = new Image[_backGrounds.Length];
         CreateOrigin();
         CreateClone();
     }
@@ -53,7 +54,7 @@ public class BackGroundController : MonoBehaviour
     }
     public void SetBackGroundPos()
     {
-        switch (_nextSprite)
+        switch (_isNextSprite)
         {
             case true:
                 for (int i = 0; i < _backGroundSpriteOrigins.Length; i++)
@@ -62,7 +63,7 @@ public class BackGroundController : MonoBehaviour
                         new Vector2(_backGroundSpriteClones[i].transform.position.x - _spriteSize,
                         _backGroundSpriteClones[i].transform.position.y);
                 }
-                _nextSprite = false;
+                _isNextSprite = false;
                 break;
             case false:
                 for (int i = 0; i < _backGroundSpriteClones.Length; i++)
@@ -71,7 +72,7 @@ public class BackGroundController : MonoBehaviour
                         new Vector2(_backGroundSpriteOrigins[i].transform.position.x - _spriteSize,
                         _backGroundSpriteOrigins[i].transform.position.y);
                 }
-                _nextSprite = true;
+                _isNextSprite = true;
                 break;
         }
     }
