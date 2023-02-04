@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] LayerMask _obstacleLayer;
     [SerializeField] Rigidbody2D _rb;
+    [SerializeField] ExceptionEffectAttribute _exceptionEffectAttribute;
     /// <summary>‰æ‘œ</summary>
     private Sprite _sprite;
     /// <summary>”ò‚Ñ•û</summary>
@@ -56,6 +57,11 @@ public class Bullet : MonoBehaviour
                 }
             })
             .AddTo(this);
+
+        if (_exceptionEffectAttribute != null)
+        {
+            _exceptionEffectAttribute = Instantiate(_exceptionEffectAttribute);
+        }
     }
 
     /// <summary>
@@ -89,10 +95,20 @@ public class Bullet : MonoBehaviour
         return ret;
     }
 
+    void SetEffect()
+    {
+        if (_exceptionEffectAttribute != null)
+        {
+            _exceptionEffectAttribute.OnLoad(transform);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & _obstacleLayer.value) != 0)
         {
+            SetEffect();
+
             Destroy(gameObject);
             return;
         }
@@ -127,11 +143,13 @@ public class Bullet : MonoBehaviour
                     if (Database.FusionBullet.IsDestroy(collision, _hitCount))
                     {
                         Database.FusionBullet.Dispose();
+                        SetEffect();
                         Destroy(gameObject);
                     }
                 }
                 else
                 {
+                    SetEffect();
                     Destroy(gameObject);
                 }
             }
