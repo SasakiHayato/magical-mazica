@@ -7,19 +7,6 @@ public class Storage : MonoBehaviour
     /// <summary>‘fŞ‚ÌIDA‘fŞ‚ğ‚Á‚Ä‚¢‚é” </summary>
     ReactiveDictionary<RawMaterialID, int> _materialCount = new ReactiveDictionary<RawMaterialID,int>();
     public System.IObservable<DictionaryReplaceEvent<RawMaterialID, int>> MaterialDictionary => _materialCount.ObserveReplace();
-    
-    private void Start()
-    {
-        SetUp();
-    }
-
-    void SetUp()
-    {
-        _materialCount[RawMaterialID.BombBean] = 100;
-        _materialCount[RawMaterialID.PowerPlant] = 100;
-        _materialCount[RawMaterialID.Penetration] = 100;
-        _materialCount[RawMaterialID.Poison] = 100;
-    }
 
     //public void SetMaterial(List<RawMaterialID> materialIDs)
     //{
