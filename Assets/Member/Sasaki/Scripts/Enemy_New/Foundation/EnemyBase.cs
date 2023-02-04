@@ -98,11 +98,12 @@ public abstract class EnemyBase : MonoBehaviour, IFieldObjectDatable, IDamagable
         MonoState
             .AddMonoData(EnemyStateData);
 
+        _currentHp.Value = _maxHp;
+
         //Slider‚Ì‰Šú‰»
         if (_slider)
         {
             _slider.Setup(_maxHp, _maxHp);
-            _currentHp.Value = _maxHp;
             _currentHp.Subscribe(i => _slider.Value = i).AddTo(this);
         }
 
