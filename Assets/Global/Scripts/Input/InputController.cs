@@ -41,6 +41,7 @@ public class InputController : MonoBehaviour
         _inputSetting.CreateButtonInput("RightTrigger_2", () => _player.Attack(), InputUserType.Player);
         _inputSetting.CreateButtonInput("RightTrigger_1", () => _player.Fire(), InputUserType.Player);
         _inputSetting.CreateButtonInput("LeftTrigger_2", () => _player.Jump(), InputUserType.Player);
+        _inputSetting.CreateButtonInput("LeftTrigger_1", () => _player.Dodge(), InputUserType.Player);
         _inputSetting.CreateButtonInput
             (
                 "SouthButton", 
