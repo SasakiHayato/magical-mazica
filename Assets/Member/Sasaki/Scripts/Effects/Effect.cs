@@ -77,7 +77,7 @@ public class Effect : MonoBehaviour, IPool, IPoolOnEnableEvent
     bool IPool.Execute()
     {
         IsEnd = _addEventer != null ? _endCount >= _executableList.Count && _addEventer.IsEndTask : _endCount >= _executableList.Count;
-
+        
         return IsEnd;
     }
 

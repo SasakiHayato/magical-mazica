@@ -470,32 +470,46 @@ MonoBehaviour:
         _condition:
           _conditionType: 0
           _couditionList:
-          - rid: 7198353459115720707
+          - rid: 6888284340913438722
         _action:
           _actionList:
           - rid: 7198353596671066119
           - rid: 7198353280677445649
+          - rid: 6888284340913438721
   - _name: Attack
     _mastarCodition:
       _conditionType: 0
       _couditionList:
       - rid: 7198353280677445644
-      - rid: 7198353459115720705
     _treeData:
       _treeType: 0
       _executeList:
-      - _treeExecuteType: 0
+      - _treeExecuteType: 1
         _condition:
           _conditionType: 0
           _couditionList:
           - rid: 7198353249150173190
         _action:
           _actionList:
+          - rid: 6888284340913438720
           - rid: 7198353280677445645
           - rid: 7198353280677445646
   references:
     version: 2
     RefIds:
+    - rid: 6888284340913438720
+      type: {class: ActionLaodEffect, ns: , asm: Assembly-CSharp}
+      data:
+        _effectPath: EnemyAttack
+        _onWait: 1
+    - rid: 6888284340913438721
+      type: {class: ActionWait, ns: , asm: Assembly-CSharp}
+      data:
+        _waitTime: 1
+    - rid: 6888284340913438722
+      type: {class: ConditionTestAccess, ns: , asm: Assembly-CSharp}
+      data:
+        _isAccess: 0
     - rid: 7198353249150173190
       type: {class: ConditionTestAccess, ns: , asm: Assembly-CSharp}
       data:
@@ -523,7 +537,7 @@ MonoBehaviour:
     - rid: 7198353280677445646
       type: {class: ActionWait, ns: , asm: Assembly-CSharp}
       data:
-        _waitTime: 0.2
+        _waitTime: 1
     - rid: 7198353280677445647
       type: {class: ConditionDistance, ns: , asm: Assembly-CSharp}
       data:
@@ -538,18 +552,6 @@ MonoBehaviour:
       data:
         _muzzle: {fileID: 3052567661533631662}
         _bullrtPrefab: {fileID: 7411682192359307736, guid: b39a5ea4704f0c1459882250ff0bffd3, type: 3}
-    - rid: 7198353459115720705
-      type: {class: ConditionObstacle, ns: , asm: Assembly-CSharp}
-      data:
-        _hitLayer:
-          serializedVersion: 2
-          m_Bits: 256
-    - rid: 7198353459115720707
-      type: {class: ConditionObstacle, ns: , asm: Assembly-CSharp}
-      data:
-        _hitLayer:
-          serializedVersion: 2
-          m_Bits: 256
     - rid: 7198353459115720708
       type: {class: ConditionTestAccess, ns: , asm: Assembly-CSharp}
       data:

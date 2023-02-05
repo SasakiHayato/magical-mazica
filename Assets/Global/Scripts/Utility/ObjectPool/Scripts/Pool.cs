@@ -276,8 +276,6 @@ namespace ObjectPool
             data.DisposeEvent();
             data.Pool.gameObject.SetActive(false);
             CurrentUseCount--;
-
-            Debug.Log(CurrentUseCount);
         }
     }
 }
