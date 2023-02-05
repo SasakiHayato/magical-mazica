@@ -15,7 +15,7 @@ public class ActionLaodEffect : BehaviourAction
         if (!_onLoad)
         {
             _onLoad = true;
-            _effect = EffectStocker.Instance.LoadEffect(_effectPath, User.transform.transform);
+            _effect = EffectStocker.Instance.LoadEffect(_effectPath, User.transform);
         }
 
         if (_onWait)
