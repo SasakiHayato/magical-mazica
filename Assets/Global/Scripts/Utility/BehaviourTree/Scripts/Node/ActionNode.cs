@@ -52,7 +52,11 @@ namespace BehaviourTree.Node
             base.Init();
             
             _conut = 0;
-            _actionList.ForEach(a => a.BaseInit());
+            _actionList.ForEach(a => 
+            {
+                //Debug.Log(a.GetType());
+                a.BaseInit();
+            });
             _sequenceNode.SetUp();
         }
     }

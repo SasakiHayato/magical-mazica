@@ -141,8 +141,14 @@ namespace BehaviourTree
                     {
                         case ConditionType.Selector: Set(); break;
                         case ConditionType.Sequence:
+                            try
+                            {
+                                ModelData.ExecuteData.Action.Init();
+                            }
+                            catch
+                            {
 
-                            ModelData.ExecuteData.Action.Init();
+                            }
                             _treeModel.OnNext()
                             ; break;
                     }

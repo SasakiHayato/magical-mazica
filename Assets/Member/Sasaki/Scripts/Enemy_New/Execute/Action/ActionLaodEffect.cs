@@ -31,7 +31,7 @@ public class ActionLaodEffect : BehaviourAction
     protected override void Initialize()
     {
         base.Initialize();
-        _effect = null;
+        //_effect = null;
         _onLoad = false;
     }
 }
