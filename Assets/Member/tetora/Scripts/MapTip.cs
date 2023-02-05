@@ -25,26 +25,4 @@ public class MapTip : MonoBehaviour
             ItemCreatePos[i].SetActive(true);//指定した数だけアイテムを降らせる場所を表示する
         }
     }
-    /// <summary>
-    /// PositionのGameObjectを非表示にする
-    /// </summary>
-    /// <param name="hideNum">配列番号</param>
-    public void HideItemPos(int hideNum)
-    {
-        _itemCreatePos[hideNum].SetActive(false);
-    }
-    /// <summary>
-    /// 渡された番号のItemPosを返す
-    /// </summary>
-    /// <param name="posNum">配列番号</param>
-    /// <returns>配列のTransform</returns>
-    public Transform CreateItemPos(int posNum)
-    {
-        if (ItemCreatePos[posNum] != null)//なかったらランダムな場所を返す
-        {
-            int rnd = new System.Random().Next(0, _itemCreatePos.Length);
-            return ItemCreatePos[rnd].transform;
-        }
-        return ItemCreatePos[posNum].transform;
-    }
 }
