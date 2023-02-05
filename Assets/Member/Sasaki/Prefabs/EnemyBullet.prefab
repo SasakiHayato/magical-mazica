@@ -139,7 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstacleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 192
   _rb: {fileID: 3981781167619021906}
   _exceptionEffectAttribute: {fileID: 8106230138565545949, guid: 831ce5e9817bc8645a61126ce04c8cd8, type: 3}
 --- !u!1001 &6992626168375517853
