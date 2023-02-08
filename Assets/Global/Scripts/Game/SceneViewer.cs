@@ -21,7 +21,7 @@ public class SceneViewer : MonoBehaviour
 
     static SceneViewer Instance = null;
 
-    readonly float WaitTime = 0.5f;
+    readonly float WaitTime = 1f;
 
     void Awake()
     {
@@ -41,7 +41,7 @@ public class SceneViewer : MonoBehaviour
 
         if (_sceneType == SceneType.Result)
         {
-
+            GameController.Instance.AddGameSetupable(new UIInputBackTitle());
         }
 
         Setup();

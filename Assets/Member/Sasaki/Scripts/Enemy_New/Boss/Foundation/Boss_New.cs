@@ -53,7 +53,7 @@ public class Boss_New : EnemyBase, IInputEventable
     protected override void DeadEvent()
     {
         base.DeadEvent();
-        SceneViewer.SceneLoad(SceneViewer.SceneType.Title);
+        SceneViewer.SceneLoad(SceneViewer.SceneType.Result);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
