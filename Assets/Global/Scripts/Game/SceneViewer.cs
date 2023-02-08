@@ -39,6 +39,11 @@ public class SceneViewer : MonoBehaviour
             InputSetting.UIInputOperate.OperateRequest(new UIInputSelectTitle());
         }
 
+        if (_sceneType == SceneType.Result)
+        {
+
+        }
+
         Setup();
     }
 

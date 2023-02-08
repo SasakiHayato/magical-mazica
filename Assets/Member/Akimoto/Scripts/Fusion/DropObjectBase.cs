@@ -31,7 +31,11 @@ public class DropObjectBase : MonoBehaviour
                 this.UpdateAsObservable()
                     .Subscribe(_ =>
                     {
-                        MoveToPlayer(player);
+                        if (player != null)
+                        {
+                            MoveToPlayer(player);
+                        }
+                        
                     })
                     .AddTo(this);
             })
