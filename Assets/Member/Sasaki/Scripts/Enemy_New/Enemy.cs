@@ -43,19 +43,19 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     protected override void DeadEvent()
     {
         _deadCallback.Invoke(gameObject);
-        RawMaterialDatabase rawMaterial = _materialData.GetMaterialDataRandom();
 
         Player player = GameController.Instance.Player.GetComponent<Player>();
 
         //素材アイテムのドロップ
         for (int i = 0; i < _itemDropDetailsSettings.GetRandomDropNum; i++)
         {
+            RawMaterialDatabase rawMaterial = _materialData.GetMaterialDataRandom();
             FusionMaterialObject.Init(_materialObject, transform.position, materialDropPositionRange, rawMaterial, player);
         }
         //回復アイテムのドロップ
         if (_itemDropDetailsSettings.GetHealItemLottery)
         {
-            HealItem.Init(_healItem, transform.position);
+            HealItem.Init(_healItem, transform.position, player);
         }
 
         base.DeadEvent();

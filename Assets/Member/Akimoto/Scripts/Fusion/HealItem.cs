@@ -13,7 +13,7 @@ public class HealItem : DropObjectBase
     /// <summary>‰ñ•œ—Ê</summary>
     [SerializeField] int _healValue;
 
-    public static HealItem Init(HealItem original, Vector2 createPosition, Player player = null)
+    public static HealItem Init(HealItem original, Vector2 createPosition, Player player)
     {
         HealItem ret = Instantiate(original, createPosition, Quaternion.identity);
         ret.Setup(player);
@@ -22,6 +22,7 @@ public class HealItem : DropObjectBase
 
     private void Setup(Player player)
     {
+        Debug.Log(player);
         SubscribeApproachingEvent(player.gameObject);
         _approachingDropObject.SetAction = () =>
         {
