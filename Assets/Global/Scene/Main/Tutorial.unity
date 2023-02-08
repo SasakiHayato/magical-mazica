@@ -3257,7 +3257,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Jump Button is X
+  m_Text: Jump Button is L2
 --- !u!222 &421362081
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8263,7 +8263,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wall Button is X
+  m_Text: Wall Button is L2
 --- !u!222 &935153291
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9582,6 +9582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitStopTime: 0.2
+  _initialMaterialNum: []
   _characterManager: {fileID: 1637476727}
   _createMap: {fileID: 1068880549}
 --- !u!1001 &1071622153
@@ -16516,11 +16517,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Attack Button is Mouse
-
-    Right : Default
-
-    Left : Mazic'
+  m_Text: "Attack Button is R2, R1 \nR2 : Default\nR1 : Mazic"
 --- !u!222 &1913765131
 CanvasRenderer:
   m_ObjectHideFlags: 0
