@@ -29,7 +29,25 @@ public class FusionMaterialObject : DropObjectBase
 
         FusionMaterialObject ret = Instantiate(original, createPosition, Quaternion.identity);
         ret.Setup(data, player);
-        Debug.Log($"ドロップした素材{data.Name}");
+        return ret;
+    }
+
+    /// <summary>
+    /// 素材オブジェクトを生成<br/>
+    /// ある程度位置をばらけさせる
+    /// </summary>
+    /// <param name="original">生成元(Prefab)</param>
+    /// <param name="createPosition">中心とする生成座標</param>
+    /// <param name="randomRange">生成範囲</param>
+    /// <param name="data">生成する素材データ</param>
+    /// <param name="player">現在のプレイヤー</param>
+    /// <returns></returns>
+    public static FusionMaterialObject Init(FusionMaterialObject original, Vector2 createPosition, float randomRange, RawMaterialDatabase data, Player player = null)
+    {
+        FusionMaterialObject ret = Init(original, createPosition, data, player);
+        float xPos = Random.Range(createPosition.x - randomRange, createPosition.x + randomRange);
+        float yPos = Random.Range(createPosition.y - randomRange, createPosition.y + randomRange);
+        ret.transform.position = new Vector2(xPos, yPos);
         return ret;
     }
 

@@ -9,6 +9,7 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     [SerializeField] FusionMaterialObject _materialObject;
     [SerializeField] HealItem _healItem;
     [SerializeField] RawMaterialData _materialData;
+    [SerializeField] float materialDropPositionRange;
     [SerializeField] ItemDropDetailsSettings _itemDropDetailsSettings;
 
     System.Action<GameObject> _deadCallback = null;
@@ -49,7 +50,7 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
         //素材アイテムのドロップ
         for (int i = 0; i < _itemDropDetailsSettings.GetRandomDropNum; i++)
         {
-            FusionMaterialObject.Init(_materialObject, transform.position, rawMaterial, player);
+            FusionMaterialObject.Init(_materialObject, transform.position, materialDropPositionRange, rawMaterial, player);
         }
         //回復アイテムのドロップ
         if (_itemDropDetailsSettings.GetHealItemLottery)
