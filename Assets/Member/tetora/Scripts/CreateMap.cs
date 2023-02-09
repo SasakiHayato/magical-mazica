@@ -404,6 +404,9 @@ public class CreateMap : MapCreaterBase
     {
         GameObject enemyObj = Instantiate(_enemies[id]);
         var enebase = enemyObj.GetComponent<EnemyBase>();
+        Enemy enemy = enebase as Enemy;
+        enemy.SetDeadCallback = DeadEnemy;
+        DebugSetEnemyObject.SetEnemy(enemyObj.transform);
         enebase.ID = id;
         enemyObj.transform.position = _enemyDic[id].Position;
         ChangeFlag(id);
