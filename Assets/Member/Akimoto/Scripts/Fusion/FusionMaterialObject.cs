@@ -14,7 +14,6 @@ public class FusionMaterialObject : DropObjectBase
 {
     [SerializeField] SpriteRenderer _spriteRenderer;
     private RawMaterialDatabase _materialData;
-    private Sequence _sequence;
 
     /// <summary>
     /// 素材オブジェクトの生成
@@ -50,8 +49,9 @@ public class FusionMaterialObject : DropObjectBase
         FusionMaterialObject ret = Instantiate(original, createPosition, Quaternion.identity);
         float xPos = Random.Range(createPosition.x - randomRange, createPosition.x + randomRange);
         float yPos = Random.Range(createPosition.y - randomRange, createPosition.y + randomRange);
-        //ret.transform.position = createPosition;
-        ret.transform.position = new Vector2(xPos, yPos);
+        ret.transform.position = createPosition;
+        //ret.transform.position = new Vector2(xPos, yPos);
+        ret.InitMove(new Vector2(xPos, yPos));
         ret.Setup(data, player);
         return ret;
     }
@@ -63,8 +63,12 @@ public class FusionMaterialObject : DropObjectBase
         _materialData = data;
 
         SubscribeApproachingEvent(player.gameObject);
-        _approachingDropObject.SetAction = () =>
+        _approachingDropObject.SetAction = async () =>
         {
+            if (!_initMoveConpleate)
+            {
+                await UniTask.WaitUntil(() => _initMoveConpleate);
+            }
             player.Storage.AddMaterial(_materialData.ID, 1);
             Destroy(gameObject);
         };

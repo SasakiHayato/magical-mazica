@@ -22,7 +22,7 @@ public class HealItem : DropObjectBase
 
     private void Setup(Player player)
     {
-        Debug.Log(player);
+        _initMoveConpleate = true;
         SubscribeApproachingEvent(player.gameObject);
         _approachingDropObject.SetAction = () =>
         {
