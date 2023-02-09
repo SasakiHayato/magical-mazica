@@ -7,7 +7,10 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     [SerializeField] AnimOperator _animOperator;
     [SerializeField] BehaviourTree.BehaviourTreeUser _treeUser;
     [SerializeField] FusionMaterialObject _materialObject;
+    [SerializeField] HealItem _healItem;
     [SerializeField] RawMaterialData _materialData;
+    [SerializeField] float materialDropPositionRange;
+    [SerializeField] ItemDropDetailsSettings _itemDropDetailsSettings;
 
     System.Action<GameObject> _deadCallback = null;
     public System.Action<GameObject> SetDeadCallback { set { _deadCallback = value; } }
@@ -40,10 +43,20 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     protected override void DeadEvent()
     {
         _deadCallback.Invoke(gameObject);
-        RawMaterialDatabase rawMaterial = _materialData.GetMaterialDataRandom();
 
         Player player = GameController.Instance.Player.GetComponent<Player>();
-        FusionMaterialObject.Init(_materialObject, transform.position, rawMaterial, player);
+
+        //素材アイテムのドロップ
+        for (int i = 0; i < _itemDropDetailsSettings.GetRandomDropNum; i++)
+        {
+            RawMaterialDatabase rawMaterial = _materialData.GetMaterialDataRandom();
+            FusionMaterialObject.Init(_materialObject, transform.position, materialDropPositionRange, rawMaterial, player);
+        }
+        //回復アイテムのドロップ
+        if (_itemDropDetailsSettings.GetHealItemLottery)
+        {
+            HealItem.Init(_healItem, transform.position, player);
+        }
 
         base.DeadEvent();
     }
@@ -73,5 +86,31 @@ public class Enemy : EnemyBase, IDamageForceble, IInputEventable
     void IInputEventable.DisposeEvent()
     {
         _treeUser.SetRunRequest(true);
+    }
+
+    /// <summary>
+    /// 素材や回復アイテムのドロップ率の調整
+    /// </summary>
+    [System.Serializable]
+    public class ItemDropDetailsSettings
+    {
+        [SerializeField, Range(0, 100)] float _healItemDropChance;
+        [SerializeField] int _materialDropMinNum;
+        [SerializeField] int _materialDropMaxNum;
+        /// <summary>回復アイテムをドロップするかどうかの抽選</summary>
+        public bool GetHealItemLottery
+        {
+            get
+            {
+                int r = Random.Range(0, 100);
+                if (r < _healItemDropChance)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        /// <summary>素材アイテムのドロップ数を抽選</summary>
+        public int GetRandomDropNum => Random.Range(_materialDropMinNum, _materialDropMaxNum);
     }
 }

@@ -15,7 +15,10 @@ public class DropObjectBase : MonoBehaviour
     [SerializeField] protected ApproachingTag _approachingTag;
     [SerializeField] protected AcquisitionDropObject _approachingDropObject;
     [SerializeField] protected float _speed;
+    [SerializeField] protected float _initMoveDuraion;
     protected bool _isMove;
+    protected bool _initMoveConpleate;
+    private Sequence _sequence;
 
     /// <summary>
     /// 接触判定を受け取る
@@ -29,8 +32,13 @@ public class DropObjectBase : MonoBehaviour
             {
                 _isMove = true;
                 this.UpdateAsObservable()
-                    .Subscribe(_ =>
+                    .Subscribe(async _ =>
                     {
+                        if (!_initMoveConpleate)
+                        {
+                            await UniTask.WaitUntil(() => _initMoveConpleate);
+                        }
+                        _approachingDropObject.ActionFlag = true;
                         MoveToPlayer(player);
                     })
                     .AddTo(this);
@@ -47,5 +55,26 @@ public class DropObjectBase : MonoBehaviour
         Vector2 v = (Vector2)targetObject.transform.position - (Vector2)transform.position;
         v.Normalize();
         _rb.velocity = v * _speed;
+    }
+
+    /// <summary>
+    /// 生成直後の演出用の移動
+    /// </summary>
+    /// <param name="endPisition">目標座標</param>
+    /// <param name="duraion">移動時間</param>
+    /// <param name="onConpleate">終了後の振る舞い</param>
+    protected void InitMove(Vector2 endPisition, System.Action onConpleate = null)
+    {
+        _sequence = DOTween.Sequence();
+        _sequence
+            .Append(transform.DOMove(endPisition, _initMoveDuraion))
+            .OnComplete(() =>
+            {
+                if (onConpleate != null)
+                {
+                    onConpleate();
+                }
+                _initMoveConpleate = true;
+            });
     }
 }

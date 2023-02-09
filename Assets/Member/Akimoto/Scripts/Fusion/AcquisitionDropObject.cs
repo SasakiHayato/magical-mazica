@@ -16,12 +16,14 @@ public class AcquisitionDropObject : MonoBehaviour
     private Action _action;
     public string SetTagName { set => _tagName = value; }
     public Action SetAction { set => _action = value; }
+    /// <summary>false‚É‚·‚é‚Æaction‚ð”­‰Î‚³‚¹‚È‚­‚È‚é</summary>
+    public bool ActionFlag { get; set; }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_action != null)
         {
-            if (collision.CompareTag(_tagName))
+            if (collision.CompareTag(_tagName) && ActionFlag)
             {
                 _action();
             }
