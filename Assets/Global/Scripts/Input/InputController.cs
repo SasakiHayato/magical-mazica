@@ -67,16 +67,16 @@ public class InputController : MonoBehaviour
 
     void SetupUIInput()
     {
-        //if (InputSetting.CurrentController == ControllerType.None)
-        //{
-        //    _inputSetting.CreateButtonInput("Keybord_Submit", () => Submit(), InputUserType.UI);
-        //}
-        //else
-        //{
-        //    _inputSetting.CreateButtonInput("SouthButton", () => Submit(), InputUserType.UI);
-        //}
+        if (InputSetting.CurrentController == ControllerType.None)
+        {
+            _inputSetting.CreateButtonInput("Keybord_Submit", () => Submit(), InputUserType.UI);
+        }
+        else
+        {
+            _inputSetting.CreateButtonInput("SouthButton", () => Submit(), InputUserType.UI);
+        }
 
-        _inputSetting.CreateButtonInput("SouthButton", () => Submit(), InputUserType.UI);
+        //_inputSetting.CreateButtonInput("SouthButton", () => Submit(), InputUserType.UI);
 
         _inputSetting.CreateButtonInput("EastButton", () => Cancel(), InputUserType.UI);
         _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.UI, dir => Select(dir));
@@ -84,6 +84,11 @@ public class InputController : MonoBehaviour
 
     void Select(Vector2 value)
     {
+        if (InputSetting.CurrentController != ControllerType.None)
+        {
+            value.y = value.y * -1;
+        }
+
         _onSelectX = 0 == value.x ? false : _onSelectX;
         _onSelectY = 0 == value.y ? false : _onSelectY;
 

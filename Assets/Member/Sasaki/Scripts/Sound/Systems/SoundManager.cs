@@ -17,15 +17,8 @@ public class SoundManager : MonoBehaviour
 
     static SoundManager Instance = null;
 
-    public static bool IsStopAllSound
-    { 
-        get
-        {
-            Debug.Log(Instance._pool.CurrentUseCount);
-            return Instance._pool.CurrentUseCount <= 0;
-        }
-    }
-
+    public static bool IsStopAllSound => Instance._pool.CurrentUseCount <= 0;
+   
     void Awake()
     {
         Instance = this;
