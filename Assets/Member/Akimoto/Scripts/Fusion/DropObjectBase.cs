@@ -38,6 +38,7 @@ public class DropObjectBase : MonoBehaviour
                         {
                             await UniTask.WaitUntil(() => _initMoveConpleate);
                         }
+                        _approachingDropObject.ActionFlag = true;
                         MoveToPlayer(player);
                     })
                     .AddTo(this);
