@@ -352,7 +352,13 @@ MonoBehaviour:
   _animOperator: {fileID: 6628192417333302763}
   _treeUser: {fileID: 6628192416898339385}
   _materialObject: {fileID: 972535417249200289, guid: 2f41c7ee14b88b4418e87b2caa899123, type: 3}
+  _healItem: {fileID: -7060051689807904248, guid: 281e695c8ac0d934fb5d7e7738b540e7, type: 3}
   _materialData: {fileID: 11400000, guid: e27215ae9dba20544903cd9b5cfede1b, type: 2}
+  materialDropPositionRange: 3
+  _itemDropDetailsSettings:
+    _healItemDropChance: 40
+    _materialDropMinNum: 5
+    _materialDropMaxNum: 12
 --- !u!1 &1202307304713410451
 GameObject:
   m_ObjectHideFlags: 0

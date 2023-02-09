@@ -125,6 +125,7 @@ MonoBehaviour:
   _approachingTag: {fileID: 2341654538975967401}
   _approachingDropObject: {fileID: 7269335745795010161}
   _speed: 10
+  _initMoveDuraion: 0.5
   _spriteRenderer: {fileID: 972535417249200303}
 --- !u!1 &2546294656664178253
 GameObject:
