@@ -66,6 +66,7 @@ public class PlayerStateData : IMonoDatableSystem<PlayerStateData>
     [SerializeField] RigidOperator _rigidOperator;
     [SerializeField] GameObject _attackCollider;
     [SerializeField] float _dodgeTime;
+    [SerializeField] GameObject _afterImage;
 
     Vector2 _moveDirection = Vector2.zero;
     AttackType _attackType = AttackType.Default;
@@ -74,6 +75,7 @@ public class PlayerStateData : IMonoDatableSystem<PlayerStateData>
     public RigidOperator Rigid => _rigidOperator;
     public StatusData Status { get; private set; } = new StatusData();
     public GameObject AttackCollider { get => _attackCollider; set => _attackCollider = value; }
+    public GameObject AfterImage { get => _afterImage; set => _afterImage = value; }
     public Vector2 ReadMoveDirection => _moveDirection.normalized;
     public Vector2 SetMoveDirection { set { _moveDirection = value; } }
     public AttackType ReadAttackType => _attackType;
