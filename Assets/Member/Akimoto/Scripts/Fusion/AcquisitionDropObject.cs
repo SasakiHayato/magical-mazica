@@ -19,7 +19,7 @@ public class AcquisitionDropObject : MonoBehaviour
     /// <summary>false‚É‚·‚é‚Æaction‚ð”­‰Î‚³‚¹‚È‚­‚È‚é</summary>
     public bool ActionFlag { get; set; }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (_action != null)
         {
