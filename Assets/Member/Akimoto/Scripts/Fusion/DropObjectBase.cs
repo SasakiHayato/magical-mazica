@@ -18,6 +18,7 @@ public class DropObjectBase : MonoBehaviour
     [SerializeField] protected float _initMoveDuraion;
     protected bool _isMove;
     protected bool _initMoveConpleate;
+    private bool _isDestroy;
     private Sequence _sequence;
 
     /// <summary>
@@ -52,6 +53,8 @@ public class DropObjectBase : MonoBehaviour
     /// <param name="playerPosition"></param>
     protected void MoveToPlayer(GameObject targetObject)
     {
+        if (_isDestroy)
+            return;
         Vector2 v = (Vector2)targetObject.transform.position - (Vector2)transform.position;
         v.Normalize();
         _rb.velocity = v * _speed;
@@ -76,5 +79,10 @@ public class DropObjectBase : MonoBehaviour
                 }
                 _initMoveConpleate = true;
             });
+    }
+
+    private void OnDestroy()
+    {
+        _isDestroy = true;
     }
 }
