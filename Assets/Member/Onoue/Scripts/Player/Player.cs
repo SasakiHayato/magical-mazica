@@ -50,6 +50,7 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     /// <summary>最大HP</summary>
     public int MaxHP => _maxHP;
     public bool IsHit { get => _isHit; set => _isHit = value; }
+    public SpriteRenderer Renderer { get => _spriteRenderer; set => _spriteRenderer = value; }
     public Storage Storage { get => _storage; private set => _storage = value; }
     /// <summary>現在HPの更新の通知</summary>
     public System.IObservable<int> CurrentHP => _hp;
@@ -134,14 +135,14 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
             }
             else
             {
-                SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer , "Miss");
+                SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer, "Miss");
             }
         }
         catch
         {
             Debug.Log("発射拒否");
         }
-        
+
     }
 
     public void SetMoveDirection(Vector2 direction)
@@ -150,16 +151,30 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     }
     public void Dodge()
     {
-        if (_fieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground,true))
+        _stateMachine.ChangeState(PlayerState.Dodge);
+    }
+    public GameObject DodgeImage(GameObject obj)
+    {
+        if (obj)
         {
-            _stateMachine.ChangeState(PlayerState.Dodge);
+            Destroy(obj);
+            return null;
         }
+        var tr = transform;
+        var vec = new Vector2(tr.position.x,tr.position.y - 0.5f);
+        var go = Instantiate(_playerStateData.AfterImage, vec, tr.rotation);
+        go.transform.localScale = new Vector2(tr.localScale.x,tr.localScale.y);
+        return go;
     }
     /// <summary>
     /// ジャンプ
     /// </summary>
     public void Jump()
     {
+        if (_stateMachine.CurrentKey == "Dodge")
+        {
+            return;
+        }
         if (_playerStateData.Jump.CurrentJumpCount >= 0)
         {
             _stateMachine.ChangeState(PlayerState.Jump, true);
@@ -266,6 +281,10 @@ public class Player : MonoBehaviour, IDamagable, IFieldObjectDatable, IMonoDatab
     {
         if (_playerStateData.ReadMoveDirection.x != 0)
         {
+            if (_stateMachine.CurrentKey == "Dodge")
+            {
+                return;
+            }
             if (_playerStateData.ReadMoveDirection.x < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
