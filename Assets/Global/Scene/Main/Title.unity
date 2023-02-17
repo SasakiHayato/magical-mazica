@@ -2660,6 +2660,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 705410863638549280, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 887420618538065810, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: m_Name
       value: GUIManager
@@ -2864,7 +2868,7 @@ MonoBehaviour:
   m_Text: 'Are you Ready...??
 
 
-    FInd the Goal'
+    Find the Goal'
 --- !u!222 &896304577
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4289,7 +4293,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!224 &1255028569
 RectTransform:
@@ -4969,7 +4973,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1505157327
@@ -5217,6 +5221,10 @@ PrefabInstance:
       propertyPath: _backGround
       value: 
       objectReference: {fileID: 95902621}
+    - target: {fileID: 4445758808677633346, guid: 2e0aa8010848d6442a957c0709cc664b, type: 3}
+      propertyPath: _targetCanvas
+      value: 
+      objectReference: {fileID: 1255028565}
     - target: {fileID: 4445758808677633346, guid: 2e0aa8010848d6442a957c0709cc664b, type: 3}
       propertyPath: _settings.Array.size
       value: 2

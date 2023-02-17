@@ -13,7 +13,7 @@ public class PlayerFloat : MonoStateBase, IStateExitEventable
     PlayerStateData _playerStateData;
     float _acceleration;
 
-    readonly float LimitAcceleration = 0.5f;
+    readonly float LimitAcceleration = 0.35f;
 
     void IStateExitEventable.ExitEvent()
     {
@@ -37,8 +37,13 @@ public class PlayerFloat : MonoStateBase, IStateExitEventable
     public override Enum OnExit()
     {
         if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Wall, true)
-            && MathF.Abs(_playerStateData.Rigid.ReadVelocity.x) <= 0)
+            /*&& MathF.Abs(_playerStateData.Rigid.ReadVelocity.x) <= 0*/)
         {
+            _playerStateData.Rigid.ResetImpalse();
+            Vector2 moveDirection = _playerStateData.Rigid.ReadVelocity;
+            moveDirection.x = 0;
+            _playerStateData.Rigid.SetMoveDirection = moveDirection;
+
             return Player.PlayerState.IsStick;
         }
         if (_player.FieldTouchOperator.IsTouch(FieldTouchOperator.TouchType.Ground, true))

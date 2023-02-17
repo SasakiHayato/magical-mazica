@@ -1220,6 +1220,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 832422691}
     - target: {fileID: 4445758808677633346, guid: 2e0aa8010848d6442a957c0709cc664b, type: 3}
+      propertyPath: _targetCanvas
+      value: 
+      objectReference: {fileID: 1733438437}
+    - target: {fileID: 4445758808677633346, guid: 2e0aa8010848d6442a957c0709cc664b, type: 3}
       propertyPath: _settings.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -3115,7 +3119,7 @@ MonoBehaviour:
 
     Right : Default
 
-    Left : Mazic'
+    Left : Magic'
 --- !u!222 &408446623
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9582,7 +9586,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitStopTime: 0.2
-  _initialMaterialNum: []
+  _initialMaterialNum:
+  - _materialID: 0
+    _num: 20
+  - _materialID: 1
+    _num: 20
+  - _materialID: 2
+    _num: 20
+  - _materialID: 3
+    _num: 20
   _characterManager: {fileID: 1637476727}
   _createMap: {fileID: 1068880549}
 --- !u!1001 &1071622153
@@ -11154,6 +11166,14 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2834049787349273774, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: _fieldManager
+      value: 
+      objectReference: {fileID: 1068880550}
+    - target: {fileID: 2834049787349273774, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
+      propertyPath: _characterManager
+      value: 
+      objectReference: {fileID: 1637476727}
     - target: {fileID: 2834049787349273774, guid: 9f0e6f758de86674e936405eb029e246, type: 3}
       propertyPath: _popupList.Array.size
       value: 6
@@ -15398,7 +15418,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 91
   m_TargetDisplay: 0
 --- !u!1001 &1743643483
 PrefabInstance:
@@ -16517,7 +16537,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Attack Button is R2, R1 \nR2 : Default\nR1 : Mazic"
+  m_Text: "Attack Button is R2, R1 \nR2 : Default\nR1 : Magic"
 --- !u!222 &1913765131
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ public class PlayerAttack : MonoStateBase
     //Update
     public override void OnExecute()
     {
-        
+        _stateData.Rigid.SetMoveDirection = UnityEngine.Vector2.zero;
     }
     //ğŒ•ªŠò
     public override Enum OnExit()

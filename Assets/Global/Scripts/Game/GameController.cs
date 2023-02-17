@@ -130,7 +130,7 @@ public class GameController
 
     public bool OnInputEvent { get; set; }
 
-    public readonly int MaxMapHierarchy = 2;
+    public readonly int MaxMapHierarchy = 1;
 
     public void AddGameSetupable(IGameSetupable setup)
     {

@@ -13,7 +13,7 @@ public class PlayerJump : MonoStateBase
     //State‚ª•Ï‚í‚é“x‚ÉŒÄ‚Î‚ê‚é
     public override void OnEntry()
     {
-        _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.Power, RigidMasterData.ImpulseDirectionType.Vertical, true);
+        _playerStateData.Rigid.SetImpulse(_playerStateData.Jump.Power, RigidMasterData.ImpulseDirectionType.Vertical,true);
         _playerStateData.Jump.CallbackJumpCount();
         _speed = _playerStateData.Rigid.ReadVelocity.x;
         
@@ -23,9 +23,10 @@ public class PlayerJump : MonoStateBase
     public override void OnExecute()
     {
         Vector2 dir = _playerStateData.ReadMoveDirection;
+        _playerStateData.Rigid.SetMoveDirection = new Vector2(dir.x * _playerStateData.Status.Speed, _playerStateData.Rigid.ReadVelocity.y);
         if (_speed == 0)
         {
-            _playerStateData.Rigid.SetMoveDirection = new Vector2(dir.x, _playerStateData.Rigid.ReadVelocity.y);
+            
         }
     }
     //ğŒ•ªŠò

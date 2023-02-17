@@ -21,6 +21,7 @@ public class ApproachingTag : MonoBehaviour
     {
         if (collision.CompareTag(_tagName))
         {
+            SoundManager.PlayRequest(SoundSystem.SoundType.SEPlayer, "GetItem");
             _approachEvent.OnNext(Unit.Default);
             //Destroy(transform.parent.gameObject);
         }
