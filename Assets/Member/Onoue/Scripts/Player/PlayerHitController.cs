@@ -33,7 +33,7 @@ public class PlayerHitController : MonoBehaviour
     void SetEffect()
     {
         EffectStocker.Instance.LoadEffect("Hit", transform.position);
-        EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.HitStop);
-        EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.CmShake);
+        EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.HitStop, CameraOperator.ShakePower);
+        EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.CmShake, FieldManager.DefaultHitStopTime);
     }
 }

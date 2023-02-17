@@ -7,6 +7,16 @@ public class TeleportAttributer : MonoBehaviour
     readonly string PlayerTag = "Player";
     readonly string EnemyTag = "Enemy";
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.gameObject.CompareTag(PlayerTag)) return;
+
+        if (collision.gameObject.CompareTag(EnemyTag))
+        {
+            IsAttribute = true;
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag(PlayerTag))

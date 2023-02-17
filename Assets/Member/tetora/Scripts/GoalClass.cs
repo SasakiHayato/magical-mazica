@@ -29,7 +29,7 @@ public class GoalClass : MonoBehaviour, IUIOperateEventable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        //if (!_teleportAttributer.IsAttribute) return;
+        if (!_teleportAttributer.IsAttribute) return;
 
         if (InputSetting.UIInputOperate.IsOperateRequest)
         {

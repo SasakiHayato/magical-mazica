@@ -132,8 +132,8 @@ public class Bullet : MonoBehaviour
 
                 if (damagable.ObjectType != ObjectType.Player)
                 {
-                    EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.CmShake);
-                    EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.HitStop);
+                    EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.CmShake, CameraOperator.ShakePower / 2);
+                    EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.HitStop, FieldManager.BulletHitStopTime);
                 }
 
                 damagable.AddDamage(_damage);

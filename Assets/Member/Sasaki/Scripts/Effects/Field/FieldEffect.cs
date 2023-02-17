@@ -1,9 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public interface IFieldEffectable
+public interface IFieldEffectDatable
 {
-    void Execute();
+    FieldEffect.EffectType EffectType { get; }
+}
+
+public interface IFieldEffectable<Value> : IFieldEffectDatable
+{
+    void Execute(Value value);
 }
 
 public class FieldEffect
@@ -14,23 +19,34 @@ public class FieldEffect
         CmShake,
     }
 
-    Dictionary<EffectType, IFieldEffectable> _effectDic = new Dictionary<EffectType, IFieldEffectable>();
+    List<IFieldEffectDatable> _fieldEffectDataList = new List<IFieldEffectDatable>();
+    Dictionary<EffectType, IFieldEffectDatable> _effectDic = new Dictionary<EffectType, IFieldEffectDatable>();
     
-    public void AddEffect(EffectType effectType, IFieldEffectable executable)
+    public void AddEffect(IFieldEffectDatable executable)
     {
         if (_effectDic.Count <= 0)
         {
-            _effectDic.Add(effectType, executable);
+            _fieldEffectDataList.Add(executable);
+            //_effectDic.Add(effectType, executable);
         }
 
-        if (!_effectDic.Any(e => e.Key == effectType))
+        if (!_fieldEffectDataList.Any(e => e.EffectType == executable.EffectType))
         {
-            _effectDic.Add(effectType, executable);
+            _fieldEffectDataList.Add(executable);
+            //_effectDic.Add(effectType, executable);
         }
     }
 
-    public void LoadEffect(EffectType effectType)
+    public void LoadEffect<Value>(EffectType effectType, Value value)
     {
-        _effectDic.FirstOrDefault(e => e.Key == effectType).Value?.Execute();
+        IFieldEffectDatable datable = _fieldEffectDataList.FirstOrDefault(f => f.EffectType == effectType);
+        IFieldEffectable<Value> effectable = datable as IFieldEffectable<Value>;
+
+        if (effectable != null)
+        {
+            effectable.Execute(value);
+        }
+
+        //_effectDic.FirstOrDefault(e => e.Key == effectType).Value?.Execute(value);
     }
 }

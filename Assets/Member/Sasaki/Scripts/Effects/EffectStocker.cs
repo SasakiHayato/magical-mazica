@@ -79,13 +79,13 @@ public class EffectStocker : MonoBehaviour
         return null;
     }
 
-    public void AddFieldEffect(FieldEffect.EffectType effectType, IFieldEffectable effectable)
+    public void AddFieldEffect(IFieldEffectDatable effectable)
     {
-        _fieldEffect.AddEffect(effectType, effectable);
+        _fieldEffect.AddEffect(effectable);
     }
 
-    public void LoadFieldEffect(FieldEffect.EffectType effectType)
+    public void LoadFieldEffect<Value>(FieldEffect.EffectType effectType, Value value)
     {
-        _fieldEffect.LoadEffect(effectType);
+        _fieldEffect.LoadEffect(effectType, value);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraOperator : MonoBehaviour, IFieldEffectable
+public class CameraOperator : MonoBehaviour, IFieldEffectable<float>
 {
     [SerializeField] MiniMapCameraData _miniMapCameraData;
     [SerializeField] CameraData _cameraData;
@@ -26,8 +26,12 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
         }
     }
 
+    FieldEffect.EffectType IFieldEffectDatable.EffectType => FieldEffect.EffectType.CmShake;
+
     static Vector3 s_position = Vector3.zero;
     static List<EventCamera> s_eventCameraList = null;
+
+    public static float ShakePower { get; private set; }
 
     void Awake()
     {
@@ -36,7 +40,8 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
 
     void Start()
     {
-        EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.CmShake, this);
+        ShakePower = _cameraData.Shake.Power;
+        EffectStocker.Instance.AddFieldEffect(this);
         CreateMiniMapCamera();
     }
 
@@ -68,12 +73,12 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
         }
     }
 
-    void IFieldEffectable.Execute()
+    void IFieldEffectable<float>.Execute(float value)
     {
-        StartCoroutine(OnShake());
+        StartCoroutine(OnShake(value));
     }
 
-    IEnumerator OnShake()
+    IEnumerator OnShake(float power)
     {
         float timer = 0;
 
@@ -84,7 +89,7 @@ public class CameraOperator : MonoBehaviour, IFieldEffectable
 
             Vector3 magunitude = new Vector3(_cameraData.Shake.GetMagnitude, _cameraData.Shake.GetMagnitude, 0);
 
-            transform.position = Position + _cameraData.View.Offset + (magunitude * _cameraData.Shake.Power);
+            transform.position = Position + _cameraData.View.Offset + (magunitude * power);
 
             yield return null;
         }

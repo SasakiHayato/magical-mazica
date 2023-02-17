@@ -9,6 +9,9 @@ public class InputController : MonoBehaviour
     bool _onSelectX = false;
     bool _onSelectY = false;
 
+    float _timer = 0;
+    readonly float ErrorCommandTime = 1f;
+
     Player _player;
 
     InputSetting _inputSetting;
@@ -27,6 +30,9 @@ public class InputController : MonoBehaviour
         }
 
         SetupUIInput();
+
+        _inputSetting.CreateButtonInput("Error_Command", () => _timer = 0, InputUserType.Player);
+        _inputSetting.CreateButtonInput("Error_Command", () => SetupErrorCommand(), InputUserType.Player, InputType.Stay);
 
         Debug.Log(InputSetting.CurrentController);
     }
@@ -80,6 +86,17 @@ public class InputController : MonoBehaviour
 
         _inputSetting.CreateButtonInput("EastButton", () => Cancel(), InputUserType.UI);
         _inputSetting.CreateAxisInput("Horizontal", "Vertical", InputUserType.UI, dir => Select(dir));
+    }
+
+    void SetupErrorCommand()
+    {
+        _timer += Time.deltaTime;
+
+        if (_timer > ErrorCommandTime)
+        {
+            _timer = 0;
+            SceneViewer.SceneLoad(SceneViewer.SceneType.Title, true);
+        }
     }
 
     void Select(Vector2 value)

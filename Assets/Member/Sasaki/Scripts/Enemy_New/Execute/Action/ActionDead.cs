@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using BehaviourTree.Execute;
 
 public class ActionDead : BehaviourAction
 {
     protected override bool Execute()
     {
-        Object.Destroy(User);
+        User.GetComponent<IDamagable>().AddDamage(9999999);
+        //Object.Destroy(User);
         return true;
     }
 }

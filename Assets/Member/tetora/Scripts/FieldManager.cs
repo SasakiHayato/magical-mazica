@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
+public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable<float>
 {
     [SerializeField] float _hitStopTime;
     [SerializeField] List<InitialMaterialNum> _initialMaterialNum;
@@ -18,6 +18,11 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 
     int IGameSetupable.Priority => 3;
 
+    FieldEffect.EffectType IFieldEffectDatable.EffectType => FieldEffect.EffectType.HitStop;
+
+    public static float DefaultHitStopTime { get; private set; }
+    public static float BulletHitStopTime { get; private set; }
+
     void Awake()
     {
         GameController.Instance.AddGameSetupable(this);
@@ -25,7 +30,7 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 
     void Start()
     {
-        EffectStocker.Instance.AddFieldEffect(FieldEffect.EffectType.HitStop, this);
+        EffectStocker.Instance.AddFieldEffect(this);
     }
 
     public void Setup()
@@ -37,6 +42,9 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 
     void IGameSetupable.GameSetup()
     {
+        DefaultHitStopTime = _hitStopTime;
+        BulletHitStopTime = _hitStopTime / 4;
+
         //今ステージで登場する素材たち
         //ステージデータを作る際はここも変更すること
         List<RawMaterialID> defMaterials = new List<RawMaterialID>()
@@ -97,15 +105,15 @@ public class FieldManager : MonoBehaviour, IGameSetupable, IFieldEffectable
 
     }
 
-    void IFieldEffectable.Execute()
+    void IFieldEffectable<float>.Execute(float value)
     {
-        StartCoroutine(OnHitStop());
+        StartCoroutine(OnHitStop(value));
     }
 
-    IEnumerator OnHitStop()
+    IEnumerator OnHitStop(float timer)
     {
         Time.timeScale = 0f;
-        yield return new WaitForSecondsRealtime(_hitStopTime);
+        yield return new WaitForSecondsRealtime(timer);
         Time.timeScale = 1;
     }
 
