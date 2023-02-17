@@ -83,6 +83,7 @@ MonoBehaviour:
           - rid: 7198353596671066118
           - rid: 7198353280677445638
           - rid: 7198353730517860355
+          - rid: 6888284616950546432
           - rid: 7198353730517860352
           - rid: 7198353280677445643
   - _name: Chase
@@ -104,6 +105,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 6888284616950546432
+      type: {class: ActionSetSE, ns: , asm: Assembly-CSharp}
+      data:
+        _soundType: 1
+        _soundPath: Explosion
     - rid: 7198353249150173190
       type: {class: ConditionTestAccess, ns: , asm: Assembly-CSharp}
       data:
@@ -140,7 +146,7 @@ MonoBehaviour:
     - rid: 7198353730517860352
       type: {class: ActionWait, ns: , asm: Assembly-CSharp}
       data:
-        _waitTime: 0.5
+        _waitTime: 0.25
     - rid: 7198353730517860355
       type: {class: ActionLaodEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -620,8 +626,8 @@ MonoBehaviour:
   materialDropPositionRange: 3
   _itemDropDetailsSettings:
     _healItemDropChance: 40
-    _materialDropMinNum: 5
-    _materialDropMaxNum: 12
+    _materialDropMinNum: 10
+    _materialDropMaxNum: 15
 --- !u!1001 &3297870480344013427
 PrefabInstance:
   m_ObjectHideFlags: 0

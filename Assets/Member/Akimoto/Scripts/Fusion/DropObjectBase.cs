@@ -20,6 +20,7 @@ public class DropObjectBase : MonoBehaviour
     protected bool _initMoveConpleate;
     private bool _isDestroy;
     private Sequence _sequence;
+    public bool SetInitMoveFlag { set => _initMoveConpleate = value; }
 
     /// <summary>
     /// ÚG”»’è‚ğó‚¯æ‚é

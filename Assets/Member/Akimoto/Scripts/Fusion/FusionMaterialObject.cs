@@ -28,6 +28,7 @@ public class FusionMaterialObject : DropObjectBase
         if (data == null) return null;
 
         FusionMaterialObject ret = Instantiate(original, createPosition, Quaternion.identity);
+        ret.SetInitMoveFlag = true;
         ret.Setup(data, player);
         return ret;
     }

@@ -509,8 +509,8 @@ MonoBehaviour:
   materialDropPositionRange: 3
   _itemDropDetailsSettings:
     _healItemDropChance: 40
-    _materialDropMinNum: 5
-    _materialDropMaxNum: 12
+    _materialDropMinNum: 10
+    _materialDropMaxNum: 15
 --- !u!1 &6772870067293458379
 GameObject:
   m_ObjectHideFlags: 0

@@ -244,7 +244,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u3007\u30DC\u30BF\u30F3"
+  m_Text: "\xD7\u30DC\u30BF\u30F3"
 --- !u!1 &2846992128760220528
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +765,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 2.55
 --- !u!114 &9151029219824797145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,6 +845,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4389651064952777937, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625952157128914274, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625952157128914274, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6651211594397561683, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}

@@ -122,13 +122,13 @@ GameObject:
   - component: {fileID: 297314986904316125}
   - component: {fileID: 7026195960349251500}
   - component: {fileID: 7238312545898084538}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: PC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &297314986904316125
 RectTransform:
   m_ObjectHideFlags: 0
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 8573420512612812862}
   - component: {fileID: 5055661701912244510}
   - component: {fileID: 475591413542014795}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u3007\u30DC\u30BF\u30F3"
+  m_Text: "\xD7\u30DC\u30BF\u30F3"
 --- !u!1 &4138487684720370439
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 259905538031872059}
   - component: {fileID: 8813069692874938980}
   - component: {fileID: 8189170530499506954}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: ps4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 7120073922299992468}
   - component: {fileID: 3837874585686284106}
   - component: {fileID: 1344729964147548479}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,13 +436,13 @@ GameObject:
   - component: {fileID: 4109085569324606541}
   - component: {fileID: 7286825981636652071}
   - component: {fileID: 8447088601883664434}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: xbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4109085569324606541
 RectTransform:
   m_ObjectHideFlags: 0
@@ -618,7 +618,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 5}
+  m_Size: {x: 7.4, y: 5}
   m_EdgeRadius: 0
 --- !u!114 &-7984546854082962462
 MonoBehaviour:
@@ -675,7 +675,7 @@ GameObject:
   - component: {fileID: 6574251392690408186}
   - component: {fileID: 5401642482119172577}
   - component: {fileID: 6822146340205890246}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -756,7 +756,7 @@ GameObject:
   - component: {fileID: 4545226089876755004}
   - component: {fileID: 2748104065346477110}
   - component: {fileID: 8963041907752407650}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -896,6 +896,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4389651064952777937, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625952157128914274, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625952157128914274, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625952157128914274, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4625952157128914274, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6651211594397561683, guid: 02c397af145ca0f40bf69b68661d1456, type: 3}

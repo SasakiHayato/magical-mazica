@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Global/Scene/Main/Game.unity
     guid: e2226518955b0834da802db560e41bb1
   - enabled: 1
+    path: Assets/Global/Scene/Main/Boss_New.unity
+    guid: 31574473c31e5a142927777a9fa2c6d3
+  - enabled: 0
     path: Assets/Global/Scene/Main/Boss.unity
     guid: fe260c507f0d1ab4088ee303deec8bc0
   - enabled: 1

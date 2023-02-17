@@ -14,6 +14,9 @@ namespace SoundSystem
 
         bool IPoolEvent.IsDone => _isStop;
 
+        public string DebugPath { get; private set; }
+        public bool IsPlaying => _audioSource.isPlaying;
+
         void IPool.Setup(Transform parent)
         {
             _audioSource = gameObject.AddComponent<AudioSource>();
@@ -22,6 +25,8 @@ namespace SoundSystem
 
         public void SetData(SoundDataAsset.SoundData data, VolumeType volumeType)
         {
+            DebugPath = data.Path;
+
             _volumeType = volumeType;
             _dataVolume = data.Volume;
 

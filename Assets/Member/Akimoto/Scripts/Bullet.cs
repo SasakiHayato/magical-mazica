@@ -130,6 +130,12 @@ public class Bullet : MonoBehaviour
                     }
                 }
 
+                if (damagable.ObjectType != ObjectType.Player)
+                {
+                    EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.CmShake);
+                    EffectStocker.Instance.LoadFieldEffect(FieldEffect.EffectType.HitStop);
+                }
+
                 damagable.AddDamage(_damage);
 
                 if (collision.TryGetComponent(out IDamageForceble forceble))

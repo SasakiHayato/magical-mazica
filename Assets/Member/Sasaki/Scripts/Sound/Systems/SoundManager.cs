@@ -12,8 +12,12 @@ public class SoundManager : MonoBehaviour
     [SerializeField, Range(0, 1)] float _bgmVolume;
     [SerializeField, Range(0, 1)] float _seVolume;
 
+    float _bgmDataVolume = 0;
+
     Pool<Sounder> _pool = new Pool<Sounder>();
     Sounder _bgmSounder;
+
+    AudioSource _audioSource;
 
     static SoundManager Instance = null;
 
@@ -27,6 +31,9 @@ public class SoundManager : MonoBehaviour
             .SetMono(_sounderPrefab, _poolCount)
             .IsSetParent(transform)
             .CreateRequest();
+
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource.playOnAwake = false;
     }
 
     void Update()
@@ -34,11 +41,56 @@ public class SoundManager : MonoBehaviour
         SoundMasterData.MasterValume = _masterVolume;
         SoundMasterData.BGMVolume = _bgmVolume;
         SoundMasterData.SEVoume = _seVolume;
+
+        _audioSource.volume = SetVolume(VolumeType.BGM, _bgmDataVolume);
+    }
+
+    float SetVolume(VolumeType volumeType, float dataVolume)
+    {
+        float volume = SoundMasterData.MasterValume * dataVolume;
+
+        switch (volumeType)
+        {
+            case VolumeType.BGM:
+                volume = volume * SoundMasterData.BGMVolume;
+                break;
+            case VolumeType.SE:
+                volume = volume * SoundMasterData.SEVoume;
+                break;
+        }
+
+        return volume;
+    }
+
+    public static void PlayBGM(string path)
+    {
+        if (Instance == null) return;
+
+        SoundDataAsset asset = Instance._soundDataAssetList.Find(s => s.SoundType == SoundType.BGM);
+
+        if (asset == null)
+        {
+            Debug.Log("サウンドアセットデータが存在しません");
+            return;
+        }
+
+        SoundDataAsset.SoundData data = asset.GetSoundData(path);
+
+        if (data == null)
+        {
+            Debug.Log("サウンドデータが存在しません");
+            return;
+        }
+
+        Instance._audioSource.clip = data.Clip;
+        Instance._bgmDataVolume = data.Volume;
+        Instance._audioSource.loop = data.IsLoop;
+        Instance._audioSource.Play();
     }
 
     public static void PlayRequest(SoundType type, string path)
     {
-        if (Instance == null) return;
+        if (Instance == null || type == SoundType.BGM) return;
       
         SoundDataAsset asset = Instance._soundDataAssetList.Find(s => s.SoundType == type);
 
@@ -74,7 +126,7 @@ public class SoundManager : MonoBehaviour
 
     public static void PlayRequestRandom(SoundType type, string containPath)
     {
-        if (Instance == null) return;
+        if (Instance == null || type == SoundType.BGM) return;
 
         SoundDataAsset asset = Instance._soundDataAssetList.Find(s => s.SoundType == type);
         SoundDataAsset.SoundData data = asset.GetSoundDataRandom(containPath);
@@ -103,9 +155,14 @@ public class SoundManager : MonoBehaviour
 
     public static void StopBGM()
     {
-        if (Instance._bgmSounder != null)
+        //if (Instance._bgmSounder != null)
+        //{
+        //    Instance._bgmSounder.OnStop();
+        //}
+
+        if (Instance._audioSource != null)
         {
-            Instance._bgmSounder.OnStop();
+            Instance._audioSource.Stop();
         }
     }
 }

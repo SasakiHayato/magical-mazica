@@ -16,10 +16,14 @@ MonoBehaviour:
   _soundType: 1
   _soundDataList:
   - _path: Dead
-    _clip: {fileID: 8300000, guid: 7eedf450c6bc76f4085ea022b8b7849c, type: 3}
+    _clip: {fileID: 8300000, guid: 5d4b39f18ad70ee48bf394ea91a27fbb, type: 3}
     _volume: 0.411
     _isLoop: 0
   - _path: Hit
-    _clip: {fileID: 8300000, guid: 36ac8288bf6047943ba27b3ab60e0fad, type: 3}
+    _clip: {fileID: 8300000, guid: 5c99691109b77ed46997c588b9f60e2b, type: 3}
+    _volume: 0.228
+    _isLoop: 0
+  - _path: Explosion
+    _clip: {fileID: 8300000, guid: 751cbda1fd297ed47a0f181d42a68b24, type: 3}
     _volume: 0.411
     _isLoop: 0
